@@ -21,6 +21,12 @@ const routes = [
         path: 'cart-checkout',
         component: () => import('../views/front/Check.vue'),
       },
+      {
+        // 申請職位頁面
+        path: 'apply-job',
+        name: 'ApplyJob',
+        component: () => import('../views/front/ApplyJob.vue'),
+      },
     ],
   },
   // ---------- 後台路由 ----------
