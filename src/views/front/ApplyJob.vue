@@ -106,10 +106,65 @@
                 placeholder="請選擇照片上傳"
                 ref="costumerInfoPersonalImg"
               />
-              <button type="button" class="btn btn-primary" @click="checkFile()">上傳照片</button>
+              <button type="button" class="btn btn-primary" @click="checkFile($event)">
+                上傳照片
+              </button>
             </div>
-
             <!-- <ErrorMessage name="求職照片" class="invalid-feedback"></ErrorMessage> -->
+          </div>
+          <div class="imageBtnBox">
+            <button class="btn btn-outline-primary btn-sm d-block w-100" @click="addImageUrl()">
+              新增圖片
+            </button>
+          </div>
+          <div v-if="form.options.imagesUrl.length > 0">
+            <div v-for="(item, index) in form.options.imagesUrl" :key="'costumerInfoImgs' + index">
+              <div class="form-group">
+                <label for="imageUrl">請選擇第 {{ index + 1 }} 張圖片檔案</label>
+                <div class="input-group">
+                  <input
+                    :id="'costumerInfoImgs' + index"
+                    name="求職照片"
+                    type="file"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors[`求職照片${index}`] }"
+                    placeholder="請選擇照片上傳"
+                    :ref="'costumerInfoImgs' + index"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    @click="checkFile($event)"
+                    :data-id="index"
+                    data-action="uploadImgs"
+                  >
+                    上傳照片
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    @click="form.options.imagesUrl.splice(index, 1)"
+                  >
+                    刪除圖片 {{ index+1 }}
+                  </button>
+                </div>
+              </div>
+              <img class="img-fluid" alt="" :src="item" />
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="costumerInfoCV" class="form-label">履歷連結</label>
+            <Field
+              id="costumerInfoCV"
+              name="履歷連結"
+              type="text"
+              class="form-control"
+              :class="{ 'is-invalid': errors['履歷連結'] }"
+              placeholder="請輸入履歷連結"
+              v-model="form.options.cvLink"
+              ref="costumerInfoCV"
+            ></Field>
+            <ErrorMessage name="履歷連結" class="invalid-feedback"></ErrorMessage>
           </div>
           <button type="submit" class="btn btn-primary">送出資料</button>
           <!-- <button type="button" class="btn btn-primary" @click="checkFile">上傳照片</button> -->
@@ -137,6 +192,7 @@ export default {
           pageAction: 'apply-job',
           nowjobTitle: '待業',
           personalImg: null,
+          imagesUrl: [],
         },
       },
       token: '',
@@ -145,14 +201,16 @@ export default {
     };
   },
   methods: {
-    checkFile() {
-      // console.log(this.$refs.costumerInfoPersonalImg.files[0]);
+    checkFile(e) {
+      const nowAction = e.target.dataset.action;
+      const nowId = e.target.dataset.id;
+      console.log(nowAction);
       const file = this.$refs.costumerInfoPersonalImg.files[0];
       const formData = new FormData();
       formData.append('PersonalImg', file);
-      this.uploadFile(formData);
+      this.uploadFile(formData, nowAction, nowId);
     },
-    uploadFile(formData) {
+    uploadFile(formData, nowAction, nowId) {
       // const imgurToken = 'Client-ID 4ef4ca52de4b42c';
       // const url = 'https://api.imgur.com/3/image';
       this.$http({
@@ -167,7 +225,11 @@ export default {
         .then((res) => {
           console.log(res.data);
           // console.log(res.data.data.link);
-          this.options.personalImg = res.data.data.link;
+          if (nowAction !== 'uploadImgs') {
+            this.options.personalImg = res.data.data.link;
+          } else {
+            this.options.imagesUrl[nowId] = res.data.data.link;
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -210,6 +272,12 @@ export default {
             console.log(error);
           });
       }
+    },
+    addImageUrl() {
+      this.form.options.imagesUrl.push('');
+    },
+    deleteImageUrl() {
+      this.form.options.imagesUrl.pop();
     },
   },
   created() {
