@@ -110,14 +110,15 @@
                 <label for="imageUrl">請選擇第 {{ index + 1 }} 張圖片檔案</label>
                 <div class="input-group">
                   <input
-                    :id="'sendFormInfoImgs' + index"
+                    :id="'sendFormInfoImgs'+index"
                     name="求職照片"
                     type="file"
                     class="form-control"
                     :class="{ 'is-invalid': errors[`求職照片${index}`] }"
                     placeholder="請選擇照片上傳"
                     :ref="'sendFormInfoImgs' + index"
-                    @change="uploadImg($event)"
+                    :data-id="index"
+                    @change="loadingImg($event)"
                     accept="image/*"
                   />
                   <button
@@ -140,11 +141,14 @@
               </div>
               <p>連結：{{ item }}</p>
               <img class="img-fluid" alt="" :src="item" />
-              <img id="cropImg" />
+                <img class="cropped" id="cropImg" :ref="'cropImg'+index" src="" alt="" />
+
+              <!-- <div class="box-2 img-result hide">
+                <img class="cropped" id="cropImg" :ref="'cropImg' + index" src="" alt="" />
+              </div> -->
               <!-- 3.兩個用於預覽的div  -->
               <div class="previewText">裁剪預覽</div>
               <div class="previewBox"></div>
-              <div class="previewBoxRound"></div>
             </div>
           </div>
           <div class="imageBtnBox">
@@ -284,29 +288,32 @@ export default {
     };
   },
   methods: {
-    uploadImg(e) {
-    //   const nowId = e.target.dataset.id;
-    //   const refsItem = `sendFormInfoImgs${nowId}`;
-    //   this.$refs[refsItem].click();
+    loadingImg(e) {
+      const nowId = e.target.dataset.id;
+      console.log(nowId);
+      const refsItem = `cropImg${nowId}`;
+      //   this.$refs[refsItem].click();
+      console.log(refsItem);
+      let CROPPER;
       const reader = new FileReader();
       if (e.target.files[0]) {
-        // readAsDataURL方法可以將File對象轉化為data:URL格式的字符串（base64編碼）
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = (event) => {
           console.log(event);
           const dataURL = reader.result;
-          // 將img的src改為剛上傳的文件的轉換格式
-          document.querySelector('#cropImg').src = dataURL;
-          const image = document.getElementById('cropImg');
+          console.log(this.$refs[refsItem]);
+          this.$refs[refsItem].src = dataURL;
+          const image = this.$refs[refsItem];
           // 創建cropper實例-----------------------------------------
-          const CROPPER = new Cropper(image, {
+          CROPPER = new Cropper(image, {
             aspectRatio: 16 / 9,
             viewMode: 0,
             minContainerWidth: 320,
             minContainerHeight: 320,
             dragMode: 'move',
-            preview: [document.querySelector('.previewBox'),
-              document.querySelector('.previewBoxRound')],
+            preview: [
+              document.querySelector('.previewBox'),
+            ],
           });
           console.log(CROPPER);
         };
@@ -440,8 +447,18 @@ export default {
 </script>
 
 <style lang="scss">
-#cropImg{
-    max-width: 320px;
-    max-height:180px
+.inpuFile{
+display: none;
 }
-    </style>
+#cropImg {
+  max-width: 320px;
+  max-height: 180px;
+}
+.previewBox{
+box-shadow: 0 0 5px #adadad;
+width: 100px;
+height: 100px;
+margin-top: 30px;
+overflow: hidden;       /*這個超出設置為隱藏很重要，否則就會整個顯示出來了*/
+}
+</style>
