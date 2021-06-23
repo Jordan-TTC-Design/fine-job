@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-6">
-        <h2 class="text-center">結帳</h2>
+        <h2 class="text-center">申請職位</h2>
         <Form ref="customerInfoForm" v-slot="{ errors }" @submit="checkCart">
           <div class="mb-3">
             <label for="costumerInfoName" class="form-label">姓名</label>
@@ -113,7 +113,11 @@
             <!-- <ErrorMessage name="求職照片" class="invalid-feedback"></ErrorMessage> -->
           </div>
           <div class="imageBtnBox">
-            <button class="btn btn-outline-primary btn-sm d-block w-100" @click="addImageUrl()">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm d-block w-100 my-2"
+              @click="addImageUrl()"
+            >
               新增圖片
             </button>
           </div>
@@ -145,10 +149,11 @@
                     class="btn btn-outline-primary"
                     @click="form.options.imagesUrl.splice(index, 1)"
                   >
-                    刪除圖片 {{ index+1 }}
+                    刪除圖片
                   </button>
                 </div>
               </div>
+              <p>連結：{{item}}</p>
               <img class="img-fluid" alt="" :src="item" />
             </div>
           </div>
@@ -215,7 +220,7 @@ export default {
       // const url = 'https://api.imgur.com/3/image';
       this.$http({
         method: 'POST',
-        url: 'https://api.imgur.com/3/image',
+        url: 'https://api.imgur.com/3/upload',
         data: formData,
         headers: {
           Authorization: 'Client-ID ef6e862acf052df',

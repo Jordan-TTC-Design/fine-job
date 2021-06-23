@@ -27,6 +27,12 @@ const routes = [
         name: 'ApplyJob',
         component: () => import('../views/front/ApplyJob.vue'),
       },
+      {
+        // 申請職位頁面
+        path: 'add-company',
+        name: 'AddCompany',
+        component: () => import('../views/front/AddCompany.vue'),
+      },
     ],
   },
   // ---------- 後台路由 ----------
