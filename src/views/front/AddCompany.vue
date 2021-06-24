@@ -294,15 +294,16 @@ export default {
       // console.log(this.$refs[refsItem].getAttribute('src'));
       const reader = new FileReader();
       console.log(e.target.files);
+      emitter.emit('open-imageCropper', e.target.files[0]);
+
       if (e.target.files[0]) {
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = (event) => {
           console.log(event);
           const dataURL = reader.result;
           this.$refs[refsItem].src = dataURL;
-          this.imageSrc = this.$refs[refsItem];
+          // this.imageSrc = this.$refs[refsItem];
           // console.log(this.imageSrc);
-          emitter.emit('open-imageCropper', this.imageSrc);
           const image = this.$refs[refsItem];
           this.cropper = new Cropper(image, {
             aspectRatio: 16 / 9,

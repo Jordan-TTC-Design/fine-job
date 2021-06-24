@@ -64,19 +64,45 @@ export default {
     };
   },
   methods: {
+    // putImage(data) {
+    //   this.src = data.getAttribute('src');
+    //   this.image = this.$refs.companyImage;
+    //   this.cropper = new Cropper(this.image, {
+    //     zoomable: false,
+    //     scalable: false,
+    //     aspectRatio: 16 / 9, // 比例
+    //     crop: () => {
+    //       const canves = this.cropper.getCroppedCanvas();
+    //       console.log(canves);
+    //       this.cropsrc = canves.toDataURL('image/png');
+    //     },
+    //   });
+    // },
     putImage(data) {
-      this.src = data.getAttribute('src');
-      this.image = this.$refs.companyImage;
-      this.cropper = new Cropper(this.image, {
-        zoomable: false,
-        scalable: false,
-        aspectRatio: 16 / 9, // 比例
-        crop: () => {
-          const canves = this.cropper.getCroppedCanvas();
-          console.log(canves);
-          this.cropsrc = canves.toDataURL('image/png');
-        },
-      });
+      const reader = new FileReader();
+      if (data) {
+        reader.readAsDataURL(data);
+        reader.onload = (event) => {
+          console.log(event);
+          const dataURL = reader.result;
+          this.$refs.companyImage.src = dataURL;
+          this.imageSrc = this.$refs.companyImage;
+          // console.log(this.imageSrc);
+          const image = this.$refs.companyImage;
+          this.cropper = new Cropper(image, {
+            aspectRatio: 16 / 9,
+            viewMode: 0,
+            dragMode: 'move',
+            zoomable: false,
+            scalable: false,
+            crop: () => {
+              const canves = this.cropper.getCroppedCanvas();
+              console.log(canves);
+              this.cropsrc = canves.toDataURL('image/png');
+            },
+          });
+        };
+      }
     },
     closeModal() {
       this.modal.hide();
@@ -91,7 +117,7 @@ export default {
       this.closeModal();
     });
     emitter.on('open-imageCropper', (data) => {
-    //   console.log(data);
+      console.log(data);
       this.openModal();
       this.putImage(data);
     });
@@ -106,5 +132,5 @@ export default {
 
 <style lang="scss">
 .img-container{width: 320px;height: 180px;}
-.cropImage{width: 320px; height: 180px;}
+.img-preview{width: 320px; height: 180px;}
 </style>
