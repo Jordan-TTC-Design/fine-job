@@ -8,6 +8,11 @@ const routes = [
     children: [
       {
         // 全部產品頁面
+        path: 'home',
+        component: () => import('../views/Home.vue'),
+      },
+      {
+        // 全部產品頁面
         path: 'products-list',
         component: () => import('../views/front/ProductsList.vue'),
       },

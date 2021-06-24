@@ -246,13 +246,16 @@
       </div>
     </div>
   </div>
+  <ImageCropper src="joj" ></ImageCropper>
 </template>
 
 <script>
 import emitter from '@/components/helpers/emitter';
 import Cropper from 'cropperjs';
+import ImageCropper from '@/components/ImageCropperModal.vue';
 
 export default {
+  components: { ImageCropper },
   data() {
     return {
       cartList: [],
@@ -278,27 +281,30 @@ export default {
         },
       },
       formState: false,
+      imageSrc: '',
+      cropper: {},
     };
   },
   methods: {
     loadingImg(e) {
       const nowId = e.target.dataset.id;
-      console.log(nowId);
+      // console.log(nowId);
       const refsItem = `cropImg${nowId}`;
       //   this.$refs[refsItem].click();
-      console.log(refsItem);
-      let CROPPER;
+      // console.log(this.$refs[refsItem].getAttribute('src'));
       const reader = new FileReader();
+      console.log(e.target.files);
       if (e.target.files[0]) {
         reader.readAsDataURL(e.target.files[0]);
         reader.onload = (event) => {
           console.log(event);
           const dataURL = reader.result;
-          console.log(this.$refs[refsItem]);
           this.$refs[refsItem].src = dataURL;
+          this.imageSrc = this.$refs[refsItem];
+          // console.log(this.imageSrc);
+          emitter.emit('open-imageCropper', this.imageSrc);
           const image = this.$refs[refsItem];
-          // 創建cropper實例-----------------------------------------
-          CROPPER = new Cropper(image, {
+          this.cropper = new Cropper(image, {
             aspectRatio: 16 / 9,
             viewMode: 0,
             minContainerWidth: 320,
@@ -308,7 +314,6 @@ export default {
               document.querySelector('.previewBox'),
             ],
           });
-          console.log(CROPPER);
         };
       }
     },
@@ -320,7 +325,7 @@ export default {
       console.dir(file);
       const formData = new FormData();
       console.log(formData);
-      formData.append('companyImgs', file);
+      formData.append('image', file);
       console.log(formData);
       this.uploadFile(formData, nowId);
     },
@@ -439,6 +444,7 @@ export default {
   },
   mounted() {
     emitter.emit('close-cart');
+    emitter.emit('close-imageCropper');
   },
 };
 </script>
@@ -452,9 +458,9 @@ display: none;
   max-height: 180px;
 }
 .previewBox{
-box-shadow: 0 0 5px #adadad;
-width: 100px;
-height: 100px;
+border:1px solid #e2e2e2;
+width: 320px;
+height: 180px;
 margin-top: 30px;
 overflow: hidden;       /*這個超出設置為隱藏很重要，否則就會整個顯示出來了*/
 }

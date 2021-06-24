@@ -30,6 +30,9 @@
               <li class="nav-item">
                 <router-link class="nav-link" to="/add-company">新建企業</router-link>
               </li>
+              <li class="nav-item">
+                <router-link class="nav-link" to="/home">Home</router-link>
+              </li>
               <li class="position-absolute end-0">
                 <button
                   type="button"
