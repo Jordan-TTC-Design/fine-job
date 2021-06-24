@@ -21,15 +21,13 @@
           </div>
           <div class="mb-3">
             <label for="sendFormInfoIndustryCategory" class="form-label">公司行業類別</label>
-            <Field name="公司行業類別">
-              <select
-                id="sendFormInfoIndustryCategory"
+            <Field name="公司行業類別" as="select" id="sendFormInfoIndustryCategory"
                 class="form-control form-select"
                 :class="{ 'is-invalid': errors['公司行業類別'] }"
                 rules="required"
                 v-model="form.options.industryCategory"
-                ref="sendFormInfoIndustryCategory"
-              >
+                ref="sendFormInfoIndustryCategory">
+
                 <option value="" disabled selected>選擇您公司的行業類別</option>
                 <option value="批發、零售、傳直銷業">批發、零售、傳直銷業</option>
                 <option value="文教相關業">文教相關業</option>
@@ -49,7 +47,6 @@
                 <option value="醫療保健及環境衛生業">醫療保健及環境衛生業</option>
                 <option value="礦業及土石採取業">礦業及土石採取業</option>
                 <option value="住宿、餐飲服務業">住宿、餐飲服務業</option>
-              </select>
             </Field>
             <ErrorMessage name="公司行業類別" class="invalid-feedback"></ErrorMessage>
           </div>
@@ -57,15 +54,12 @@
             <label for="sendFormInfoCompanyAddress" class="form-label">公司地址</label>
             <div class="d-flex">
               <div class=" flex-shrink-1 me-2">
-                <Field name="公司地址縣市">
-                  <select
-                    id="sendFormInfoCompanyAddress"
+                <Field name="公司地址縣市" as="select" id="sendFormInfoCompanyAddress"
                     class="form-control form-select "
                     :class="{ 'is-invalid': errors['公司地址縣市'] }"
                     rules="required"
                     v-model="form.options.CompanyAddress"
-                    ref="sendFormInfoCompanyAddress"
-                  >
+                    ref="sendFormInfoCompanyAddress">
                     <option value="" disabled selected>選擇縣市</option>
                     <option value="基隆市">基隆市</option>
                     <option value="台北市">台北市</option>
@@ -84,7 +78,6 @@
                     <option value="屏東縣">屏東縣</option>
                     <option value="花蓮縣">花蓮縣</option>
                     <option value="宜蘭縣">宜蘭縣</option>
-                  </select>
                 </Field>
                 <ErrorMessage name="公司地址縣市" class="invalid-feedback"></ErrorMessage>
               </div>
@@ -323,17 +316,21 @@ export default {
       const nowId = e.target.dataset.id;
       const refsItem = `sendFormInfoImgs${nowId}`;
       const file = this.$refs[refsItem].files[0];
-      console.log(file);
+      // console.dir(this.$refs[refsItem]);
+      console.dir(file);
       const formData = new FormData();
+      console.log(formData);
       formData.append('companyImgs', file);
+      console.log(formData);
       this.uploadFile(formData, nowId);
     },
     uploadFile(formData, nowId) {
       // const imgurToken = 'Client-ID 4ef4ca52de4b42c';
       // const url = 'https://api.imgur.com/3/image';
+      console.dir(formData, nowId);
       this.$http({
         method: 'POST',
-        url: 'https://api.imgur.com/3/upload',
+        url: 'https://api.imgur.com/3/image',
         data: formData,
         headers: {
           Authorization: 'Client-ID ef6e862acf052df',

@@ -220,7 +220,7 @@ export default {
       // const url = 'https://api.imgur.com/3/image';
       this.$http({
         method: 'POST',
-        url: 'https://api.imgur.com/3/upload',
+        url: 'https://api.imgur.com/3/image',
         data: formData,
         headers: {
           Authorization: 'Client-ID ef6e862acf052df',
