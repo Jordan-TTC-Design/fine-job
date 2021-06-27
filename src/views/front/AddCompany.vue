@@ -221,7 +221,7 @@
                   <button
                   type="button"
                   class="btn btn-outline-secondary w-100"
-                  @click="clickInput()"
+                  @click="clickInput($event)"
                   v-if="companyLogo != ''"
                   data-input="companyLogo"
                   >重選</button>
@@ -371,19 +371,17 @@ export default {
     // 取得圖片傳給modal
     loadingImg(e) {
       console.log(this.uploadImgState);
+      let nowId = 0;
       if (this.uploadImgState === 'companyImg') {
-        const nowId = e.target.dataset.id;
+        nowId = e.target.dataset.id;
         // console.log(this.temImageInputs);
-        emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
-      } else if (this.uploadImgState === 'companyLogo') {
-        const nowId = '';
-        emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
       }
-      const nowId = e.target.dataset.id;
+      emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
+
       // console.log(nowId);
       // console.log(e.target.files);
-      console.log(this.temImageInputs);
-      emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
+      // console.log(this.temImageInputs);
+      // emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
     },
     // 從modal抓回圖片
     getImg(data, img, id) {

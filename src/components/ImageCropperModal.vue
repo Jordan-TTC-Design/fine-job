@@ -9,13 +9,8 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">編輯照片{{nowId}}</h5>
-          <button
-            type="button"
-            @click="closeModal"
-            class="btn-close"
-            aria-label="Close"
-          ></button>
+          <h5 class="modal-title" id="exampleModalLabel">編輯照片{{ nowId }}</h5>
+          <button type="button" @click="closeModal" class="btn-close" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="container">
@@ -32,11 +27,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            @click="sendbackImg"
-          >
+          <button type="button" class="btn btn-outline-primary" @click="sendbackImg">
             確定
           </button>
         </div>
@@ -84,7 +75,9 @@ export default {
             scalable: false,
             crop: () => {
               const canves = this.cropper.getCroppedCanvas();
-              this.cropsrc = canves.toDataURL('image/png');
+              console.log(canves);
+              console.log(this.cropper);
+              this.cropsrc = canves.toDataURL('image/jpeg');
               this.isImg = true;
             },
           });
@@ -92,18 +85,20 @@ export default {
       }
     },
     sendbackImg() {
-      this.cropper.getCroppedCanvas({
-        maxWidth: 4096,
-        maxHeight: 4096,
-        fillColor: '#fff',
-        imageSmoothingEnabled: true,
-        imageSmoothingQuality: 'high',
-      }).toBlob((blob) => {
-        console.log(blob);
-        this.$emit('emit-send-img-data', blob, this.$refs.cropImage, this.nowId - 1);
-      });
-      // this.$emit('emit-send-img-data', this.$refs.cropImage, this.nowId - 1);
-      // console.log(this.$refs.cropImage);
+      this.cropper
+        .getCroppedCanvas({
+          maxWidth: 4096,
+          maxHeight: 4096,
+          fillColor: '#fff',
+          imageSmoothingEnabled: true,
+          imageSmoothingQuality: 'high',
+        })
+        .toBlob((blob) => {
+          console.log(blob);
+          this.$emit('emit-send-img-data', blob, this.$refs.cropImage, this.nowId - 1);
+        });
+      this.$emit('emit-send-img-data', this.$refs.cropImage, this.nowId - 1);
+      console.log(this.$refs.cropImage);
       this.modalFillState = false;
       this.cropper.destroy();
       this.closeModal();
