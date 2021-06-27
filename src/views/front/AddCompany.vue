@@ -97,8 +97,8 @@
               </div>
             </div>
           </div>
-          <div v-if="form.options.imagesUrl.length > 0">
-            <div v-for="(item, index) in form.options.imagesUrl" :key="'sendFormInfoImgs' + index">
+          <div v-if="temImageInputs.length > 0">
+            <div v-for="(item, index) in temImageInputs" :key="'sendFormInfoImgs' + index">
               <div class="form-group">
                 <label for="imageUrl">請選擇第 {{ index + 1 }} 張圖片檔案</label>
                 <div class="input-group">
@@ -126,22 +126,16 @@
                     v-if="index > 0"
                     type="button"
                     class="btn btn-outline-primary"
-                    @click="form.options.imagesUrl.splice(index, 1)"
+                    @click="temImageInputs.splice(index, 1)"
                   >
                     刪除圖片
                   </button>
                 </div>
               </div>
               <p>連結：{{ item }}</p>
-              <img class="img-fluid" alt="" :src="item" />
-                <img class="cropped" id="cropImg" :ref="'cropImg'+index" src="" alt="" />
-
-              <!-- <div class="box-2 img-result hide">
-                <img class="cropped" id="cropImg" :ref="'cropImg' + index" src="" alt="" />
-              </div> -->
-              <!-- 3.兩個用於預覽的div  -->
-              <div class="previewText">裁剪預覽</div>
-              <div class="previewBox"></div>
+              <!-- <img class="img-fluid" alt="" :src="item" /> -->
+                <img class="cropImg" :ref="'cropImg'+index"
+                :src="temImages[index]" alt="" />
             </div>
           </div>
           <div class="imageBtnBox">
@@ -246,12 +240,12 @@
       </div>
     </div>
   </div>
-  <ImageCropper src="joj" ></ImageCropper>
+  <ImageCropper src="joj" @emit-send-img-data="getImg"></ImageCropper>
 </template>
 
 <script>
 import emitter from '@/components/helpers/emitter';
-import Cropper from 'cropperjs';
+// import Cropper from 'cropperjs';
 import ImageCropper from '@/components/ImageCropperModal.vue';
 
 export default {
@@ -283,49 +277,36 @@ export default {
       formState: false,
       imageSrc: '',
       cropper: {},
+      temImages: [''],
+      temImageInputs: [''],
     };
   },
   methods: {
+    // 取得圖片傳給modal
     loadingImg(e) {
       const nowId = e.target.dataset.id;
       // console.log(nowId);
-      const refsItem = `cropImg${nowId}`;
-      //   this.$refs[refsItem].click();
-      // console.log(this.$refs[refsItem].getAttribute('src'));
-      const reader = new FileReader();
-      console.log(e.target.files);
-      emitter.emit('open-imageCropper', e.target.files[0]);
-
-      if (e.target.files[0]) {
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = (event) => {
-          console.log(event);
-          const dataURL = reader.result;
-          this.$refs[refsItem].src = dataURL;
-          // this.imageSrc = this.$refs[refsItem];
-          // console.log(this.imageSrc);
-          const image = this.$refs[refsItem];
-          this.cropper = new Cropper(image, {
-            aspectRatio: 16 / 9,
-            viewMode: 0,
-            minContainerWidth: 320,
-            minContainerHeight: 320,
-            dragMode: 'move',
-            preview: [
-              document.querySelector('.previewBox'),
-            ],
-          });
-        };
-      }
+      // console.log(e.target.files);
+      console.log(this.temImageInputs);
+      emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
     },
+    // 從modal抓回圖片
+    getImg(data, img, id) {
+      console.log(data, img, id);
+      this.temImageInputs[id] = img;
+      this.temImages[id] = img.src;
+      console.log(this.temImageInputs);
+    },
+    // 上傳圖片
     checkFile(e) {
       const nowId = e.target.dataset.id;
-      const refsItem = `sendFormInfoImgs${nowId}`;
-      const file = this.$refs[refsItem].files[0];
-      // console.dir(this.$refs[refsItem]);
-      console.dir(file);
+      console.log(nowId);
+      const refsItem = `cropImg${nowId}`;
+      const file = this.$refs[refsItem];
+      // const file = this.temImages[nowId];
+      console.dir(this.$refs[refsItem]);
+      // console.dir(file);
       const formData = new FormData();
-      console.log(formData);
       formData.append('image', file);
       console.log(formData);
       this.uploadFile(formData, nowId);
@@ -392,10 +373,12 @@ export default {
       }
     },
     addImageUrl() {
-      this.form.options.imagesUrl.push('');
+      this.temImages.push('');
+      this.temImageInputs.push('');
     },
     deleteImageUrl() {
-      this.form.options.imagesUrl.pop();
+      this.temImages.pop('');
+      this.temImageInputs.pop('');
     },
     deleteCart() {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
@@ -454,15 +437,9 @@ export default {
 .inpuFile{
 display: none;
 }
-#cropImg {
+.cropImg {
   max-width: 320px;
   max-height: 180px;
-}
-.previewBox{
-border:1px solid #e2e2e2;
-width: 320px;
-height: 180px;
-margin-top: 30px;
-overflow: hidden;       /*這個超出設置為隱藏很重要，否則就會整個顯示出來了*/
+  overflow: hidden;
 }
 </style>

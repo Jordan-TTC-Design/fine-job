@@ -9,11 +9,11 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">編輯照片</h5>
+          <h5 class="modal-title" id="exampleModalLabel">編輯照片{{nowId}}</h5>
           <button
             type="button"
+            @click="closeModal"
             class="btn-close"
-            data-bs-dismiss="modal"
             aria-label="Close"
           ></button>
         </div>
@@ -32,14 +32,13 @@
           </div>
         </div>
         <div class="modal-footer">
-          <router-link
-            to="/cart-checkout"
+          <button
             type="button"
             class="btn btn-outline-primary"
-            @click="closeModal"
+            @click="sendbackImg"
           >
-            結帳
-          </router-link>
+            確定
+          </button>
         </div>
       </div>
     </div>
@@ -61,23 +60,11 @@ export default {
       image: {},
       src: '',
       cropsrc: '',
+      nowId: 0,
+      isImg: false,
     };
   },
   methods: {
-    // putImage(data) {
-    //   this.src = data.getAttribute('src');
-    //   this.image = this.$refs.companyImage;
-    //   this.cropper = new Cropper(this.image, {
-    //     zoomable: false,
-    //     scalable: false,
-    //     aspectRatio: 16 / 9, // 比例
-    //     crop: () => {
-    //       const canves = this.cropper.getCroppedCanvas();
-    //       console.log(canves);
-    //       this.cropsrc = canves.toDataURL('image/png');
-    //     },
-    //   });
-    // },
     putImage(data) {
       const reader = new FileReader();
       if (data) {
@@ -97,15 +84,41 @@ export default {
             scalable: false,
             crop: () => {
               const canves = this.cropper.getCroppedCanvas();
-              console.log(canves);
               this.cropsrc = canves.toDataURL('image/png');
+              // console.log(this.cropsrc);
+              this.isImg = true;
             },
           });
         };
       }
     },
+    sendbackImg() {
+      this.cropper.getCroppedCanvas({
+        maxWidth: 4096,
+        maxHeight: 4096,
+        fillColor: '#fff',
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high',
+      }).toBlob((blob) => {
+        console.log(blob);
+        this.$emit('emit-send-img-data', blob, this.$refs.cropImage, this.nowId - 1);
+      });
+      // this.$emit('emit-send-img-data', this.$refs.cropImage, this.nowId - 1);
+      // console.log(this.$refs.cropImage);
+      this.modalFillState = false;
+      this.cropper.destroy();
+      this.closeModal();
+    },
+    cleanImg() {
+      if (this.isImg) {
+        console.log('delete');
+        this.cropper.destroy();
+        this.isImg = false;
+      }
+    },
     closeModal() {
       this.modal.hide();
+      this.cleanImg();
     },
     openModal() {
       this.modal.show();
@@ -118,19 +131,25 @@ export default {
     });
     emitter.on('open-imageCropper', (data) => {
       console.log(data);
+      const id = Number(data[1]);
+      this.nowId = id + 1;
       this.openModal();
-      this.putImage(data);
+      this.putImage(data[0]);
     });
   },
   mounted() {
     this.modal = new Modal(this.$refs.imageCropperModal);
-
-    console.log(this.src);
   },
 };
 </script>
 
 <style lang="scss">
-.img-container{width: 320px;height: 180px;}
-.img-preview{width: 320px; height: 180px;}
+.img-container {
+  width: 320px;
+  height: 180px;
+}
+.img-preview {
+  width: 320px;
+  height: 180px;
+}
 </style>
