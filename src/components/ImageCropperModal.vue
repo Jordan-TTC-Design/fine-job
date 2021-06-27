@@ -85,7 +85,6 @@ export default {
             crop: () => {
               const canves = this.cropper.getCroppedCanvas();
               this.cropsrc = canves.toDataURL('image/png');
-              // console.log(this.cropsrc);
               this.isImg = true;
             },
           });

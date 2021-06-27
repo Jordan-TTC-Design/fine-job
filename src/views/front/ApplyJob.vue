@@ -81,20 +81,6 @@
             <ErrorMessage name="留言" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="mb-3">
-            <label for="costumerInfoCall" class="form-label">call</label>
-            <Field
-              id="costumerInfoCall"
-              name="call"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['call'] }"
-              placeholder="請輸入"
-              v-model="form.options.call"
-              ref="costumerInfoCall"
-            ></Field>
-            <ErrorMessage name="call" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
             <label for="costumerInfoPersonalImg" class="form-label">求職照片</label>
             <div class="input-group">
               <input

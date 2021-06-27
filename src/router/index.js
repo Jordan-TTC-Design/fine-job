@@ -33,10 +33,16 @@ const routes = [
         component: () => import('../views/front/ApplyJob.vue'),
       },
       {
-        // 申請職位頁面
+        // 新建企業
         path: 'add-company',
         name: 'AddCompany',
         component: () => import('../views/front/AddCompany.vue'),
+      },
+      {
+        // 新建職位
+        path: 'add-job',
+        name: 'AddJob',
+        component: () => import('../views/front/AddJob.vue'),
       },
     ],
   },
