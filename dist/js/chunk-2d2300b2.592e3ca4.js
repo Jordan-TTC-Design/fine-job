@@ -1,2 +1,2 @@
 (window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d2300b2"],{eb32:function(n,e,c){"use strict";c.r(e);var r=c("7a23"),t={class:"container-fuild"};function a(n,e,c,a,d,i){return Object(r["s"])(),Object(r["d"])("div",t," 全部訂單列表 ")}var d={};d.render=a;e["default"]=d}}]);
-//# sourceMappingURL=chunk-2d2300b2.3d1e8453.js.map
+//# sourceMappingURL=chunk-2d2300b2.592e3ca4.js.map
