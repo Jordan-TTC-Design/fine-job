@@ -16,12 +16,15 @@
           <div class="container">
             <div class="row">
               <div class="col-8">
-                <div class="img-container">
-                  <img class="w-100" ref="companyImage" :src="src" alt="" />
+                <div class="cropImgBox">
+                  <img class="cropImgBox__img" ref="companyImage" :src="src" alt="" />
                 </div>
               </div>
               <div class="col-4">
-                <img ref="cropImage" :src="cropsrc" alt="" class="img-preview" />
+                <div class="compeletedImgBox">
+                  <p>預覽圖</p>
+                  <img class="compeletedImg" ref="compeletedImg" :src="cropsrc" alt="" />
+                </div>
               </div>
             </div>
           </div>
@@ -59,6 +62,7 @@ export default {
     putImage(data) {
       const reader = new FileReader();
       if (data) {
+        this.isImg = true;
         reader.readAsDataURL(data);
         reader.onload = (event) => {
           console.log(event);
@@ -74,33 +78,25 @@ export default {
             zoomable: false,
             scalable: false,
             crop: () => {
-              const canves = this.cropper.getCroppedCanvas();
-              console.log(canves);
-              console.log(this.cropper);
+              // const canves = this.cropper.getCroppedCanvas();
+              // console.log(canves);
+              // console.log(this.cropper);
+              const canves = this.cropper.getCroppedCanvas({
+                maxWidth: 4096,
+                maxHeight: 4096,
+                fillColor: '#fff',
+                imageSmoothingEnabled: false,
+                imageSmoothingQuality: 'high',
+              });
               this.cropsrc = canves.toDataURL('image/jpeg');
-              this.isImg = true;
             },
           });
         };
       }
     },
     sendbackImg() {
-      this.cropper
-        .getCroppedCanvas({
-          maxWidth: 4096,
-          maxHeight: 4096,
-          fillColor: '#fff',
-          imageSmoothingEnabled: true,
-          imageSmoothingQuality: 'high',
-        })
-        .toBlob((blob) => {
-          console.log(blob);
-          this.$emit('emit-send-img-data', blob, this.$refs.cropImage, this.nowId - 1);
-        });
-      this.$emit('emit-send-img-data', this.$refs.cropImage, this.nowId - 1);
-      console.log(this.$refs.cropImage);
-      this.modalFillState = false;
-      this.cropper.destroy();
+      this.$emit('emit-send-img-data', this.cropsrc, this.$refs.compeletedImg, this.nowId - 1);
+      console.log(this.$refs.compeletedImg);
       this.closeModal();
     },
     cleanImg() {
@@ -113,6 +109,7 @@ export default {
     closeModal() {
       this.modal.hide();
       this.cleanImg();
+      // window.setTimeout(this.cleanImg(), 2000);
     },
     openModal() {
       this.modal.show();
@@ -125,8 +122,12 @@ export default {
     });
     emitter.on('open-imageCropper', (data) => {
       console.log(data);
-      const id = Number(data[1]);
-      this.nowId = id + 1;
+      if (data[2] === 'upLoadSingleImg') {
+        this.nowId = '';
+      } else {
+        const id = Number(data[1]);
+        this.nowId = id + 1;
+      }
       this.openModal();
       this.putImage(data[0]);
     });
@@ -138,12 +139,25 @@ export default {
 </script>
 
 <style lang="scss">
-.img-container {
-  width: 320px;
-  height: 180px;
+.cropImgBox{
+  width: 100%;
+  height: 480px;
+  background: color #f7f7f7;;
+  .cropImgBox__img{
+    width: 100%;
+  }
 }
-.img-preview {
-  width: 320px;
-  height: 180px;
+.compeletedImgBox{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  .compeletedImg {
+    max-width: 200px;
+    max-height: 112px;
+    object-fit: contain;
+  }
 }
 </style>

@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-6">
         <h2 class="text-center">新建企業</h2>
-        <Form ref="sendFormInfoForm" v-slot="{ errors }" @submit="checkCart">
+        <Form ref="sendFormInfoForm" v-slot="{ errors }" @submit="processFormData">
           <div class="mb-3">
             <label for="sendFormInfoCompanyName" class="form-label">公司名稱</label>
             <Field
@@ -109,39 +109,37 @@
                 v-for="(item, index) in temImageInputs"
                 :key="'sendFormInfoImgs' + index"
               >
-                  <label for="imageUrl">請選擇第 {{ index + 1 }} 張企業圖片</label>
-                    <input
-                      :id="'sendFormInfoImgs' + index"
-                      name="企業圖片"
-                      type="file"
-                      class="form-control d-none"
-                      :class="{ 'is-invalid': errors[`求職照片${index}`] }"
-                      placeholder="請選擇照片上傳"
-                      :ref="'sendFormInfoImgs' + index"
-                      :data-id="index"
-                      data-input="companyImg"
-                      @change="loadingImg($event)"
-                      accept="image/*"
-                    />
-
-                <!-- <p>連結：{{ item }}</p> -->
+                <label for="imageUrl">請選擇第 {{ index + 1 }} 張企業圖片</label>
+                <input
+                  :id="'sendFormInfoImgs' + index"
+                  name="企業圖片"
+                  type="file"
+                  class="form-control d-none"
+                  :class="{ 'is-invalid': errors[`企業圖片${index}`] }"
+                  placeholder="請選擇照片上傳"
+                  :ref="'sendFormInfoImgs' + index"
+                  :data-id="index"
+                  data-input="upLoadMutiImg"
+                  @change="loadingImg($event)"
+                  accept="image/*"
+                />
                 <div class="cropImgBox">
                   <div class="cropImgBox__cover" v-if="temImages[index]"></div>
                   <button
-                      type="button"
-                      class="btn cropImgBox__deleteBtn"
-                      @click="deleteImgInput(index)"
-                      data-input="companyImg"
-                    >
-                      <i class="bi-x-lg"></i>
-                    </button>
+                    type="button"
+                    class="btn cropImgBox__deleteBtn"
+                    @click="deleteImgInput(index)"
+                    data-input="upLoadMutiImg"
+                  >
+                    <i class="bi-x-lg"></i>
+                  </button>
                   <button
                     type="button"
                     :data-id="index"
                     class="btn btn-outline-primary cropImgBtn"
-                    @click="clickInput($event,index)"
+                    @click="clickInput($event, index)"
                     v-if="temImages[index] == false"
-                    data-input="companyImg"
+                    data-input="upLoadMutiImg"
                   >
                     選擇圖片
                   </button>
@@ -156,16 +154,22 @@
                 <button
                   type="button"
                   class="btn btn-outline-primary w-100 mb-1"
-                  @click="checkFile($event)"
-                  data-input="companyImg"
-                  :data-id="index">確定上傳</button>
-                  <button
+                  @click="updateImg($event)"
+                  data-input="upLoadMutiImg"
+                  :data-id="index"
+                >
+                  確定上傳
+                </button>
+                <button
                   type="button"
                   class="btn btn-outline-secondary w-100"
-                  @click="clickInput($event,index)"
+                  @click="clickInput($event, index)"
                   v-if="temImages[index]"
-                  data-input="companyImg"
-                  :data-id="index">重選</button>
+                  data-input="upLoadMutiImg"
+                  :data-id="index"
+                >
+                  重選
+                </button>
               </div>
               <div class="imageBtnBox">
                 <button
@@ -179,53 +183,72 @@
               </div>
             </div>
           </div>
-           <div class="mb-3">
-            <label for="sendFormInfoCompanyLogo" class="form-label">公司logo</label>
-            <input
-              id="sendFormInfoCompanyLogo"
-              name="公司logo"
-              type="file"
-              class="form-control d-none"
-              :class="{ 'is-invalid': errors['公司logo'] }"
-              ref="sendFormInfoCompanyLogo"
-              rules="required"
-              data-input="companyLogo"
-              @change="loadingImg($event)"
-              accept="image/*"
-            >
-            <div class="cropImgBox">
-                  <div class="cropImgBox__cover" v-if="form.options.company.CompanyLogo"></div>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary cropImgBtn"
-                    @click="clickInput($event)"
-                    data-input="companyLogo"
-                    v-if="companyLogo == ''"
-                  >
-                    選擇圖片
-                  </button>
-                  <img
-                    v-if="companyLogo !== []"
-                    class="cropImg"
-                    ref="cropImgCompanyLogo"
-                    :src="companyLogo"
-                    alt=""
-                  />
-                </div>
+          <div class="mb-3">
+            <div>
+              <label for="sendFormInfoCompanyLogo" class="form-label">公司logo</label>
+              <input
+                id="sendFormInfoCompanyLogo"
+                name="公司logo"
+                type="file"
+                class="form-control d-none"
+                :class="{ 'is-invalid': errors['公司logo'] }"
+                ref="sendFormInfoCompanyLogo"
+                rules="required"
+                data-input="upLoadSingleImg"
+                @change="loadingImg($event)"
+                accept="image/*"
+              />
+              <div class="cropImgBox">
+                <div class="cropImgBox__cover" v-if="companyLogo.value"></div>
                 <button
                   type="button"
-                  class="btn btn-outline-primary w-100 mb-1"
-                  @click="checkFile($event)"
-                  data-input="companyLogo"
-                  >確定上傳</button>
-                  <button
-                  type="button"
-                  class="btn btn-outline-secondary w-100"
+                  class="btn btn-outline-primary cropImgBtn"
                   @click="clickInput($event)"
-                  v-if="companyLogo != ''"
-                  data-input="companyLogo"
-                  >重選</button>
-            <!-- <ErrorMessage name="公司logo" class="invalid-feedback"></ErrorMessage> -->
+                  data-input="upLoadSingleImg"
+                  v-if="companyLogo.value == ''"
+                >
+                  選擇圖片
+                </button>
+                <img
+                  v-if="companyLogo.value !== ''"
+                  class="cropImg"
+                  ref="cropImgCompanyLogo"
+                  :src="companyLogo.value"
+                  alt=""
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary w-100 mb-1"
+                @click="updateImg($event)"
+                data-input="upLoadSingleImg"
+                :disabled="!!companyLogo.isUpDated"
+              >
+                {{ companyLogo.isUpDated ? '已上傳' : '上傳圖片' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary w-100"
+                @click="clickInput($event)"
+                v-if="companyLogo.value != ''"
+                data-input="upLoadSingleImg"
+              >
+                重選
+              </button>
+            </div>
+            <div>
+              <Field
+                id="sendFormInfoCompanyLogoCheck"
+                name="公司Logo"
+                type="text"
+                class="form-control d-none"
+                :class="{ 'is-invalid': errors['公司Logo'] }"
+                v-model="form.options.company.companyLogoUrl"
+                ref="sendFormInfoCompanyLogoCheck"
+                rules="required"
+              ></Field>
+              <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
+            </div>
           </div>
           <div class="mb-3">
             <label for="sendFormInfoCompanyInfo" class="form-label">公司簡介</label>
@@ -303,18 +326,39 @@
             />
           </div>
           <div class="mb-3">
-            <label for="sendFormInfoAddJobsToken" class="form-label">職位刊登額度</label>
-            <Field
-              id="sendFormInfoAddJobsToken"
-              name="職位刊登額度"
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': errors['職位刊登額度'] }"
-              min="1"
-              v-model.number="form.options.company.addJobsToken"
-              ref="sendFormInfoAddJobsToken"
-            ></Field>
+            <label for="sendFormInfoAddJobsToken" class="form-label">預先購買職位刊登額度</label>
+            <div class="input-group">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                @click="deleteNum"
+              >
+                -
+              </button>
+              <Field
+                id="sendFormInfoAddJobsToken"
+                name="職位刊登額度"
+                type="number"
+                class="form-control"
+                :class="{ 'is-invalid': errors['職位刊登額度'] }"
+                min="1"
+                v-model.number="form.options.addJobsToken"
+                ref="sendFormInfoAddJobsToken"
+                rules="required"
+              >
+              </Field>
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="button-addon2"
+                @click="addNum"
+              >
+                +
+              </button>
+            </div>
             <ErrorMessage name="職位刊登額度" class="invalid-feedback"></ErrorMessage>
+            <p>職位刊登額度：刊登一個職位需要一個職位刊登額度，刊登付費推廣職位需要兩個額度</p>
           </div>
           <button type="submit" class="btn btn-primary">送出資料</button>
           <!-- <button type="button" class="btn btn-primary" @click="checkFile">上傳照片</button> -->
@@ -353,7 +397,7 @@ export default {
             companyInfo: '',
             contactPosition: '',
             companyImagesUrl: [''],
-            companyLogo: '',
+            companyLogoUrl: '',
           },
           addJobsToken: 1,
         },
@@ -362,8 +406,8 @@ export default {
       imageSrc: '',
       cropper: {},
       temImages: [''],
-      temImageInputs: [''],
-      companyLogo: '',
+      temImageInputs: [{ value: '', isUpDated: false }],
+      companyLogo: { value: '', isUpDated: false },
       uploadImgState: '',
     };
   },
@@ -372,73 +416,73 @@ export default {
     loadingImg(e) {
       console.log(this.uploadImgState);
       let nowId = 0;
-      if (this.uploadImgState === 'companyImg') {
+      if (this.uploadImgState === 'upLoadMutiImg') {
         nowId = e.target.dataset.id;
-        // console.log(this.temImageInputs);
+      } else {
+        nowId = '';
       }
-      emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
-
-      // console.log(nowId);
-      // console.log(e.target.files);
-      // console.log(this.temImageInputs);
-      // emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
+      emitter.emit('open-imageCropper', [e.target.files[0], nowId, this.uploadImgState]);
     },
     // 從modal抓回圖片
     getImg(data, img, id) {
-      if (this.uploadImgState === 'companyImg') {
+      console.log(data, img, id);
+      if (this.uploadImgState === 'upLoadMutiImg') {
         console.log(data, img, id);
-        this.temImageInputs[id] = img;
+        this.temImageInputs[id].value = data;
         this.temImages[id] = img.src;
-        console.log(this.temImageInputs);
-      } else if (this.uploadImgState === 'companyLogo') {
-        this.companyLogo = img.src;
+        console.log(this.temImageInputs[id]);
+      } else if (this.uploadImgState === 'upLoadSingleImg') {
+        this.companyLogo.value = data;
       }
     },
     clickInput(e, index) {
       console.log(e.target.dataset.input);
-      if (e.target.dataset.input === 'companyImg') {
+      if (e.target.dataset.input === 'upLoadMutiImg') {
         const item = `sendFormInfoImgs${index}`;
         this.$refs[item].click();
-        this.uploadImgState = 'companyImg';
-      } else if (e.target.dataset.input === 'companyLogo') {
+        this.uploadImgState = 'upLoadMutiImg';
+      } else if (e.target.dataset.input === 'upLoadSingleImg') {
         this.$refs.sendFormInfoCompanyLogo.click();
-        this.uploadImgState = 'companyLogo';
+        this.uploadImgState = 'upLoadSingleImg';
       }
     },
     // 上傳圖片
-    checkFile(e) {
+    updateImg(e) {
       const nowId = e.target.dataset.id;
-      console.log(nowId);
-      const refsItem = `cropImg${nowId}`;
-      const file = this.$refs[refsItem];
-      // const file = this.temImages[nowId];
-      console.dir(this.$refs[refsItem]);
-      // console.dir(file);
-      const formData = new FormData();
-      formData.append('image', file);
-      console.log(formData);
-      this.uploadFile(formData, nowId);
-    },
-    uploadFile(formData, nowId) {
-      // const imgurToken = 'Client-ID 4ef4ca52de4b42c';
-      // const url = 'https://api.imgur.com/3/image';
-      console.dir(formData, nowId);
+      this.uploadImgState = e.target.dataset.input;
+      let item = null;
+      if (this.uploadImgState === 'upLoadMutiImg') {
+        item = this.temImageInputs[nowId].value;
+      } else if (this.uploadImgState === 'upLoadSingleImg') {
+        item = this.companyLogo.value;
+      }
+      const base64String = item.replace('data:image/jpeg;base64,', '');
       this.$http({
         method: 'POST',
         url: 'https://api.imgur.com/3/image',
-        data: formData,
+        data: {
+          image: base64String,
+          type: 'base64',
+        },
         headers: {
           Authorization: 'Client-ID ef6e862acf052df',
         },
-        mimeType: 'multipart/form-data',
       })
         .then((res) => {
-          console.log(res.data);
-          this.options.imagesUrl[nowId] = res.data.data.link;
-          // console.log(res.data.data.link);
+          console.log('imagur:', res.data, nowId);
+          console.log(this.uploadImgState);
+          if (this.uploadImgState === 'upLoadMutiImg') {
+            this.temImageInputs[nowId].isUpDated = true;
+            this.form.options.companyImagesUrl[nowId] = res.data.data.link;
+            console.log(this.form.options.companyImagesUrl[nowId]);
+          } else if (this.uploadImgState === 'upLoadSingleImg') {
+            this.companyLogo.isUpDated = true;
+            this.form.options.company.companyLogoUrl = res.data.data.link;
+            console.log(this.form.options.company.companyLogoUrl);
+          }
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          console.log(error);
         });
     },
     deleteImgInput(index) {
@@ -461,8 +505,19 @@ export default {
         console.log('沒選縣市！');
       }
     },
-    sendForm() {
-      this.addCartJob(this.form.options.company.addJobsToken);
+    processFormData() {
+      this.temImageInputs.forEach((item) => {
+        if (item.isUpDated === false) {
+          this.formState = false;
+        }
+      });
+      if (this.companyLogo.isUpDated === false) {
+        this.this.formState = false;
+      }
+      const companyAdressCombie = `${this.form.options.company.companyAddress}
+      ${this.form.options.company.companyAddressDetail}`;
+      this.form.user.address = companyAdressCombie;
+      this.addCartJob(this.form.options.addJobsToken);
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
       if (this.formState === false) {
         console.log('沒東西');
@@ -471,18 +526,21 @@ export default {
         const formData = {
           data: this.form,
         };
-        this.$http
-          .post(url, formData)
-          .then((res) => {
-            console.log(`${res.data.message}`);
-            console.log(res);
-            this.deleteCart();
-            // this.$router.push('/');
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        this.sendForm(url, formData);
       }
+    },
+    sendForm(url, formData) {
+      this.$http
+        .post(url, formData)
+        .then((res) => {
+          console.log(`${res.data.message}`);
+          console.log(res);
+          this.deleteCart();
+          // this.$router.push('/');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     addImageUrl() {
       this.temImages.push('');
@@ -503,6 +561,14 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    deleteNum() {
+      if (this.form.options.addJobsToken > 1) {
+        this.form.options.addJobsToken -= 1;
+      }
+    },
+    addNum() {
+      this.form.options.addJobsToken += 1;
     },
     addCartJob(qty = 1) {
       const id = '-MctDx8Qj8Tmw9eJoZqN';
@@ -565,12 +631,12 @@ export default {
     top: 0;
     z-index: 80;
   }
-  .cropImgBox__cover{
+  .cropImgBox__cover {
     height: 100%;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.3);
     position: absolute;
-  // 設置背景混和模式為相乘模式
+    // 設置背景混和模式為相乘模式
   }
 }
 </style>
