@@ -14,10 +14,77 @@
               :class="{ 'is-invalid': errors['公司名稱'] }"
               placeholder="請輸入公司名稱"
               rules="required"
-              v-model="form.options.company.companyName"
+              v-model="form.user.options.company.companyName"
               ref="sendFormInfoCompanyName"
             ></Field>
             <ErrorMessage name="公司名稱" class="invalid-feedback"></ErrorMessage>
+          </div>
+          <div class="mb-3">
+            <div>
+              <label for="sendFormInfoCompanyLogo" class="form-label">公司logo</label>
+              <input
+                id="sendFormInfoCompanyLogo"
+                name="公司logo"
+                type="file"
+                class="form-control d-none"
+                :class="{ 'is-invalid': errors['公司logo'] }"
+                ref="sendFormInfoCompanyLogo"
+                rules="required"
+                data-input="upLoadSingleImg"
+                @change="loadingImg($event)"
+                accept="image/*"
+              />
+              <div class="cropImgBox">
+                <div class="cropImgBox__cover" v-if="companyLogo.src"></div>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary cropImgBtn"
+                  @click="clickInput($event)"
+                  data-input="upLoadSingleImg"
+                  v-if="companyLogo.src == ''"
+                >
+                  選擇圖片
+                </button>
+                <img
+                  v-if="companyLogo.src !== ''"
+                  class="cropImg"
+                  ref="cropImgCompanyLogo"
+                  :src="companyLogo.src"
+                  alt=""
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary w-100 mb-1"
+                @click="updateImg($event)"
+                data-input="upLoadSingleImg"
+                :disabled="!!companyLogo.isUpDated"
+              >
+                {{ companyLogo.isUpDated ? '已上傳' : '上傳圖片' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary w-100"
+                @click="clickInput($event)"
+                v-if="companyLogo.src != ''"
+                data-input="upLoadSingleImg"
+              >
+                重選
+              </button>
+            </div>
+            <div>
+              <Field
+                id="sendFormInfoCompanyLogoCheck"
+                name="公司Logo"
+                type="text"
+                class="form-control d-none"
+                :class="{ 'is-invalid': errors['公司Logo'] }"
+                v-model="form.user.options.company.companyLogoUrl"
+                ref="sendFormInfoCompanyLogoCheck"
+                rules="required"
+              ></Field>
+              <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
+            </div>
           </div>
           <div class="mb-3">
             <label for="sendFormInfoIndustryCategory" class="form-label">公司行業類別</label>
@@ -28,7 +95,7 @@
               class="form-control form-select"
               :class="{ 'is-invalid': errors['公司行業類別'] }"
               rules="required"
-              v-model="form.options.company.industryCategory"
+              v-model="form.user.options.company.industryCategory"
               ref="sendFormInfoIndustryCategory"
             >
               <option value="" disabled selected>選擇您公司的行業類別</option>
@@ -62,7 +129,7 @@
                   class="form-control form-select "
                   :class="{ 'is-invalid': errors['公司地址縣市'] }"
                   rules="required"
-                  v-model="form.options.company.CompanyAddress"
+                  v-model="form.user.options.company.CompanyAddress"
                   ref="sendFormInfoCompanyAddress"
                 >
                   <option value="" disabled selected>選擇縣市</option>
@@ -95,7 +162,7 @@
                   :class="{ 'is-invalid': errors['公司詳細地址'] }"
                   placeholder="請輸入公司詳細地址"
                   rules="required"
-                  v-model="form.options.company.CompanyAddressDetail"
+                  v-model="form.user.options.company.CompanyAddressDetail"
                   ref="sendFormInfoCompanyAddressDetail"
                 ></Field>
                 <ErrorMessage name="公司詳細地址" class="invalid-feedback"></ErrorMessage>
@@ -157,8 +224,9 @@
                   @click="updateImg($event)"
                   data-input="upLoadMutiImg"
                   :data-id="index"
+                  :disabled="!!temImageInputs[index].isUpDated"
                 >
-                  確定上傳
+                  {{ temImageInputs[index].isUpDated ? '已上傳' : '上傳圖片' }}
                 </button>
                 <button
                   type="button"
@@ -170,6 +238,7 @@
                 >
                   重選
                 </button>
+                <!-- <p class="testTxt">{{temImages[index]}}</p> -->
               </div>
               <div class="imageBtnBox">
                 <button
@@ -183,73 +252,7 @@
               </div>
             </div>
           </div>
-          <div class="mb-3">
-            <div>
-              <label for="sendFormInfoCompanyLogo" class="form-label">公司logo</label>
-              <input
-                id="sendFormInfoCompanyLogo"
-                name="公司logo"
-                type="file"
-                class="form-control d-none"
-                :class="{ 'is-invalid': errors['公司logo'] }"
-                ref="sendFormInfoCompanyLogo"
-                rules="required"
-                data-input="upLoadSingleImg"
-                @change="loadingImg($event)"
-                accept="image/*"
-              />
-              <div class="cropImgBox">
-                <div class="cropImgBox__cover" v-if="companyLogo.value"></div>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary cropImgBtn"
-                  @click="clickInput($event)"
-                  data-input="upLoadSingleImg"
-                  v-if="companyLogo.value == ''"
-                >
-                  選擇圖片
-                </button>
-                <img
-                  v-if="companyLogo.value !== ''"
-                  class="cropImg"
-                  ref="cropImgCompanyLogo"
-                  :src="companyLogo.value"
-                  alt=""
-                />
-              </div>
-              <button
-                type="button"
-                class="btn btn-outline-primary w-100 mb-1"
-                @click="updateImg($event)"
-                data-input="upLoadSingleImg"
-                :disabled="!!companyLogo.isUpDated"
-              >
-                {{ companyLogo.isUpDated ? '已上傳' : '上傳圖片' }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-secondary w-100"
-                @click="clickInput($event)"
-                v-if="companyLogo.value != ''"
-                data-input="upLoadSingleImg"
-              >
-                重選
-              </button>
-            </div>
-            <div>
-              <Field
-                id="sendFormInfoCompanyLogoCheck"
-                name="公司Logo"
-                type="text"
-                class="form-control d-none"
-                :class="{ 'is-invalid': errors['公司Logo'] }"
-                v-model="form.options.company.companyLogoUrl"
-                ref="sendFormInfoCompanyLogoCheck"
-                rules="required"
-              ></Field>
-              <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
-            </div>
-          </div>
+
           <div class="mb-3">
             <label for="sendFormInfoCompanyInfo" class="form-label">公司簡介</label>
             <Field
@@ -259,7 +262,7 @@
               class="form-control"
               :class="{ 'is-invalid': errors['公司簡介'] }"
               placeholder="請輸入"
-              v-model="form.options.company.companyInfo"
+              v-model="form.user.options.company.companyInfo"
               ref="sendFormInfoCompanyInfo"
               cols="30"
               rows="10"
@@ -321,7 +324,7 @@
               type="text"
               class="form-control"
               placeholder="請輸入聯絡人職稱"
-              v-model="form.options.company.contactPosition"
+              v-model="form.user.options.company.contactPosition"
               ref="sendFormInfoContactPosition"
             />
           </div>
@@ -343,7 +346,7 @@
                 class="form-control"
                 :class="{ 'is-invalid': errors['職位刊登額度'] }"
                 min="1"
-                v-model.number="form.options.addJobsToken"
+                v-model.number="form.user.options.jobToken"
                 ref="sendFormInfoAddJobsToken"
                 rules="required"
               >
@@ -377,38 +380,42 @@ export default {
   components: { ImageCropper },
   data() {
     return {
-      cartList: [],
-      cartTotal: null,
+      // 切圖工具
+      cropper: {},
+      // 建立企業資訊表單
       form: {
         user: {
           name: '',
           email: '',
           tel: '',
           address: '',
-        },
-        message: '',
-        options: {
-          pageAction: 'add-company',
-          company: {
-            companyName: '',
-            industryCategory: '',
-            companyAddress: '',
-            companyAddressDetail: '',
-            companyInfo: '',
-            contactPosition: '',
-            companyImagesUrl: [''],
-            companyLogoUrl: '',
+          options: {
+            formAction: 'add-company',
+            company: {
+              companyName: '',
+              industryCategory: '',
+              companyAddress: '',
+              companyAddressDetail: '',
+              companyInfo: '',
+              contactPosition: '',
+              companyImagesUrl: [''],
+              companyLogoUrl: '',
+            },
+            jobToken: 1,
           },
-          addJobsToken: 1,
+          message: '',
         },
       },
-      formState: false,
-      imageSrc: '',
-      cropper: {},
+      // 購物車資訊
+      cartList: [],
+      cartTotal: null,
+      // 圖片使用
       temImages: [''],
-      temImageInputs: [{ value: '', isUpDated: false }],
-      companyLogo: { value: '', isUpDated: false },
+      temImageInputs: [{ src: '', isUpDated: false }],
+      companyLogo: { src: '', isUpDated: false },
+      // 驗證使用
       uploadImgState: '',
+      formState: true,
     };
   },
   methods: {
@@ -428,11 +435,11 @@ export default {
       console.log(data, img, id);
       if (this.uploadImgState === 'upLoadMutiImg') {
         console.log(data, img, id);
-        this.temImageInputs[id].value = data;
+        this.temImageInputs[id].src = data;
         this.temImages[id] = img.src;
         console.log(this.temImageInputs[id]);
       } else if (this.uploadImgState === 'upLoadSingleImg') {
-        this.companyLogo.value = data;
+        this.companyLogo.src = data;
       }
     },
     clickInput(e, index) {
@@ -448,13 +455,14 @@ export default {
     },
     // 上傳圖片
     updateImg(e) {
+      emitter.emit('spinner-open');
       const nowId = e.target.dataset.id;
       this.uploadImgState = e.target.dataset.input;
       let item = null;
       if (this.uploadImgState === 'upLoadMutiImg') {
-        item = this.temImageInputs[nowId].value;
+        item = this.temImageInputs[nowId].src;
       } else if (this.uploadImgState === 'upLoadSingleImg') {
-        item = this.companyLogo.value;
+        item = this.companyLogo.src;
       }
       const base64String = item.replace('data:image/jpeg;base64,', '');
       this.$http({
@@ -473,82 +481,82 @@ export default {
           console.log(this.uploadImgState);
           if (this.uploadImgState === 'upLoadMutiImg') {
             this.temImageInputs[nowId].isUpDated = true;
-            this.form.options.companyImagesUrl[nowId] = res.data.data.link;
-            console.log(this.form.options.companyImagesUrl[nowId]);
+            this.form.user.options.company.companyImagesUrl[nowId] = res.data.data.link;
+            console.log(this.form.user.options.company.companyImagesUrl[nowId]);
           } else if (this.uploadImgState === 'upLoadSingleImg') {
             this.companyLogo.isUpDated = true;
-            this.form.options.company.companyLogoUrl = res.data.data.link;
-            console.log(this.form.options.company.companyLogoUrl);
+            this.form.user.options.company.companyLogoUrl = res.data.data.link;
+            console.log(this.form.user.options.company.companyLogoUrl);
           }
+          emitter.emit('spinner-close');
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    deleteImgInput(index) {
-      this.temImages.splice(index, 1);
-      this.temImageInputs.splice(index, 1);
-    },
-    checkCart() {
-      if (this.form.options.company.CompanyAddress !== '') {
-        this.form.user.address = `${this.form.options.company.CompanyAddressDetail}
-      ${this.form.options.company.CompanyAddress}`;
-        if (this.$refs.sendFormInfoCompanyInfo !== '') {
-          this.getCart();
-          this.formState = true;
-          this.sendForm();
-        } else {
-          this.formState = false;
-          console.log('有表單沒完成！');
-        }
-      } else {
-        console.log('沒選縣市！');
-      }
-    },
+    // 上傳表單前處理資料
     processFormData() {
-      this.temImageInputs.forEach((item) => {
-        if (item.isUpDated === false) {
-          this.formState = false;
-        }
-      });
+      emitter.emit('delete-imageCropper');
       if (this.companyLogo.isUpDated === false) {
         this.this.formState = false;
       }
-      const companyAdressCombie = `${this.form.options.company.companyAddress}
-      ${this.form.options.company.companyAddressDetail}`;
-      this.form.user.address = companyAdressCombie;
-      this.addCartJob(this.form.options.addJobsToken);
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
+      this.form.user.address = `${this.form.user.options.company.companyAddress}
+      ${this.form.user.options.company.companyAddressDetail}`;
       if (this.formState === false) {
         console.log('沒東西');
         this.deleteCart();
       } else {
-        const formData = {
-          data: this.form,
-        };
-        this.sendForm(url, formData);
+        this.addCartJob(this.form.user.options.jobToken);
       }
     },
-    sendForm(url, formData) {
+    // 上傳表單前加入職位額度
+    addCartJob(qty = 1) {
+      const id = '-MctDx8Qj8Tmw9eJoZqN';
+      const product = { data: { product_id: id, qty } };
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http
+        .post(url, product)
+        .then((res) => {
+          console.log(`${res.data.message}:${id}`);
+          this.getCart();
+          this.sendForm();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // 上傳表單
+    sendForm() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
+      const formData = {
+        data: this.form,
+      };
       this.$http
         .post(url, formData)
         .then((res) => {
           console.log(`${res.data.message}`);
           console.log(res);
-          this.deleteCart();
-          // this.$router.push('/');
+          emitter.emit('spinner-close');
+          if (res.data.success) {
+            this.deleteCart();
+            this.$router.push('/');
+          }
         })
         .catch((error) => {
           console.log(error);
+          emitter.emit('spinner-close');
         });
     },
     addImageUrl() {
       this.temImages.push('');
-      this.temImageInputs.push('');
+      this.form.user.options.company.companyImagesUrl.push('');
+      this.temImageInputs.push({ src: '', isUpDated: false });
     },
-    deleteImageUrl() {
-      this.temImages.pop('');
-      this.temImageInputs.pop('');
+    deleteImgInput(index) {
+      this.temImages.splice(index, 1);
+      this.form.user.options.company.companyImagesUrl.splice(index, 1);
+      this.temImageInputs.splice(index, 1);
     },
     deleteCart() {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
@@ -563,38 +571,23 @@ export default {
         });
     },
     deleteNum() {
-      if (this.form.options.addJobsToken > 1) {
-        this.form.options.addJobsToken -= 1;
+      if (this.form.user.options.jobToken > 1) {
+        this.form.user.options.jobToken -= 1;
       }
     },
     addNum() {
-      this.form.options.addJobsToken += 1;
-    },
-    addCartJob(qty = 1) {
-      const id = '-MctDx8Qj8Tmw9eJoZqN';
-      const product = { data: { product_id: id, qty } };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
-          emitter.emit('get-cart');
-          // this.$refs.productModal.modal.hide();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.form.user.options.jobToken += 1;
     },
     getCart() {
-      // emitter.emit('spinner-open');
+      emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http
         .get(url)
         .then((res) => {
           console.log(res);
           this.cartList = res.data.data.carts;
-          this.cartTotal = res.data.data.final_total;
-          // emitter.emit('spinner-close');
+          // this.cartTotal = res.data.data.final_total;
+          emitter.emit('spinner-close');
         })
         .catch((error) => {
           console.log(error);
@@ -605,7 +598,6 @@ export default {
     this.deleteCart();
   },
   mounted() {
-    emitter.emit('close-cart');
     emitter.emit('close-imageCropper');
   },
 };
@@ -637,6 +629,13 @@ export default {
     background-color: rgba(255, 255, 255, 0.3);
     position: absolute;
     // 設置背景混和模式為相乘模式
+  }
+  .testTxt{
+    display: block;
+    width: 100px;
+    height: 24px;
+    overflow: hidden;
+    word-wrap: break-word;
   }
 }
 </style>

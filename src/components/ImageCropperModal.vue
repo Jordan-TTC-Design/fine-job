@@ -17,7 +17,7 @@
             <div class="row">
               <div class="col-8">
                 <div class="cropImgBox">
-                  <img class="cropImgBox__img" ref="companyImage" :src="src" alt="" />
+                  <img class="cropImgBox__img" ref="companyImage" src="" alt="" />
                 </div>
               </div>
               <div class="col-4">
@@ -52,7 +52,6 @@ export default {
       cropper: {},
       destination: {},
       image: {},
-      src: '',
       cropsrc: '',
       nowId: 0,
       isImg: false,
@@ -68,7 +67,7 @@ export default {
           console.log(event);
           const dataURL = reader.result;
           this.$refs.companyImage.src = dataURL;
-          this.imageSrc = this.$refs.companyImage;
+          this.imageSrc = this.$refs.companyImage.src;
           // console.log(this.imageSrc);
           const image = this.$refs.companyImage;
           this.cropper = new Cropper(image, {
@@ -78,9 +77,6 @@ export default {
             zoomable: false,
             scalable: false,
             crop: () => {
-              // const canves = this.cropper.getCroppedCanvas();
-              // console.log(canves);
-              // console.log(this.cropper);
               const canves = this.cropper.getCroppedCanvas({
                 maxWidth: 4096,
                 maxHeight: 4096,
@@ -100,11 +96,13 @@ export default {
       this.closeModal();
     },
     cleanImg() {
+      console.log(`this.isImg1:${this.isImg}`);
       if (this.isImg) {
         console.log('delete');
         this.cropper.destroy();
         this.isImg = false;
       }
+      console.log(`this.isImg2:${this.isImg}`);
     },
     closeModal() {
       this.modal.hide();
@@ -119,6 +117,9 @@ export default {
   created() {
     emitter.on('close-imageCropper', () => {
       this.closeModal();
+    });
+    emitter.on('delete-imageCropper', () => {
+      this.cleanImg();
     });
     emitter.on('open-imageCropper', (data) => {
       console.log(data);
