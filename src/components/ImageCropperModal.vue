@@ -17,7 +17,7 @@
             <div class="row">
               <div class="col-8">
                 <div class="cropImgBox">
-                  <img class="cropImgBox__img" ref="companyImage" src="" alt="" />
+                  <img class="cropImgBox__img d-none" ref="companyImage" src="" alt="" />
                 </div>
               </div>
               <div class="col-4">
@@ -55,6 +55,7 @@ export default {
       cropsrc: '',
       nowId: 0,
       isImg: false,
+      imgData: {},
     };
   },
   methods: {
@@ -64,11 +65,10 @@ export default {
         this.isImg = true;
         reader.readAsDataURL(data);
         reader.onload = (event) => {
+          console.log(1);
           console.log(event);
           const dataURL = reader.result;
           this.$refs.companyImage.src = dataURL;
-          this.imageSrc = this.$refs.companyImage.src;
-          // console.log(this.imageSrc);
           const image = this.$refs.companyImage;
           this.cropper = new Cropper(image, {
             aspectRatio: 16 / 9,
@@ -87,6 +87,7 @@ export default {
               this.cropsrc = canves.toDataURL('image/jpeg');
             },
           });
+          this.openModal();
         };
       }
     },
@@ -96,8 +97,9 @@ export default {
       this.closeModal();
     },
     cleanImg() {
-      console.log(`this.isImg1:${this.isImg}`);
+      // console.log(`this.isImg1:${this.isImg}`);
       if (this.isImg) {
+        this.cropsrc = '';
         console.log('delete');
         this.cropper.destroy();
         this.isImg = false;
@@ -106,8 +108,10 @@ export default {
     },
     closeModal() {
       this.modal.hide();
-      this.cleanImg();
-      // window.setTimeout(this.cleanImg(), 2000);
+      // this.cleanImg();
+      setTimeout(() => {
+        this.cleanImg();
+      }, 1500);
     },
     openModal() {
       this.modal.show();
@@ -121,6 +125,8 @@ export default {
     emitter.on('delete-imageCropper', () => {
       this.cleanImg();
     });
+  },
+  mounted() {
     emitter.on('open-imageCropper', (data) => {
       console.log(data);
       if (data[2] === 'upLoadSingleImg') {
@@ -129,26 +135,27 @@ export default {
         const id = Number(data[1]);
         this.nowId = id + 1;
       }
-      this.openModal();
-      this.putImage(data[0]);
+      // this.putImage(data[0]);
+      setTimeout(() => {
+        this.putImage(data[0]);
+      }, 1500);
     });
-  },
-  mounted() {
     this.modal = new Modal(this.$refs.imageCropperModal);
   },
 };
 </script>
 
 <style lang="scss">
-.cropImgBox{
+.cropImgBox {
+  display: block;
   width: 100%;
   height: 480px;
-  background: color #f7f7f7;;
-  .cropImgBox__img{
-    width: 100%;
+  background: color #f7f7f7;
+  .cropImgBox__img {
+    max-width: 100%;
   }
 }
-.compeletedImgBox{
+.compeletedImgBox {
   width: 100%;
   height: 100%;
   display: flex;
@@ -160,5 +167,9 @@ export default {
     max-height: 112px;
     object-fit: contain;
   }
+}
+img {
+  display: block;
+  max-width: 100px;
 }
 </style>
