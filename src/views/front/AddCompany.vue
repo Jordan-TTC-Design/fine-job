@@ -119,18 +119,18 @@
             <ErrorMessage name="公司行業類別" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="mb-3">
-            <label for="sendFormInfoCompanyAddress" class="form-label">公司地址</label>
+            <label for="sendFormInfoCompanyAddressCity" class="form-label">公司地址</label>
             <div class="d-flex">
               <div class=" flex-shrink-1 me-2">
                 <Field
                   name="公司地址縣市"
                   as="select"
-                  id="sendFormInfoCompanyAddress"
+                  id="sendFormInfoCompanyAddressCity"
                   class="form-control form-select "
                   :class="{ 'is-invalid': errors['公司地址縣市'] }"
                   rules="required"
-                  v-model="form.user.options.company.CompanyAddress"
-                  ref="sendFormInfoCompanyAddress"
+                  v-model="form.user.options.company.companyAddressCity"
+                  ref="sendFormInfoCompanyAddressCity"
                 >
                   <option value="" disabled selected>選擇縣市</option>
                   <option value="基隆市">基隆市</option>
@@ -162,7 +162,7 @@
                   :class="{ 'is-invalid': errors['公司詳細地址'] }"
                   placeholder="請輸入公司詳細地址"
                   rules="required"
-                  v-model="form.user.options.company.CompanyAddressDetail"
+                  v-model="form.user.options.company.companyAddressDetail"
                   ref="sendFormInfoCompanyAddressDetail"
                 ></Field>
                 <ErrorMessage name="公司詳細地址" class="invalid-feedback"></ErrorMessage>
@@ -394,7 +394,7 @@ export default {
             company: {
               companyName: '',
               industryCategory: '',
-              companyAddress: '',
+              companyAddressCity: '',
               companyAddressDetail: '',
               companyInfo: '',
               contactPosition: '',
@@ -497,11 +497,12 @@ export default {
     // 上傳表單前處理資料
     processFormData() {
       emitter.emit('delete-imageCropper');
+      const city = this.form.user.options.company.companyAddressCity;
+      const detail = this.form.user.options.company.companyAddressDetail;
+      this.form.user.address = city + detail;
       if (this.companyLogo.isUpDated === false) {
         this.this.formState = false;
       }
-      this.form.user.address = `${this.form.user.options.company.companyAddress}
-      ${this.form.user.options.company.companyAddressDetail}`;
       if (this.formState === false) {
         console.log('沒東西');
         this.deleteCart();

@@ -146,16 +146,16 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="companyAdressCity">縣市</label>
+                    <label for="companyAddressCity">縣市</label>
                     <select
                       name="公司地址縣市"
-                      id="companyAdressCity"
+                      id="companyAddressCity"
                       class="form-control form-select"
-                      v-model="companyData.options.company.CompanyAddress"
-                      ref="companyAdressCity"
+                      v-model="companyData.options.company.companyAddressCity"
+                      ref="companyAddressCity"
                     >
-                      <option :value="companyData.options.company.CompanyAddress" selected>
-                        {{ companyData.options.company.CompanyAddress }}</option
+                      <option :value="companyData.options.company.companyAddressCity" selected>
+                        {{ companyData.options.company.companyAddressCity }}</option
                       >
                       <option v-for="item in city" :value="item" :key="item">{{ item }} </option>
                     </select>
@@ -163,13 +163,13 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="companyAdressDetail">詳細地址</label>
+                    <label for="companyAddressDetail">詳細地址</label>
                     <input
                       type="text"
-                      id="companyAdressDetail"
+                      id="companyAddressDetail"
                       class="form-control"
                       placeholder="請輸入詳細地址"
-                      v-model="companyData.options.company.CompanyAddressDetail"
+                      v-model="companyData.options.company.companyAddressDetail"
                     />
                   </div>
                 </div>
@@ -278,8 +278,8 @@ export default {
           imageUrl: this.companyData.options.company.companyLogoUrl,
           imagesUrl: this.companyData.options.company.companyImagesUrl,
           options: {
-            companyAdressCity: this.companyData.options.company.CompanyAdress,
-            companyAdressDetail: this.companyData.options.company.CompanyAdressDetail,
+            companyAddressCity: this.companyData.options.company.companyAddressCity,
+            companyAddressDetail: this.companyData.options.company.companyAddressDetail,
             companyContact: this.companyData.name,
             companyContactPosition: this.companyData.options.company.contactPosition,
             companyTel: this.companyData.tel,

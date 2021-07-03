@@ -149,7 +149,7 @@ export default {
           emitter.emit('spinner-close');
           // this.getOrder();
           if (res.data.success) {
-            this.deleteOrder();
+            // this.deleteOrder();
           }
         })
         .catch((error) => {
