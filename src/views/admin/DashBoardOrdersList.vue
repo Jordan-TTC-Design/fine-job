@@ -1,5 +1,9 @@
 <template>
-  <NewCompanyModal ref="NewCompanyModal" :tem-item="temItem"></NewCompanyModal>
+  <NewCompanyModal
+    ref="NewCompanyModal"
+    :tem-item="temItem"
+    @new-company="newCompany"
+  ></NewCompanyModal>
   <!-- <DeleteProductModal
     ref="DeleteProductModal"
     :tem-product="temProduct"
@@ -14,7 +18,7 @@
           <div class="listBox row">
             <div class="col-6 d-flex align-items-center">
               <img class="listBox__logo" :src="item.user.options.company.companyLogoUrl" alt="" />
-              <p>{{ index + 1 }} {{ item.user.options.company.companyName }}</p>
+              <p>{{ index + 1 }} {{ item.user.options.company.companyName }}{{ item.id }}</p>
             </div>
 
             <div class="input-group d-flex justify-content-end col-6 w-auto">
@@ -23,11 +27,18 @@
                 class="btn btn-outline-secondary"
                 data-action="newItem"
                 :data-id="item.id"
-                @click="newCompany($event)"
+                @click="checkCompany($event)"
               >
                 創建
               </button>
-              <button type="button" class="btn btn-outline-secondary">刪除</button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="deleteItem"
+                :data-id="item.id"
+              >
+                刪除
+              </button>
             </div>
           </div>
         </li>
@@ -72,6 +83,7 @@
 import NewCompanyModal from '@/components/admin/DashBoardNewCompanyModal.vue';
 // import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';
+import webData from '@/components/helpers/webData';
 
 export default {
   components: {
@@ -90,9 +102,10 @@ export default {
   methods: {
     classifyOrder() {
       const array = this.orders;
+      this.addCompanysOrders = [];
       array.forEach((item) => {
         if (item.user.options.formAction !== undefined) {
-          console.log(item);
+          // console.log(item);
           if (item.user.options.formAction === 'add-company') {
             this.addCompanysOrders.push(item);
           }
@@ -112,23 +125,58 @@ export default {
           console.log(res.data);
           console.log(res.data.orders);
           this.orders = res.data.orders;
-          this.pagination = res.data.pagination;
+          // this.pagination = res.data.pagination;
           this.classifyOrder();
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    newCompany(e) {
+    checkCompany(e) {
       const nowId = e.target.dataset.id;
       // const nowAction = e.target.dataset.action;
       this.temItem = this.addCompanysOrders.filter((item) => item.id === nowId);
       emitter.emit('open-new-company');
     },
+    newCompany(newCompanyitem) {
+      console.log(newCompanyitem);
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      this.$http
+        .post(url, newCompanyitem)
+        .then((res) => {
+          console.log(res.data);
+          emitter.emit('spinner-close');
+          // this.getOrder();
+          if (res.data.success) {
+            this.deleteOrder();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteOrder() {
+      emitter.emit('spinner-open');
+      const { id } = this.temItem[0];
+      console.log(id);
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${id}`;
+      this.$http
+        .delete(url)
+        .then((res) => {
+          console.log(res);
+          this.getOrder();
+          emitter.emit('spinner-close');
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   created() {},
   mounted() {
     this.getOrder();
+    console.log(webData);
   },
 };
 </script>

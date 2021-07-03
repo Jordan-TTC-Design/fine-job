@@ -112,7 +112,7 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.cartList = res.data.data.carts;
           this.cartTotal = res.data.data.final_total;
           // emitter.emit('spinner-close');
