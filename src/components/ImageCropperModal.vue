@@ -108,7 +108,7 @@ export default {
     },
     closeModal() {
       this.modal.hide();
-      // this.cleanImg();
+      this.cleanImg();
       setTimeout(() => {
         this.cleanImg();
       }, 1500);

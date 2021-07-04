@@ -193,7 +193,6 @@
                   class="form-control d-none"
                   :class="{ 'is-invalid': errors['職位照片'] }"
                   ref="sendFormInfoJobImage"
-                  rules="required"
                   data-input="upLoadSingleImg"
                   @change="loadingImg($event)"
                   accept="image/*"
@@ -243,7 +242,7 @@
                   type="text"
                   class="form-control d-none"
                   :class="{ 'is-invalid': errors['職位照片'] }"
-                  v-model="form.user.options.company.companyLogoUrl"
+                  v-model="this.form.user.options.job.jobImageUrl"
                   ref="sendFormInfoJobImageCheck"
                   rules="required"
                 ></Field>
@@ -274,13 +273,17 @@
               <label class="form-label d-block">是否要升級成為付費推廣職位</label>
               <div class="form-check form-switch">
                 <input
-                  class="form-check-input"
                   type="checkbox"
+                  class="form-check-input"
                   id="sendFormInfoCostToken"
-                  v-model="form.user.options.company.costToken"
+                  data-action="changeProductState"
+                  data-id="${item.id}"
+                  :checked="form.user.options.job.costToken > 0 ? true : false"
+                  @change="changeProductState"
                 />
-                <label class="form-check-label" for="sendFormInfoCostToken">
-                  使用一個職位額度升級，時效七天
+                <label class="form-check-label" for="sendFormInfoCostToken"
+                  >
+                  {{ form.user.options.job.costToken > 0 ? '付費推廣(時效七天)' : '免費職位刊登' }}
                 </label>
                 <p>剩餘職位刊登額度：{{ form.user.options.company.companyJobToken }}</p>
               </div>
@@ -521,11 +524,14 @@ export default {
             },
             company: {
               companyName: '',
+              industryCategory: '',
               costToken: 1,
               companyJobToken: 0,
               contactPosition: '',
               companyAddressCity: '',
               companyAddressDetail: '',
+              companyLogoUrl: '',
+              companyImagesUrl: '',
             },
           },
         },
@@ -601,6 +607,15 @@ export default {
           console.log(error);
         });
     },
+    changeProductState() {
+      if (this.form.user.options.job.costToken > 0) {
+        this.form.user.options.job.costToken = 0;
+        this.form.user.options.company.companyJobToken += 1;
+      } else {
+        this.form.user.options.job.costToken = 1;
+        this.form.user.options.company.companyJobToken -= 1;
+      }
+    },
     changeStep(way) {
       if (way === 'back' && this.formStep > 0) {
         this.formStep -= 1;
@@ -620,11 +635,14 @@ export default {
           this.form.user.email = tempObj.companyEmail;
           this.form.user.tel = tempObj.companyTel;
           this.form.user.options.company.companyAddressCity = tempObj.companyAddressCity;
+          this.form.user.options.company.industryCategory = item.category;
           this.form.user.options.company.companyAddressDetail = tempObj.companyAddressDetail;
           this.form.user.options.company.contactPosition = tempObj.companyContactPosition;
+          this.form.user.options.company.companyLogoUrl = item.imageUrl;
+          this.form.user.options.company.companyImagesUrl = item.imagesUrl;
         }
       });
-      console.log(this.form.user.name, this.form.user.email, this.form.user.tel);
+      console.log(this.form);
     },
     addCartJob(qty = 1) {
       const id = '-MdgiKJN2vitTB6FWCvw';
@@ -716,7 +734,7 @@ export default {
     },
     sortCompany(array) {
       array.forEach((item) => {
-        if (item.description === 'add-company') {
+        if (item.description === '企業') {
           this.companyList.push(item);
         }
       });

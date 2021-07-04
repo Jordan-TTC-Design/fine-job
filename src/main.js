@@ -11,6 +11,7 @@ import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+import date from '@/components/helpers/filters';
 import App from './App.vue';
 import router from './router';
 
@@ -21,11 +22,10 @@ configure({
   generateMessage: localize({ zh_TW: zhTW }),
   validateOnInput: true,
 });
-
 setLocale('zh_TW');
 
 const app = createApp(App);
-
+app.config.globalProperties.$filters = { date };
 app.component('Form', Form);
 app.component('Field', Field);
 app.component('ErrorMessage', ErrorMessage);

@@ -1,20 +1,32 @@
 <template>
   <NewCompanyModal
     ref="NewCompanyModal"
-    :tem-item="temItem"
+    v-if="modalName === 'newCompany'"
+    :tem-company="temCompany"
     @new-company="newCompany"
   ></NewCompanyModal>
-  <!-- <DeleteProductModal
-    ref="DeleteProductModal"
-    :tem-product="temProduct"
-    v-on:deltetProduct="deleteProduct"
-  ></DeleteProductModal> -->
+  <NewJobModal
+    v-if="modalName === 'newJob'"
+    ref="NewCompanyModal"
+    :tem-job="temJob"
+    @new-job="newJob"
+  ></NewJobModal>
   <div class="container-fuild">
     <div class="container">
       <h3 class="text-center mb-4">全部企業創建訂單列表</h3>
-
-      <ul class="row" v-for="(item, index) in addCompanysOrders" :key="item.id">
-        <li class="col-12">
+      <ul class="d-flex btn-group">
+        <li v-for="(item, index) in orderCategory" :key="index">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            @click.prevent="orderCategorySelected = item.action"
+          >
+            {{ item.value }}
+          </button>
+        </li>
+      </ul>
+      <ul class="row" v-if="orderCategorySelected === 'add-company'">
+        <li class="col-12" v-for="(item, index) in addCompanyOrders" :key="item.id">
           <div class="listBox row">
             <div class="col-6 d-flex align-items-center">
               <img class="listBox__logo" :src="item.user.options.company.companyLogoUrl" alt="" />
@@ -22,12 +34,13 @@
             </div>
 
             <div class="input-group d-flex justify-content-end col-6 w-auto">
+              <p class="me-4">{{$filters.date(item.create_at)}}</p>
               <button
                 type="button"
                 class="btn btn-outline-secondary"
-                data-action="newItem"
+                data-action="newCompany"
                 :data-id="item.id"
-                @click="checkCompany($event)"
+                @click="newItemModal($event)"
               >
                 創建
               </button>
@@ -36,6 +49,42 @@
                 class="btn btn-outline-secondary"
                 data-action="deleteItem"
                 :data-id="item.id"
+                @click="deleteOrder(item.id)"
+              >
+                刪除
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="row" v-if="orderCategorySelected === 'add-job'">
+        <li class="col-12" v-for="(item, index) in addJobOrders" :key="index">
+          <div class="listBox row">
+            <div class="col-6 d-flex align-items-center">
+              <img
+                class="listBox__logo"
+                :src="item.user.options.job.jobImageUrl || tempImgUrl"
+                alt=""
+              />
+              <p>{{ index + 1 }} {{ item.user.options.job.jobName }}{{ item.id }}</p>
+            </div>
+
+            <div class="input-group d-flex justify-content-end col-6 w-auto">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="newJob"
+                :data-id="item.id"
+                @click="newItemModal($event)"
+              >
+                創建
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="deleteItem"
+                :data-id="item.id"
+                @click="deleteOrder(item.id)"
               >
                 刪除
               </button>
@@ -44,31 +93,6 @@
         </li>
       </ul>
     </div>
-    <table class="table mt-4">
-      <thead>
-        <tr>
-          <th>產品名稱</th>
-          <th width="120">原價</th>
-          <th width="120">售價</th>
-          <th width="150">是否啟用</th>
-          <th width="120">刪除</th>
-        </tr>
-      </thead>
-
-      <!-- <tbody id="productList">
-        <tr
-          v-is="'OrderCard'"
-          v-for="order in orders"
-          v-on:change-product-state="changeProductState"
-          v-on:open-modal="openModal"
-          :key="order.id"
-          :item="product"
-        ></tr>
-      </tbody> -->
-    </table>
-    <p>
-      <!-- 目前有 <span id="productCount">{{ orders.length }}</span> 項產品 -->
-    </p>
   </div>
   <!-- <ProductModal ref="ProductModal" :tem-product="temProduct"></ProductModal>
   <DeleteProductModal
@@ -81,6 +105,7 @@
 <script>
 // import OrderCard from '@/components/admin/DashBoardOrderCard.vue';
 import NewCompanyModal from '@/components/admin/DashBoardNewCompanyModal.vue';
+import NewJobModal from '@/components/admin/DashBoardNewJobModal.vue';
 // import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';
 import webData from '@/components/helpers/webData';
@@ -88,6 +113,7 @@ import webData from '@/components/helpers/webData';
 export default {
   components: {
     NewCompanyModal,
+    NewJobModal,
     // OrderCard,
     // DeleteProductModal,
   },
@@ -95,25 +121,45 @@ export default {
     return {
       orders: [],
       pagination: {},
-      addCompanysOrders: [],
+      orderCategory: [
+        { value: '新企業列表', action: 'add-company' },
+        { value: '新職位列表', action: 'add-job' },
+        { value: '新申請列表', action: 'apply-job' },
+      ],
+      orderCategorySelected: 'add-company',
+      addCompanyOrders: [],
+      addJobOrders: [],
       temItem: {},
+      temCompany: {},
+      temJob: {},
+      modalName: '',
+      tempImgUrl:
+        'https://images.unsplash.com/photo-1622495506073-56b1152a010c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=967&q=80Í',
     };
   },
+  // computed: {
+  //   filterOrder() {
+  //     return this.orders.filter(
+  //       (item) => item.user.options.formAction === this.orderCategorySelected,
+  //     );
+  //   },
+  // },
   methods: {
     classifyOrder() {
       const array = this.orders;
-      this.addCompanysOrders = [];
       array.forEach((item) => {
         if (item.user.options.formAction !== undefined) {
-          // console.log(item);
           if (item.user.options.formAction === 'add-company') {
-            this.addCompanysOrders.push(item);
+            this.addCompanyOrders.push(item);
+          } else if (item.user.options.formAction === 'add-job') {
+            this.addJobOrders.push(item);
           }
         } else if (!item.user.options.formAction) {
           console.log('沒有formAction');
         }
       });
-      console.log(this.addCompanysOrders);
+      console.log(this.addCompanyOrders);
+      console.log(this.addJobOrders);
     },
     getOrder(pageNum = 1) {
       emitter.emit('spinner-open');
@@ -126,24 +172,36 @@ export default {
           console.log(res.data.orders);
           this.orders = res.data.orders;
           // this.pagination = res.data.pagination;
+          this.addCompanyOrders = [];
+          this.addjobOrders = [];
           this.classifyOrder();
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    checkCompany(e) {
+    newItemModal(e) {
       const nowId = e.target.dataset.id;
-      // const nowAction = e.target.dataset.action;
-      this.temItem = this.addCompanysOrders.filter((item) => item.id === nowId);
-      emitter.emit('open-new-company');
+      const nowAction = e.target.dataset.action;
+      console.log(nowAction, nowId);
+      if (nowAction === 'newCompany') {
+        this.modalName = nowAction;
+        this.temCompany = this.addCompanyOrders.filter((item) => item.id === nowId);
+        console.log(this.temCompany);
+        emitter.emit('open-new-company');
+      } else if (nowAction === 'newJob') {
+        this.modalName = nowAction;
+        this.temJob = this.addJobOrders.filter((item) => item.id === nowId);
+        console.log(this.temJob);
+        emitter.emit('open-new-job');
+      }
     },
-    newCompany(newCompanyitem) {
-      console.log(newCompanyitem);
+    newCompany(newCompanyItem) {
+      console.log(newCompanyItem);
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
       this.$http
-        .post(url, newCompanyitem)
+        .post(url, newCompanyItem)
         .then((res) => {
           console.log(res.data);
           emitter.emit('spinner-close');
@@ -156,9 +214,27 @@ export default {
           console.log(error);
         });
     },
-    deleteOrder() {
+    newJob(newJobItem) {
+      console.log(newJobItem);
       emitter.emit('spinner-open');
-      const { id } = this.temItem[0];
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      this.$http
+        .post(url, newJobItem)
+        .then((res) => {
+          console.log(res.data);
+          emitter.emit('spinner-close');
+          // this.getOrder();
+          if (res.data.success) {
+            // this.deleteOrder(this.temItem[0]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    deleteOrder(id) {
+      emitter.emit('spinner-open');
+      // const { id } = this.temItem[0];
       console.log(id);
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${id}`;
       this.$http

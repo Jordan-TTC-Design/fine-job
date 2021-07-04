@@ -1,15 +1,15 @@
 <template>
   <div
-    ref="newCompanyModal"
+    ref="editCompanyModal"
     class="modal fade"
     tabindex="-1"
-    aria-labelledby="newCompanyModalLabel"
+    aria-labelledby="editCompanyModalLabel"
   >
     <div class="modal-dialog modal-xl">
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
-          <h5 id="newCompanyModalLabel" class="modal-title">
-            <span>新建企業</span>
+          <h5 id="editCompanyModalLabel" class="modal-title">
+            <span>編輯企業</span>
           </h5>
           <button
             type="button"
@@ -28,7 +28,7 @@
                   type="text"
                   class="form-control"
                   placeholder="請輸入公司名稱"
-                  v-model="companyData.options.company.companyName"
+                  v-model="companyData.title"
                 />
               </div>
             </div>
@@ -40,7 +40,7 @@
                   type="text"
                   class="form-control"
                   placeholder="企業聯絡人"
-                  v-model="companyData.name"
+                  v-model="companyData.options.companyContact"
                 />
               </div>
             </div>
@@ -52,7 +52,7 @@
                   type="text"
                   class="form-control"
                   placeholder="聯絡電話"
-                  v-model="companyData.tel"
+                  v-model="companyData.options.companyTel"
                 />
               </div>
             </div>
@@ -64,7 +64,7 @@
                   type="text"
                   class="form-control"
                   placeholder="聯絡Email"
-                  v-model="companyData.email"
+                  v-model="companyData.options.companyEmail"
                 />
               </div>
             </div>
@@ -76,7 +76,7 @@
                   type="text"
                   class="form-control"
                   placeholder="聯絡人職位"
-                  v-model="companyData.options.company.contactPosition"
+                  v-model="companyData.options.companyContactPosition"
                 />
               </div>
             </div>
@@ -87,15 +87,15 @@
                   type="text"
                   class="form-control"
                   placeholder="請輸入圖片連結"
-                  v-model="companyData.options.company.companyLogoUrl"
+                  v-model="companyData.imageUrl"
                 />
               </div>
-              <img class="img-fluid" alt="" :src="companyData.options.company.companyLogoUrl" />
+              <img class="img-fluid" alt="" :src="companyData.imageUrl" />
             </div>
             <div class="col-12 mb-3">
-              <div v-if="companyData.options.company.companyImagesUrl.length > 0" class="row ">
+              <div v-if="companyData.imagesUrl.length > 0" class="row ">
                 <div
-                  v-for="(item, index) in companyData.options.company.companyImagesUrl"
+                  v-for="(item, index) in companyData.imagesUrl"
                   :key="index"
                   class="col-4"
                 >
@@ -105,7 +105,7 @@
                       type="text"
                       class="form-control"
                       placeholder="請輸入圖片連結"
-                      v-model="companyData.options.company.companyImagesUrl[index]"
+                      v-model="companyData.imagesUrl[index]"
                     />
                   </div>
                   <img class="img-fluid" alt="" :src="item" />
@@ -120,11 +120,11 @@
                     name="公司行業類別"
                     id="newCompanyIndustryCategory"
                     class="form-control form-select"
-                    v-model="companyData.options.company.industryCategory"
+                    v-model="companyData.category"
                   >
                     <!-- <option value="">選擇您公司的行業類別</option> -->
-                    <option :value="companyData.options.company.industryCategory" selected>
-                      {{ companyData.options.company.industryCategory }}</option
+                    <option :value="companyData.category" selected>
+                      {{ companyData.category }}</option
                     >
                     <option v-for="item in industryCategory" :value="item" :key="item"
                       >{{ item }}
@@ -138,7 +138,7 @@
                     type="text"
                     class="form-control"
                     placeholder="請輸入職位額度"
-                    v-model="companyData.options.jobToken"
+                    v-model="companyData.options.companyJobToken"
                   />
                 </div>
               </div>
@@ -151,11 +151,11 @@
                       name="公司地址縣市"
                       id="companyAddressCity"
                       class="form-control form-select"
-                      v-model="companyData.options.company.companyAddressCity"
+                      v-model="companyData.options.companyAddressCity"
                       ref="companyAddressCity"
                     >
-                      <option :value="companyData.options.company.companyAddressCity" selected>
-                        {{ companyData.options.company.companyAddressCity }}</option
+                      <option :value="companyData.options.companyAddressCity" selected>
+                        {{ companyData.options.companyAddressCity }}</option
                       >
                       <option v-for="item in city" :value="item" :key="item">{{ item }} </option>
                     </select>
@@ -169,7 +169,7 @@
                       id="companyAddressDetail"
                       class="form-control"
                       placeholder="請輸入詳細地址"
-                      v-model="companyData.options.company.companyAddressDetail"
+                      v-model="companyData.options.companyAddressDetail"
                     />
                   </div>
                 </div>
@@ -181,7 +181,7 @@
                       type="text"
                       class="form-control"
                       placeholder="請輸入公司簡介"
-                      v-model="companyData.options.company.companyInfo"
+                      v-model="companyData.content"
                       cols="30"
                       rows="10"
                     >
@@ -196,7 +196,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="processNewCompanyData">
+          <button type="button" class="btn btn-primary" @click="processCompanyData">
             確認
           </button>
         </div>
@@ -250,8 +250,7 @@ export default {
         '礦業及土石採取業',
         '住宿、餐飲服務業',
       ],
-      temItemData: {},
-      companyData: { options: { company: { companyImagesUrl: [] } } },
+      companyData: {},
     };
   },
   methods: {
@@ -264,38 +263,37 @@ export default {
     // updateProduct() {
     //   this.$emit('update-product', this.temItemData);
     // },
-    processNewCompanyData() {
+    processCompanyData() {
       const temObj = this.companyData;
-      const newCompanyItem = {
+      const companyItem = {
         data: {
-          title: temObj.options.company.companyName,
-          category: temObj.options.company.industryCategory,
+          title: temObj.title,
+          category: temObj.category,
           origin_price: 0,
           price: 0,
           unit: '間',
           description: '企業',
-          content: temObj.options.company.companyInfo,
+          content: temObj.content,
           is_enabled: 1,
-          imageUrl: temObj.options.company.companyLogoUrl,
-          imagesUrl: temObj.options.company.companyImagesUrl,
+          imageUrl: temObj.imageUrl,
+          imagesUrl: temObj.imagesUrl,
           options: {
-            companyAddressCity: temObj.options.company.companyAddressCity,
-            companyAddressDetail: temObj.options.company.companyAddressDetail,
-            companyContact: temObj.name,
-            companyContactPosition: temObj.options.company.contactPosition,
-            companyTel: temObj.tel,
-            companyEmail: temObj.email,
-            companyJobToken: temObj.options.jobToken,
+            companyAddressCity: temObj.options.companyAddressCity,
+            companyAddressDetail: temObj.options.companyAddressDetail,
+            companyContact: temObj.options.companyContact,
+            companyContactPosition: temObj.options.companyContactPosition,
+            companyTel: temObj.options.companyTel,
+            companyEmail: temObj.options.companyEmail,
+            companyJobToken: temObj.options.companyJobToken,
             create: Math.floor(Date.now() / 1000),
           },
         },
       };
-      console.log(newCompanyItem);
+      console.log(companyItem);
       // this.newCompany(newCompanyItem);
-      this.$emit('new-company', newCompanyItem);
+      this.$emit('update-company', companyItem);
       this.closeModal();
-      this.temItemData = {};
-      this.companyData = { options: { company: { companyImagesUrl: [] } } };
+      this.companyData = {};
     },
 
     openModal() {
@@ -309,23 +307,22 @@ export default {
     temCompany: {
       deep: true,
       handler(newValue) {
-        [this.temItemData] = newValue;
-        this.companyData = newValue[0].user;
-        console.log(this.temItemData);
+        [this.companyData] = newValue;
+        console.log(this.companyData);
       },
     },
   },
   created() {
-    this.temItemData = this.temCompany;
-    emitter.on('close-new-company', () => {
+    [this.companyData] = this.temCompany;
+    emitter.on('close-edit-company', () => {
       this.closeModal();
     });
-    emitter.on('open-new-company', () => {
+    emitter.on('open-edit-company', () => {
       this.openModal();
     });
   },
   mounted() {
-    this.modal = new Modal(this.$refs.newCompanyModal);
+    this.modal = new Modal(this.$refs.editCompanyModal);
   },
 };
 </script>

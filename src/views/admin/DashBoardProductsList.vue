@@ -1,41 +1,101 @@
 <template>
-  <ProductModal ref="ProductModal" :tem-product="temProduct"></ProductModal>
   <DeleteProductModal
     ref="DeleteProductModal"
     :tem-product="temProduct"
-    v-on:deltetProduct="deleteProduct"
+    @deltet-product="deleteProduct"
   ></DeleteProductModal>
-  <div class="container-fuild">
+  <EditCompanyModal
+    ref="EditCompanyModal"
+    v-if="modalName === 'editCompany'"
+    :tem-company="temCompany"
+    @update-company="updateCompany"
+  ></EditCompanyModal>
+  <div class="container">
     全部產品列表
-    <div class="text-end mt-4">
+    <!-- <div class="text-end mt-4">
       <button class="btn btn-primary" data-action="newProduct" @click="openModal($event, item)">
         建立新的產品
       </button>
-    </div>
-    <table class="table mt-4">
-      <thead>
-        <tr>
-          <th>產品名稱</th>
-          <th width="120">原價</th>
-          <th width="120">售價</th>
-          <th width="150">是否啟用</th>
-          <th width="120">刪除</th>
-        </tr>
-      </thead>
-      <tbody id="productList">
-        <tr
-          v-is="'ProductCard'"
-          v-for="product in products"
-          v-on:change-product-state="changeProductState"
-          v-on:open-modal="openModal"
-          :key="product.id"
-          :item="product"
-        ></tr>
-      </tbody>
-    </table>
-    <p>
-      目前有 <span id="productCount">{{ products.length }}</span> 項產品
-    </p>
+    </div> -->
+    <ul class="d-flex btn-group">
+      <li v-for="(item, index) in productCategory" :key="index">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          @click="productCategorySelected = item.value"
+        >
+          {{ item.value }}
+        </button>
+      </li>
+    </ul>
+    <ul class="row" v-if="productCategorySelected === '企業'">
+      <li class="col-12" v-for="(item, index) in companiesList" :key="item.id">
+        <div class="listBox row">
+          <div class="col-6 d-flex align-items-center">
+            <img class="listBox__logo" :src="item.imageUrl" alt="" />
+            <p>{{ index + 1 }} {{ item.title }}{{ item.id }}</p>
+          </div>
+          <div class="input-group d-flex justify-content-end col-6 w-auto">
+            <p class="me-4">{{ $filters.date(item.options.create) }}</p>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-action="editCompany"
+              :data-id="item.id"
+              @click="editItemModal($event)"
+            >
+              編輯
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-action="deleteItem"
+              :data-id="item.id"
+              @click="openModal($event,item)"
+            >
+              刪除
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul class="row" v-if="productCategorySelected === '職位'">
+        <li class="col-12" v-for="(item, index) in jobsList" :key="index">
+          <div class="listBox row">
+            <div class="col-6 d-flex align-items-center">
+              <img
+                class="listBox__logo"
+                :src="item.imageUrl || tempImgUrl"
+                alt=""
+              />
+              <p>{{ index + 1 }} {{ item.options.company.companyName }} - </p>
+              <p>{{ item.title }}{{ item.id }}</p>
+            </div>
+
+            <div class="input-group d-flex justify-content-end col-6 w-auto">
+            <p class="me-4">{{ $filters.date(item.options.job.create) }}</p>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="newJob"
+                :data-id="item.id"
+                @click="newItemModal($event)"
+              >
+                編輯
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-action="deleteItem"
+                :data-id="item.id"
+                @click="openModal($event,item)"
+              >
+                刪除
+              </button>
+            </div>
+          </div>
+        </li>
+      </ul>
     <!-- <pagination-compo
         :page="pagination"
         @get-product="getProductData"
@@ -44,15 +104,14 @@
 </template>
 
 <script>
-import ProductCard from '@/components/admin/DashBoardProductCard.vue';
-import ProductModal from '@/components/admin/DashBoardProductModal.vue';
+// import ProductCard from '@/components/admin/DashBoardProductCard.vue';
+import EditCompanyModal from '@/components/admin/DashBoardEditCompanyModal.vue';
 import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';
 
 export default {
   components: {
-    ProductModal,
-    ProductCard,
+    EditCompanyModal,
     DeleteProductModal,
   },
   data() {
@@ -60,6 +119,19 @@ export default {
       products: [],
       apiToken: '',
       pagination: {},
+      jobsList: [],
+      companiesList: [],
+      systemList: [],
+      productCategory: [
+        { value: '企業', action: '企業' },
+        { value: '職位', action: '職位' },
+        { value: '系統', action: '系統' },
+      ],
+      productCategorySelected: '企業',
+      temCompany: {},
+      temJob: {},
+      modalName: '',
+      nowAction: '',
       temProduct: {
         title: '',
         imageUrl: null,
@@ -76,16 +148,74 @@ export default {
       },
     };
   },
+  watch: {
+    productCategorySelected(nv) {
+      console.log(nv);
+    },
+  },
   methods: {
-    getProductData(pageNum = 1) {
+    editItemModal(e) {
+      const nowId = e.target.dataset.id;
+      const nowAction = e.target.dataset.action;
+      console.log(nowAction, nowId);
+      if (nowAction === 'editCompany') {
+        this.modalName = nowAction;
+        this.temCompany = this.companiesList.filter((item) => item.id === nowId);
+        console.log(this.temCompany);
+        emitter.emit('open-edit-company');
+      } else if (nowAction === 'newJob') {
+        this.modalName = nowAction;
+        this.temJob = this.jobsList.filter((item) => item.id === nowId);
+        console.log(this.temJob);
+        emitter.emit('open-edit-job');
+      }
+    },
+    updateCompany(updateCompanyItem) {
+      console.log(updateCompanyItem);
       emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products?page=${pageNum}`;
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      this.$http
+        .post(url, updateCompanyItem)
+        .then((res) => {
+          console.log(res.data);
+          emitter.emit('spinner-close');
+          // this.getOrder();
+          if (res.data.success) {
+            // this.deleteOrder();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    classifyProduct() {
+      // const array = this.products;
+      this.products.forEach((item) => {
+        if (item.description === '企業') {
+          this.companiesList.push(item);
+        } else if (item.description === '職位') {
+          this.jobsList.push(item);
+        } else if (item.description === '系統') {
+          this.systemList.push(item);
+        }
+      });
+      console.log(this.companiesList);
+      // console.log(this.jobsList);
+      // console.log(this.systemList);
+    },
+    getProductData() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/products/all`;
       this.$http
         .get(url)
         .then((res) => {
           console.log(res);
-          this.products = res.data.products;
+          // this.products = res.data.products;
+          // 物件轉陣列
+          this.products = Object.keys(res.data.products).map((_) => res.data.products[_]);
+          console.log(this.products);
           this.pagination = res.data.pagination;
+          this.classifyProduct();
           emitter.emit('spinner-close');
         })
         .catch((error) => {
@@ -144,7 +274,7 @@ export default {
         // console.log(this.temProduct)
         emitter.emit('open-product-detail');
         // ProductModal.openModal();
-      } else if (nowAction === 'deleteProduct') {
+      } else if (nowAction === 'deleteItem') {
         this.nowAction = e.target.dataset.action;
         console.log(item);
         if (!item.imagesUrl) {
@@ -161,6 +291,7 @@ export default {
     deleteProduct() {
       emitter.emit('spinner-open');
       const { id } = this.temProduct;
+      // const id = '-M_uRTTxSgaZiP7aaArW';
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
         .delete(url)
@@ -206,10 +337,24 @@ export default {
   },
   created() {
     this.getProductData();
-    console.log(ProductModal);
   },
   mounted() {},
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.listBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  padding: 12px;
+  &__logo {
+    width: 160px;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    margin-right: 12px;
+  }
+}
+</style>
