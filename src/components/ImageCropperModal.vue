@@ -168,8 +168,8 @@ export default {
     object-fit: contain;
   }
 }
-img {
-  display: block;
-  max-width: 100px;
-}
+// img {
+//   display: block;
+//   max-width: 100px;
+// }
 </style>

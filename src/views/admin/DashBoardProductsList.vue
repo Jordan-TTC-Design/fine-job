@@ -77,9 +77,9 @@
               <button
                 type="button"
                 class="btn btn-outline-secondary"
-                data-action="newJob"
+                data-action="editJob"
                 :data-id="item.id"
-                @click="newItemModal($event)"
+                @click="editItemModal($event)"
               >
                 編輯
               </button>
@@ -163,7 +163,7 @@ export default {
         this.temCompany = this.companiesList.filter((item) => item.id === nowId);
         console.log(this.temCompany);
         emitter.emit('open-edit-company');
-      } else if (nowAction === 'newJob') {
+      } else if (nowAction === 'editJob') {
         this.modalName = nowAction;
         this.temJob = this.jobsList.filter((item) => item.id === nowId);
         console.log(this.temJob);

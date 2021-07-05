@@ -1,0 +1,10 @@
+<svg id="_82.上班時段" data-name="82.上班時段" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="Rectangle-Copy-54" width="20" height="20" fill="none"/>
+  <path id="Combined-Shape" d="M14.167,1A.833.833,0,0,1,15,1.833v.833h2.5A2.5,2.5,0,0,1,20,5.02l0,.147V8.5a.833.833,0,0,1-1.667,0h0V7.667H1.667v9.167a.833.833,0,0,0,.736.828l.1.006h5a.833.833,0,1,1,0,1.667h-5a2.5,2.5,0,0,1-2.5-2.5H0V5.167a2.5,2.5,0,0,1,2.5-2.5H5V1.833a.833.833,0,1,1,1.667,0v.833h6.667V1.833A.833.833,0,0,1,14.167,1ZM5,4.333H2.5a.833.833,0,0,0-.833.833h0V6H18.333V5.167a.833.833,0,0,0-.736-.828l-.1-.006H15a.833.833,0,1,1-1.667,0H6.667A.833.833,0,1,1,5,4.333Z" transform="translate(0 -0.167)" fill="#979797" fill-rule="evenodd"/>
+  <g id="Group-3" transform="translate(8.333 8.333)">
+    <path id="Oval-Copy-4" d="M4.833-1a5.833,5.833,0,1,0,5.833,5.833A5.833,5.833,0,0,0,4.833-1Zm0,1.667A4.167,4.167,0,1,1,.667,4.833,4.167,4.167,0,0,1,4.833.667Z" transform="translate(1 1)" fill="#979797"/>
+    <path id="Combined-Shape-Copy-4" d="M5.833,2a.833.833,0,0,1,.833.833V4.865L8.42,5.878a.833.833,0,1,1-.833,1.443L5.422,6.071a.83.83,0,0,1-.369-.444A.844.844,0,0,1,5,5.333v-2.5A.833.833,0,0,1,5.833,2Z" transform="translate(0 0.5)" fill="#999" fill-rule="evenodd"/>
+  </g>
+  <rect id="Rectangle-Copy-59" width="4.167" height="1.667" rx="0.833" transform="translate(3.333 10)" fill="#999"/>
+  <rect id="Rectangle-Copy-67" width="3.333" height="1.667" rx="0.833" transform="translate(3.333 13.333)" fill="#999"/>
+</svg>

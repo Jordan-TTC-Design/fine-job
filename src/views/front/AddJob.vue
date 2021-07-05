@@ -462,6 +462,23 @@
               ></Field>
               <ErrorMessage name="聯絡人Email" class="invalid-feedback"></ErrorMessage>
             </div>
+            <!-- 表單4-5：申請備註-->
+            <div class="mb-3">
+              <label for="sendFormInfoOtherApplyInfo" class="form-label">申請備註</label>
+              <Field
+                id="sendFormInfoOtherApplyInfo"
+                ref="sendFormInfoOtherApplyInfo"
+                name="申請備註"
+                as="textarea"
+                class="form-control"
+                :class="{ 'is-invalid': errors['申請備註'] }"
+                placeholder="請輸入"
+                v-model="form.user.options.job.otherApplyInfo"
+                cols="30"
+                rows="10"
+              ></Field>
+              <ErrorMessage name="申請備註" class="invalid-feedback"></ErrorMessage>
+            </div>
             <!-- 表單操作按鈕 -->
             <div class="formStepBtnBox">
               <button
@@ -521,6 +538,7 @@ export default {
               workType: '',
               relatedAreas: '',
               otherRequirement: '',
+              otherApplyInfo: '',
             },
             company: {
               companyName: '',
