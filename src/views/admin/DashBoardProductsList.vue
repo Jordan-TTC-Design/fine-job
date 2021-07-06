@@ -4,19 +4,10 @@
     :tem-product="temProduct"
     @deltet-product="deleteProduct"
   ></DeleteProductModal>
-  <EditCompanyModal
-    ref="EditCompanyModal"
-    v-if="modalName === 'editCompany'"
-    :tem-company="temCompany"
-    @update-company="updateCompany"
-  ></EditCompanyModal>
+  <EditProductModal ref="EditProductModal" @update-product="updateProduct"></EditProductModal>
+  <!-- :edit-item="editItem"
+    :modal-name="modalName" -->
   <div class="container">
-    全部產品列表
-    <!-- <div class="text-end mt-4">
-      <button class="btn btn-primary" data-action="newProduct" @click="openModal($event, item)">
-        建立新的產品
-      </button>
-    </div> -->
     <ul class="d-flex btn-group">
       <li v-for="(item, index) in productCategory" :key="index">
         <button
@@ -51,7 +42,7 @@
               class="btn btn-outline-secondary"
               data-action="deleteItem"
               :data-id="item.id"
-              @click="openModal($event,item)"
+              @click="openModal($event, item)"
             >
               刪除
             </button>
@@ -60,42 +51,38 @@
       </li>
     </ul>
     <ul class="row" v-if="productCategorySelected === '職位'">
-        <li class="col-12" v-for="(item, index) in jobsList" :key="index">
-          <div class="listBox row">
-            <div class="col-6 d-flex align-items-center">
-              <img
-                class="listBox__logo"
-                :src="item.imageUrl || tempImgUrl"
-                alt=""
-              />
-              <p>{{ index + 1 }} {{ item.options.company.companyName }} - </p>
-              <p>{{ item.title }}{{ item.id }}</p>
-            </div>
-
-            <div class="input-group d-flex justify-content-end col-6 w-auto">
-            <p class="me-4">{{ $filters.date(item.options.job.create) }}</p>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-action="editJob"
-                :data-id="item.id"
-                @click="editItemModal($event)"
-              >
-                編輯
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-action="deleteItem"
-                :data-id="item.id"
-                @click="openModal($event,item)"
-              >
-                刪除
-              </button>
-            </div>
+      <li class="col-12" v-for="(item, index) in jobsList" :key="index">
+        <div class="listBox row">
+          <div class="col-6 d-flex align-items-center">
+            <img class="listBox__logo" :src="item.imageUrl || tempImgUrl" alt="" />
+            <p>{{ index + 1 }} {{ item.options.company.companyName }} -</p>
+            <p>{{ item.title }}{{ item.id }}</p>
           </div>
-        </li>
-      </ul>
+
+          <div class="input-group d-flex justify-content-end col-6 w-auto">
+            <p class="me-4">{{ $filters.date(item.options.job.create) }}</p>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-action="editJob"
+              :data-id="item.id"
+              @click="editItemModal($event)"
+            >
+              編輯
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-action="deleteItem"
+              :data-id="item.id"
+              @click="openModal($event, item)"
+            >
+              刪除
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
     <!-- <pagination-compo
         :page="pagination"
         @get-product="getProductData"
@@ -105,13 +92,13 @@
 
 <script>
 // import ProductCard from '@/components/admin/DashBoardProductCard.vue';
-import EditCompanyModal from '@/components/admin/DashBoardEditCompanyModal.vue';
+import EditProductModal from '@/components/admin/DashBoardEditProductModal.vue';
 import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';
 
 export default {
   components: {
-    EditCompanyModal,
+    EditProductModal,
     DeleteProductModal,
   },
   data() {
@@ -128,7 +115,8 @@ export default {
         { value: '系統', action: '系統' },
       ],
       productCategorySelected: '企業',
-      temCompany: {},
+      editItem: {},
+      editAction: '',
       temJob: {},
       modalName: '',
       nowAction: '',
@@ -159,23 +147,24 @@ export default {
       const nowAction = e.target.dataset.action;
       console.log(nowAction, nowId);
       if (nowAction === 'editCompany') {
-        this.modalName = nowAction;
-        this.temCompany = this.companiesList.filter((item) => item.id === nowId);
-        console.log(this.temCompany);
-        emitter.emit('open-edit-company');
+        this.modalName = 'editCompany';
+        this.editItem = this.companiesList.filter((item) => item.id === nowId);
+        console.log(this.editItem);
+        emitter.emit('open-edit-company', [this.editItem, this.modalName]);
       } else if (nowAction === 'editJob') {
-        this.modalName = nowAction;
-        this.temJob = this.jobsList.filter((item) => item.id === nowId);
-        console.log(this.temJob);
-        emitter.emit('open-edit-job');
+        this.modalName = 'editJob';
+        this.editItem = this.jobsList.filter((item) => item.id === nowId);
+        console.log(this.editItem);
+        emitter.emit('open-edit-company', [this.editItem, this.modalName]);
       }
     },
-    updateCompany(updateCompanyItem) {
-      console.log(updateCompanyItem);
+    updateProduct(temObj) {
+      console.log(temObj);
       emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      const { id } = temObj.data;
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
-        .post(url, updateCompanyItem)
+        .put(url, temObj)
         .then((res) => {
           console.log(res.data);
           emitter.emit('spinner-close');
@@ -190,6 +179,8 @@ export default {
     },
     classifyProduct() {
       // const array = this.products;
+      this.companiesList = [];
+      this.jobsList = [];
       this.products.forEach((item) => {
         if (item.description === '企業') {
           this.companiesList.push(item);
@@ -216,33 +207,6 @@ export default {
           console.log(this.products);
           this.pagination = res.data.pagination;
           this.classifyProduct();
-          emitter.emit('spinner-close');
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    updateProduct(updatedProduct) {
-      let id = `/${updatedProduct.id}`;
-      const product = {
-        data: updatedProduct,
-      };
-      console.log(updatedProduct);
-      let axiosAction = 'put';
-      if (this.nowAction === 'newProduct') {
-        axiosAction = 'post';
-        id = '';
-      }
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
-      this.$http[axiosAction](url, product)
-        .then((res) => {
-          console.log(res);
-          emitter.emit('open-product-detail');
-          this.getProductData();
-          this.temProduct = {
-            imagesUrl: [],
-          };
           emitter.emit('spinner-close');
         })
         .catch((error) => {
