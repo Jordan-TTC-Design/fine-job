@@ -431,12 +431,12 @@ export default {
       emitter.emit('open-imageCropper', [e.target.files[0], nowId, this.uploadImgState]);
     },
     // 從modal抓回圖片
-    getImg(data, img, id) {
-      console.log(data, img, id);
+    getImg(data, id) {
+      console.log(data, id);
       if (this.uploadImgState === 'upLoadMutiImg') {
-        console.log(data, img, id);
+        console.log(data, id);
         this.temImageInputs[id].src = data;
-        this.temImages[id] = img.src;
+        this.temImages[id] = data;
         console.log(this.temImageInputs[id]);
       } else if (this.uploadImgState === 'upLoadSingleImg') {
         this.companyLogo.src = data;
@@ -445,10 +445,12 @@ export default {
     clickInput(e, index) {
       console.log(e.target.dataset.input);
       if (e.target.dataset.input === 'upLoadMutiImg') {
+        this.temImageInputs[index].isUpDated = false;
         const item = `sendFormInfoImgs${index}`;
         this.$refs[item].click();
         this.uploadImgState = 'upLoadMutiImg';
       } else if (e.target.dataset.input === 'upLoadSingleImg') {
+        this.companyLogo.src = '';
         this.$refs.sendFormInfoCompanyLogo.click();
         this.uploadImgState = 'upLoadSingleImg';
       }
@@ -608,11 +610,13 @@ export default {
 .cropImgBox {
   width: 100%;
   height: 120px;
-  background-color: #f2f2f2;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-bottom: 8px;
+  border-radius: 8px;
   .cropImg {
     max-width: 100%;
     max-height: 120px;
@@ -631,7 +635,7 @@ export default {
     position: absolute;
     // 設置背景混和模式為相乘模式
   }
-  .testTxt{
+  .testTxt {
     display: block;
     width: 100px;
     height: 24px;

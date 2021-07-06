@@ -34,51 +34,7 @@
 .main--bg {
   background-color: #f2f2f2;
 }
-.jobPage {
-  .jobContentBox {
-    padding: 1.5rem;
-    background-color: #fff;
-    border-radius: 8px;
 
-    .jobContent__imgBox {
-      width: 48%;
-      position: relative;
-      margin-right: 48px;
-      .jobImage {
-        max-width: 100%;
-        border-radius: 8px;
-      }
-    }
-    .logoImageBox {
-      position: absolute;
-      top: -4px;
-      right: -36px;
-      padding: 6px;
-      background-color: #fff;
-      border-radius: 0px 0px 0px 4px;
-      .logoImage {
-        width: 120px;
-        border: 1px solid #e2e2e2;
-        border-radius: 2px;
-      }
-    }
-    .JobContent__txtBox {
-      width: 100%;
-    }
-    .page__title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #1d1d1d;
-      margin-bottom: 12px;
-    }
-    
-    .page__txt {
-      color: #646464;
-    }
-    .page__link {
-      text-decoration: underline;
-    }
-  }
   .list__title {
     color: #1d1d1d;
     font-weight: 500;
@@ -95,17 +51,62 @@
       width: calc(50% - 6px);
     }
   }
-  .jobSubBox {
-    border-radius: 0.5rem;
-    background-color: #fff;
-    .list__item {
-      padding: 0.5rem 0.75rem;
-      border-bottom: 1px solid #e2e2e2;
-      a {
-        display: block;
-        color: #646464;
-      }
+  
+
+.jobSubBox {
+  border-radius: 0.5rem;
+  background-color: #fff;
+  .list__item {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid #e2e2e2;
+    a {
+      display: block;
+      color: #646464;
     }
+  }
+}
+.jobContentBox {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+
+  .jobContent__imgBox {
+    width: 48%;
+    position: relative;
+    margin-right: 48px;
+    .jobImage {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .logoImageBox {
+    position: absolute;
+    top: -4px;
+    right: -36px;
+    padding: 6px;
+    background-color: #fff;
+    border-radius: 0px 0px 0px 4px;
+    .logoImage {
+      width: 120px;
+      border: 1px solid #e2e2e2;
+      border-radius: 2px;
+    }
+  }
+  .JobContent__txtBox {
+    width: 100%;
+  }
+  .page__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d1d1d;
+    margin-bottom: 12px;
+  }
+
+  .page__txt {
+    color: #646464;
+  }
+  .page__link {
+    text-decoration: underline;
   }
 }
 .box--shadow {
@@ -178,11 +179,80 @@
     font-size: 20px;
   }
 }
+// 公司頁面
+.companyPage {
+  .jobContent__imgBox{
+    width:auto;
+    margin-right: 12px;
+  }
+  .logoImageBox {
+    position: relative;
+    right: 0;
+    top: 0;
+    padding: 0px;
+    width: 240px;
+    background-color: #fff;
+    border-radius: 8px;
+    .logoImage {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .companyPage__companyImage{
+    border-radius: 8px;
+    max-width: calc( 33.333% - 12px );
+  }
+  .jobList {
+    .jobList__item {
+      width: calc( 50% - 8px );
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      background-color: white;
+      margin-bottom: 12px;
+      position: relative;
+      .jobList__item__imgBox {
+        width: 24%;
+        position: relative;
+        margin-right: 28px;
+        .jobImage {
+          max-width: 100%;
+          border-radius: 8px;
+        }
+      }
+      .jobList__item__txtBox {
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .logoImageBox {
+        position: absolute;
+        top: -4px;
+        right: -16px;
+        padding: 4px;
+        width: 72px;
+        background-color: #fff;
+        border-radius: 0px 0px 0px 4px;
+        .logoImage {
+          max-width: 100%;
+          border: 1px solid #e2e2e2;
+          border-radius: 2px;
+        }
+      }
+    }
+  }
+}
+.collectBtn.pageState{
+  top: 24px;
+  right: 24px;
+}
 //front-footer
-.footer--front{
+.footer--front {
   background-color: #3f6745;
 }
 //main
+p{
+  line-height: 1.5;
+}
 .jobImage {
   max-width: 100%;
   border-radius: 8px;
@@ -235,7 +305,7 @@
     color: #979797;
   }
 }
-.btn--applyJob{
+.btn--applyJob {
   min-width: 120px;
   justify-content: center;
   display: flex;

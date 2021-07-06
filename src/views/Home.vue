@@ -7,12 +7,10 @@
 
 <script>
 // @ is an alias to /src
-import ImageCropper from '@/components/ImageCropper.vue';
 
 export default {
   name: 'Home',
   components: {
-    ImageCropper,
   },
 };
 </script>

@@ -30,7 +30,7 @@
                   flex-grow-1 d-flex flex-column
                   justify-content-between"
                 >
-                  <div class="mb-3 d-flex flex-column">
+                  <div class="mb-3 d-flex flex-column align-items-start">
                     <router-link
                       class="jobList__item__title text-dark mb-3 me-7"
                       type="button"
@@ -58,7 +58,7 @@
       </div>
       <div class="col-md-6">
         <div class="jobSelectBox box--shadow ">
-          <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
               <p class="jobTag">
                 {{ jobItem.category }}
@@ -86,8 +86,16 @@
               </div>
               <div class="JobContent__txtBox">
                 <div>
-                  <h2 class="jobSelectBox__title mb-3">{{ jobItem.title }}</h2>
-                  <p class="subTxt mb-3">{{ jobItem.options.company.companyName }}</p>
+                  <router-link class="jobSelectBox__title mb-3 d-block"
+                  type="button"
+                      :to="`/products-list/product/${jobItem.id}`"
+                      >{{ jobItem.title }}</router-link>
+                  <router-link
+                      class="page__txt page__link subTxt  mb-4 d-block"
+                      type="button"
+                      :to="`/products-list/company/${jobItem.options.company.companyLink}`"
+                      >{{ jobItem.options.company.companyName }}</router-link
+                    >
                 </div>
                 <div class="d-flex">
                   <p class="page__txt me-5 subTxt">

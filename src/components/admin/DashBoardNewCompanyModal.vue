@@ -126,7 +126,7 @@
                     <option :value="companyData.options.company.industryCategory" selected>
                       {{ companyData.options.company.industryCategory }}</option
                     >
-                    <option v-for="item in industryCategory" :value="item" :key="item"
+                    <option v-for="item in form.industryCategory" :value="item" :key="item"
                       >{{ item }}
                     </option>
                   </select>
@@ -157,7 +157,9 @@
                       <option :value="companyData.options.company.companyAddressCity" selected>
                         {{ companyData.options.company.companyAddressCity }}</option
                       >
-                      <option v-for="item in city" :value="item" :key="item">{{ item }} </option>
+                      <option v-for="item in formData.city" :value="item" :key="item"
+                        >{{ item }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -207,6 +209,7 @@
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import webData from '@/components/helpers/webData';
 import { Modal } from 'bootstrap';
 
 export default {
@@ -214,42 +217,7 @@ export default {
   data() {
     return {
       modal: '',
-      city: [
-        '基隆市',
-        '台北市',
-        '新北市',
-        '桃園市',
-        '新竹縣',
-        '新竹市',
-        '苗栗縣',
-        '台中市',
-        '彰化市',
-        '南投縣',
-        '雲林縣',
-        '嘉義縣',
-        '台南市',
-        '台南市',
-        '屏東縣',
-        '宜蘭縣',
-      ],
-      industryCategory: [
-        '批發、零售、傳直銷業',
-        '文教相關業',
-        '大眾傳播相關業',
-        '旅遊、休閒、運動業',
-        '一般服務業',
-        '電子資訊、軟體、半導體相關業',
-        '一般製造業',
-        '農林漁牧水電資源業',
-        '運輸物流及倉儲',
-        '政治宗教及社福相關業',
-        '金融投顧及保險業',
-        '法律、會計、顧問、研發、設計業',
-        '建築營造及不動產相關業',
-        '醫療保健及環境衛生業',
-        '礦業及土石採取業',
-        '住宿、餐飲服務業',
-      ],
+      formData: {},
       temItemData: {},
       companyData: { options: { company: { companyImagesUrl: [] } } },
     };
@@ -317,6 +285,7 @@ export default {
   },
   created() {
     this.temItemData = this.temCompany;
+    this.formData = webData;
     emitter.on('close-new-company', () => {
       this.closeModal();
     });

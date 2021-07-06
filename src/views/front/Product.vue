@@ -1,9 +1,15 @@
 <template>
   <div class="container-fuild">
-    <div class="container jobPage">
+    <div class="container jobPage" v-if="isExist">
       <div class="row">
         <div class="col-md-9">
-          <div class="jobContentBox box--shadow mb-3">
+          <div class="jobContentBox box--shadow mb-3 position-relative">
+            <button
+              class="collectBtn btn btn-outline-gray-line position-absolute pageState"
+              type="button"
+            >
+              <i class="jobIcon bi bi-bookmark-fill"></i>
+            </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
                 <img class="jobImage" :src="jobItem.imageUrl" alt="" />
@@ -11,21 +17,33 @@
                   <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
                 </div>
               </div>
-              <div class="JobContent__txtBox">
-                <div class="mb-3">
+              <div class="JobContent__txtBox d-flex flex-column justify-content-between">
+                <div class="pt-3">
                   <h2 class="page__title">{{ jobItem.title }}</h2>
-                  <p class="page__txt page__link">{{ jobItem.options.company.companyName }}</p>
+                  <router-link
+                    class="page__txt page__link subTxt  mb-4 d-block"
+                    type="button"
+                    :to="`/products-list/company/${temCompany.id}`"
+                    >{{ jobItem.options.company.companyName }}</router-link
+                  >
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-end">
                   <div>
-                    <p class="page__txt mb-2">
-                      <span></span>{{ jobItem.options.company.companyAddressCity }}
+                    <p class="page__txt mb-3">
+                      <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
+                      >{{ jobItem.options.company.companyAddressCity }}
                     </p>
-                    <p class="page__txt"><span></span>需求人數：{{ jobItem.num }}</p>
+                    <p class="page__txt">
+                      <span><i class="jobIcon--sm me-1 bi bi-people"></i></span>需求人數：{{
+                        jobItem.num
+                      }}
+                    </p>
                   </div>
                   <div>
-                    <p>{{ jobItem.price }}/月薪</p>
-                    <p>{{ $filters.date(jobItem.options.job.create) }}</p>
+                    <p class="text-primary fw-bold mb-3">{{ jobItem.price }}/月薪</p>
+                    <p class="subTxt text-secondary text-end">
+                      {{ $filters.date(jobItem.options.job.create) }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -107,9 +125,6 @@
         </div>
       </div>
     </div>
-    <div v-if="isExist" class="productPage-container">
-      <p>{{ jobItem.title }}</p>
-    </div>
     <div v-else-if="isExist == false" class="cantFoundProduct">
       <h5>找不到產品</h5>
     </div>
@@ -117,22 +132,29 @@
 </template>
 
 <script>
+import emitter from '@/components/helpers/emitter';
+
 export default {
   data() {
     return {
       jobItem: {
         options: {
           company: {
+            companyLogoUrl: '',
             companyImagesUrl: [],
           },
           job: {},
         },
       },
+      jobsList: [],
       isExist: null,
+      temCompany: {},
     };
   },
   methods: {
     getProductData() {
+      emitter.emit('spinner-open');
+
       const { id } = this.$route.params;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`;
       this.$http
@@ -143,6 +165,7 @@ export default {
             // console.log(res);
             this.jobItem = res.data.product;
             console.log(this.jobItem);
+            this.getAllJobs();
           } else {
             this.isExist = false;
           }
@@ -151,6 +174,36 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      emitter.emit('spinner-close');
+    },
+    getAllJobs() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          //   console.log(res);
+          this.jobsList = res.data.products;
+          console.log(this.jobsList);
+          this.findCompany();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      emitter.emit('spinner-close');
+    },
+    findCompany() {
+      emitter.emit('spinner-open');
+      this.jobsList.forEach((item) => {
+        if (item.description === '企業') {
+          console.log(item);
+          if (item.title === this.jobItem.options.company.companyName) {
+            this.temCompany = item;
+          }
+        }
+      });
+      console.log(this.temCompany);
+      emitter.emit('spinner-close');
     },
   },
   created() {
