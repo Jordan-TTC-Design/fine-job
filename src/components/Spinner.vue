@@ -54,7 +54,7 @@ export default {
   width: 20px;
   display: inline-block;
   border-radius: 50%;
-  background-color: #0B5ED7;
+  background-color: #3f6745;
   -webkit-animation: flappy 1.4s infinite ease-in-out;
   animation: flappy 1.4s infinite ease-in-out;
 }

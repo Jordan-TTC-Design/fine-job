@@ -23,6 +23,11 @@ const routes = [
       },
       {
         // 獨立產品頁面
+        path: 'products-list/company/:id',
+        component: () => import('../views/front/Company.vue'),
+      },
+      {
+        // 獨立產品頁面
         path: 'cart-checkout',
         component: () => import('../views/front/Check.vue'),
       },

@@ -30,16 +30,19 @@
                   flex-grow-1 d-flex flex-column
                   justify-content-between"
                 >
-                  <div class="mb-3">
+                  <div class="mb-3 d-flex flex-column">
                     <router-link
-                      class="jobList__item__title text-dark mb-2 me-7"
+                      class="jobList__item__title text-dark mb-3 me-7"
                       type="button"
                       :to="`/products-list/product/${item.id}`"
                       >{{ item.title }}</router-link
                     >
-                    <p class="page__txt page__link subTxt">
-                      {{ item.options.company.companyName }}
-                    </p>
+                    <router-link
+                      class="page__txt page__link subTxt  mb-2 me-7"
+                      type="button"
+                      :to="`/products-list/company/${item.options.company.companyLink}`"
+                      >{{ item.options.company.companyName }}</router-link
+                    >
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
                     <p class="text-primary">{{ item.price }} / 月薪</p>
@@ -250,17 +253,30 @@ export default {
       });
       console.log(this.jobItem);
     },
-    classifyProduct() {
+    classifyJob() {
+      this.products.forEach((item) => {
+        if (item.description === '職位') {
+          const Obj = item;
+          this.companiesList.forEach((temCompany) => {
+            if (Obj.options.company.companyName === temCompany.title) {
+              console.log(temCompany.id);
+              Obj.options.company.companyLink = temCompany.id;
+            }
+          });
+          this.jobsList.push(Obj);
+        }
+      });
+      console.log(this.jobsList);
+      this.selectJob(this.jobsList[0].id);
+    },
+    classifyCompany() {
       this.products.forEach((item) => {
         if (item.description === '企業') {
           this.companiesList.push(item);
-        } else if (item.description === '職位') {
-          this.jobsList.push(item);
         }
       });
       console.log(this.companiesList);
-      console.log(this.jobsList);
-      this.selectJob(this.jobsList[0].id);
+      this.classifyJob();
     },
     cleanList() {
       this.jobsList = [];
@@ -276,7 +292,7 @@ export default {
           //   console.log(res);
           this.products = res.data.products;
           emitter.emit('spinner-close');
-          this.classifyProduct();
+          this.classifyCompany();
         })
         .catch((error) => {
           console.log(error);

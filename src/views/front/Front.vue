@@ -37,56 +37,54 @@
   <div class="main py-4 main--bg">
     <router-view></router-view>
   </div>
-  <footer>
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class=" container-fluid">
-          <router-link class="navbar-brand" to="/">Navbar</router-link>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav position-reative">
+  <footer class="bg-gray-mid pt-8">
+    <div class="footer--front bg-primary">
+      <div class="container">
+        <div class="row py-7">
+          <div class="col-4">
+            <div class="d-flex align-items-center">
+              <img
+                class="bg-white rounded me-4"
+                src="../../assets/images/header/fineJobMark.svg"
+                alt=""
+              />
+              <div>
+                <h4 class="text-white mb-3">Fine Job</h4>
+                <p class="text-white">Jordan.ttc.design@gmail.com</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-8">
+            <ul class="d-flex position-reative justify-content-end align-items-center h-100">
               <li class="nav-item">
-                <router-link class="nav-link" aria-current="page" to="/">首頁</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/products-list">全部產品</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/apply-job">申請職位</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/add-company">新建企業</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/add-job">新建職位</router-link>
-              </li>
-              <li class="position-absolute end-0">
-                <button type="button" class="btn btn-outline-secondary" @click="openCart">
-                  購物車
-                </button>
-                <!-- 直接使用@click="emitter.emit('open-cart')" 好像不行 -->
-                <!-- <button
-                  type="button"
-                  class="btn btn-outline-secondary"
-                  @click="emitter.emit('open-cart')"
+                <router-link class="nav-link text-white" aria-current="page" to="/"
+                  >首頁</router-link
                 >
-                  購物車
-                </button> -->
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white" to="/products-list">全部產品</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white" to="/apply-job">申請職位</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white" to="/add-company">新建企業</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white" to="/add-job">新建職位</router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
+                  >後台管理</router-link
+                >
               </li>
             </ul>
           </div>
         </div>
-      </nav>
+      </div>
+      <div class="border-top border-gray-line py-5">
+        <p class="subTxt text-white text-center">© 2021 Jordan.ttc.design</p>
+      </div>
     </div>
   </footer>
 </template>
