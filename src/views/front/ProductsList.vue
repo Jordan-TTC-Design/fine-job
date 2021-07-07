@@ -1,10 +1,15 @@
 <template>
   <div class="container">
+    <div class="row"></div>
+  </div>
+  <div ref="jobsListContainer" class="container">
     <div class="row">
       <div class="col-md-6">
         <div class="jobListBox">
-          <ul class="jobList" v-for="item in jobsList" :key="item.id">
+          <ul class="jobList">
             <li
+              v-for="item in nowPageList"
+              :key="item.id"
               type="button"
               @click="selectJob(item.id)"
               :data-id="item.id"
@@ -57,7 +62,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="jobSelectBox box--shadow ">
+        <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
               <p class="jobTag">
@@ -86,16 +91,18 @@
               </div>
               <div class="JobContent__txtBox">
                 <div>
-                  <router-link class="jobSelectBox__title mb-3 d-block"
-                  type="button"
-                      :to="`/products-list/product/${jobItem.id}`"
-                      >{{ jobItem.title }}</router-link>
                   <router-link
-                      class="page__txt page__link subTxt  mb-4 d-block"
-                      type="button"
-                      :to="`/products-list/company/${jobItem.options.company.companyLink}`"
-                      >{{ jobItem.options.company.companyName }}</router-link
-                    >
+                    class="jobSelectBox__title mb-3 d-block"
+                    type="button"
+                    :to="`/products-list/product/${jobItem.id}`"
+                    >{{ jobItem.title }}</router-link
+                  >
+                  <router-link
+                    class="page__txt page__link subTxt  mb-4 d-block"
+                    type="button"
+                    :to="`/products-list/company/${jobItem.options.company.companyLink}`"
+                    >{{ jobItem.options.company.companyName }}</router-link
+                  >
                 </div>
                 <div class="d-flex">
                   <p class="page__txt me-5 subTxt">
@@ -229,6 +236,27 @@
       </table>
     </div> -->
   </div>
+  <div class="container">
+    <div class="d-flex justify-content-center py-4">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: !pagination.has_pre }">
+            <a class="page-link" href="#" aria-label="Previous" @click="changePage('pre')">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li v-for="item in pagination.total_pages" :key="item" class="page-item">
+            <button class="page-link" :data-num="item" @click="jumpPage(item)">{{ item }}</button>
+          </li>
+          <li class="page-item" :class="{ disabled: !pagination.has_next }">
+            <button type="button" class="page-link" aria-label="Next" @click="changePage('next')">
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -240,7 +268,13 @@ export default {
       products: [],
       jobsList: [],
       companiesList: [],
-      //   pagination: {},
+      pagination: {
+        total_pages: [],
+        current_page: 1,
+        has_pre: false,
+        has_next: false,
+      },
+      nowPageList: [],
       jobItem: {
         options: {
           company: {
@@ -252,6 +286,47 @@ export default {
     };
   },
   methods: {
+    jumpPage(num) {
+      this.pagination.current_page = num;
+      this.checkPagination();
+      document.documentElement.scrollTop = 0;
+    },
+    changePage(action) {
+      console.log(action);
+      if (action === 'next' && this.pagination.has_next) {
+        this.pagination.current_page += 1;
+        console.log(this.pagination.current_page);
+      } else if (action === 'pre' && this.pagination.has_pre) {
+        this.pagination.current_page -= 1;
+        console.log(this.pagination.current_page);
+      }
+      this.checkPagination();
+      document.documentElement.scrollTop = 0;
+    },
+    checkPagination() {
+      this.nowPageList = [];
+      this.pagination.total_pages = [];
+      const totalPageNum = Math.ceil(this.jobsList.length / 5);
+      for (let i = 1; i <= totalPageNum; i += 1) {
+        console.log(i);
+        this.pagination.total_pages.push(i);
+      }
+      console.log(totalPageNum);
+      if (totalPageNum >= this.pagination.current_page) {
+        this.pagination.has_next = true;
+        this.pagination.has_pre = false;
+      } else if (this.pagination.current_page <= 1) {
+        this.pagination.has_next = false;
+        this.pagination.has_pre = true;
+      }
+      console.log(this.pagination.has_next, this.pagination.has_pre);
+      const pageFrist = this.pagination.current_page * 5 - 5;
+      this.jobsList.forEach((item, index) => {
+        if (pageFrist <= index && index < this.pagination.current_page * 5) {
+          this.nowPageList.push(item);
+        }
+      });
+    },
     selectJob(id) {
       console.log(id);
       this.jobsList.forEach((item) => {
@@ -259,7 +334,8 @@ export default {
           this.jobItem = { ...item };
         }
       });
-      console.log(this.jobItem);
+      // console.log(this.jobItem);
+      this.$refs.jobSelectBox.scrollTop = 0;
     },
     classifyJob() {
       this.products.forEach((item) => {
@@ -276,6 +352,7 @@ export default {
       });
       console.log(this.jobsList);
       this.selectJob(this.jobsList[0].id);
+      this.checkPagination();
     },
     classifyCompany() {
       this.products.forEach((item) => {

@@ -5,7 +5,9 @@
         <div class="searchFilterBox  box--shadow mb-5 p-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="subTitle text-dark">搜尋條件設定</h3>
-            <button type="button" class="btn btn-gray-light btn-lg btn--web">清除全部</button>
+            <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
+              清除全部
+            </button>
           </div>
           <div ref="searchFilterTop" v-if="mountState">
             <div class="row">
@@ -20,6 +22,7 @@
                     id="searchFilterTop-keyword"
                     placeholder="職位關鍵字"
                     aria-describedby="關鍵字"
+                    v-model="filterData.keyword"
                   />
                 </div>
               </div>
@@ -99,10 +102,10 @@
                     v-model="filterData.workExp"
                   >
                     <option disabled>請選擇工作經驗</option>
-                    <option selected value="不限">不限</option>
                     <option
                       v-for="(item, index) in formData.workExp"
                       :value="item"
+                      :selected="item === '不限'"
                       :key="'工作經驗' + index"
                       >{{ item }}</option
                     >
@@ -121,10 +124,10 @@
                     v-model="filterData.education"
                   >
                     <option disabled>請選擇學歷要求</option>
-                    <option selected value="不限">不限</option>
                     <option
                       v-for="(item, index) in formData.education"
                       :value="item"
+                      :selected="item === '不限'"
                       :key="'學歷要求' + index"
                       >{{ item }}</option
                     >
@@ -182,21 +185,21 @@
                   >
                   <div class="d-flex align-items-center">
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       id="searchFilterTop-salary"
                       placeholder="最低"
                       aria-describedby="薪資待遇範圍起始"
-                      v-model="filterData.salaryLow"
+                      v-model.number="filterData.salaryLow"
                     />
                     <p class="px-2">至</p>
                     <input
-                      type="text"
+                      type="number"
                       class="form-control"
                       id="searchFilterTop-salary-end"
                       placeholder="最高"
                       aria-describedby="薪資待遇範圍結束"
-                      v-model="filterData.salaryHight"
+                      v-model.number="filterData.salaryHight"
                     />
                     <div
                       class="form-check py-2 px-3 d-flex justify-content-center align-items-center"
@@ -234,11 +237,13 @@
     <div class="row">
       <div class="col-md-6">
         <div class="jobListBox">
-          <ul class="jobList" v-for="item in jobsList" :key="item.id">
+          <ul ref="jobList" class="jobList">
             <li
               type="button"
               @click="selectJob(item.id)"
               :data-id="item.id"
+              v-for="item in jobsList"
+              :key="item.id"
               class="jobList__item d-flex box--shadow flex-column align-items-start"
             >
               <button class="collectBtn btn btn-outline-gray-line position-absolute" type="button">
@@ -288,7 +293,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="jobSelectBox box--shadow ">
+        <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
               <p class="jobTag">
@@ -474,11 +479,34 @@ export default {
           emitter.emit('spinner-close');
           this.classifyCompany();
           this.filterCity(this.jobsList);
+          this.filterKeyword(this.jobsList);
           this.filterWorkTime(this.jobsList);
+          this.filterWorkType(this.jobsList);
+          this.filterEducation(this.jobsList);
+          this.filterJobCategory(this.jobsList);
+          this.filterIndustryCategory(this.jobsList);
+          this.filterSalary(this.jobsList);
+          console.log(this.jobsList);
+          this.selectJob(this.jobsList[0].id);
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    filterKeyword(temArray) {
+      console.log(temArray);
+      if (this.filterData.keyword !== '') {
+        console.log(this.filterData.keyword);
+        this.temData = temArray.filter((item) => {
+          const text = item.title + item.options.company.companyName;
+          const searchText = this.filterData.keyword.toLowerCase();
+          const textResult = text.toLowerCase().includes(searchText);
+          return textResult;
+        });
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
     },
     filterCity(temArray) {
       if (this.filterData.city !== '不限') {
@@ -489,7 +517,6 @@ export default {
       } else {
         this.temData = temArray;
       }
-      console.log(this.temData);
       this.jobsList = this.temData;
     },
     filterWorkTime(temArray) {
@@ -501,7 +528,17 @@ export default {
       } else {
         this.temData = temArray;
       }
-      console.log(this.temData);
+      this.jobsList = this.temData;
+    },
+    filterWorkExp(temArray) {
+      if (this.filterData.workExp !== '不限') {
+        console.log(this.filterData.workExp);
+        this.temData = temArray.filter(
+          (item) => item.options.job.workExp === this.filterData.workExp,
+        );
+      } else {
+        this.temData = temArray;
+      }
       this.jobsList = this.temData;
     },
     filterWorkType(temArray) {
@@ -513,8 +550,69 @@ export default {
       } else {
         this.temData = temArray;
       }
-      console.log(this.temData);
       this.jobsList = this.temData;
+    },
+    filterEducation(temArray) {
+      if (this.filterData.education !== '不限') {
+        console.log(this.filterData.education);
+        this.temData = temArray.filter(
+          (item) => item.options.job.education === this.filterData.education,
+        );
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    filterJobCategory(temArray) {
+      if (this.filterData.jobCategory !== '不限') {
+        console.log(this.filterData.jobCategory);
+        this.temData = temArray.filter((item) => item.category === this.filterData.jobCategory);
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    filterIndustryCategory(temArray) {
+      if (this.filterData.industryCategory !== '不限') {
+        console.log(this.filterData.industryCategory);
+        this.temData = temArray.filter(
+          (item) => item.options.job.industryCategory === this.filterData.industryCategory,
+        );
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    filterSalary(temArray) {
+      const numLow = this.filterData.salaryLow;
+      const numHight = this.filterData.salaryHight;
+      if (numLow !== null && numHight !== null) {
+        this.temData = temArray.filter((item) => item.price > numLow && item.price < numHight);
+      } else if (numLow !== null || numHight !== null) {
+        if (numLow !== null) {
+          this.temData = temArray.filter((item) => item.price > numLow);
+        } else if (numHight !== null) {
+          this.temData = temArray.filter((item) => item.price < numHight);
+        }
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    cleanFilter() {
+      this.filterData = {
+        keyword: '',
+        city: '不限',
+        industryCategory: '不限',
+        jobCategory: '不限',
+        workExp: '不限',
+        education: '不限',
+        workType: '不限',
+        workTime: '不限',
+        salaryLow: null,
+        salaryHight: null,
+        salaryInterView: false,
+      };
     },
     selectJob(id) {
       //   console.log(id);
@@ -523,7 +621,7 @@ export default {
           this.jobItem = { ...item };
         }
       });
-      //   console.log(this.jobItem);
+      this.$refs.jobSelectBox.scrollTop = 0;
     },
     classifyJob() {
       this.products.forEach((item) => {
