@@ -22,12 +22,17 @@ const routes = [
         component: () => import('../views/front/Product.vue'),
       },
       {
-        // 獨立產品頁面
+        // 獨立企業頁面
         path: 'products-list/company/:id',
         component: () => import('../views/front/Company.vue'),
       },
       {
-        // 獨立產品頁面
+        // 搜尋結果列表頁面
+        path: 'search-list',
+        component: () => import('../views/front/SearchList.vue'),
+      },
+      {
+        // 結帳
         path: 'cart-checkout',
         component: () => import('../views/front/Check.vue'),
       },

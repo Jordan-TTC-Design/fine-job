@@ -17,7 +17,7 @@
           <router-link class="nav-link text-white" to="/products-list">優質工作</router-link>
         </li>
         <li class="nav-item ">
-          <router-link class="nav-link text-white" to="/products-list">搜尋</router-link>
+          <router-link class="nav-link text-white" to="/search-list">搜尋</router-link>
         </li>
         <li class="nav-item ">
           <router-link class="nav-link text-white" to="/products-list">收藏</router-link>

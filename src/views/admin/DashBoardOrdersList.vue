@@ -1,16 +1,5 @@
 <template>
-  <NewCompanyModal
-    ref="NewCompanyModal"
-    v-if="modalName === 'newCompany'"
-    :tem-company="temCompany"
-    @new-company="newCompany"
-  ></NewCompanyModal>
-  <NewJobModal
-    v-if="modalName === 'newJob'"
-    ref="NewCompanyModal"
-    :tem-job="temJob"
-    @new-job="newJob"
-  ></NewJobModal>
+  <NewProductModal ref="newProductModal" @new-item="newItem"></NewProductModal>
   <div class="container-fuild">
     <div class="container">
       <h3 class="text-center mb-4">全部企業創建訂單列表</h3>
@@ -34,7 +23,7 @@
             </div>
 
             <div class="input-group d-flex justify-content-end col-6 w-auto">
-              <p class="me-4">{{$filters.date(item.create_at)}}</p>
+              <p class="me-4">{{ $filters.date(item.create_at) }}</p>
               <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -94,27 +83,17 @@
       </ul>
     </div>
   </div>
-  <!-- <ProductModal ref="ProductModal" :tem-product="temProduct"></ProductModal>
-  <DeleteProductModal
-    ref="DeleteProductModal"
-    :tem-product="temProduct"
-    v-on:deltetProduct="deleteProduct"
-  ></DeleteProductModal> -->
 </template>
 
 <script>
-// import OrderCard from '@/components/admin/DashBoardOrderCard.vue';
-import NewCompanyModal from '@/components/admin/DashBoardNewCompanyModal.vue';
-import NewJobModal from '@/components/admin/DashBoardNewJobModal.vue';
+import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
 // import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';
 import webData from '@/components/helpers/webData';
 
 export default {
   components: {
-    NewCompanyModal,
-    NewJobModal,
-    // OrderCard,
+    NewProductModal,
     // DeleteProductModal,
   },
   data() {
@@ -130,7 +109,7 @@ export default {
       addCompanyOrders: [],
       addJobOrders: [],
       temItem: {},
-      temCompany: {},
+      newOrder: {},
       temJob: {},
       modalName: '',
       tempImgUrl:
@@ -147,6 +126,8 @@ export default {
   methods: {
     classifyOrder() {
       const array = this.orders;
+      this.addCompanyOrders = [];
+      this.addJobOrders = [];
       array.forEach((item) => {
         if (item.user.options.formAction !== undefined) {
           if (item.user.options.formAction === 'add-company') {
@@ -185,15 +166,15 @@ export default {
       const nowAction = e.target.dataset.action;
       console.log(nowAction, nowId);
       if (nowAction === 'newCompany') {
-        this.modalName = nowAction;
-        this.temCompany = this.addCompanyOrders.filter((item) => item.id === nowId);
-        console.log(this.temCompany);
-        emitter.emit('open-new-company');
+        this.modalName = 'newCompany';
+        this.newOrder = this.addCompanyOrders.filter((item) => item.id === nowId);
+        console.log(this.newOrder);
+        emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
       } else if (nowAction === 'newJob') {
-        this.modalName = nowAction;
-        this.temJob = this.addJobOrders.filter((item) => item.id === nowId);
-        console.log(this.temJob);
-        emitter.emit('open-new-job');
+        this.modalName = 'newJob';
+        this.newOrder = this.addJobOrders.filter((item) => item.id === nowId);
+        console.log(this.newOrder);
+        emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
       }
     },
     newCompany(newCompanyItem) {
@@ -214,15 +195,14 @@ export default {
           console.log(error);
         });
     },
-    newJob(newJobItem) {
-      console.log(newJobItem);
+    newItem(temObj) {
+      console.log(temObj);
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
       this.$http
-        .post(url, newJobItem)
+        .post(url, temObj)
         .then((res) => {
           console.log(res.data);
-          emitter.emit('spinner-close');
           // this.getOrder();
           if (res.data.success) {
             // this.deleteOrder(this.temItem[0]);
@@ -231,6 +211,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      emitter.emit('spinner-close');
     },
     deleteOrder(id) {
       emitter.emit('spinner-open');

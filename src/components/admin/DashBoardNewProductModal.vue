@@ -1,205 +1,11 @@
 <template>
-  <div ref="editItemModal" class="modal fade" tabindex="-1" aria-labelledby="editItemModalLabel">
+  <div ref="newJobModal" class="modal fade" tabindex="-1" aria-labelledby="newJobModalLabel">
     <div class="modal-dialog modal-xl">
       <div class="modal-content border-0">
-        <!-- 企業內容 -->
-        <div class="editCompany" v-if="modalName === 'editCompany'">
-          <div class="modal-header bg-dark text-white">
-            <h5 id="editCompanyModalLabel" class="modal-title">
-              <span>編輯企業</span>
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="form-group">
-                  <label for="title">公司名稱</label>
-                  <input
-                    id="title"
-                    type="text"
-                    class="form-control"
-                    placeholder="請輸入公司名稱"
-                    v-model="companyData.title"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="companyContact">企業聯絡人</label>
-                  <input
-                    id="companyContact"
-                    type="text"
-                    class="form-control"
-                    placeholder="企業聯絡人"
-                    v-model="companyData.options.companyContact"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="companyTel">聯絡電話</label>
-                  <input
-                    id="companyTel"
-                    type="text"
-                    class="form-control"
-                    placeholder="聯絡電話"
-                    v-model="companyData.options.companyTel"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="companyEmail">聯絡Email</label>
-                  <input
-                    id="companyEmail"
-                    type="text"
-                    class="form-control"
-                    placeholder="聯絡Email"
-                    v-model="companyData.options.companyEmail"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="contactPosition">聯絡人職位</label>
-                  <input
-                    id="contactPosition"
-                    type="text"
-                    class="form-control"
-                    placeholder="聯絡人職位"
-                    v-model="companyData.options.companyContactPosition"
-                  />
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="logoImageUrl">公司Logo</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="請輸入圖片連結"
-                    v-model="companyData.imageUrl"
-                  />
-                </div>
-                <img class="img-fluid" alt="" :src="companyData.imageUrl" />
-              </div>
-              <div class="col-12 mb-3">
-                <div v-if="companyData.imagesUrl.length > 0" class="row ">
-                  <div v-for="(item, index) in companyData.imagesUrl" :key="index" class="col-4">
-                    <div class="form-group">
-                      <label for="imageUrl">輸入第 {{ index + 1 }} 張企業圖片</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="請輸入圖片連結"
-                        v-model="companyData.imagesUrl[index]"
-                      />
-                    </div>
-                    <img class="img-fluid" alt="" :src="item" />
-                  </div>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="row">
-                  <div class="form-group col-md-6">
-                    <label for="公司行業類別">行業類別</label>
-                    <select
-                      name="公司行業類別"
-                      id="newCompanyIndustryCategory"
-                      class="form-control form-select"
-                      v-model="companyData.category"
-                    >
-                      <option :value="companyData.category" selected>
-                        {{ companyData.category }}</option
-                      >
-                      <option v-for="item in formData.industryCategory" :value="item" :key="item"
-                        >{{ item }}
-                      </option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-6">
-                    <label for="unit">職位額度</label>
-                    <input
-                      id="unit"
-                      type="text"
-                      class="form-control"
-                      placeholder="請輸入職位額度"
-                      v-model="companyData.options.companyJobToken"
-                    />
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label for="companyAddressCity">縣市</label>
-                      <select
-                        name="公司地址縣市"
-                        id="companyAddressCity"
-                        class="form-control form-select"
-                        v-model="companyData.options.companyAddressCity"
-                        ref="companyAddressCity"
-                      >
-                        <option :value="companyData.options.companyAddressCity" selected>
-                          {{ companyData.options.companyAddressCity }}</option
-                        >
-                        <option v-for="item in formData.city" :value="item" :key="item"
-                          >{{ item }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label for="companyAddressDetail">詳細地址</label>
-                      <input
-                        type="text"
-                        id="companyAddressDetail"
-                        class="form-control"
-                        placeholder="請輸入詳細地址"
-                        v-model="companyData.options.companyAddressDetail"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-12">
-                    <div class="form-group">
-                      <label for="description">公司簡介</label>
-                      <textarea
-                        id="description"
-                        type="text"
-                        class="form-control"
-                        placeholder="請輸入公司簡介"
-                        v-model="companyData.content"
-                        cols="30"
-                        rows="10"
-                      >
-                      </textarea>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-              取消
-            </button>
-            <button type="button" class="btn btn-primary" @click="processCompanyData">
-              確認
-            </button>
-          </div>
-        </div>
-        <!-- 職位內容 -->
-        <div class="editJob" v-if="modalName === 'editJob'">
+        <div class="newJob" v-if="modalName === 'newJob'">
           <div class="modal-header bg-dark text-white">
             <h5 id="newJobModalLabel" class="modal-title">
-              <span>編輯職位</span>
+              <span>新建職位</span>
             </h5>
             <button
               type="button"
@@ -218,7 +24,7 @@
                     type="text"
                     class="form-control"
                     placeholder="職位名稱"
-                    v-model="jobData.title"
+                    v-model="jobData.options.job.jobName"
                   />
                 </div>
               </div>
@@ -230,7 +36,7 @@
                     type="text"
                     class="form-control"
                     placeholder="企業聯絡人"
-                    v-model="jobData.options.company.companyContact"
+                    v-model="jobData.name"
                   />
                 </div>
               </div>
@@ -242,7 +48,7 @@
                     type="text"
                     class="form-control"
                     placeholder="聯絡電話"
-                    v-model="jobData.options.company.companyTel"
+                    v-model="jobData.tel"
                   />
                 </div>
               </div>
@@ -254,7 +60,7 @@
                     type="text"
                     class="form-control"
                     placeholder="聯絡Email"
-                    v-model="jobData.options.company.companyEmail"
+                    v-model="jobData.email"
                   />
                 </div>
               </div>
@@ -283,19 +89,6 @@
                 </div>
                 <img class="img-fluid" alt="" :src="jobData.options.company.companyLogoUrl" />
               </div>
-              <div class="col-4">
-                <div class="form-group">
-                  <label for="jobImage">職位圖片</label>
-                  <input
-                    id="jobImage"
-                    type="text"
-                    class="form-control"
-                    placeholder="請輸入圖片連結"
-                    v-model="jobData.imageUrl"
-                  />
-                </div>
-                <img class="img-fluid" alt="" :src="jobData.imageUrl" />
-              </div>
               <div class="col-6">
                 <label for="jobSalary" class="form-label">薪資</label>
                 <div class="d-flex align-items-center">
@@ -310,7 +103,7 @@
                       "
                       class="form-control"
                       min="0"
-                      v-model.number="jobData.price"
+                      v-model.number="jobData.options.job.salary"
                       :disabled="jobData.options.job.salaryInterView"
                     />
                   </div>
@@ -381,21 +174,52 @@
                     type="number"
                     class="form-control"
                     placeholder="聯絡電話"
-                    v-model.number="jobData.num"
+                    v-model.number="jobData.options.job.needPerson"
                   />
                 </div>
               </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="jobImageUrl">職位圖片</label>
+                  <input
+                    id="jobImageUrl"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入圖片連結"
+                    v-model="jobData.options.job.jobImageUrl"
+                  />
+                </div>
+                <img class="img-fluid" alt="" :src="jobData.options.job.jobImageUrl" />
+              </div>
               <div class="col-12">
                 <div class="row">
+                  <!-- <div class="form-group col-md-6">
+                  <label for="公司行業類別">行業類別</label>
+                  <select
+                    name="公司行業類別"
+                    id="newCompanyIndustryCategory"
+                    class="form-control form-select"
+                    v-model="jobData.options.company.industryCategory"
+                  >
+                    <option :value="jobData.options.company.industryCategory" selected>
+                      {{ jobData.options.company.industryCategory }}</option
+                    >
+                    <option v-for="item in industryCategory" :value="item" :key="item"
+                      >{{ item }}
+                    </option>
+                  </select>
+                </div> -->
                   <div class="form-group col-md-6">
-                    <label for="公司職位類別">職位類別</label>
+                    <label for="jobCategory">職位類別</label>
                     <select
-                      name="公司職位類別"
+                      name="職位類別"
                       id="jobCategory"
                       class="form-control form-select"
-                      v-model="jobData.category"
+                      v-model="jobData.options.job.jobCategory"
                     >
-                      <option :value="jobData.category" selected> {{ jobData.category }}</option>
+                      <option :value="jobData.options.job.jobCategory" selected>
+                        {{ jobData.options.job.jobCategory }}</option
+                      >
                       <option v-for="item in formData.jobCategory" :value="item" :key="item"
                         >{{ item }}
                       </option>
@@ -411,14 +235,14 @@
                         class="form-check-input"
                         data-action="changeProductState"
                         data-id="${item.id}"
-                        :checked="jobData.options.job.promote > 0 ? true : false"
+                        :checked="jobData.options.job.costToken > 0 ? true : false"
                         @change="changeProductState"
                         name="jobLevel"
                         id="jobLevel"
                       />
                       <label class="form-check-label" for="jobLevel">
                         {{
-                          jobData.options.job.promote > 0 ? '付費推廣(時效七天)' : '免費職位刊登'
+                          jobData.options.job.costToken > 0 ? '付費推廣(時效七天)' : '免費職位刊登'
                         }}
                       </label>
                       <p>剩餘職位刊登額度：{{ jobData.options.company.companyJobToken }}</p>
@@ -432,7 +256,7 @@
                         type="text"
                         class="form-control"
                         placeholder="請輸入職位簡介"
-                        v-model="jobData.content"
+                        v-model="jobData.options.job.jobContent"
                         cols="30"
                         rows="10"
                       >
@@ -545,13 +369,13 @@
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="jobApplyOther">申請備註</label>
+                      <label for="otherApplyInfo">申請備註</label>
                       <textarea
-                        id="jobApplyOther"
+                        id="otherApplyInfo"
                         type="text"
                         class="form-control"
-                        placeholder="請輸入申請備註"
-                        v-model="jobData.options.job.jobApplyOther"
+                        placeholder="申請備註"
+                        v-model="jobData.options.job.otherApplyInfo"
                         cols="30"
                         rows="10"
                       >
@@ -566,7 +390,203 @@
             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
               取消
             </button>
-            <button type="button" class="btn btn-primary" @click="processJobData">
+            <button type="button" class="btn btn-primary" @click="processNewJobData">
+              確認
+            </button>
+          </div>
+        </div>
+        <div class="newCompany" v-if="modalName === 'newCompany'">
+          <div class="modal-header bg-dark text-white">
+            <h5 id="newCompanyModalLabel" class="modal-title">
+              <span>新建企業</span>
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label for="title">公司名稱</label>
+                  <input
+                    id="title"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入公司名稱"
+                    v-model="companyData.options.company.companyName"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="companyContact">企業聯絡人</label>
+                  <input
+                    id="companyContact"
+                    type="text"
+                    class="form-control"
+                    placeholder="企業聯絡人"
+                    v-model="companyData.name"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="companyTel">聯絡電話</label>
+                  <input
+                    id="companyTel"
+                    type="text"
+                    class="form-control"
+                    placeholder="聯絡電話"
+                    v-model="companyData.tel"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="companyEmail">聯絡Email</label>
+                  <input
+                    id="companyEmail"
+                    type="text"
+                    class="form-control"
+                    placeholder="聯絡Email"
+                    v-model="companyData.email"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="contactPosition">聯絡人職位</label>
+                  <input
+                    id="contactPosition"
+                    type="text"
+                    class="form-control"
+                    placeholder="聯絡人職位"
+                    v-model="companyData.options.company.contactPosition"
+                  />
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label for="logoImageUrl">公司Logo</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入圖片連結"
+                    v-model="companyData.options.company.companyLogoUrl"
+                  />
+                </div>
+                <img class="img-fluid" alt="" :src="companyData.options.company.companyLogoUrl" />
+              </div>
+              <div class="col-12 mb-3">
+                <div v-if="companyData.options.company.companyImagesUrl.length > 0" class="row ">
+                  <div
+                    v-for="(item, index) in companyData.options.company.companyImagesUrl"
+                    :key="index"
+                    class="col-4"
+                  >
+                    <div class="form-group">
+                      <label for="imageUrl">輸入第 {{ index + 1 }} 張企業圖片</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="請輸入圖片連結"
+                        v-model="companyData.options.company.companyImagesUrl[index]"
+                      />
+                    </div>
+                    <img class="img-fluid" alt="" :src="item" />
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label for="公司行業類別">行業類別</label>
+                    <select
+                      name="公司行業類別"
+                      id="newCompanyIndustryCategory"
+                      class="form-control form-select"
+                      v-model="companyData.options.company.industryCategory"
+                    >
+                      <option :value="companyData.options.company.industryCategory" selected>
+                        {{ companyData.options.company.industryCategory }}</option
+                      >
+                      <option v-for="item in formData.industryCategory" :value="item" :key="item"
+                        >{{ item }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="unit">職位額度</label>
+                    <input
+                      id="unit"
+                      type="text"
+                      class="form-control"
+                      placeholder="請輸入職位額度"
+                      v-model="companyData.options.jobToken"
+                    />
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="companyAddressCity">縣市</label>
+                      <select
+                        name="公司地址縣市"
+                        id="companyAddressCity"
+                        class="form-control form-select"
+                        v-model="companyData.options.company.companyAddressCity"
+                        ref="companyAddressCity"
+                      >
+                        <option :value="companyData.options.company.companyAddressCity" selected>
+                          {{ companyData.options.company.companyAddressCity }}</option
+                        >
+                        <option v-for="item in formData.city" :value="item" :key="item"
+                          >{{ item }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="companyAddressDetail">詳細地址</label>
+                      <input
+                        type="text"
+                        id="companyAddressDetail"
+                        class="form-control"
+                        placeholder="請輸入詳細地址"
+                        v-model="companyData.options.company.companyAddressDetail"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label for="description">公司簡介</label>
+                      <textarea
+                        id="description"
+                        type="text"
+                        class="form-control"
+                        placeholder="請輸入公司簡介"
+                        v-model="companyData.options.company.companyInfo"
+                        cols="30"
+                        rows="10"
+                      >
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              取消
+            </button>
+            <button type="button" class="btn btn-primary" @click="processNewCompanyData">
               確認
             </button>
           </div>
@@ -578,95 +598,49 @@
 
 <script>
 import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
 import { Modal } from 'bootstrap';
+import webData from '@/components/helpers/webData';
 
 export default {
-  // props: ['editItem', 'modalName'],
   data() {
     return {
-      editmodal: {},
+      modal: '',
+      modalName: '',
       formData: {},
-      temItem: {},
-      companyData: {},
       jobData: {
         options: {
           company: { companyLogoUrl: [] },
-          job: {
-            jobApplyOther: '',
-          },
+          job: {},
         },
       },
-      modalName: '',
+      companyData: { options: { company: { companyImagesUrl: [] } } },
     };
   },
   methods: {
-    addImageUrl() {
-      this.companyData.options.company.companyImagesUrl.push('');
-    },
-    deleteImageUrl() {
-      this.companyData.options.company.companyImagesUrl.pop();
-    },
-    // updateProduct() {
-    //   this.$emit('update-product', this.temItemData);
-    // },
-    processCompanyData() {
-      const temObj = this.companyData;
-      const companyItem = {
-        data: {
-          title: temObj.title,
-          id: temObj.id,
-          category: temObj.category,
-          origin_price: 0,
-          price: 0,
-          unit: temObj.unit,
-          description: temObj.description,
-          content: temObj.content,
-          is_enabled: temObj.is_enabled,
-          imageUrl: temObj.imageUrl,
-          imagesUrl: temObj.imagesUrl,
-          options: {
-            companyAddressCity: temObj.options.companyAddressCity,
-            companyAddressDetail: temObj.options.companyAddressDetail,
-            companyContact: temObj.options.companyContact,
-            companyContactPosition: temObj.options.companyContactPosition,
-            companyTel: temObj.options.companyTel,
-            companyEmail: temObj.options.companyEmail,
-            companyJobToken: temObj.options.companyJobToken,
-            create: Math.floor(Date.now() / 1000),
-          },
-        },
-      };
-      console.log(companyItem);
-      // this.newCompany(newCompanyItem);
-      this.$emit('update-product', companyItem);
-      this.closeModal();
-    },
     changeProductState() {
-      if (this.jobData.options.job.promote > 0) {
-        this.jobData.options.job.promote = 0;
+      if (this.jobData.options.job.costToken > 0) {
+        this.jobData.options.job.costToken = 0;
         this.jobData.options.company.companyJobToken += 1;
       } else {
-        this.jobData.options.job.promote = 1;
+        this.jobData.options.job.costToken = 1;
         this.jobData.options.company.companyJobToken -= 1;
       }
     },
-    processJobData() {
+    processNewJobData() {
       const temObj = this.jobData;
-      const jobItem = {
+      const newJobItem = {
         data: {
-          title: temObj.title,
-          category: temObj.category,
-          origin_price: temObj.origin_price,
-          price: temObj.price,
-          unit: temObj.unit,
-          description: temObj.description,
-          content: temObj.content,
-          is_enabled: temObj.is_enabled,
-          imageUrl: temObj.imageUrl,
+          title: temObj.options.job.jobName,
+          category: temObj.options.job.jobCategory,
+          origin_price: temObj.options.job.salary,
+          price: temObj.options.job.salary,
+          unit: '元',
+          description: '職位',
+          content: temObj.options.job.jobContent,
+          is_enabled: 1,
+          imageUrl: temObj.options.job.jobImageUrl,
           imagesUrl: [],
-          num: temObj.num,
-          id: temObj.id,
+          num: temObj.options.job.needPerson,
           options: {
             company: {
               companyName: temObj.options.company.companyName,
@@ -678,80 +652,108 @@ export default {
               companyAddress:
                 temObj.options.company.companyAddressCity
                 + temObj.options.company.companyAddressDetail,
-              companyContact: temObj.options.company.companyName,
+              companyContact: temObj.name,
               contactPosition: temObj.options.company.contactPosition,
-              companyTel: temObj.options.company.companyTel,
-              companyEmail: temObj.options.company.companyEmail,
+              companyTel: temObj.tel,
+              companyEmail: temObj.email,
+              companyJobToken: temObj.options.jobToken,
             },
             job: {
               otherRequirement: temObj.options.job.otherRequirement,
-              jobApplyOther: temObj.options.job.jobApplyOther,
               workExp: temObj.options.job.workExp,
               workType: temObj.options.job.workType,
               workTime: temObj.options.job.workTime,
               education: temObj.options.job.education,
               salaryInterView: temObj.options.job.salaryInterView,
-              promote: temObj.options.job.promote,
+              promote: temObj.options.job.costToken,
               create: Math.floor(Date.now() / 1000),
+              otherApplyInfo: temObj.options.job.otherApplyInfo,
             },
           },
         },
       };
-      console.log(jobItem);
-      this.$emit('update-product', jobItem);
+      console.log(newJobItem);
+      this.$emit('new-item', newJobItem);
       this.closeModal();
     },
-    cleanData() {
-      this.companyData = {};
-      this.jobData = {
-        options: {
-          company: { companyLogoUrl: [] },
-          job: {
-            jobApplyOther: '',
+    processNewCompanyData() {
+      const temObj = this.companyData;
+      const newCompanyItem = {
+        data: {
+          title: temObj.options.company.companyName,
+          category: temObj.options.company.industryCategory,
+          origin_price: 0,
+          price: 0,
+          unit: '間',
+          description: '企業',
+          content: temObj.options.company.companyInfo,
+          is_enabled: 1,
+          imageUrl: temObj.options.company.companyLogoUrl,
+          imagesUrl: temObj.options.company.companyImagesUrl,
+          options: {
+            companyAddressCity: temObj.options.company.companyAddressCity,
+            companyAddressDetail: temObj.options.company.companyAddressDetail,
+            companyContact: temObj.name,
+            companyContactPosition: temObj.options.company.contactPosition,
+            companyTel: temObj.tel,
+            companyEmail: temObj.email,
+            companyJobToken: temObj.options.jobToken,
+            create: Math.floor(Date.now() / 1000),
           },
         },
       };
+      console.log(newCompanyItem);
+      // this.newCompany(newCompanyItem);
+      this.$emit('new-item', newCompanyItem);
+      this.closeModal();
+    },
+    cleanData() {
+      this.companyData = { options: { company: { companyImagesUrl: [] } } };
+      this.jobData = {
+        options: {
+          company: { companyLogoUrl: [] },
+          job: {},
+        },
+      };
+    },
+    addImageUrl() {
+      this.companyData.options.company.companyImagesUrl.push('');
+    },
+    deleteImageUrl() {
+      this.companyData.options.company.companyImagesUrl.pop();
     },
     openModal() {
-      this.editmodal.show();
+      this.modal.show();
     },
     closeModal() {
-      this.editmodal.hide();
+      this.modal.hide();
       this.cleanData();
     },
   },
-  watch: {
-    // editItem: {
-    //   deep: true,
-    //   handler(newValue) {
-    //     [this.companyData] = newValue;
-    //     console.log(this.companyData);
-    //   },
-    // },
-  },
   created() {
     this.formData = webData;
-    emitter.on('close-edit-company', () => {
+    emitter.on('close-new-modal', () => {
       this.closeModal();
     });
-    emitter.on('open-edit-company', (data) => {
+    emitter.on('open-new-modal', (data) => {
       this.openModal();
       console.log(data);
       [this.temItem] = data;
       // eslint-disable-next-line prefer-destructuring
       this.modalName = data[1];
       console.log(this.modalName);
-      if (this.modalName === 'editCompany') {
-        [this.companyData] = this.temItem;
+      if (this.modalName === 'newCompany') {
+        this.companyData = this.temItem[0].user;
         console.log(this.companyData, this.modalName);
-      } else if (this.modalName === 'editJob') {
-        [this.jobData] = this.temItem;
+      } else if (this.modalName === 'newJob') {
+        this.jobData = this.temItem[0].user;
         console.log(this.jobData, this.modalName);
       }
     });
   },
   mounted() {
-    this.editmodal = new Modal(this.$refs.editItemModal);
+    console.log(this.$refs.newJobModal);
+    this.modal = new Modal(this.$refs.newJobModal);
   },
 };
 </script>
