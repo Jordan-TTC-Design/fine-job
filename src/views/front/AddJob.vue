@@ -437,12 +437,12 @@
                 id="sendFormInfoTel"
                 ref="sendFormInfoTel"
                 name="聯絡人電話"
-                type="number"
+                type="text"
                 class="form-control"
                 :class="{ 'is-invalid': errors['聯絡人電話'] }"
                 placeholder="請輸入電話"
                 rules="required"
-                v-model.number="form.user.tel"
+                v-model="form.user.tel"
               ></Field>
               <ErrorMessage name="聯絡人電話" class="invalid-feedback"></ErrorMessage>
             </div>
