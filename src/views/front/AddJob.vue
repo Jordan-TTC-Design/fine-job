@@ -701,7 +701,7 @@ export default {
             console.log(`${res.data.message}`);
             console.log(res);
             this.deleteCart();
-            // this.$router.push('/');
+            this.$router.push('/');
           })
           .catch((error) => {
             console.log(error);
