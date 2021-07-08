@@ -1,0 +1,23 @@
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background-color: #3f6745;
+  width: 24px;
+  border-radius: 4px;
+  // transition-duration: 0.3s;
+}
+.swiper-wrapper {
+  padding-bottom: 36px;
+}
+.swiper-button-prev.swiper-custom,
+.swiper-button-next.swiper-custom {
+  top: 40%;
+}
+.swiper-button-prev.swiper-custom {
+  left: 24px;
+}
+.swiper-button-next.swiper-custom {
+  right: 24px;
+}
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  display: none;
+}

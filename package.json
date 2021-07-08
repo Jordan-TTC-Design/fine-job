@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "cropperjs": "^1.5.12",
     "mitt": "^2.1.0",
+    "swiper": "^6.7.5",
     "vee-validate": "^4.4.5",
     "vue": "^3.0.0",
     "vue-axios": "^3.2.4",

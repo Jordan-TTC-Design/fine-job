@@ -234,15 +234,27 @@
     </div>
   </div>
   <div class="container">
+    <h3 class="pageTitle ps-3">搜尋結果</h3>
     <div class="row">
       <div class="col-md-6">
         <div class="jobListBox">
+          <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
+            <p class="text-secondary fw-normal  text-nowrap">總共 {{ jobsList.length }} 個職位</p>
+            <select
+              class="form-select form-select-lg w-auto border-0 text-gray-dark"
+              @change="changeJobSort($event)"
+              v-model="sortWay"
+            >
+              <option selected value="time">最新至最舊</option>
+              <option value="money">薪水高至低</option>
+            </select>
+          </div>
           <ul ref="jobList" class="jobList">
             <li
               type="button"
               @click="selectJob(item.id)"
               :data-id="item.id"
-              v-for="item in jobsList"
+              v-for="item in nowPageList"
               :key="item.id"
               class="jobList__item d-flex box--shadow flex-column align-items-start"
             >
@@ -426,13 +438,15 @@
       </div>
     </div>
   </div>
+  <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
 </template>
-
 <script>
 import emitter from '@/components/helpers/emitter';
 import webData from '@/components/helpers/webData';
+import PagenationModal from '@/components/Pagenation.vue';
 
 export default {
+  components: { PagenationModal },
   data() {
     return {
       products: [],
@@ -464,9 +478,34 @@ export default {
       },
       filterJobs: [],
       temData: [],
+      nowPageList: [],
+      sortWay: 'time',
     };
   },
   methods: {
+    changeJobSort() {
+      console.log(this.sortWay);
+      if (this.sortWay === 'time') {
+        this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
+      } else if (this.sortWay === 'money') {
+        this.jobsList.sort((a, b) => b.price - a.price);
+      }
+      console.log(this.jobsList);
+    },
+    changePage(nowPageNum) {
+      this.nowPageList = [];
+      console.log(nowPageNum);
+      const pageFrist = nowPageNum * 10 - 10;
+      this.jobsList.forEach((item, index) => {
+        if (pageFrist <= index && index <= nowPageNum * 10) {
+          this.nowPageList.push(item);
+        }
+      });
+      document.documentElement.scrollTop = 0;
+      if (this.nowPageList.length > 0) {
+        this.selectJob(this.nowPageList[0].id);
+      }
+    },
     searchJob() {
       this.cleanList();
       emitter.emit('spinner-open');
@@ -487,7 +526,6 @@ export default {
           this.filterIndustryCategory(this.jobsList);
           this.filterSalary(this.jobsList);
           console.log(this.jobsList);
-          this.selectJob(this.jobsList[0].id);
         })
         .catch((error) => {
           console.log(error);
@@ -637,6 +675,7 @@ export default {
         }
       });
       //   console.log(this.jobsList);
+      this.changeJobSort();
       this.selectJob(this.jobsList[0].id);
     },
     classifyCompany() {

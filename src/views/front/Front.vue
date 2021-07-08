@@ -34,7 +34,7 @@
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main py-4 main--bg">
+  <div class="main py-6 main--bg">
     <router-view></router-view>
   </div>
   <footer class="bg-gray-mid pt-8">

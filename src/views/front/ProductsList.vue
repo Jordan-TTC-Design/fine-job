@@ -1,11 +1,54 @@
 <template>
-  <div class="container">
-    <div class="row"></div>
+  <div class="mb-5">
+    <div class="container">
+      <h3 class="pageTitle ps-3">推薦職位</h3>
+      <swiper
+        :slides-per-view="3"
+        :space-between="20"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        :navigation="{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }"
+      >
+        <swiper-slide v-for="item in goodJobList" :key="item.id">
+          <GoodJobCard :good-job="item"></GoodJobCard>
+        </swiper-slide>
+        <div class="swiper-button-prev swiper-custom">
+          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+            <i class="bi bi-arrow-left actionIcon"></i>
+          </button>
+        </div>
+        <div class="swiper-button-next swiper-custom">
+          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+            <i class="bi bi-arrow-right actionIcon"></i>
+          </button>
+        </div>
+      </swiper>
+    </div>
   </div>
   <div ref="jobsListContainer" class="container">
+    <h3 class="pageTitle ps-3">全部職位</h3>
     <div class="row">
       <div class="col-md-6">
         <div class="jobListBox">
+          <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
+            <p class="text-secondary fw-normal  text-nowrap">總共 {{ jobsList.length }} 個職位</p>
+            <select
+              class="form-select form-select-lg w-auto border-0 text-gray-dark"
+              @change="changeJobSort($event)"
+              v-model="sortWay"
+            >
+              <option selected value="time">最新至最舊</option>
+              <option value="money">薪水高至低</option>
+            </select>
+          </div>
           <ul class="jobList">
             <li
               v-for="item in nowPageList"
@@ -194,87 +237,34 @@
         </div>
       </div>
     </div>
-    <!-- <div class="productList">
-      <table class="table table-striped">
-        <tbody>
-          <template v-for="product in products" :key="product.id">
-            <tr>
-              <th scope="row">
-                <img
-                  v-if="product.imageUrl"
-                  :src="product.imageUrl"
-                  :alt="product.title"
-                  style="height: 40px"
-                />
-                <p v-else>圖片丟失</p>
-              </th>
-              <td>
-                {{ product.title }}
-              </td>
-              <td>{{ product.origin_price }}/{{ product.price }}</td>
-              <td>
-                <div class="btn-group" role="group">
-                  <router-link
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    :to="`/products-list/product/${product.id}`"
-                  >
-                    查看詳細資訊
-                  </router-link>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary"
-                    @click="addCart(product.id)"
-                  >
-                    加入購物車
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </template>
-        </tbody>
-      </table>
-    </div> -->
   </div>
-  <div class="container">
-    <div class="d-flex justify-content-center py-4">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination">
-          <li class="page-item" :class="{ disabled: !pagination.has_pre }">
-            <a class="page-link" href="#" aria-label="Previous" @click="changePage('pre')">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li v-for="item in pagination.total_pages" :key="item" class="page-item">
-            <button class="page-link" :data-num="item" @click="jumpPage(item)">{{ item }}</button>
-          </li>
-          <li class="page-item" :class="{ disabled: !pagination.has_next }">
-            <button type="button" class="page-link" aria-label="Next" @click="changePage('next')">
-              <span aria-hidden="true">&raquo;</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </div>
+  <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
 </template>
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import PagenationModal from '@/components/Pagenation.vue';
+import GoodJobCard from '@/components/front/GoodJobCard.vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/swiper.scss';
+import 'swiper/components/navigation/navigation.min.css';
+import 'swiper/components/pagination/pagination.min.css';
+import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
+
+SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 export default {
+  components: {
+    PagenationModal,
+    GoodJobCard,
+    Swiper,
+    SwiperSlide,
+  },
   data() {
     return {
       products: [],
       jobsList: [],
       companiesList: [],
-      pagination: {
-        total_pages: [],
-        current_page: 1,
-        has_pre: false,
-        has_next: false,
-      },
-      nowPageList: [],
       jobItem: {
         options: {
           company: {
@@ -283,49 +273,46 @@ export default {
           job: {},
         },
       },
+      nowPageList: [],
+      goodJobList: [],
+      sortWay: 'time',
     };
   },
   methods: {
-    jumpPage(num) {
-      this.pagination.current_page = num;
-      this.checkPagination();
-      document.documentElement.scrollTop = 0;
-    },
-    changePage(action) {
-      console.log(action);
-      if (action === 'next' && this.pagination.has_next) {
-        this.pagination.current_page += 1;
-        console.log(this.pagination.current_page);
-      } else if (action === 'pre' && this.pagination.has_pre) {
-        this.pagination.current_page -= 1;
-        console.log(this.pagination.current_page);
+    changeJobSort() {
+      console.log(this.sortWay);
+      if (this.sortWay === 'time') {
+        this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
+      } else if (this.sortWay === 'money') {
+        this.jobsList.sort((a, b) => b.price - a.price);
       }
-      this.checkPagination();
-      document.documentElement.scrollTop = 0;
+      console.log(this.jobsList);
     },
-    checkPagination() {
+    sortGoodJob() {
+      const temGoodJob = this.jobsList.filter((item) => item.options.job.promote === 1);
+      console.log(temGoodJob);
+      const arr = new Set([]);
+      for (let index = 0; arr.size < 6; index + 1) {
+        const num = Math.floor(Math.random() * temGoodJob.length);
+        arr.add(num);
+        console.log(arr.size);
+      }
+      arr.forEach((i) => {
+        this.goodJobList.push(temGoodJob[i]);
+      });
+      console.log(this.goodJobList);
+    },
+    changePage(nowPageNum) {
       this.nowPageList = [];
-      this.pagination.total_pages = [];
-      const totalPageNum = Math.ceil(this.jobsList.length / 5);
-      for (let i = 1; i <= totalPageNum; i += 1) {
-        console.log(i);
-        this.pagination.total_pages.push(i);
-      }
-      console.log(totalPageNum);
-      if (totalPageNum >= this.pagination.current_page) {
-        this.pagination.has_next = true;
-        this.pagination.has_pre = false;
-      } else if (this.pagination.current_page <= 1) {
-        this.pagination.has_next = false;
-        this.pagination.has_pre = true;
-      }
-      console.log(this.pagination.has_next, this.pagination.has_pre);
-      const pageFrist = this.pagination.current_page * 5 - 5;
+      console.log(nowPageNum);
+      const pageFrist = nowPageNum * 10 - 10;
       this.jobsList.forEach((item, index) => {
-        if (pageFrist <= index && index < this.pagination.current_page * 5) {
+        if (pageFrist <= index && index < nowPageNum * 10) {
           this.nowPageList.push(item);
         }
       });
+      document.documentElement.scrollTop = 0;
+      this.selectJob(this.nowPageList[0].id);
     },
     selectJob(id) {
       console.log(id);
@@ -343,7 +330,7 @@ export default {
           const Obj = item;
           this.companiesList.forEach((temCompany) => {
             if (Obj.options.company.companyName === temCompany.title) {
-              console.log(temCompany.id);
+              // console.log(temCompany.id);
               Obj.options.company.companyLink = temCompany.id;
             }
           });
@@ -351,8 +338,9 @@ export default {
         }
       });
       console.log(this.jobsList);
+      this.changeJobSort();
       this.selectJob(this.jobsList[0].id);
-      this.checkPagination();
+      this.sortGoodJob();
     },
     classifyCompany() {
       this.products.forEach((item) => {

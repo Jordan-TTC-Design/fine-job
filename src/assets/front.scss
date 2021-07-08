@@ -151,6 +151,9 @@
       }
     }
   }
+  .jobList__item:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .jobSelectBox {
@@ -205,14 +208,6 @@
   .jobList {
     .jobList__item {
       width: calc(50% - 8px);
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      background-color: white;
-      margin-bottom: 12px;
-      position: relative;
-      .jobList__item:last-child {
-        margin-bottom: 0;
-      }
       .jobList__item__imgBox {
         width: 24%;
         position: relative;
@@ -292,6 +287,12 @@ p {
   }
 }
 // 工具類
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1d1d1d;
+  margin-bottom: 16px;
+}
 .subTxt {
   font-size: 14px;
   font-weight: normal;
@@ -342,5 +343,76 @@ p {
     font-size: 14px;
     margin-left: 0.75rem;
     margin-bottom: 0.25rem;
+  }
+}
+
+//元件
+.goodCardList.swipper--custom {
+  margin-right: calc(var(--bs-gutter-x) / -2);
+  margin-left: calc(var(--bs-gutter-x) / -2);
+  // padding: 0;
+  .goodCard.swipper--custom {
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+  }
+}
+.goodJobCard {
+  .goodJobCard__imgBox {
+    max-height: 180px;
+    position: relative;
+  }
+  .goodJobCard__img {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .img-cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .goodJobCard__jobInfoBox {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 0.5rem 0.75rem;
+    overflow: hidden;
+    z-index: 1;
+    .goodJobCard__img {
+      position: absolute;
+      // top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      object-fit: cover;
+      object-position: left bottom;
+      filter: blur(10px);
+      z-index: -1;
+    }
+  }
+  .goodJobCard__logo {
+    width: 24%;
+    max-width: 80px;
+    border-radius: 0.25rem;
+    z-index: 99;
+  }
+}
+.iconBtnBox{
+  width: 44px;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.75) ;
+  .actionIcon {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1d1d1d;
   }
 }
