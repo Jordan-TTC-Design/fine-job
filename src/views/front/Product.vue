@@ -154,7 +154,6 @@ export default {
   methods: {
     getProductData() {
       emitter.emit('spinner-open');
-
       const { id } = this.$route.params;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`;
       this.$http
@@ -164,7 +163,7 @@ export default {
             this.isExist = true;
             // console.log(res);
             this.jobItem = res.data.product;
-            console.log(this.jobItem);
+            // console.log(this.jobItem);
             this.getAllJobs();
           } else {
             this.isExist = false;
@@ -196,18 +195,18 @@ export default {
       emitter.emit('spinner-open');
       this.jobsList.forEach((item) => {
         if (item.description === '企業') {
-          console.log(item);
+          // console.log(item);
           if (item.title === this.jobItem.options.company.companyName) {
             this.temCompany = item;
           }
         }
       });
-      console.log(this.temCompany);
+      // console.log(this.temCompany);
       emitter.emit('spinner-close');
     },
   },
   created() {
-    // console.log(this.$route.params.id);
+    console.log(this.$route.params);
     this.getProductData();
   },
   mounted() {},

@@ -5,6 +5,22 @@
   position: sticky;
   top: 0px;
   z-index: 999;
+  .header--front__searchModal{
+    position: absolute;
+    top: 48px;
+    right: 0;
+    left: 0;
+    display: none;
+    transition: all 0.3s;
+    // height: 0;
+    // overflow: hidden;
+  }
+  .header--front__searchModal.active{
+    top: 60px;
+    display: block;
+    height: auto;
+    transition: all 0.3s;
+  }
   .header__logo {
     max-height: 100%;
   }
@@ -209,6 +225,9 @@
   // &:hover {
   //     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   //   }
+}
+.box--shadow--lg {
+box-shadow: 0 5px 6px rgba(0, 0, 0, 0.16);
 }
 
 .jobList {

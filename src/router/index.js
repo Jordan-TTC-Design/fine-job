@@ -32,6 +32,11 @@ const routes = [
         component: () => import('../views/front/SearchList.vue'),
       },
       {
+        // 搜尋相關職位
+        path: 'search/:keyword&:city',
+        component: () => import('../views/front/SearchPage.vue'),
+      },
+      {
         // 結帳
         path: 'cart-checkout',
         component: () => import('../views/front/Check.vue'),

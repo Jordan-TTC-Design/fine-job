@@ -10,7 +10,7 @@
         <form class="banner__searchBar d-flex align-items-center">
           <img
             class="banner__logo me-3"
-            src="../assets/images/header/fineJobLogo—square.svg"
+            src="../assets/images/header/fineJobLogo-square.svg"
             alt=""
           />
           <div class="d-flex justify-content-between align-items-end flex-grow-1">
@@ -45,7 +45,12 @@
                 >
               </select>
             </div>
-            <button type="button" class="btn btn-primary">搜尋職位</button>
+            <router-link
+              class="btn btn-primary"
+              type="button"
+              :to="`/search/${filterData.keyword}&${filterData.city}`"
+              >搜尋職位</router-link
+            >
           </div>
         </form>
       </div>
