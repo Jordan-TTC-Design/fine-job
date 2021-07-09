@@ -3,15 +3,16 @@
   <header class="header--front">
     <div class="container d-flex justify-content-between">
       <h1>
-        <img
-          class="header__logo"
-          src="../../assets/images/header/fineJobLogo-whtie.svg"
-          alt="logo"
-        />
+        <router-link aria-current="page" to="/home"
+          ><img
+            class="header__logo"
+            src="../../assets/images/header/fineJobLogo-whtie.svg"
+            alt="logo"
+        /></router-link>
       </h1>
       <ul class="header__nav">
         <li class="nav-item">
-          <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
+          <router-link class="nav-link text-white" aria-current="page" to="/home">首頁</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link text-white" to="/products-list">優質工作</router-link>
@@ -34,7 +35,7 @@
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main py-6 main--bg">
+  <div class="main py-7 main--bg">
     <router-view></router-view>
   </div>
   <footer class="bg-gray-mid pt-8">

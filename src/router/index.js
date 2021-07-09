@@ -7,7 +7,7 @@ const routes = [
     component: () => import('../views/front/Front.vue'),
     children: [
       {
-        // 全部產品頁面
+        // 首頁
         path: 'home',
         component: () => import('../views/Home.vue'),
       },

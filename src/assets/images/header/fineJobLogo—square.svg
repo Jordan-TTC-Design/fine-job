@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="78" viewBox="0 0 90 78">
+  <defs>
+    <clipPath id="clip-fineJobLogo_square">
+      <rect width="90" height="78"/>
+    </clipPath>
+  </defs>
+  <g id="fineJobLogo_square" data-name="fineJobLogo—square" clip-path="url(#clip-fineJobLogo_square)">
+    <g id="Group_39142" data-name="Group 39142" transform="translate(-47 -24.177)">
+      <g id="Group_38891" data-name="Group 38891" transform="translate(48.732 24)">
+        <rect id="Rectangle_12562" data-name="Rectangle 12562" width="86.86" height="76.156" rx="4" transform="translate(0 0.177)" fill="none"/>
+      </g>
+      <g id="Group_38982" data-name="Group 38982" transform="translate(-16 -4)">
+        <g id="Group_38966" data-name="Group 38966" transform="translate(80.5 42.088)">
+          <g id="Group_38970" data-name="Group 38970">
+            <path id="Rectangle_12821" data-name="Rectangle 12821" d="M8,0h8a8,8,0,0,1,8,8v8a0,0,0,0,1,0,0H8A8,8,0,0,1,0,8V8A8,8,0,0,1,8,0Z" transform="translate(0.5 2.088)" fill="#09a758"/>
+            <path id="Rectangle_12820" data-name="Rectangle 12820" d="M8,0h8a8,8,0,0,1,8,8V8a8,8,0,0,1-8,8H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(28.5 10.088)" fill="#09a758"/>
+            <path id="Rectangle_12582" data-name="Rectangle 12582" d="M8,0h8a8,8,0,0,1,8,8v8a0,0,0,0,1,0,0H8A8,8,0,0,1,0,8V8A8,8,0,0,1,8,0Z" transform="translate(2.5 0.088)" fill="#3f6745"/>
+            <path id="Rectangle_12582-2" data-name="Rectangle 12582" d="M8,0h8a8,8,0,0,1,8,8V8a8,8,0,0,1-8,8H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(30.5 12.088)" fill="#3f6745"/>
+          </g>
+        </g>
+        <path id="Path_6118" data-name="Path 6118" d="M1.733,12H3.579V8.386h4.2V6.8h-4.2V4.915h4.29V3.329H1.733Zm7.423,0H11V3.329H9.156ZM18.7,12h1.781V3.329H18.632V8.945L14.615,3.329h-1.9V12h1.846V6.176Zm3.5,0H28.33V10.4h-4.29V8.386h4.2V6.8h-4.2V4.915h4.29V3.329H22.194Zm10.127-.689a3.225,3.225,0,0,0,2.327.845,2.762,2.762,0,0,0,3.055-3V3.329H35.857v5.8a1.287,1.287,0,0,1-1.352,1.391,1.962,1.962,0,0,1-1.378-.624ZM39,7.671a4.531,4.531,0,0,0,9.061,0,4.531,4.531,0,0,0-9.061,0Zm7.163,0a2.641,2.641,0,1,1-5.265,0,2.641,2.641,0,1,1,5.265,0ZM49.365,12H54.07a2.283,2.283,0,0,0,2.522-2.34,2.1,2.1,0,0,0-1.664-2.132,1.926,1.926,0,0,0,1.495-1.989,2.243,2.243,0,0,0-2.5-2.21H49.365ZM51.21,6.813V4.9h2.314a.957.957,0,1,1,0,1.911Zm0,3.614V8.386H53.59A1.013,1.013,0,0,1,54.708,9.4a1,1,0,0,1-1.118,1.027Z" transform="translate(79 78.177)" fill="#3f6745"/>
+      </g>
+    </g>
+  </g>
+</svg>

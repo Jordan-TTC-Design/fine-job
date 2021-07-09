@@ -3,6 +3,7 @@
     <div class="container">
       <h3 class="pageTitle ps-3">推薦職位</h3>
       <swiper
+        v-if="dataOk"
         :slides-per-view="3"
         :space-between="20"
         :autoplay="{
@@ -276,6 +277,7 @@ export default {
       nowPageList: [],
       goodJobList: [],
       sortWay: 'time',
+      dataOk: false,
     };
   },
   methods: {
@@ -301,6 +303,7 @@ export default {
         this.goodJobList.push(temGoodJob[i]);
       });
       console.log(this.goodJobList);
+      this.dataOk = true;
     },
     changePage(nowPageNum) {
       this.nowPageList = [];
@@ -366,21 +369,6 @@ export default {
           this.products = res.data.products;
           emitter.emit('spinner-close');
           this.classifyCompany();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    addCart(id, qty = 1) {
-      // console.log(qty);
-      const product = { data: { product_id: id, qty } };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
-          emitter.emit('get-cart');
-          // this.$refs.productModal.modal.hide();
         })
         .catch((error) => {
           console.log(error);
