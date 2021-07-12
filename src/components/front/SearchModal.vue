@@ -36,7 +36,7 @@
                   >
                 </select>
               </div>
-              <button type="button" class="btn btn-primary">搜尋職位</button>
+              <button type="button" class="btn btn-primary" @click="toSearchJob">搜尋職位</button>
             </div>
           </form>
         </div>
@@ -69,7 +69,28 @@ export default {
     };
   },
   methods: {
-    search() {},
+    toSearchJob() {
+      const keyword = this.filterData.keyword || '不限';
+      const { city } = this.filterData;
+      const { jobCategory } = this.filterData;
+      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.cleanFilter();
+    },
+    cleanFilter() {
+      this.filterData = {
+        keyword: '',
+        city: '不限',
+        industryCategory: '不限',
+        jobCategory: '不限',
+        workExp: '不限',
+        education: '不限',
+        workType: '不限',
+        workTime: '不限',
+        salaryLow: null,
+        salaryHight: null,
+        salaryInterView: false,
+      };
+    },
   },
 
   created() {

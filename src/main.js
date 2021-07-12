@@ -1,5 +1,6 @@
 // /* eslint-disable no-unused-vars */
 import { createApp } from 'vue';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import {
   Field, Form, ErrorMessage, defineRule, configure,
 } from 'vee-validate';
@@ -25,6 +26,7 @@ configure({
 setLocale('zh_TW');
 
 const app = createApp(App);
+app.use(CKEditor);
 app.config.globalProperties.$filters = { date };
 app.component('Form', Form);
 app.component('Field', Field);

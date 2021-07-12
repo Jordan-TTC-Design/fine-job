@@ -45,12 +45,7 @@
                 >
               </select>
             </div>
-            <router-link
-              class="btn btn-primary"
-              type="button"
-              :to="`/search/${filterData.keyword}&${filterData.city}`"
-              >搜尋職位</router-link
-            >
+            <button class="btn btn-primary" type="button" @click="toSearchJob">搜尋職位</button>
           </div>
         </form>
       </div>
@@ -149,7 +144,7 @@
         }"
         v-if="dataOk"
       >
-        <swiper-slide v-for="item in goodJobList" :key="item.id">
+        <swiper-slide v-for="item in newJobList" :key="item.id">
           <GoodJobCard :good-job="item"></GoodJobCard>
         </swiper-slide>
         <div class="swiper-button-prev swiper-custom">
@@ -198,7 +193,7 @@ export default {
           job: {},
         },
       },
-      nowPageList: [],
+      newJobList: [],
       goodJobList: [],
       sortWay: 'time',
       dataOk: false,
@@ -219,6 +214,12 @@ export default {
     };
   },
   methods: {
+    toSearchJob() {
+      const keyword = this.filterData.keyword || '不限';
+      const { city } = this.filterData;
+      const { jobCategory } = this.filterData;
+      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+    },
     changeJobSort() {
       console.log(this.sortWay);
       if (this.sortWay === 'time') {
@@ -226,34 +227,33 @@ export default {
       } else if (this.sortWay === 'money') {
         this.jobsList.sort((a, b) => b.price - a.price);
       }
-      console.log(this.jobsList);
+      this.sortNewJob();
+    },
+    sortNewJob() {
+      // this.jobsList.forEach((item, index) => {
+      //   if (index < 6) {
+      //     this.newJobList.push(this.jobsList[index]);
+      //   }
+      // });
+      for (let index = 0; index < 6; index += 1) {
+        this.newJobList.push(this.jobsList[index]);
+        // console.log(this.newJobList);
+      }
     },
     sortGoodJob() {
       const temGoodJob = this.jobsList.filter((item) => item.options.job.promote === 1);
-      console.log(temGoodJob);
+      // console.log(temGoodJob);
       const arr = new Set([]);
-      for (let index = 0; arr.size < 6; index + 1) {
+      for (let index = 0; arr.size < 6; index += 1) {
         const num = Math.floor(Math.random() * temGoodJob.length);
         arr.add(num);
-        console.log(arr.size);
+        // console.log(arr.size);
       }
       arr.forEach((i) => {
         this.goodJobList.push(temGoodJob[i]);
       });
-      console.log(this.goodJobList);
+      // console.log(this.goodJobList);
       this.dataOk = true;
-    },
-    changePage(nowPageNum) {
-      this.nowPageList = [];
-      console.log(nowPageNum);
-      const pageFrist = nowPageNum * 10 - 10;
-      this.jobsList.forEach((item, index) => {
-        if (pageFrist <= index && index < nowPageNum * 10) {
-          this.nowPageList.push(item);
-        }
-      });
-      document.documentElement.scrollTop = 0;
-      this.selectJob(this.nowPageList[0].id);
     },
     classifyJob() {
       this.products.forEach((item) => {
@@ -303,8 +303,8 @@ export default {
     },
   },
   created() {
-    this.getProductsData();
     this.formData = webData;
+    this.getProductsData();
   },
   mounted() {},
 };

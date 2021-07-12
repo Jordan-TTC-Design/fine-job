@@ -73,9 +73,13 @@
                   <i class="jobIcon bi bi-bookmark-fill"></i>
                 </button>
                 <div class="mb-3">
-                  <p class="jobTag">
+                  <button
+                    type="button"
+                    class="jobTag btn"
+                    @click="searchByJobCategory(item.category)"
+                  >
                     {{ item.category }}
-                  </p>
+                  </button>
                 </div>
                 <div class="d-flex">
                   <div class="jobList__item__imgBox me-3">
@@ -160,6 +164,13 @@ export default {
     };
   },
   methods: {
+    searchByJobCategory(jobCategory) {
+      const keyword = '不限';
+      const city = '不限';
+      // console.log(jobCategory);
+      // const { jobCategory } = this.filterData;
+      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+    },
     getCompanyData() {
       emitter.emit('spinner-open');
       const { id } = this.$route.params;

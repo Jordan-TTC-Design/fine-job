@@ -152,6 +152,7 @@ export default {
     };
   },
   methods: {
+
     getProductData() {
       emitter.emit('spinner-open');
       const { id } = this.$route.params;

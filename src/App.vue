@@ -1,9 +1,6 @@
 <template>
-<router-view>
-
-</router-view>
-<spinner></spinner>
-
+  <router-view v-if="isRouterAlive"> </router-view>
+  <spinner></spinner>
 </template>
 <script>
 import Spinner from './components/Spinner.vue';
@@ -12,8 +9,26 @@ export default {
   components: {
     Spinner,
   },
-  created() {
+  provide() {
+    return {
+      reload: this.reload,
+    };
   },
+  data() {
+    return {
+      isRouterAlive: true,
+    };
+  },
+  methods: {
+    reload() {
+      console.log('reload occure');
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        this.isRouterAlive = true;
+      });
+    },
+  },
+  created() {},
 };
 </script>
 <style lang="scss">

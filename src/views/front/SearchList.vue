@@ -707,27 +707,10 @@ export default {
           console.log(error);
         });
     },
-    addCart(id, qty = 1) {
-      // console.log(qty);
-      const product = { data: { product_id: id, qty } };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
-          emitter.emit('get-cart');
-          // this.$refs.productModal.modal.hide();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
   created() {
     this.getProductsData();
     this.formData = webData;
-    // console.log(this.filterData);
-    // console.log(process.env.VUE_APP_PATH);
   },
   mounted() {
     this.mountState = true;

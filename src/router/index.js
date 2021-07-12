@@ -33,7 +33,7 @@ const routes = [
       },
       {
         // 搜尋相關職位
-        path: 'search/:keyword&:city',
+        path: 'search/:keyword&:city&:jobCategory',
         component: () => import('../views/front/SearchPage.vue'),
       },
       {

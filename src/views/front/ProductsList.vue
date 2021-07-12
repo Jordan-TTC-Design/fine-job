@@ -63,9 +63,13 @@
                 <i class="jobIcon bi bi-bookmark-fill"></i>
               </button>
               <div class="mb-3">
-                <p class="jobTag">
+                <button
+                  type="button"
+                  class="jobTag btn"
+                  @click="searchByJobCategory(item.category)"
+                >
                   {{ item.category }}
-                </p>
+                </button>
               </div>
               <div class="d-flex">
                 <div class="jobList__item__imgBox">
@@ -109,9 +113,13 @@
         <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
-              <p class="jobTag">
+              <button
+                type="button"
+                class="jobTag btn"
+                @click="searchByJobCategory(jobItem.category)"
+              >
                 {{ jobItem.category }}
-              </p>
+              </button>
             </div>
             <div class="d-flex">
               <router-link
@@ -278,9 +286,29 @@ export default {
       goodJobList: [],
       sortWay: 'time',
       dataOk: false,
+      filterData: {
+        keyword: '',
+        city: '不限',
+        industryCategory: '不限',
+        jobCategory: '不限',
+        workExp: '不限',
+        education: '不限',
+        workType: '不限',
+        workTime: '不限',
+        salaryLow: null,
+        salaryHight: null,
+        salaryInterView: false,
+      },
     };
   },
   methods: {
+    searchByJobCategory(jobCategory) {
+      const keyword = '不限';
+      const city = '不限';
+      // console.log(jobCategory);
+      // const { jobCategory } = this.filterData;
+      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+    },
     changeJobSort() {
       console.log(this.sortWay);
       if (this.sortWay === 'time') {
@@ -377,8 +405,6 @@ export default {
   },
   created() {
     this.getProductsData();
-    // console.log(process.env.VUE_APP_API);
-    // console.log(process.env.VUE_APP_PATH);
   },
   mounted() {},
 };

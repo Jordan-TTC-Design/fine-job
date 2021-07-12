@@ -2,6 +2,13 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-6">
+        <div class="newCompanyForm box--shadow">
+          <h2 class="text-center">新建企業</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6">
         <h2 class="text-center">新建企業</h2>
         <Form ref="sendFormInfoForm" v-slot="{ errors }" @submit="processFormData">
           <div class="mb-3">
@@ -252,23 +259,31 @@
               </div>
             </div>
           </div>
-
-          <div class="mb-3">
+          <div class="mb-3 companyInfo">
             <label for="sendFormInfoCompanyInfo" class="form-label">公司簡介</label>
+            <ckeditor
+              :editor="editor"
+              tag-name="textarea"
+              ref="cktext"
+              v-model="form.user.options.company.companyInfo"
+              :config="editorConfig"
+              :class="{ 'is-invalid': errors['公司簡介'] }"
+              rules="required"
+              name="公司簡介"
+            ></ckeditor>
             <Field
               id="sendFormInfoCompanyInfo"
               name="公司簡介"
               type="text"
-              class="form-control"
+              class="form-control d-none"
               :class="{ 'is-invalid': errors['公司簡介'] }"
               placeholder="請輸入"
               v-model="form.user.options.company.companyInfo"
               ref="sendFormInfoCompanyInfo"
-              cols="30"
-              rows="10"
               as="textarea"
               rules="required"
-            ></Field>
+            >
+            </Field>
             <ErrorMessage name="公司簡介" class="invalid-feedback"></ErrorMessage>
           </div>
           <div class="mb-3">
@@ -375,6 +390,7 @@
 <script>
 import emitter from '@/components/helpers/emitter';
 import ImageCropper from '@/components/ImageCropperModal.vue';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
   components: { ImageCropper },
@@ -416,7 +432,51 @@ export default {
       // 驗證使用
       uploadImgState: '',
       formState: true,
+      editor: ClassicEditor,
+      editorConfig: {
+        toolbar: ['heading', '|', 'bold', 'italic', 'link'],
+        language: 'zh',
+        placeholder: '請輸入...',
+        heading: {
+          // 設定 Heading 內的樣式，可新增多個
+          options: [
+            {
+              model: 'paragraph',
+              title: 'Paragraph',
+              class: 'ck-heading_paragraph',
+            },
+            {
+              model: 'heading1',
+              view: 'h2',
+              title: 'Heading 1',
+              class: 'ck-heading_heading1',
+            },
+            {
+              model: 'heading2',
+              view: 'h3',
+              title: 'Heading 2',
+              class: 'ck-heading_heading2',
+            },
+          ],
+        },
+      },
+      tempArticle: {
+        tag: [''],
+      },
     };
+  },
+  watch: {
+    article() {
+      this.tempArticle = {
+        ...this.article,
+        tag: this.article.tag || [],
+        isPublic: this.article.isPublic || false,
+      };
+      [this.create_at] = new Date(this.tempArticle.create_at * 1000).toISOString().split('T');
+    },
+    create_at() {
+      this.tempArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
+    },
   },
   methods: {
     // 取得圖片傳給modal

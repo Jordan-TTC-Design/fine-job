@@ -262,9 +262,13 @@
                 <i class="jobIcon bi bi-bookmark-fill"></i>
               </button>
               <div class="mb-3">
-                <p class="jobTag">
+                <button
+                  type="button"
+                  class="jobTag btn"
+                  @click="searchByJobCategory(item.category)"
+                >
                   {{ item.category }}
-                </p>
+                </button>
               </div>
               <div class="d-flex">
                 <div class="jobList__item__imgBox">
@@ -308,9 +312,13 @@
         <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
-              <p class="jobTag">
+              <button
+                type="button"
+                class="jobTag btn"
+                @click="searchByJobCategory(jobItem.category)"
+              >
                 {{ jobItem.category }}
-              </p>
+              </button>
             </div>
             <div class="d-flex">
               <router-link
@@ -447,6 +455,7 @@ import PagenationModal from '@/components/Pagenation.vue';
 
 export default {
   components: { PagenationModal },
+  inject: ['reload'],
   data() {
     return {
       products: [],
@@ -483,6 +492,26 @@ export default {
     };
   },
   methods: {
+    searchByJobCategory(jobCategory) {
+      this.cleanFilter();
+      const keyword = '不限';
+      const city = '不限';
+      this.filterData.jobCategory = jobCategory;
+      // console.log(this.filterData.jobCategory);
+      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.reload();
+    },
+    getSearchFilterData() {
+      console.log(this.$route.params);
+      const { keyword } = this.$route.params;
+      const { city } = this.$route.params;
+      const { jobCategory } = this.$route.params;
+      if (keyword !== '不限') {
+        this.filterData.keyword = keyword;
+      }
+      this.filterData.city = city;
+      this.filterData.jobCategory = jobCategory;
+    },
     changeJobSort() {
       console.log(this.sortWay);
       if (this.sortWay === 'time') {
@@ -656,7 +685,7 @@ export default {
       //   console.log(id);
       this.jobsList.forEach((item) => {
         if (item.id === id) {
-          this.jobItem = { ...item };
+          this.jobItem = item;
         }
       });
       this.$refs.jobSelectBox.scrollTop = 0;
@@ -707,28 +736,12 @@ export default {
           console.log(error);
         });
     },
-    addCart(id, qty = 1) {
-      // console.log(qty);
-      const product = { data: { product_id: id, qty } };
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
-          emitter.emit('get-cart');
-          // this.$refs.productModal.modal.hide();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
   created() {
-    this.getProductsData();
     this.formData = webData;
     console.log(this.$route.params);
-    // console.log(this.filterData);
-    // console.log(process.env.VUE_APP_PATH);
+    this.getSearchFilterData();
+    this.searchJob();
   },
   mounted() {
     this.mountState = true;

@@ -99,6 +99,10 @@ export default {
   components: {
     SearchModal,
   },
+  data() {
+    return {
+    };
+  },
   methods: {
     openSearchModal() {
       this.$refs.Search.classList.toggle('active');
@@ -107,6 +111,7 @@ export default {
     closeSearchModal() {
       this.$refs.Search.classList.remove('active');
     },
+
   },
   mounted() {
     this.closeSearchModal();
