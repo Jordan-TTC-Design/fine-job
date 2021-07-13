@@ -1,386 +1,588 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-6">
-        <div class="newCompanyForm box--shadow">
-          <h2 class="text-center">新建企業</h2>
+    <div class="addProcess mb-6">
+      <h2 class="pageTitle text-primary text-center mb-4">新建企業</h2>
+      <div class="row  justify-content-center">
+        <div class="col-2">
+          <div
+            class="addProcessBox py-2"
+            ref="addProcessBox--1"
+            :class="{ completed: formStep > 1 }"
+          >
+            <h5 class="addProcessBox__title">1</h5>
+            <p class="addProcessBox__txt">填寫公司資料</p>
+            <div class="icon--okBox">
+              <div class="icon--okBox__innerBox">
+                <i class="jobIcon bi bi-check-lg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <div
+            class="addProcessBox py-2"
+            ref="addProcessBox--2"
+            :class="{ completed: formStep > 2, unActive: formStep < 2 }"
+          >
+            <h5 class="addProcessBox__title">2</h5>
+            <p class="addProcessBox__txt">填寫公司聯絡人</p>
+            <div class="icon--okBox">
+              <div class="icon--okBox__innerBox">
+                <i class="jobIcon bi bi-check-lg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <div
+            class="addProcessBox py-2"
+            ref="addProcessBox--3"
+            :class="{ completed: formStep > 3, unActive: formStep < 3 }"
+          >
+            <h5 class="addProcessBox__title">3</h5>
+            <p class="addProcessBox__txt">購買服務</p>
+            <div class="icon--okBox">
+              <div class="icon--okBox__innerBox">
+                <i class="jobIcon bi bi-check-lg"></i>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-6">
-        <h2 class="text-center">新建企業</h2>
-        <Form ref="sendFormInfoForm" v-slot="{ errors }" @submit="processFormData">
-          <div class="mb-3">
-            <label for="sendFormInfoCompanyName" class="form-label">公司名稱</label>
-            <Field
-              id="sendFormInfoCompanyName"
-              name="公司名稱"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['公司名稱'] }"
-              placeholder="請輸入公司名稱"
-              rules="required"
-              v-model="form.user.options.company.companyName"
-              ref="sendFormInfoCompanyName"
-            ></Field>
-            <ErrorMessage name="公司名稱" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <div>
-              <label for="sendFormInfoCompanyLogo" class="form-label">公司logo</label>
-              <input
-                id="sendFormInfoCompanyLogo"
-                name="公司logo"
-                type="file"
-                class="form-control d-none"
-                :class="{ 'is-invalid': errors['公司logo'] }"
-                ref="sendFormInfoCompanyLogo"
-                rules="required"
-                data-input="upLoadSingleImg"
-                @change="loadingImg($event)"
-                accept="image/*"
-              />
-              <div class="cropImgBox">
-                <div class="cropImgBox__cover" v-if="companyLogo.src"></div>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary cropImgBtn"
-                  @click="clickInput($event)"
-                  data-input="upLoadSingleImg"
-                  v-if="companyLogo.src == ''"
-                >
-                  選擇圖片
-                </button>
-                <img
-                  v-if="companyLogo.src !== ''"
-                  class="cropImg"
-                  ref="cropImgCompanyLogo"
-                  :src="companyLogo.src"
-                  alt=""
-                />
+      <div class="col-8">
+        <div class="newCompanyForm box--shadow" v-if="formStep === 1">
+          <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="changeStep('next')">
+            <h3 class="page__title--sub"><span class="title__icon"></span>公司基本資料</h3>
+            <p class="mb-4">於 Fine Job 創建公司需嚴格審核，請填寫正確企業資訊：</p>
+            <!-- 表單1-1：公司名稱(必填) -->
+            <div class="row">
+              <div class="col-4">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoCompanyLogo" class="form__label--custom form-label"
+                      >公司logo</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <input
+                    id="sendFormInfoCompanyLogo"
+                    ref="sendFormInfoCompanyLogo"
+                    name="公司logo"
+                    type="file"
+                    class="form-control d-none"
+                    :class="{ 'is-invalid': errors['公司logo'] }"
+                    rules="required"
+                    data-input="upLoadSingleImg"
+                    @change="loadingImg($event)"
+                    accept="image/*"
+                  />
+                  <div class="cropImgBox">
+                    <div class="cropImgBox__cover" v-if="companyLogo.src"></div>
+                    <p class="subTxt" v-if="companyLogo.src == ''">(上限 5 mb )</p>
+                    <img
+                      v-if="companyLogo.src !== ''"
+                      class="cropImg h-100"
+                      ref="cropImgCompanyLogo"
+                      :src="companyLogo.src"
+                      alt=""
+                    />
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <button
+                      type="button"
+                      class="btn"
+                      @click="clickInput($event)"
+                      data-input="upLoadSingleImg"
+                      :class="{
+                        'btn-gray-light': companyLogo.src !== '',
+                        'btn-outline-primary': companyLogo.src == '',
+                      }"
+                    >
+                      {{ companyLogo.src != '' ? '重選' : '選擇圖片' }}
+                    </button>
+                    <button
+                      type="button"
+                      class="btn"
+                      @click="updateImg($event)"
+                      data-input="upLoadSingleImg"
+                      :class="{
+                        'btn-gray-light': !!companyLogo.isUpDated || companyLogo.src == '',
+                        'btn-outline-primary': companyLogo.src !== '',
+                      }"
+                      :disabled="!!companyLogo.isUpDated || companyLogo.src == ''"
+                    >
+                      {{ companyLogo.isUpDated ? '已上傳' : '上傳' }}
+                    </button>
+                  </div>
+                  <Field
+                    id="sendFormInfoCompanyLogoCheck"
+                    ref="sendFormInfoCompanyLogoCheck"
+                    name="公司Logo"
+                    type="text"
+                    class="form-control d-none"
+                    :class="{ 'is-invalid': errors['公司Logo'] }"
+                    v-model="form.user.options.company.companyLogoUrl"
+                    rules="required"
+                  ></Field>
+                  <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
+                </div>
               </div>
-              <button
-                type="button"
-                class="btn btn-outline-primary w-100 mb-1"
-                @click="updateImg($event)"
-                data-input="upLoadSingleImg"
-                :disabled="!!companyLogo.isUpDated"
-              >
-                {{ companyLogo.isUpDated ? '已上傳' : '上傳圖片' }}
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-secondary w-100"
-                @click="clickInput($event)"
-                v-if="companyLogo.src != ''"
-                data-input="upLoadSingleImg"
-              >
-                重選
-              </button>
-            </div>
-            <div>
-              <Field
-                id="sendFormInfoCompanyLogoCheck"
-                name="公司Logo"
-                type="text"
-                class="form-control d-none"
-                :class="{ 'is-invalid': errors['公司Logo'] }"
-                v-model="form.user.options.company.companyLogoUrl"
-                ref="sendFormInfoCompanyLogoCheck"
-                rules="required"
-              ></Field>
-              <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoIndustryCategory" class="form-label">公司行業類別</label>
-            <Field
-              name="公司行業類別"
-              as="select"
-              id="sendFormInfoIndustryCategory"
-              class="form-control form-select"
-              :class="{ 'is-invalid': errors['公司行業類別'] }"
-              rules="required"
-              v-model="form.user.options.company.industryCategory"
-              ref="sendFormInfoIndustryCategory"
-            >
-              <option value="" disabled selected>選擇您公司的行業類別</option>
-              <option value="批發、零售、傳直銷業">批發、零售、傳直銷業</option>
-              <option value="文教相關業">文教相關業</option>
-              <option value="大眾傳播相關業">大眾傳播相關業</option>
-              <option value="旅遊、休閒、運動業">旅遊、休閒、運動業</option>
-              <option value="一般服務業">一般服務業</option>
-              <option value="電子資訊、軟體、半導體相關業">電子資訊、軟體、半導體相關業</option>
-              <option value="一般製造業">一般製造業</option>
-              <option value="農林漁牧水電資源業">農林漁牧水電資源業</option>
-              <option value="運輸物流及倉儲">運輸物流及倉儲</option>
-              <option value="政治宗教及社福相關業">政治宗教及社福相關業</option>
-              <option value="金融投顧及保險業">金融投顧及保險業</option>
-              <option value="法律、會計、顧問、研發、設計業">法律、會計、顧問、研發、設計業</option>
-              <option value="建築營造及不動產相關業">建築營造及不動產相關業</option>
-              <option value="醫療保健及環境衛生業">醫療保健及環境衛生業</option>
-              <option value="礦業及土石採取業">礦業及土石採取業</option>
-              <option value="住宿、餐飲服務業">住宿、餐飲服務業</option>
-            </Field>
-            <ErrorMessage name="公司行業類別" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoCompanyAddressCity" class="form-label">公司地址</label>
-            <div class="d-flex">
-              <div class=" flex-shrink-1 me-2">
-                <Field
-                  name="公司地址縣市"
-                  as="select"
-                  id="sendFormInfoCompanyAddressCity"
-                  class="form-control form-select "
-                  :class="{ 'is-invalid': errors['公司地址縣市'] }"
-                  rules="required"
-                  v-model="form.user.options.company.companyAddressCity"
-                  ref="sendFormInfoCompanyAddressCity"
-                >
-                  <option value="" disabled selected>選擇縣市</option>
-                  <option value="基隆市">基隆市</option>
-                  <option value="台北市">台北市</option>
-                  <option value="新北市">新北市</option>
-                  <option value="桃園市">桃園市</option>
-                  <option value="新竹縣">新竹縣</option>
-                  <option value="新竹市">新竹市</option>
-                  <option value="苗栗縣">苗栗縣</option>
-                  <option value="台中市">台中市</option>
-                  <option value="彰化市">彰化市</option>
-                  <option value="南投縣">南投縣</option>
-                  <option value="雲林縣">雲林縣</option>
-                  <option value="嘉義縣">嘉義縣</option>
-                  <option value="台南市">台南市</option>
-                  <option value="高雄市">高雄市</option>
-                  <option value="屏東縣">屏東縣</option>
-                  <option value="花蓮縣">花蓮縣</option>
-                  <option value="宜蘭縣">宜蘭縣</option>
-                </Field>
-                <ErrorMessage name="公司地址縣市" class="invalid-feedback"></ErrorMessage>
+              <div class="col-8">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoCompanyName" class="form__label--custom form-label"
+                      >公司名稱</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    id="sendFormInfoCompanyName"
+                    name="公司名稱"
+                    type="text"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors['公司名稱'] }"
+                    placeholder="請輸入公司名稱"
+                    rules="required"
+                    v-model="form.user.options.company.companyName"
+                    ref="sendFormInfoCompanyName"
+                  ></Field>
+                  <ErrorMessage name="公司名稱" class="invalid-feedback"></ErrorMessage>
+                </div>
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoIndustryCategory" class="form__label--custom form-label"
+                      >公司行業類別</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    name="公司行業類別"
+                    as="select"
+                    id="sendFormInfoIndustryCategory"
+                    class="form-control form-select"
+                    :class="{ 'is-invalid': errors['公司行業類別'] }"
+                    rules="required"
+                    v-model="form.user.options.company.industryCategory"
+                    ref="sendFormInfoIndustryCategory"
+                  >
+                    <option value="" disabled selected>請選擇您公司的行業類別</option>
+                    <option v-for="item in formData.jobCategory" :value="item" :key="item">{{
+                      item
+                    }}</option>
+                  </Field>
+                  <ErrorMessage name="公司行業類別" class="invalid-feedback"></ErrorMessage>
+                </div>
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label
+                      for="sendFormInfoCompanyAddressCity"
+                      class="form__label--custom form-label"
+                      >公司地址</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <div class="">
+                    <Field
+                      id="sendFormInfoCompanyAddressCity"
+                      ref="sendFormInfoCompanyAddressCity"
+                      name="公司地址縣市"
+                      as="select"
+                      class="form-control form-select w-auto mb-2"
+                      :class="{ 'is-invalid': errors['公司地址縣市'] }"
+                      rules="required"
+                      v-model="form.user.options.company.companyAddressCity"
+                    >
+                      <option value="" disabled selected>請選擇縣市</option>
+                      <option v-for="item in formData.city" :value="item" :key="item">{{
+                        item
+                      }}</option>
+                    </Field>
+                    <ErrorMessage name="公司地址縣市" class="invalid-feedback"></ErrorMessage>
+                    <Field
+                      id="sendFormInfoCompanyAddressDetail"
+                      ref="sendFormInfoCompanyAddressDetail"
+                      name="公司詳細地址"
+                      type="text"
+                      class="form-control "
+                      :class="{ 'is-invalid': errors['公司詳細地址'] }"
+                      placeholder="請輸入公司詳細地址"
+                      rules="required"
+                      v-model="form.user.options.company.companyAddressDetail"
+                    ></Field>
+                    <ErrorMessage name="公司詳細地址" class="invalid-feedback"></ErrorMessage>
+                  </div>
+                </div>
               </div>
-              <div class="flex-grow-1">
-                <Field
-                  id="sendFormInfoCompanyAddressDetail"
-                  name="公司詳細地址"
-                  type="text"
-                  class="form-control "
-                  :class="{ 'is-invalid': errors['公司詳細地址'] }"
-                  placeholder="請輸入公司詳細地址"
-                  rules="required"
-                  v-model="form.user.options.company.companyAddressDetail"
-                  ref="sendFormInfoCompanyAddressDetail"
-                ></Field>
-                <ErrorMessage name="公司詳細地址" class="invalid-feedback"></ErrorMessage>
+              <div class="col-12">
+                <div class="form__inputBox form__infoEditBox  border-bottom border-gray-line pb-4">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoCompanyInfo" class="form__label--custom form-label"
+                      >公司簡介</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <ckeditor
+                    id="sendFormInfoCompanyInfo"
+                    ref="sendFormInfoCompanyInfo"
+                    name="公司簡介"
+                    :editor="editor"
+                    tag-name="textarea"
+                    v-model="form.user.options.company.companyInfo"
+                    :config="editorConfig"
+                  ></ckeditor>
+                  <Field
+                    name="公司簡介"
+                    type="text"
+                    class="form-control d-none"
+                    :class="{ 'is-invalid': errors['公司簡介'] }"
+                    placeholder="請輸入"
+                    v-model="form.user.options.company.companyInfo"
+                    as="textarea"
+                    rules="required"
+                  >
+                  </Field>
+                  <ErrorMessage name="公司簡介" class="invalid-feedback"></ErrorMessage>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="mb-3">
-            <div class="row" v-if="temImageInputs.length > 0">
-              <div
-                class="col-4 mb-2"
-                v-for="(item, index) in temImageInputs"
-                :key="'sendFormInfoImgs' + index"
-              >
-                <label for="imageUrl">請選擇第 {{ index + 1 }} 張企業圖片</label>
-                <input
-                  :id="'sendFormInfoImgs' + index"
-                  name="企業圖片"
-                  type="file"
-                  class="form-control d-none"
-                  :class="{ 'is-invalid': errors[`企業圖片${index}`] }"
-                  placeholder="請選擇照片上傳"
-                  :ref="'sendFormInfoImgs' + index"
-                  :data-id="index"
-                  data-input="upLoadMutiImg"
-                  @change="loadingImg($event)"
-                  accept="image/*"
-                />
-                <div class="cropImgBox">
-                  <div class="cropImgBox__cover" v-if="temImages[index]"></div>
+              <div class="col-12">
+                <h3 class="page__title--sub"><span class="title__icon"></span>公司環境形象照片</h3>
+                <p class="mb-4">
+                  嚴選三張符合公司形象或是公司辦公環境照片，幫助求職者能更加了解貴公司：
+                </p>
+                <div class="row">
+                  <div
+                    class="col-4"
+                    v-for="(item, index) in temImageInputs"
+                    :key="'sendFormInfoImgs' + index"
+                  >
+                    <div class="form__inputBox">
+                      <div class="form__labelBox">
+                        <label for="imageUrl" class="form__label--custom form-label"
+                          >第 {{ index + 1 }} 張企業圖片</label
+                        >
+                        <p class="formTag--must" v-if="index === 0">必填</p>
+                      </div>
+                      <input
+                        :id="'sendFormInfoImgs' + index"
+                        name="企業圖片"
+                        type="file"
+                        class="form-control d-none"
+                        :class="{ 'is-invalid': errors[`企業圖片${index}`] }"
+                        placeholder="請選擇照片上傳"
+                        :ref="'sendFormInfoImgs' + index"
+                        :data-id="index"
+                        data-input="upLoadMutiImg"
+                        @change="loadingImg($event)"
+                        accept="image/*"
+                      />
+                      <div class="cropImgBox">
+                        <button
+                          type="button"
+                          class="iconBox btn"
+                          @click="deleteImgInput(index)"
+                          v-if="temImages[index]"
+                        >
+                          <div class="iconBox__innerBox">
+                            <i class="jobIcon bi bi-x-lg"></i>
+                          </div>
+                        </button>
+                        <div class="cropImgBox__cover" v-if="temImages[index]"></div>
+                        <p class="subTxt" v-if="temImages[index] == false">(上限 5 mb )</p>
+                        <img
+                          v-if="temImages[index]"
+                          class="cropImg"
+                          :ref="'cropImg' + index"
+                          :src="temImages[index]"
+                          alt=""
+                        />
+                      </div>
+                      <div class="d-flex justify-content-between">
+                        <button
+                          type="button"
+                          :data-id="index"
+                          class="btn"
+                          @click="clickInput($event, index)"
+                          data-input="upLoadMutiImg"
+                          :class="{
+                            'btn-gray-light': temImages[index],
+                            'btn-outline-primary': !temImages[index],
+                          }"
+                        >
+                          {{ temImages[index] ? '重選' : '選擇圖片' }}
+                        </button>
+                        <button
+                          type="button"
+                          class="btn"
+                          @click="updateImg($event)"
+                          data-input="upLoadMutiImg"
+                          :data-id="index"
+                          :class="{
+                            'btn-gray-light':
+                              !!temImageInputs[index].isUpDated || temImages[index] == false,
+                            'btn-outline-primary': temImages[index],
+                          }"
+                          :disabled="!!temImageInputs[index].isUpDated || temImages[index] == false"
+                        >
+                          {{ temImageInputs[index].isUpDated ? '已上傳' : '上傳' }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="formStepBtnBox d-flex justify-content-end">
                   <button
                     type="button"
-                    class="btn cropImgBox__deleteBtn"
-                    @click="deleteImgInput(index)"
-                    data-input="upLoadMutiImg"
+                    class="btn btn-gray-light"
+                    @click="changeStep('back')"
+                    v-show="formStep > 1"
                   >
-                    <i class="bi-x-lg"></i>
+                    上一步
                   </button>
-                  <button
-                    type="button"
-                    :data-id="index"
-                    class="btn btn-outline-primary cropImgBtn"
-                    @click="clickInput($event, index)"
-                    v-if="temImages[index] == false"
-                    data-input="upLoadMutiImg"
-                  >
-                    選擇圖片
+                  <button type="submit" class="btn btn-primary">
+                    下一步
                   </button>
-                  <img
-                    v-if="temImages[index]"
-                    class="cropImg"
-                    :ref="'cropImg' + index"
-                    :src="temImages[index]"
-                    alt=""
+                </div>
+              </div>
+            </div>
+          </Form>
+        </div>
+        <div class="newCompanyForm box--shadow" v-if="formStep === 2">
+          <Form ref="sendFormInfoForm2" v-slot="{ errors }" @submit="changeStep('next')">
+            <h3 class="page__title--sub"><span class="title__icon"></span>聯絡人基本資料</h3>
+            <p class="mb-4">請填寫企業聯絡人的正確資訊，以便 Fine Jobs 與您聯繫：</p>
+            <!-- 表單2-1：聯絡人名稱(必填) -->
+            <div class="row">
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoName" class="form__label--custom form-label"
+                      >聯絡人姓名</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    id="sendFormInfoName"
+                    ref="sendFormInfoName"
+                    name="聯絡人姓名"
+                    type="text"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors['聯絡人姓名'] }"
+                    placeholder="請輸入姓名"
+                    rules="required"
+                    v-model="form.user.name"
+                  ></Field>
+                  <ErrorMessage name="聯絡人姓名" class="invalid-feedback"></ErrorMessage>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoContactPosition" class="form__label--custom form-label"
+                      >聯絡人職稱</label
+                    >
+                  </div>
+                  <input
+                    id="sendFormInfoContactPosition"
+                    ref="sendFormInfoContactPosition"
+                    name="聯絡人職稱"
+                    type="text"
+                    class="form-control"
+                    placeholder="請輸入聯絡人職稱"
+                    v-model="form.user.options.company.contactPosition"
                   />
                 </div>
-                <button
-                  type="button"
-                  class="btn btn-outline-primary w-100 mb-1"
-                  @click="updateImg($event)"
-                  data-input="upLoadMutiImg"
-                  :data-id="index"
-                  :disabled="!!temImageInputs[index].isUpDated"
-                >
-                  {{ temImageInputs[index].isUpDated ? '已上傳' : '上傳圖片' }}
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-secondary w-100"
-                  @click="clickInput($event, index)"
-                  v-if="temImages[index]"
-                  data-input="upLoadMutiImg"
-                  :data-id="index"
-                >
-                  重選
-                </button>
-                <!-- <p class="testTxt">{{temImages[index]}}</p> -->
               </div>
-              <div class="imageBtnBox">
-                <button
-                  type="button"
-                  class="btn btn-outline-primary btn-sm d-block w-100 my-2"
-                  @click="addImageUrl()"
-                  v-if="temImageInputs.length < 3"
-                >
-                  新增圖片
-                </button>
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoTel" class="form__label--custom form-label"
+                      >聯絡人電話</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    id="sendFormInfoTel"
+                    ref="sendFormInfoTel"
+                    name="聯絡人電話"
+                    type="tel"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors['聯絡人電話'] }"
+                    placeholder="請輸入電話"
+                    rules="required"
+                    v-model="form.user.tel"
+                  ></Field>
+                  <ErrorMessage name="聯絡人電話" class="invalid-feedback"></ErrorMessage>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoEmail" class="form__label--custom form-label"
+                      >聯絡人Email</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    id="sendFormInfoEmail"
+                    ref="sendFormInfoEmail"
+                    name="聯絡人Email"
+                    type="text"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors['聯絡人Email'] }"
+                    placeholder="請輸入Email"
+                    rules="email|required"
+                    v-model="form.user.email"
+                  ></Field>
+                  <ErrorMessage name="聯絡人Email" class="invalid-feedback"></ErrorMessage>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoPassword" class="form__label--custom form-label"
+                      >登入密碼</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <Field
+                    id="sendFormInfoPassword"
+                    ref="sendFormInfoPassword"
+                    name="登入密碼"
+                    type="password"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors['登入密碼'] }"
+                    placeholder="請輸入登入密碼"
+                    rules="required"
+                    minlength="4"
+                    maxlength="8"
+                    size="8"
+                    v-model="form.user.options.login.password"
+                  ></Field>
+                  <ErrorMessage name="登入密碼" class="invalid-feedback"></ErrorMessage>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="formStepBtnBox d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-gray-light"
+                    @click="changeStep('back')"
+                    v-show="formStep > 1"
+                  >
+                    上一步
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    下一步
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="mb-3 companyInfo">
-            <label for="sendFormInfoCompanyInfo" class="form-label">公司簡介</label>
-            <ckeditor
-              :editor="editor"
-              tag-name="textarea"
-              ref="cktext"
-              v-model="form.user.options.company.companyInfo"
-              :config="editorConfig"
-              :class="{ 'is-invalid': errors['公司簡介'] }"
-              rules="required"
-              name="公司簡介"
-            ></ckeditor>
-            <Field
-              id="sendFormInfoCompanyInfo"
-              name="公司簡介"
-              type="text"
-              class="form-control d-none"
-              :class="{ 'is-invalid': errors['公司簡介'] }"
-              placeholder="請輸入"
-              v-model="form.user.options.company.companyInfo"
-              ref="sendFormInfoCompanyInfo"
-              as="textarea"
-              rules="required"
-            >
-            </Field>
-            <ErrorMessage name="公司簡介" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoName" class="form-label">聯絡人姓名</label>
-            <Field
-              id="sendFormInfoName"
-              name="聯絡人姓名"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['聯絡人姓名'] }"
-              placeholder="請輸入姓名"
-              rules="required"
-              v-model="form.user.name"
-              ref="sendFormInfoName"
-            ></Field>
-            <ErrorMessage name="聯絡人姓名" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoEmail" class="form-label">聯絡人Email</label>
-            <Field
-              id="sendFormInfoEmail"
-              name="聯絡人Email"
-              type="text"
-              class="form-control"
-              :class="{ 'is-invalid': errors['聯絡人Email'] }"
-              placeholder="請輸入Email"
-              rules="email|required"
-              v-model="form.user.email"
-              ref="sendFormInfoName"
-            ></Field>
-            <ErrorMessage name="聯絡人Email" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoTel" class="form-label">聯絡人電話</label>
-            <Field
-              id="sendFormInfoTel"
-              name="聯絡人電話"
-              type="number"
-              class="form-control"
-              :class="{ 'is-invalid': errors['聯絡人電話'] }"
-              placeholder="請輸入電話"
-              rules="required"
-              v-model="form.user.tel"
-              ref="sendFormInfoTel"
-            ></Field>
-            <ErrorMessage name="聯絡人電話" class="invalid-feedback"></ErrorMessage>
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoContactPosition" class="form-label">聯絡人職稱</label>
-            <input
-              id="sendFormInfoContactPosition"
-              name="聯絡人職稱"
-              type="text"
-              class="form-control"
-              placeholder="請輸入聯絡人職稱"
-              v-model="form.user.options.company.contactPosition"
-              ref="sendFormInfoContactPosition"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="sendFormInfoAddJobsToken" class="form-label">預先購買職位刊登額度</label>
-            <div class="input-group">
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                @click="deleteNum"
-              >
-                -
-              </button>
-              <Field
-                id="sendFormInfoAddJobsToken"
-                name="職位刊登額度"
-                type="number"
-                class="form-control"
-                :class="{ 'is-invalid': errors['職位刊登額度'] }"
-                min="1"
-                v-model.number="form.user.options.jobToken"
-                ref="sendFormInfoAddJobsToken"
-                rules="required"
-              >
-              </Field>
-              <button
-                class="btn btn-outline-secondary"
-                type="button"
-                id="button-addon2"
-                @click="addNum"
-              >
-                +
-              </button>
+          </Form>
+        </div>
+        <div class="newCompanyForm box--shadow" v-if="formStep === 3">
+          <Form ref="sendFormInfoForm3" v-slot="{ errors }" @submit="processFormData">
+            <h3 class="page__title--sub"><span class="title__icon"></span>職位推廣</h3>
+            <p class="mb-4">
+              目前Fine Job 試營運中，職位可免費刊登。
+              如您欲加速招募流程，建議您可以購買下面職位推廣額度，可以讓您的職位升級，大大增加曝光機會！
+            </p>
+            <!-- 表單2-1：聯絡人名稱(必填) -->
+            <div class="row">
+              <div class="col-6">
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoAddJobsToken" class="form__label--custom form-label"
+                      >預先購買職位刊登額度</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <div class="input-group w-50 mb-4">
+                    <button
+                      class="btn btn-gray-light border border-gray-line"
+                      type="button"
+                      id="button-addon2"
+                      @click="deleteNum"
+                    >
+                      -
+                    </button>
+                    <Field
+                      id="sendFormInfoAddJobsToken"
+                      name="職位刊登額度"
+                      type="number"
+                      class="form-control border-gray-line text-center"
+                      :class="{ 'is-invalid': errors['職位刊登額度'] }"
+                      min="1"
+                      v-model.number="form.user.options.jobToken"
+                      ref="sendFormInfoAddJobsToken"
+                      rules="required"
+                    >
+                    </Field>
+                    <button
+                      class="btn btn-gray-light border border-gray-line"
+                      type="button"
+                      id="button-addon2"
+                      @click="addNum"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <ErrorMessage name="職位刊登額度" class="invalid-feedback"></ErrorMessage>
+                  <p class="subTxt mb-1">
+                    單價：500 NTD
+                  </p>
+                  <p class="subTxt mb-1">
+                    使用時效：7 天
+                  </p>
+                  <p class="subTxt mb-1">
+                    推廣方式：會出現在首頁、優質職位頁面最上方區塊，同時享有職位皇冠標示，
+                    讓求職者知道貴司求才若渴。
+                  </p>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="formStepBtnBox d-flex justify-content-between">
+                  <button
+                    type="button"
+                    class="btn btn-gray-light"
+                    @click="changeStep('back')"
+                    v-show="formStep > 1"
+                  >
+                    上一步
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    完成填寫
+                  </button>
+                </div>
+              </div>
             </div>
-            <ErrorMessage name="職位刊登額度" class="invalid-feedback"></ErrorMessage>
-            <p>職位刊登額度：刊登一個職位需要一個職位刊登額度，刊登付費推廣職位需要兩個額度</p>
-          </div>
-          <button type="submit" class="btn btn-primary">送出資料</button>
-          <!-- <button type="button" class="btn btn-primary" @click="checkFile">上傳照片</button> -->
-        </Form>
+          </Form>
+        </div>
+        <div class="newCompanyForm box--shadow" v-if="formStep === 4">
+          <Form ref="sendFormInfoForm4" >
+            <!-- 表單2-1：聯絡人名稱(必填) -->
+            <div class="row justify-content-center">
+              <div class="col-8">
+                <h3 class="page__title--sub justify-content-center ">申請創建公司帳戶成功</h3>
+                <p class="mb-4 text-center">
+                  恭喜您已完成填寫創建公司帳戶流程， 本公司會於3個工作天內審核資料，如審核完畢會寄
+                  email 給您！ 預祝貴公司招募順利～
+                </p>
+                <p class="mb-4 text-center">如有任何問題歡迎您寄信聯絡我們，很高興能為您服務～</p>
+                <p class="mb-6 text-center text-primary text-decoration-underline">
+                  Jordan.ttc.design@gmail.com
+                </p>
+                <div class="d-flex justify-content-center">
+                  <router-link class="btn btn-primary w-50"  to="/"
+                  >回首頁</router-link>
+                </div>
+              </div>
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
   </div>
@@ -389,6 +591,7 @@
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import webData from '@/components/helpers/webData';
 import ImageCropper from '@/components/ImageCropperModal.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -396,8 +599,6 @@ export default {
   components: { ImageCropper },
   data() {
     return {
-      // 切圖工具
-      cropper: {},
       // 建立企業資訊表單
       form: {
         user: {
@@ -418,20 +619,30 @@ export default {
               companyLogoUrl: '',
             },
             jobToken: 1,
+            login: {
+              password: '',
+            },
           },
           message: '',
         },
       },
+      formData: {},
+      // 圖片使用
+      temImages: ['', '', ''],
+      temImageInputs: [
+        { src: '', isUpDated: false },
+        { src: '', isUpDated: false },
+        { src: '', isUpDated: false },
+      ],
+      companyLogo: { src: '', isUpDated: false },
       // 購物車資訊
       cartList: [],
       cartTotal: null,
-      // 圖片使用
-      temImages: [''],
-      temImageInputs: [{ src: '', isUpDated: false }],
-      companyLogo: { src: '', isUpDated: false },
       // 驗證使用
       uploadImgState: '',
       formState: true,
+      formStep: 1,
+      // 編輯器套件
       editor: ClassicEditor,
       editorConfig: {
         toolbar: ['heading', '|', 'bold', 'italic', 'link'],
@@ -463,20 +674,9 @@ export default {
       tempArticle: {
         tag: [''],
       },
+      // 套件切圖工具
+      cropper: {},
     };
-  },
-  watch: {
-    article() {
-      this.tempArticle = {
-        ...this.article,
-        tag: this.article.tag || [],
-        isPublic: this.article.isPublic || false,
-      };
-      [this.create_at] = new Date(this.tempArticle.create_at * 1000).toISOString().split('T');
-    },
-    create_at() {
-      this.tempArticle.create_at = Math.floor(new Date(this.create_at) / 1000);
-    },
   },
   methods: {
     // 取得圖片傳給modal
@@ -502,6 +702,7 @@ export default {
         this.companyLogo.src = data;
       }
     },
+    // 判斷是多圖還是單圖
     clickInput(e, index) {
       console.log(e.target.dataset.input);
       if (e.target.dataset.input === 'upLoadMutiImg') {
@@ -556,6 +757,8 @@ export default {
           console.log(error);
         });
     },
+
+    // 以下是送出表單的動作
     // 上傳表單前處理資料
     processFormData() {
       emitter.emit('delete-imageCropper');
@@ -572,7 +775,7 @@ export default {
         this.addCartJob(this.form.user.options.jobToken);
       }
     },
-    // 上傳表單前加入職位額度
+    // 上傳表單前加入職位額度，附送一個
     addCartJob(qty = 1) {
       const id = '-MctDx8Qj8Tmw9eJoZqN';
       const product = { data: { product_id: id, qty } };
@@ -581,7 +784,6 @@ export default {
         .post(url, product)
         .then((res) => {
           console.log(`${res.data.message}:${id}`);
-          this.getCart();
           this.sendForm();
         })
         .catch((error) => {
@@ -602,8 +804,7 @@ export default {
           console.log(res);
           emitter.emit('spinner-close');
           if (res.data.success) {
-            this.deleteCart();
-            this.$router.push('/');
+            this.changeStep('next');
           }
         })
         .catch((error) => {
@@ -611,28 +812,19 @@ export default {
           emitter.emit('spinner-close');
         });
     },
-    addImageUrl() {
-      this.temImages.push('');
-      this.form.user.options.company.companyImagesUrl.push('');
-      this.temImageInputs.push({ src: '', isUpDated: false });
+
+    // 以下是基本操做動作
+    // 跳轉步驟
+    changeStep(way) {
+      if (way === 'back' && this.formStep > 0) {
+        this.formStep -= 1;
+      } else if (way === 'next') {
+        this.formStep += 1;
+      }
+      document.documentElement.scrollTop = 0;
+      console.log(this.formStep);
     },
-    deleteImgInput(index) {
-      this.temImages.splice(index, 1);
-      this.form.user.options.company.companyImagesUrl.splice(index, 1);
-      this.temImageInputs.splice(index, 1);
-    },
-    deleteCart() {
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
-      this.$http
-        .delete(url)
-        .then((res) => {
-          console.log(`${res.data.message}`);
-          this.getCart();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // 操作額度動作
     deleteNum() {
       if (this.form.user.options.jobToken > 1) {
         this.form.user.options.jobToken -= 1;
@@ -641,6 +833,26 @@ export default {
     addNum() {
       this.form.user.options.jobToken += 1;
     },
+    // 操作圖片數量
+    // addImageUrl() {
+    //   this.temImages.push('');
+    //   this.form.user.options.company.companyImagesUrl.push('');
+    //   this.temImageInputs.push({ src: '', isUpDated: false });
+    // },
+    // deleteImgInput(index) {
+    //   this.temImages.splice(index, 1);
+    //   this.form.user.options.company.companyImagesUrl.splice(index, 1);
+    //   this.temImageInputs.splice(index, 1);
+    // },
+    deleteImgInput(index) {
+      this.temImages[index] = '';
+      this.temImageInputs[index].src = '';
+      this.temImageInputs[index].isUpDated = false;
+      this.form.user.options.company.companyImagesUrl[index] = '';
+    },
+
+    // 以下是針對資料api動作
+    // 取得購物車資料
     getCart() {
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
@@ -656,9 +868,23 @@ export default {
           console.log(error);
         });
     },
+    // 刪除購物車資料
+    deleteCart() {
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
+      this.$http
+        .delete(url)
+        .then((res) => {
+          console.log(`${res.data.message}`);
+          this.getCart();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   created() {
     this.deleteCart();
+    this.formData = webData;
   },
   mounted() {
     emitter.emit('close-imageCropper');
@@ -667,40 +893,11 @@ export default {
 </script>
 
 <style lang="scss">
-.cropImgBox {
-  width: 100%;
-  height: 120px;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  .cropImg {
-    max-width: 100%;
-    max-height: 120px;
-    overflow: hidden;
-  }
-  .cropImgBox__deleteBtn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 80;
-  }
-  .cropImgBox__cover {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.3);
-    position: absolute;
-    // 設置背景混和模式為相乘模式
-  }
-  .testTxt {
-    display: block;
-    width: 100px;
-    height: 24px;
-    overflow: hidden;
-    word-wrap: break-word;
-  }
+.testTxt {
+  display: block;
+  width: 100px;
+  height: 24px;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 </style>

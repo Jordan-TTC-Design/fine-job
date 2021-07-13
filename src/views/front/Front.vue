@@ -5,7 +5,7 @@
     </div>
     <div class="container d-flex justify-content-between">
       <h1>
-        <router-link aria-current="page" to="/home"
+        <router-link aria-current="page" to="/"
           ><img
             class="header__logo"
             src="../../assets/images/header/fineJobLogo-white.svg"
@@ -14,7 +14,7 @@
       </h1>
       <ul class="header__nav">
         <li class="nav-item">
-          <router-link class="nav-link text-white" aria-current="page" to="/home">首頁</router-link>
+          <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
         </li>
         <li class="nav-item">
           <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>

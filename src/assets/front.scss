@@ -69,6 +69,7 @@
     object-fit: cover;
     z-index: -1;
   }
+
   .banner__title {
     font-size: 48px;
   }
@@ -372,7 +373,112 @@
 .newCompanyForm {
   background-color: #fff;
   border-radius: 0.5rem;
-  min-height: 80vh;
+  min-height: 360px;
+  padding: 1.5rem;
+}
+.addProcessBox {
+  border-radius: 0.5rem;
+  background-color: white;
+  text-align: center;
+  position: relative;
+  &__title {
+    font-size: 32px;
+    font-weight: bold;
+    color: $primary;
+  }
+  .icon--okBox {
+    display: none;
+    background-color: $gray-mid;
+    border-radius: 50%;
+    padding: 4px;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    &__innerBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2rem;
+      height: 2rem;
+      background-color: #9fb3a2;
+      border-radius: 50%;
+    }
+    .jobIcon {
+      font-size: 16px;
+      color: $primary;
+    }
+  }
+}
+.addProcessBox.unActive {
+  background-color: $gray-line;
+  color: #979797;
+  .addProcessBox__title {
+    color: #979797;
+  }
+}
+.addProcessBox.completed {
+  background-color: #9fb3a2;
+  .addProcessBox__txt {
+    color: $primary;
+  }
+  .icon--okBox {
+    display: block;
+  }
+}
+.cropImgBox {
+  width: 100%;
+  height: 160px;
+  background-color: $gray-light;
+  border: 1px solid $gray-line;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 8px;
+  border-radius: 0.5rem;
+  .cropImg {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  .cropImgBox__deleteBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 80;
+  }
+  .cropImgBox__cover {
+    height: 100%;
+    width: 100%;
+    background-color: #1d1d1d;
+    opacity: 0.3;
+    position: absolute;
+    border-radius: calc( 0.5rem - 1px );
+    // 設置背景混和模式為相乘模式
+  }
+  .iconBox {
+    background-color: $gray-light;
+    border-radius: 50%;
+    padding: 4px;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    z-index: 50;
+    &__innerBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2rem;
+      height: 2rem;
+      background-color: #9fb3a2;
+      border-radius: 50%;
+    }
+    .jobIcon {
+      font-size: 16px;
+      color: $primary;
+    }
+  }
 }
 //main
 p {
@@ -468,7 +574,26 @@ p {
     margin-bottom: 0.25rem;
   }
 }
-
+.form__labelBox {
+  display: flex;
+  align-items: center;
+  margin: 0px 12px 4px 12px;
+  .form__label--custom {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+}
+.formTag--must {
+  padding: 1px 0.5rem;
+  margin-left: 4px;
+  border-radius: 0.25rem;
+  background-color: #09a758;
+  color: $white;
+  font-size: 8px;
+}
+.form__inputBox {
+  margin-bottom: 16px;
+}
 //元件
 .goodCardList.swipper--custom {
   margin-right: calc(var(--bs-gutter-x) / -2);
@@ -540,7 +665,7 @@ p {
   }
 }
 // helper
-.companyInfo {
+.form__infoEditBox {
   .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
     border-radius: 0.5rem;
@@ -554,7 +679,7 @@ p {
     border-top-right-radius: 0;
   }
   .ck-editor__editable_inline {
-    min-height: 360px;
+    min-height: 240px;
   }
   .ck-content h2 {
     font-size: 24px;

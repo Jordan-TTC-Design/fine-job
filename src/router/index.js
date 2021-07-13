@@ -8,7 +8,7 @@ const routes = [
     children: [
       {
         // 首頁
-        path: 'home',
+        path: '',
         component: () => import('../views/Home.vue'),
       },
       {
