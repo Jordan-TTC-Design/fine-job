@@ -772,11 +772,11 @@ export default {
         console.log('沒東西');
         this.deleteCart();
       } else {
-        this.addCartJob(this.form.user.options.jobToken);
+        this.addCart(this.form.user.options.jobToken);
       }
     },
     // 上傳表單前加入職位額度，附送一個
-    addCartJob(qty = 1) {
+    addCart(qty = 1) {
       const id = '-MctDx8Qj8Tmw9eJoZqN';
       const product = { data: { product_id: id, qty } };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
