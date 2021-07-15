@@ -1,40 +1,41 @@
 <template>
-    <header class="bg-light">
-    <div class="container">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-          <router-link class="navbar-brand" to="/">Navbar</router-link>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+  <header class="header--front">
+    <div ref="Search" class="header--front__searchModal">
+      <SearchModal></SearchModal>
+    </div>
+    <div class="container d-flex justify-content-between">
+      <h1>
+        <router-link aria-current="page" to="/"
+          ><img
+            class="header__logo"
+            src="../../assets/images/header/fineJobLogo-white.svg"
+            alt="logo"
+        /></router-link>
+      </h1>
+      <ul class="header__nav">
+        <li class="nav-item">
+          <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
+            >產品管理</router-link
           >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <router-link class="nav-link" aria-current="page"
-                to="/admin/dashboard/products-list">全部產品</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" to="/admin/dashboard/orders-list">全部訂單</router-link>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">購物車</a>
-              </li> -->
-            </ul>
-          </div>
-        </div>
-      </nav>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
+            >應徵管理</router-link
+          >
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link text-white" to="/admin/dashboard/orders-list">
+            訂單管理
+          </router-link>
+        </li>
+        <li class="nav-item ">
+          <router-link class="nav-link text-white" to="/">登出</router-link>
+        </li>
+      </ul>
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main py-4">
+  <div class="main pb-7 main--bg ">
     <router-view></router-view>
   </div>
 </template>
@@ -72,6 +73,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

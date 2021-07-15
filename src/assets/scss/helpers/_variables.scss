@@ -79,6 +79,7 @@ $gray-light: #f7f7f7 !default;
 $gray-mid: #f2f2f2 !default;
 $gray-dark: #646464 !default;
 $gray-line: #e2e2e2 !default;
+$primary-light:#9FB3A2 !default;
 // scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
@@ -95,6 +96,7 @@ $theme-colors: (
   'gray-mid': $gray-mid,
   'gray-dark': $gray-dark,
   'gray-line': $gray-line,
+  'primary-light': $primary-light,
 ) !default;
 // scss-docs-end theme-colors-map
 

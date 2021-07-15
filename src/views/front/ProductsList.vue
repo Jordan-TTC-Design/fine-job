@@ -255,9 +255,7 @@ import emitter from '@/components/helpers/emitter';
 import PagenationModal from '@/components/Pagenation.vue';
 import GoodJobCard from '@/components/front/GoodJobCard.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/swiper.scss';
-import 'swiper/components/navigation/navigation.min.css';
-import 'swiper/components/pagination/pagination.min.css';
+
 import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
 
 SwiperCore.use([Autoplay, Pagination, Navigation]);

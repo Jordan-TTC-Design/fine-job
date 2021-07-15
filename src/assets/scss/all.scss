@@ -3,7 +3,11 @@
 @import '~bootstrap/scss/mixins';
 @import '~cropperjs/dist/cropper.min.css';
 
+
 @import '~bootstrap';
+@import '~swiper/swiper.scss';
+@import '~swiper/components/navigation/navigation.min.css';
+@import '~swiper/components/pagination/pagination.min.css';
 
 @import '../reset.scss';
 @import '../front.scss';
