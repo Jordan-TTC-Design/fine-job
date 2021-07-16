@@ -43,7 +43,7 @@ const routes = [
       },
       {
         // 申請職位頁面
-        path: 'apply-job',
+        path: 'apply-job/:id',
         name: 'ApplyJob',
         component: () => import('../views/front/ApplyJob.vue'),
       },

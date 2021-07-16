@@ -1,4 +1,5 @@
 <template>
+  <ImageCropper @emit-send-img-data="getImg"></ImageCropper>
   <div class="container">
     <div class="addProcess mb-6 " v-if="formStep >= 1">
       <h2 class="pageTitle text-primary text-center mb-4">新建職位</h2>
@@ -789,7 +790,6 @@
       </div>
     </div>
   </div>
-  <ImageCropper @emit-send-img-data="getImg"></ImageCropper>
 </template>
 
 <script>

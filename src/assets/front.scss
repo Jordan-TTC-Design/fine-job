@@ -900,3 +900,13 @@ p {
     }
   }
 }
+.applyJobPage {
+  position: relative;
+  .applyJobPage__sideBox {
+    position: sticky;
+    top: 112px;
+  }
+  .jobSelectBox {
+    max-height: 78vh;
+  }
+}

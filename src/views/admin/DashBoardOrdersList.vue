@@ -24,6 +24,14 @@
         </li>
         <li
           class="admin__subNav__item"
+          @click="changeSideHeader('add-apply')"
+          :class="{ active: orderCategorySelected === 'add-apply' }"
+        >
+          <p class="admin__subNav__txt me-1">應徵申請</p>
+          <p class="admin__subNav__txt">{{ addJobOrders.length }}</p>
+        </li>
+        <li
+          class="admin__subNav__item"
           @click="changeSideHeader('系統')"
           :class="{ active: orderCategorySelected === '系統' }"
         >
@@ -114,13 +122,36 @@
                     class="btn  btn-gray-light"
                     data-action="deleteItem"
                     :data-id="temItem.id"
-                    @click="deleteOrder(item.id)"
+                    @click="deleteOrder(temItem.id)"
                   >
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="selectBox__section">
+            <h4 class="pageSubTitle mb-2">訂單資料</h4>
+            <ul>
+              <li class="innerList__item">
+                <p>編號：{{ temItem.id }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>企業來源：{{ temItem.user.options.company.companyName }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡人：{{ temItem.user.name }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡電話：{{ temItem.user.tel }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡Email：{{ temItem.user.email }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>企業剩餘額度：{{ temItem.user.options.jobToken }}</p>
+              </li>
+            </ul>
           </div>
           <div class="selectBox__section  position-relative">
             <button
@@ -181,57 +212,165 @@
           </div>
         </div>
         <!-- 職位 -->
-      </div>
-    </div>
-  </div>
-  <div class="container-fuild">
-    <div class="container">
-      <ul class="d-flex btn-group">
-        <li v-for="(item, index) in orderCategory" :key="index">
-          <button
-            type="button"
-            class="btn btn-outline-secondary"
-            @click.prevent="orderCategorySelected = item.action"
-          >
-            {{ item.value }}
-          </button>
-        </li>
-      </ul>
-      <ul class="row" v-if="orderCategorySelected === 'add-job'">
-        <li class="col-12" v-for="(item, index) in addJobOrders" :key="index">
-          <div class="listBox row">
-            <div class="col-6 d-flex align-items-center">
-              <img
-                class="listBox__logo"
-                :src="item.user.options.job.jobImageUrl || tempImgUrl"
-                alt=""
-              />
-              <p>{{ index + 1 }} {{ item.user.options.job.jobName }}{{ item.id }}</p>
-            </div>
-
-            <div class="input-group d-flex justify-content-end col-6 w-auto">
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-action="newJob"
-                :data-id="item.id"
-                @click="newItemModal($event)"
-              >
-                創建
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-action="deleteItem"
-                :data-id="item.id"
-                @click="deleteOrder(item.id)"
-              >
-                刪除
-              </button>
+        <div
+          ref="adminSelectBox"
+          class="adminSelectBox box--shadow"
+          v-if="orderCategorySelected === 'add-job'"
+        >
+          <div class="selectBox__section">
+            <div class="row">
+              <div class="col-7">
+                <h4 class="pageSubTitle mb-2">{{ temItem.user.options.job.jobName }}</h4>
+                <p class="sideList__item__subTxt">
+                  更新時間：{{ $filters.date(temItem.create_at) }}
+                </p>
+              </div>
+              <div class="col-5">
+                <div class="d-flex justify-content-end">
+                  <button type="button" class="btn btn-outline-gray-line me-2">
+                    <p class="text-dark">審核通過</p>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn  btn-gray-light me-2"
+                    data-action="newJob"
+                    :data-id="temItem.id"
+                    @click="newItemModal($event)"
+                  >
+                    <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn  btn-gray-light"
+                    data-action="deleteItem"
+                    :data-id="temItem.id"
+                    @click="deleteOrder(temItem.id)"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </li>
-      </ul>
+          <div class="selectBox__section">
+            <h4 class="pageSubTitle mb-2">訂單資料</h4>
+            <ul>
+              <li class="innerList__item">
+                <p>編號：{{ temItem.id }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>企業來源：{{ temItem.user.options.company.companyName }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡人：{{ temItem.user.name }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡電話：{{ temItem.user.tel }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>聯絡Email：{{ temItem.user.email }}</p>
+              </li>
+              <li class="innerList__item">
+                <p>企業剩餘額度：{{ temItem.user.options.company.companyJobToken }}</p>
+              </li>
+              <li class="innerList__item">
+                <div
+                  class="d-flex align-items-center"
+                  v-if="!temItem.user.options.company.costToken"
+                >
+                  <p class="me-2">方案：免費方案</p>
+                  <button type="button" class="btn btn-primary">立即付費推播，提高曝光度！</button>
+                </div>
+
+                <div
+                  class="d-flex align-items-center"
+                  v-if="temItem.user.options.company.costToken === 1"
+                >
+                  <p class="me-2">方案：付費方案</p>
+                  <button type="button" class="btn btn-gray-light">
+                    立即付費推播，提高曝光度！
+                  </button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="selectBox__section">
+            <button
+              class="collectBtn btn btn-outline-gray-line position-absolute pageState"
+              type="button"
+            >
+              <i class="jobIcon bi bi-bookmark-fill"></i>
+            </button>
+            <div class="d-flex">
+              <div class="jobContent__imgBox">
+                <img class="jobImage" :src="temItem.user.options.job.jobImageUrl" alt="" />
+                <div class="logoImageBox">
+                  <img
+                    class="logoImage"
+                    :src="temItem.user.options.company.companyLogoUrl"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="JobContent__txtBox d-flex flex-column justify-content-between">
+                <div class="pt-3">
+                  <h2 class="page__title">{{ temItem.user.options.job.jobName }}</h2>
+                  <p class="page__txt page__link subTxt  mb-4 d-block">
+                    {{ temItem.user.options.company.companyName }}
+                  </p>
+                </div>
+                <div class="d-flex justify-content-between align-items-end">
+                  <div>
+                    <p class="page__txt mb-3">
+                      <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
+                      >{{ temItem.user.options.company.companyAddressCity }}
+                    </p>
+                    <p class="page__txt">
+                      <span><i class="jobIcon--sm me-1 bi bi-people"></i></span>需求人數：{{
+                        temItem.user.options.job.needPerson
+                      }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-primary fw-bold mb-3">
+                      {{ temItem.user.options.job.salary }}/月薪
+                    </p>
+                    <p class="subTxt text-secondary text-end">
+                      {{ $filters.date(temItem.create_at) }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="selectBox__section   mb-3">
+            <h3 class="page__title--sub"><span class="title__icon"></span>職位內容</h3>
+            <p class="page__txt mb-2">工作性質：{{ temItem.user.options.job.workType }}</p>
+            <p class="page__txt mb-2">工作時間：{{ temItem.user.options.job.workTime }}</p>
+            <p class="page__txt mb-2">
+              產業類別：{{ temItem.user.options.company.industryCategory }}
+            </p>
+            <p class="page__txt mb-2">工作類別：{{ temItem.user.options.job.jobCategory }}</p>
+            <p class="page__txt mb-2">工作內容：</p>
+            <div class="page__txt" v-html="temItem.user.options.job.jobContent"></div>
+          </div>
+          <div class="selectBox__section  mb-3">
+            <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
+            <p class="page__txt mb-2">學歷要求：{{ temItem.user.options.job.education }}</p>
+            <p class="page__txt mb-2">工作經驗：{{ temItem.user.options.job.workExp }}</p>
+            <p class="page__txt mb-2">其他條件：</p>
+            <div class="page__txt" v-html="temItem.user.options.job.otherRequirement"></div>
+          </div>
+          <div class="selectBox__section">
+            <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
+            <p class="page__txt mb-2">職位聯絡人：{{ temItem.user.name }}</p>
+            <p class="page__txt mb-2">聯絡信箱：{{ temItem.user.email }}</p>
+            <p class="page__txt mb-2">聯絡電話：{{ temItem.user.tel }}</p>
+            <p class="page__txt mb-2">申請備註：</p>
+            <div class="page__txt" v-html="temItem.user.options.job.otherApplyInfo"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -324,8 +463,9 @@ export default {
           console.log('沒有formAction');
         }
       });
-      console.log(this.addCompanyOrders);
-      console.log(this.addJobOrders);
+      // console.log(this.addCompanyOrders);
+      // console.log(this.addJobOrders);
+      this.selectItem(this.addCompanyOrders[0].id);
     },
     getOrder(pageNum = 1) {
       emitter.emit('spinner-open');

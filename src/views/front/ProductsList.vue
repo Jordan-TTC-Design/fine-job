@@ -178,7 +178,7 @@
                 <router-link
                   class="btn--applyJob btn btn-primary btn-bg d-flex align-items-center me-2"
                   type="button"
-                  :to="`/apply-job`"
+                  :to="`/apply-job/${jobItem.id}`"
                   >申請</router-link
                 >
               </div>

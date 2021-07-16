@@ -78,6 +78,15 @@
           </div>
         </div>
         <div class="col-md-3">
+          <div class="jobSubBox box--shadow  mb-3 p-3">
+            <router-link
+              type="button"
+              class="btn btn-lg btn-primary w-100"
+              aria-current="page"
+              :to="`/apply-job/${jobItem.id}`"
+              >申請職位</router-link
+            >
+          </div>
           <div
             v-if="jobItem.options.company.companyImagesUrl.length > 0"
             class="jobSubBox jobPage__companyImage box--shadow  mb-3"
@@ -152,7 +161,6 @@ export default {
     };
   },
   methods: {
-
     getProductData() {
       emitter.emit('spinner-open');
       const { id } = this.$route.params;
