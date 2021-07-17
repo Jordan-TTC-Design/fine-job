@@ -752,7 +752,7 @@ export default {
     });
   },
   mounted() {
-    console.log(this.$refs.newJobModal);
+    // console.log(this.$refs.newJobModal);
     this.modal = new Modal(this.$refs.newJobModal);
   },
 };

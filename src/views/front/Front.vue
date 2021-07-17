@@ -68,9 +68,6 @@
                 <router-link class="nav-link text-white" to="/products-list">優質工作</router-link>
               </li>
               <li class="nav-item">
-                <router-link class="nav-link text-white" to="/apply-job">申請職位</router-link>
-              </li>
-              <li class="nav-item">
                 <router-link class="nav-link text-white" to="/add-company">新建企業</router-link>
               </li>
               <li class="nav-item">

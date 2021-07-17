@@ -77,6 +77,11 @@ const routes = [
         path: 'orders-list',
         component: () => import('../views/admin/DashBoardOrdersList.vue'),
       },
+      {
+        // 全部訂單頁面
+        path: 'applies-list',
+        component: () => import('../views/admin/DashBoardAppliesList.vue'),
+      },
     ],
   },
   // ---------- 其他路由 ----------

@@ -695,7 +695,7 @@ p {
   border: 0px;
   position: sticky;
   top: 158px;
-  height: calc(80vh - 132px);
+  max-height: calc(80vh - 132px);
   overflow: scroll;
   background-color: #fff;
   border-radius: 0.5rem;
@@ -908,5 +908,32 @@ p {
   }
   .jobSelectBox {
     max-height: 78vh;
+  }
+}
+.candidateList {
+  &__person {
+    min-height: 80px;
+    background-color: $white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    &:hover{
+      background-color: $gray-light;
+      .person__name {
+        color: $primary;
+      }
+    }
+    .person__personalImg {
+      border: 1px solid $gray-line;
+      border-radius: 50%;
+      height: 5rem;
+      width: 5rem;
+    }
+    .person__name {
+      font-size: 20px;
+      color: $dark;
+    }
+    .person__txt{
+      margin-bottom: 0.25rem;
+    }
   }
 }

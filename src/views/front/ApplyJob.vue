@@ -292,25 +292,120 @@
                 </div>
                 <div class="form__inputBox">
                   <div class="form__labelBox">
-                    <label for="sendFormInfoAddress" class="form__label--custom form-label"
-                      >地址</label
+                    <label for="sendFormInfoAddressCity" class="form__label--custom form-label"
+                      >聯絡地址</label
                     >
                     <p class="formTag--must me-2">必填</p>
                     <p class="subTxt">(可填寫大概區域，只用於企業參考用)</p>
                   </div>
-                  <Field
-                    id="sendFormInfoAddress"
-                    ref="sendFormInfoAddress"
-                    name="地址"
-                    type="text"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors['地址'] }"
-                    placeholder="請輸入地址"
-                    rules="required"
-                    v-model="form.user.address"
-                  ></Field>
-                  <ErrorMessage name="地址" class="invalid-feedback"></ErrorMessage>
+                  <div class="">
+                    <Field
+                      id="sendFormInfoAddressCity"
+                      ref="sendFormInfoAddressCity"
+                      name="縣市"
+                      as="select"
+                      class="form-control form-select w-auto mb-2"
+                      :class="{ 'is-invalid': errors['縣市'] }"
+                      rules="required"
+                      v-model="form.user.options.addressCity"
+                    >
+                      <option value="" disabled selected>請選擇縣市</option>
+                      <option v-for="item in formData.city" :value="item" :key="item">{{
+                        item
+                      }}</option>
+                    </Field>
+                    <ErrorMessage name="縣市" class="invalid-feedback"></ErrorMessage>
+                    <Field
+                      id="sendFormInfoAddressDetail"
+                      ref="sendFormInfoAddressDetail"
+                      name="詳細地址"
+                      type="text"
+                      class="form-control "
+                      :class="{ 'is-invalid': errors['詳細地址'] }"
+                      placeholder="請輸入詳細地址"
+                      rules="required"
+                      v-model="form.user.options.addressDetail"
+                    ></Field>
+                    <ErrorMessage name="詳細地址" class="invalid-feedback"></ErrorMessage>
+                  </div>
                 </div>
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoEducation" class="form__label--custom form-label"
+                      >學歷</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <div class="d-flex">
+                    <div
+                      class="form-check me-2"
+                      v-for="(item, index) in formData.candidateEducation"
+                      :key="index"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        :value="item"
+                        :id="'education' + index"
+                        name="學歷"
+                        v-model="form.user.options.education"
+                      />
+                      <label class="form-check-label" :for="'education' + index">
+                        {{ item }}
+                      </label>
+                    </div>
+                  </div>
+                  <Field
+                    id="sendFormInfoEducationCheck"
+                    ref="sendFormInfoEducationCheck"
+                    name="學歷"
+                    type="text"
+                    class="form-control d-none"
+                    :class="{ 'is-invalid': errors['學歷'] }"
+                    v-model="form.user.options.education"
+                    rules="required"
+                  ></Field>
+                  <ErrorMessage name="學歷要求" class="invalid-feedback"></ErrorMessage>
+                </div>
+                <div class="form__inputBox">
+                  <div class="form__labelBox">
+                    <label for="sendFormInfoWorkExp" class="form__label--custom form-label"
+                      >工作經驗</label
+                    >
+                    <p class="formTag--must">必填</p>
+                  </div>
+                  <div class="d-flex">
+                    <div
+                      class="form-check me-2"
+                      v-for="(item, index) in formData.candidateWorkExp"
+                      :key="index"
+                    >
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        :value="item"
+                        :id="'workExp' + index"
+                        name="工作經驗"
+                        v-model="form.user.options.workExp"
+                      />
+                      <label class="form-check-label" :for="'workExp' + index">
+                        {{ item }}
+                      </label>
+                    </div>
+                  </div>
+                  <Field
+                    id="sendFormInfoWorkExpCheck"
+                    ref="sendFormInfoWorkExpCheck"
+                    name="工作經驗"
+                    type="text"
+                    class="form-control d-none"
+                    :class="{ 'is-invalid': errors['工作經驗'] }"
+                    v-model="form.user.options.workExp"
+                    rules="required"
+                  ></Field>
+                  <ErrorMessage name="工作經驗" class="invalid-feedback"></ErrorMessage>
+                </div>
+
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoCvLink" class="form__label--custom form-label"
@@ -414,8 +509,14 @@ export default {
             pageAction: 'apply-job',
             nowJobName: '',
             personalImg: '',
+            appliedJob: '',
             cvLink: '',
             otherLink: '',
+            permission: false,
+            workExp: '',
+            education: '',
+            addressCity: '',
+            addressDetail: '',
           },
         },
         message: '',
@@ -517,11 +618,11 @@ export default {
             this.form.user.options.personalImg = res.data.data.link;
             console.log(this.form.user.options.personalImg);
           }
-          emitter.emit('spinner-close');
         })
         .catch((error) => {
           console.log(error);
         });
+      emitter.emit('spinner-close');
     },
     deleteImgInput() {
       this.personalImg.src = '';
@@ -547,6 +648,9 @@ export default {
     },
     // 送出表單
     sendForm() {
+      this.form.user.options.appliedJob = this.jobItem.id;
+      this.form.user.address = `${this.form.user.options.addressCity}
+      ${this.form.user.options.addressDetail}`;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
       const formData = {
         data: this.form,

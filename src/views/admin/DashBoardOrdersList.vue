@@ -24,14 +24,6 @@
         </li>
         <li
           class="admin__subNav__item"
-          @click="changeSideHeader('add-apply')"
-          :class="{ active: orderCategorySelected === 'add-apply' }"
-        >
-          <p class="admin__subNav__txt me-1">應徵申請</p>
-          <p class="admin__subNav__txt">{{ addJobOrders.length }}</p>
-        </li>
-        <li
-          class="admin__subNav__item"
           @click="changeSideHeader('系統')"
           :class="{ active: orderCategorySelected === '系統' }"
         >
@@ -390,6 +382,7 @@ export default {
     return {
       orders: [],
       pagination: {},
+      pageNumber: 1,
       orderCategory: [
         { value: '新企業列表', action: 'add-company' },
         { value: '新職位列表', action: 'add-job' },
@@ -450,8 +443,7 @@ export default {
     },
     classifyOrder() {
       const array = this.orders;
-      this.addCompanyOrders = [];
-      this.addJobOrders = [];
+
       array.forEach((item) => {
         if (item.user.options.formAction !== undefined) {
           if (item.user.options.formAction === 'add-company') {
@@ -463,12 +455,17 @@ export default {
           console.log('沒有formAction');
         }
       });
+      if (this.pagination.has_next) {
+        this.pageNumber += 1;
+        this.getOrder(this.pageNumber);
+      }
       // console.log(this.addCompanyOrders);
       // console.log(this.addJobOrders);
       this.selectItem(this.addCompanyOrders[0].id);
     },
     getOrder(pageNum = 1) {
       emitter.emit('spinner-open');
+      this.pageNumber = pageNum;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/orders?page=${pageNum}`;
       this.$http
         .get(url)
@@ -477,9 +474,7 @@ export default {
           console.log(res.data);
           console.log(res.data.orders);
           this.orders = res.data.orders;
-          // this.pagination = res.data.pagination;
-          this.addCompanyOrders = [];
-          this.addjobOrders = [];
+          this.pagination = res.data.pagination;
           this.classifyOrder();
         })
         .catch((error) => {
@@ -555,7 +550,10 @@ export default {
         });
     },
   },
-  created() {},
+  created() {
+    this.addCompanyOrders = [];
+    this.addJobOrders = [];
+  },
   mounted() {
     this.getOrder();
     console.log(webData);
