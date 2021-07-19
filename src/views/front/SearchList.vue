@@ -293,7 +293,10 @@
                     >
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p class="text-primary">{{ item.price }} / 月薪</p>
+                    <p class="text-primary" v-if="!item.options.job.salaryInterView">
+                      {{ item.price }} / 月薪
+                    </p>
+                    <p class="text-primary" v-if="item.options.job.salaryInterView">薪資面議</p>
                     <p class="subTxt text-secondary">
                       {{ $filters.date(item.options.job.create) }}
                     </p>
@@ -361,7 +364,12 @@
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <p class="text-primary fw-bold">{{ jobItem.price }}/月薪</p>
+              <p class="text-primary fw-bold" v-if="!jobItem.options.job.salaryInterView">
+                {{ jobItem.price }} / 月薪
+              </p>
+              <p class="text-primary fw-bold" v-if="jobItem.options.job.salaryInterView">
+                薪資面議
+              </p>
               <div class="d-flex align-items-center ">
                 <p class="subTxt text-secondary me-2">
                   {{ $filters.date(jobItem.options.job.create) }}
@@ -370,7 +378,8 @@
                   class="btn--applyJob btn btn-primary btn-bg d-flex align-items-center me-2"
                   type="button"
                   :to="`/apply-job/${jobItem.id}`"
-                  >申請</router-link>
+                  >申請</router-link
+                >
               </div>
             </div>
           </div>
@@ -438,14 +447,18 @@
     </div>
   </div>
   <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
+  <div class="sideBtnBox">
+    <UpTopBtn></UpTopBtn>
+  </div>
 </template>
 <script>
 import emitter from '@/components/helpers/emitter';
 import webData from '@/components/helpers/webData';
 import PagenationModal from '@/components/Pagenation.vue';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
-  components: { PagenationModal },
+  components: { PagenationModal, UpTopBtn },
   data() {
     return {
       products: [],
@@ -524,6 +537,7 @@ export default {
           this.filterJobCategory(this.jobsList);
           this.filterIndustryCategory(this.jobsList);
           this.filterSalary(this.jobsList);
+          this.filterSalaryInterView(this.jobsList);
           console.log(this.jobsList);
         })
         .catch((error) => {
@@ -631,6 +645,15 @@ export default {
         } else if (numHight !== null) {
           this.temData = temArray.filter((item) => item.price < numHight);
         }
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    filterSalaryInterView(temArray) {
+      if (this.filterData.salaryInterView) {
+        console.log('只找面議');
+        this.temData = temArray.filter((item) => item.options.job.salaryInterView === true);
       } else {
         this.temData = temArray;
       }

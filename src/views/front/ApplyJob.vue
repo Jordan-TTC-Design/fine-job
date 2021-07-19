@@ -45,7 +45,12 @@
                 </div>
               </div>
               <div class="d-flex justify-content-between align-items-center">
-                <p class="text-primary fw-bold">{{ jobItem.price }}/月薪</p>
+                <p class="text-primary fw-bold" v-if="!jobItem.options.job.salaryInterView">
+                  {{ jobItem.price }} / 月薪
+                </p>
+                <p class="text-primary fw-bold" v-if="jobItem.options.job.salaryInterView">
+                  薪資面議
+                </p>
                 <div class="d-flex align-items-center ">
                   <p class="subTxt text-secondary me-2">
                     {{ $filters.date(jobItem.options.job.create) }}

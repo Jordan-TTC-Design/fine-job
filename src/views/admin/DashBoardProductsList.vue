@@ -50,7 +50,7 @@
           </li>
           <li
             class="sideList__item list-group-item list-group-item-action"
-            :class="{active: item.id === temItem.id}"
+            :class="{ active: item.id === temItem.id }"
             v-for="item in companiesList"
             :key="item.id"
             @click="selectItem(item.id)"
@@ -69,7 +69,7 @@
           </li>
           <li
             class="sideList__item list-group-item list-group-item-action"
-            :class="{active: item.id === temItem.id}"
+            :class="{ active: item.id === temItem.id }"
             v-for="item in jobsList"
             :key="item.id"
             @click="selectItem(item.id)"
@@ -278,7 +278,15 @@
                     </p>
                   </div>
                   <div>
-                    <p class="text-primary fw-bold mb-3">{{ temItem.price }}/月薪</p>
+                    <p
+                      class="text-primary fw-bold mb-3"
+                      v-if="!temItem.options.job.salaryInterView"
+                    >
+                      {{ temItem.price }} / 月薪
+                    </p>
+                    <p class="text-primary fw-bold mb-3" v-if="temItem.options.job.salaryInterView">
+                      薪資面議
+                    </p>
                     <p class="subTxt text-secondary text-end">
                       {{ $filters.date(temItem.options.job.create) }}
                     </p>
@@ -321,7 +329,6 @@
 </template>
 
 <script>
-// import ProductCard from '@/components/admin/DashBoardProductCard.vue';
 import EditProductModal from '@/components/admin/DashBoardEditProductModal.vue';
 import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
 import emitter from '@/components/helpers/emitter';

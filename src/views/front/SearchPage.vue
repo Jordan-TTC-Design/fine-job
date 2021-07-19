@@ -9,17 +9,17 @@
               清除全部
             </button>
           </div>
-          <div ref="searchFilterTop" v-if="mountState">
+          <div ref="searchFilterForm" v-if="mountState">
             <div class="row">
               <div class="col-6 mb-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-keyword" class="form-label inputItem__title"
+                  <label for="searchFilterForm-keyword" class="form-label inputItem__title"
                     >關鍵字</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    id="searchFilterTop-keyword"
+                    id="searchFilterForm-keyword"
                     placeholder="職位關鍵字"
                     aria-describedby="關鍵字"
                     v-model="filterData.keyword"
@@ -28,11 +28,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-city" class="form-label inputItem__title">地區</label>
+                  <label for="searchFilterForm-city" class="form-label inputItem__title"
+                    >地區</label
+                  >
                   <select
                     class="form-select"
                     aria-label="地區"
-                    id="searchFilterTop-city"
+                    id="searchFilterForm-city"
                     v-model="filterData.city"
                   >
                     <option disabled>請選擇地區</option>
@@ -48,13 +50,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-industry" class="form-label inputItem__title"
+                  <label for="searchFilterForm-industry" class="form-label inputItem__title"
                     >產業類別</label
                   >
                   <select
                     class="form-select"
                     aria-label="產業類別"
-                    id="searchFilterTop-industry"
+                    id="searchFilterForm-industry"
                     v-model="filterData.industryCategory"
                   >
                     <option disabled>請選擇產業類別</option>
@@ -70,13 +72,13 @@
               </div>
               <div class="col-3 mb-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-jobCategory" class="form-label inputItem__title"
+                  <label for="searchFilterForm-jobCategory" class="form-label inputItem__title"
                     >職位類別</label
                   >
                   <select
                     class="form-select"
                     aria-label="職位類別"
-                    id="searchFilterTop-jobCategory"
+                    id="searchFilterForm-jobCategory"
                     v-model="filterData.jobCategory"
                   >
                     <option disabled>請選擇職位類別</option>
@@ -92,13 +94,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-workExp" class="form-label inputItem__title"
+                  <label for="searchFilterForm-workExp" class="form-label inputItem__title"
                     >工作經驗</label
                   >
                   <select
                     class="form-select"
                     aria-label="工作經驗"
-                    id="searchFilterTop-workExp"
+                    id="searchFilterForm-workExp"
                     v-model="filterData.workExp"
                   >
                     <option disabled>請選擇工作經驗</option>
@@ -114,13 +116,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-education" class="form-label inputItem__title"
+                  <label for="searchFilterForm-education" class="form-label inputItem__title"
                     >學歷要求</label
                   >
                   <select
                     class="form-select"
                     aria-label="學歷要求"
-                    id="searchFilterTop-education"
+                    id="searchFilterForm-education"
                     v-model="filterData.education"
                   >
                     <option disabled>請選擇學歷要求</option>
@@ -136,13 +138,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-workType" class="form-label inputItem__title"
+                  <label for="searchFilterForm-workType" class="form-label inputItem__title"
                     >工作性質</label
                   >
                   <select
                     class="form-select"
                     aria-label="工作性質"
-                    id="searchFilterTop-workType"
+                    id="searchFilterForm-workType"
                     v-model="filterData.workType"
                   >
                     <option disabled>請選擇工作性質</option>
@@ -158,13 +160,13 @@
               </div>
               <div class="col-3">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-workTime" class="form-label inputItem__title"
+                  <label for="searchFilterForm-workTime" class="form-label inputItem__title"
                     >工作時段</label
                   >
                   <select
                     class="form-select"
                     aria-label="工作時段"
-                    id="searchFilterTop-workTime"
+                    id="searchFilterForm-workTime"
                     v-model="filterData.workTime"
                   >
                     <option disabled>請選擇工作時段</option>
@@ -180,14 +182,14 @@
               </div>
               <div class="col-6">
                 <div class="inputGroup--item">
-                  <label for="searchFilterTop-salary" class="form-label inputItem__title"
+                  <label for="searchFilterForm-salary" class="form-label inputItem__title"
                     >薪資待遇</label
                   >
                   <div class="d-flex align-items-center">
                     <input
                       type="number"
                       class="form-control"
-                      id="searchFilterTop-salary"
+                      id="searchFilterForm-salary"
                       placeholder="最低"
                       aria-describedby="薪資待遇範圍起始"
                       v-model.number="filterData.salaryLow"
@@ -196,7 +198,7 @@
                     <input
                       type="number"
                       class="form-control"
-                      id="searchFilterTop-salary-end"
+                      id="searchFilterForm-salary-end"
                       placeholder="最高"
                       aria-describedby="薪資待遇範圍結束"
                       v-model.number="filterData.salaryHight"
@@ -208,11 +210,12 @@
                         class="form-check-input ms-0 me-2"
                         type="checkbox"
                         value="面議"
-                        id="searchFilterTop-salaryInterview"
+                        id="searchFilterForm-salaryInterview"
+                        v-model="filterData.salaryInterView"
                       />
                       <label
                         class="form-check-label text-nowrap"
-                        for="searchFilterTop-salaryInterview"
+                        for="searchFilterForm-salaryInterview"
                       >
                         面議
                       </label>
@@ -297,7 +300,10 @@
                     >
                   </div>
                   <div class="d-flex justify-content-between align-items-center">
-                    <p class="text-primary">{{ item.price }} / 月薪</p>
+                    <p class="text-primary" v-if="!item.options.job.salaryInterView">
+                      {{ item.price }} / 月薪
+                    </p>
+                    <p class="text-primary" v-if="item.options.job.salaryInterView">薪資面議</p>
                     <p class="subTxt text-secondary">
                       {{ $filters.date(item.options.job.create) }}
                     </p>
@@ -369,7 +375,10 @@
               </div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-              <p class="text-primary fw-bold">{{ jobItem.price }}/月薪</p>
+              <p class="text-primary fw-bold" v-if="!jobItem.options.job.salaryInterView">
+                {{ jobItem.price }} / 月薪
+              </p>
+              <p class="text-primary fw-bold" v-if="jobItem.options.job.salaryInterView">薪資面議</p>
               <div class="d-flex align-items-center ">
                 <p class="subTxt text-secondary me-2">
                   {{ $filters.date(jobItem.options.job.create) }}
@@ -447,14 +456,18 @@
     </div>
   </div>
   <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
+  <div class="sideBtnBox">
+    <UpTopBtn></UpTopBtn>
+  </div>
 </template>
 <script>
 import emitter from '@/components/helpers/emitter';
 import webData from '@/components/helpers/webData';
 import PagenationModal from '@/components/Pagenation.vue';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
-  components: { PagenationModal },
+  components: { PagenationModal, UpTopBtn },
   inject: ['reload'],
   data() {
     return {
@@ -489,6 +502,7 @@ export default {
       temData: [],
       nowPageList: [],
       sortWay: 'time',
+      filterQuery: {},
     };
   },
   methods: {
@@ -497,15 +511,13 @@ export default {
       const keyword = '不限';
       const city = '不限';
       this.filterData.jobCategory = jobCategory;
-      // console.log(this.filterData.jobCategory);
-      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
       this.reload();
     },
     getSearchFilterData() {
-      console.log(this.$route.params);
-      const { keyword } = this.$route.params;
-      const { city } = this.$route.params;
-      const { jobCategory } = this.$route.params;
+      const { keyword } = this.filterQuery;
+      const { city } = this.filterQuery;
+      const { jobCategory } = this.filterQuery;
       if (keyword !== '不限') {
         this.filterData.keyword = keyword;
       }
@@ -513,17 +525,17 @@ export default {
       this.filterData.jobCategory = jobCategory;
     },
     changeJobSort() {
-      console.log(this.sortWay);
+      // console.log(this.sortWay);
       if (this.sortWay === 'time') {
         this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
       } else if (this.sortWay === 'money') {
         this.jobsList.sort((a, b) => b.price - a.price);
       }
-      console.log(this.jobsList);
+      // console.log(this.jobsList);
     },
     changePage(nowPageNum) {
       this.nowPageList = [];
-      console.log(nowPageNum);
+      // console.log(nowPageNum);
       const pageFrist = nowPageNum * 10 - 10;
       this.jobsList.forEach((item, index) => {
         if (pageFrist <= index && index <= nowPageNum * 10) {
@@ -554,6 +566,7 @@ export default {
           this.filterJobCategory(this.jobsList);
           this.filterIndustryCategory(this.jobsList);
           this.filterSalary(this.jobsList);
+          this.filterSalaryInterView(this.jobsList);
           console.log(this.jobsList);
         })
         .catch((error) => {
@@ -561,9 +574,9 @@ export default {
         });
     },
     filterKeyword(temArray) {
-      console.log(temArray);
+      // console.log(temArray);
       if (this.filterData.keyword !== '') {
-        console.log(this.filterData.keyword);
+        // console.log(this.filterData.keyword);
         this.temData = temArray.filter((item) => {
           const text = item.title + item.options.company.companyName;
           const searchText = this.filterData.keyword.toLowerCase();
@@ -577,7 +590,7 @@ export default {
     },
     filterCity(temArray) {
       if (this.filterData.city !== '不限') {
-        console.log(this.filterData.city);
+        // console.log(this.filterData.city);
         this.temData = temArray.filter(
           (item) => item.options.company.companyAddressCity === this.filterData.city,
         );
@@ -632,7 +645,7 @@ export default {
     },
     filterJobCategory(temArray) {
       if (this.filterData.jobCategory !== '不限') {
-        console.log(this.filterData.jobCategory);
+        // console.log(this.filterData.jobCategory);
         this.temData = temArray.filter((item) => item.category === this.filterData.jobCategory);
       } else {
         this.temData = temArray;
@@ -661,6 +674,15 @@ export default {
         } else if (numHight !== null) {
           this.temData = temArray.filter((item) => item.price < numHight);
         }
+      } else {
+        this.temData = temArray;
+      }
+      this.jobsList = this.temData;
+    },
+    filterSalaryInterView(temArray) {
+      if (this.filterData.salaryInterView) {
+        console.log('只找面議');
+        this.temData = temArray.filter((item) => item.options.job.salaryInterView === true);
       } else {
         this.temData = temArray;
       }
@@ -739,7 +761,8 @@ export default {
   },
   created() {
     this.formData = webData;
-    console.log(this.$route.params);
+    console.log(this.$route.query);
+    this.filterQuery = this.$route.query;
     this.getSearchFilterData();
     this.searchJob();
   },

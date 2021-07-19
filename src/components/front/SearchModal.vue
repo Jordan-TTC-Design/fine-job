@@ -73,7 +73,7 @@ export default {
       const keyword = this.filterData.keyword || '不限';
       const { city } = this.filterData;
       const { jobCategory } = this.filterData;
-      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
       this.cleanFilter();
     },
     cleanFilter() {

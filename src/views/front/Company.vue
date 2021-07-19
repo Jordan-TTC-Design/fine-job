@@ -102,7 +102,12 @@
                       </p>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                      <p class="text-primary">{{ item.price }} / 月薪</p>
+                      <p class="text-primary" v-if="!item.options.job.salaryInterView">
+                        {{ item.price }} / 月薪
+                      </p>
+                      <p class="text-primary" v-if="item.options.job.salaryInterView">
+                        薪資面議
+                      </p>
                       <p class="subTxt text-secondary">
                         {{ $filters.date(item.options.job.create) }}
                       </p>
@@ -142,12 +147,19 @@
       <h5>找不到產品</h5>
     </div>
   </div>
+  <div class="sideBtnBox">
+    <UpTopBtn></UpTopBtn>
+  </div>
 </template>
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
+  components: {
+    UpTopBtn,
+  },
   data() {
     return {
       companyItem: {
@@ -167,9 +179,7 @@ export default {
     searchByJobCategory(jobCategory) {
       const keyword = '不限';
       const city = '不限';
-      // console.log(jobCategory);
-      // const { jobCategory } = this.filterData;
-      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
     },
     getCompanyData() {
       emitter.emit('spinner-open');

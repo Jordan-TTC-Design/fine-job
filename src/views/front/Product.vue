@@ -40,7 +40,15 @@
                     </p>
                   </div>
                   <div>
-                    <p class="text-primary fw-bold mb-3">{{ jobItem.price }}/月薪</p>
+                    <p
+                      class="text-primary fw-bold mb-3"
+                      v-if="!jobItem.options.job.salaryInterView"
+                    >
+                      {{ jobItem.price }} / 月薪
+                    </p>
+                    <p class="text-primary fw-bold mb-3" v-if="jobItem.options.job.salaryInterView">
+                      薪資面議
+                    </p>
                     <p class="subTxt text-secondary text-end">
                       {{ $filters.date(jobItem.options.job.create) }}
                     </p>
@@ -138,12 +146,19 @@
       <h5>找不到產品</h5>
     </div>
   </div>
+  <div class="sideBtnBox">
+    <UpTopBtn></UpTopBtn>
+  </div>
 </template>
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
+  components: {
+    UpTopBtn,
+  },
   data() {
     return {
       jobItem: {

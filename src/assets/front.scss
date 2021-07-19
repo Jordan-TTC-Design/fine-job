@@ -668,6 +668,18 @@ p {
     color: #1d1d1d;
   }
 }
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: $primary;
+  margin-right: 0.5rem;
+}
+.sectionTag {
+  background-color: $primary;
+  padding: 2px 8px;
+  border-radius: 0.5rem 0.5rem  0.5rem 0;
+  color: $white;
+}
 // helper
 .form__infoEditBox {
   .ck-rounded-corners .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
@@ -916,7 +928,7 @@ p {
     background-color: $white;
     border-radius: 0.5rem;
     padding: 1.5rem;
-    &:hover{
+    &:hover {
       background-color: $gray-light;
       .person__name {
         color: $primary;
@@ -932,8 +944,135 @@ p {
       font-size: 20px;
       color: $dark;
     }
-    .person__txt{
+    .person__txt {
       margin-bottom: 0.25rem;
+    }
+  }
+}
+.sideBtnBox {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.sideIconBtn {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $white;
+  .jobIcon {
+    font-size: 24px;
+  }
+  &:hover {
+    .jobIcon {
+      color: $primary;
+    }
+  }
+}
+.sideFilter.searchFilterBox {
+  max-width: 640px;
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
+  margin-bottom: 0.5rem;
+  z-index: 999;
+}
+.goodCompanyRecommend {
+  position: relative;
+  z-index: 1;
+  .section__bg {
+    height: 64%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+  .companyContentBox {
+    .companyContent {
+      max-height: 164px;
+      overflow: hidden;
+    }
+  }
+  .goodCompany__Box--left {
+    background-color: $white;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .goodCompany__Box--right {
+    background-color: $white;
+    border-radius: 0.5rem;
+    position: absolute;
+    top: -2rem;
+    right: 0;
+    img {
+      max-width: 100%;
+    }
+  }
+  .goodCompanyJobList {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .list__item {
+      background-color: $white;
+      &:hover {
+        background-color: $gray-light;
+      }
+      width: calc(50% - 8px);
+      border: 1px solid $gray-line;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+.hotCategory {
+  .seeMoreBtn {
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    .jobIcon {
+      color: $dark;
+      font-size: 24px;
+    }
+  }
+  .list__item:first-child {
+    .hotCategoryBox {
+      background-color: $primary;
+      p {
+        color: $white;
+      }
+    }
+    .seeMoreBtn {
+      color: $white;
+      .jobIcon {
+        color: $white;
+      }
+    }
+  }
+  .hotCategoryBox {
+    border-radius: 0.5rem;
+    background-color: $gray-light;
+    min-height: 160px;
+    &:hover {
+      background-color: $primary;
+      p {
+        color: $white;
+      }
+      .seeMoreBtn {
+        color: $white;
+        .jobIcon {
+          color: $white;
+        }
+      }
     }
   }
 }

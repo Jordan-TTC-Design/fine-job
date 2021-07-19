@@ -51,9 +51,13 @@
       </div>
     </div>
   </div>
+  <!-- 熱門職位 -->
   <div class="mb-7">
     <div class="container">
-      <h3 class="pageTitle ps-3">熱門職位</h3>
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="sectionTitle">熱門職位</h3>
+        <p class="sectionTag">推薦</p>
+      </div>
       <div class="row">
         <div class="col-6">
           <div
@@ -77,9 +81,10 @@
                 :to="`/products-list/company/${goodJobList[0].options.company.companyLink}`"
                 >{{ goodJobList[0].options.company.companyName }}</router-link
               >
-              <p class="jobTag">
-                {{ goodJobList[0].price }}
+              <p class="jobTag" v-if="!goodJobList[0].options.job.salaryInterView">
+                {{ goodJobList[0].price }} / 月薪
               </p>
+              <p class="jobTag" v-if="goodJobList[0].options.job.salaryInterView">薪資面議</p>
             </div>
           </div>
         </div>
@@ -113,8 +118,11 @@
                       "
                       >{{ goodJobList[index].options.company.companyName }}</router-link
                     >
-                    <p class="jobTag">
-                      {{ goodJobList[index].price }}
+                    <p class="jobTag" v-if="!goodJobList[index].options.job.salaryInterView">
+                      {{ goodJobList[index].price }} / 月薪
+                    </p>
+                    <p class="jobTag" v-if="goodJobList[index].options.job.salaryInterView">
+                      薪資面議
                     </p>
                   </div>
                 </div>
@@ -125,9 +133,13 @@
       </div>
     </div>
   </div>
-  <div class="bg-white py-7 mb-7">
+  <!-- 最新職位 -->
+  <div class="bg-white py-7">
     <div class="container ">
-      <h3 class="pageTitle ps-3">最新職位</h3>
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="sectionTitle">最新職位</h3>
+        <p class="sectionTag">推薦</p>
+      </div>
       <swiper
         :slides-per-view="3"
         :space-between="20"
@@ -160,6 +172,127 @@
       </swiper>
     </div>
   </div>
+  <!-- 本週推薦企業 -->
+  <div class="goodCompanyRecommend py-7" v-if="dataOk">
+    <div class="section__bg bg-primary-light"></div>
+    <div class="container">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="sectionTitle">本週推薦企業</h3>
+        <p class="sectionTag">推薦</p>
+      </div>
+      <div class="row position-relative">
+        <div class="col-8">
+          <div class="goodCompany__Box--left p-6">
+            <div class="companyContentBox mb-3 pe-8">
+              <div class="d-flex mb-4">
+                <div class="logoImageBox me-4 ">
+                  <img class="logoImage" :src="recommedCompany.imageUrl" alt="" />
+                </div>
+                <div class="txtBox d-flex flex-column justify-content-between ">
+                  <h5 class="page__title mb-3">{{ recommedCompany.title }}</h5>
+                  <p class="page__txt me-2">
+                    <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
+                    >{{ recommedCompany.options.companyAddressCity }}，{{
+                      recommedCompany.options.companyAddressDetail
+                    }}
+                  </p>
+                  <p class="page__txt">
+                    <span><i class="jobIcon--sm me-1 bi bi-building"></i></span>
+                    {{ recommedCompany.category }}
+                  </p>
+                </div>
+              </div>
+              <div class="companyContent mb-3" v-html="recommedCompany.content"></div>
+            </div>
+            <h5 class="page__title mb-3">現有職位</h5>
+            <ul class="goodCompanyJobList w-100">
+              <template
+                v-for="(companyJob, index) in recommedCompany.jobsList"
+                :key="companyJob.id"
+              >
+                <li class="list__item" v-if="index < 4">
+                  <p class="mb-3">{{ companyJob.title }}</p>
+                  <div class="d-flex justify-content-between">
+                    <p class="subTxt" v-if="!companyJob.options.job.salaryInterView">
+                      {{ companyJob.price }} / 月薪
+                    </p>
+                    <p class="subTxt" v-if="companyJob.options.job.salaryInterView">薪資面議</p>
+                    <p class="subTxt">{{ $filters.date(companyJob.options.job.create) }}</p>
+                  </div>
+                </li>
+              </template>
+            </ul>
+            <button type="button" class="btn btn-outline-gray-line text-dark align-self-end">
+              查看完整企業資料
+            </button>
+          </div>
+        </div>
+        <div class="col-5 goodCompany__Box--right p-6 pb-4">
+          <swiper
+        :slides-per-view="1"
+        :space-between="20"
+        :autoplay="{
+          delay: 2500,
+          disableOnInteraction: false,
+        }"
+        :pagination="{
+          clickable: true,
+        }"
+        v-if="dataOk"
+      >
+        <swiper-slide v-for="companyImage in recommedCompany.imagesUrl" :key="companyImage">
+        <img  :src="companyImage" alt="" />
+        </swiper-slide>
+      </swiper>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hotCategory bg-white py-7">
+    <div class="container ">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="sectionTitle">熱門職位類別</h3>
+      </div>
+      <ul class="row hotCategoryList">
+        <template v-for="(categoryItem, index) in jobCategory" :key="categoryItem.categoryName">
+          <li
+            class="list__item"
+            v-if="index < 7"
+            :class="{ 'col-6': index === 0, 'col-3': index > 0, 'mb-4': index < 3 }"
+          >
+            <div class="hotCategoryBox p-6">
+              <p class="mb-3">
+                {{ categoryItem.categoryName }}
+              </p>
+              <p class="subTxt mb-6">目前共： {{ categoryItem.jobNum }} 職位</p>
+              <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
+                查看更多職位 <i class=" jobIcon ms-2 bi bi-arrow-right-circle"></i>
+              </p>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </div>
+  <div class="CooperationCompanySection pt-7  pb-2">
+    <div class="container">
+      <h3 class="pageTitle text-center">優質合作企業</h3>
+      <ul class="row">
+        <template v-for="companyItem in companiesList" :key="companyItem.id">
+          <li class="col-2">
+            <div class="bg-white py-4 px-6 rounded mb-5">
+              <router-link :to="`/products-list/company/${companyItem.id}`"
+                ><img class="w-100" :src="companyItem.imageUrl" alt=""
+              /></router-link>
+            </div>
+          </li>
+        </template>
+      </ul>
+    </div>
+  </div>
+  <div class="sideBtnBox">
+    <UpTopBtn></UpTopBtn>
+  </div>
 </template>
 
 <script>
@@ -171,6 +304,7 @@ import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
 import webData from '@/components/helpers/webData';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 SwiperCore.use([Autoplay, Pagination, Navigation]);
 
@@ -179,6 +313,7 @@ export default {
     GoodJobCard,
     Swiper,
     SwiperSlide,
+    UpTopBtn,
   },
   data() {
     return {
@@ -211,14 +346,40 @@ export default {
         salaryHight: null,
         salaryInterView: false,
       },
+      jobCategory: [],
+      recommedCompany: {
+        jobsList: [],
+      },
     };
   },
   methods: {
+    searchByJobCategory(jobCategory) {
+      this.cleanFilter();
+      const keyword = '不限';
+      const city = '不限';
+      this.filterData.jobCategory = jobCategory;
+      this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
+    },
+    cleanFilter() {
+      this.filterData = {
+        keyword: '',
+        city: '不限',
+        industryCategory: '不限',
+        jobCategory: '不限',
+        workExp: '不限',
+        education: '不限',
+        workType: '不限',
+        workTime: '不限',
+        salaryLow: null,
+        salaryHight: null,
+        salaryInterView: false,
+      };
+    },
     toSearchJob() {
       const keyword = this.filterData.keyword || '不限';
       const { city } = this.filterData;
       const { jobCategory } = this.filterData;
-      this.$router.push(`/search/${keyword}&${city}&${jobCategory}`);
+      this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
     },
     changeJobSort() {
       console.log(this.sortWay);
@@ -271,6 +432,8 @@ export default {
       console.log(this.jobsList);
       this.changeJobSort();
       this.sortGoodJob();
+      this.getJobCategory();
+      this.getRecommedCompany();
     },
     classifyCompany() {
       this.products.forEach((item) => {
@@ -300,6 +463,55 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    getJobCategory() {
+      const categoryArray = [];
+      this.formData.jobCategory.forEach((item) => {
+        const obj = {
+          categoryName: item,
+          jobNum: 0,
+        };
+        categoryArray.push(obj);
+      });
+      console.log(categoryArray);
+      if (categoryArray.length > 0) {
+        this.jobsList.forEach((job) => {
+          categoryArray.forEach((item, index) => {
+            if (job.category === item.categoryName) {
+              categoryArray[index].jobNum += 1;
+            }
+          });
+        });
+      }
+      categoryArray.sort((a, b) => b.jobNum - a.jobNum);
+      this.jobCategory = categoryArray;
+      console.log(this.jobCategory);
+    },
+    getRecommedCompany(id = '-MdlkfRouZAGrLI9AztX') {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/product/${id}`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          if (res.data.success) {
+            this.isExist = true;
+            // console.log(res);
+            this.recommedCompany = { jobsList: [], ...res.data.product };
+            console.log(this.recommedCompany);
+            this.jobsList.forEach((item) => {
+              if (item.description === '職位') {
+                if (item.options.company.companyName === this.recommedCompany.title) {
+                  console.log(item.options.company.companyName);
+                  this.recommedCompany.jobsList.push(item);
+                }
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      emitter.emit('spinner-close');
     },
   },
   created() {

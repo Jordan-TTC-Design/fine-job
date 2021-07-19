@@ -963,7 +963,7 @@ export default {
     // 送出表單前檢查整理資料
     processFormData() {
       if (this.form.user.options.job.salaryInterView) {
-        this.form.user.options.job.salary = 0;
+        this.form.user.options.job.salary = 24000;
       }
       if (this.form.user.options.company.companyAddressCity !== '') {
         const city = this.form.user.options.company.companyAddressCity;

@@ -627,6 +627,9 @@ export default {
       }
     },
     processNewJobData() {
+      if (this.jobData.options.job.salaryInterView) {
+        this.jobData.options.job.salary = 24000;
+      }
       const temObj = this.jobData;
       const newJobItem = {
         data: {

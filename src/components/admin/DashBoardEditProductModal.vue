@@ -607,9 +607,9 @@ export default {
     deleteImageUrl() {
       this.companyData.options.company.companyImagesUrl.pop();
     },
-    // updateProduct() {
-    //   this.$emit('update-product', this.temItemData);
-    // },
+    updateProduct() {
+      this.$emit('update-product', this.temItemData);
+    },
     processCompanyData() {
       const temObj = this.companyData;
       const companyItem = {
@@ -652,6 +652,9 @@ export default {
       }
     },
     processJobData() {
+      if (this.jobData.options.job.salaryInterView) {
+        this.jobData.price = 24000;
+      }
       const temObj = this.jobData;
       const jobItem = {
         data: {
