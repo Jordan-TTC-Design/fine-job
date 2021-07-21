@@ -254,12 +254,11 @@
           </div>
           <ul ref="jobList" class="jobList">
             <li
-              type="button"
               @click="selectJob(item.id)"
               :data-id="item.id"
               v-for="item in nowPageList"
               :key="item.id"
-              class="jobList__item d-flex box--shadow flex-column align-items-start"
+              class="jobList__item d-flex box--shadow flex-column align-items-start pe-auto"
             >
               <button class="collectBtn btn btn-outline-gray-line position-absolute" type="button">
                 <i class="jobIcon bi bi-bookmark-fill"></i>
@@ -287,14 +286,12 @@
                 >
                   <div class="mb-3 d-flex flex-column align-items-start">
                     <router-link
-                      class="jobList__item__title text-dark mb-3 me-7"
-                      type="button"
+                      class="jobList__item__title text-dark mb-3 me-7 pe-auto"
                       :to="`/products-list/product/${item.id}`"
                       >{{ item.title }}</router-link
                     >
                     <router-link
-                      class="page__txt page__link subTxt  mb-2 me-7"
-                      type="button"
+                      class="page__txt page__link subTxt  mb-2 me-7 pe-auto"
                       :to="`/products-list/company/${item.options.company.companyLink}`"
                       >{{ item.options.company.companyName }}</router-link
                     >

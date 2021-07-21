@@ -1,11 +1,11 @@
 <template>
-  <div class="topSearchBanner mb-7">
+  <div class="topSearchBanner mb-md-7 mb-6">
     <img class="img-cover" src="../assets/images/home-top-img.png" alt="" />
     <div class="container position-relative">
       <p class="flyTag flyTag--a">您好，我想找工作！</p>
       <p class="flyTag flyTag--b">歡迎你來面試！</p>
-      <h2 class="banner__title text-white mb-4">立即搜尋職位</h2>
-      <h2 class="banner__title text-white mb-9">Got Youself A Fine Job !</h2>
+      <h2 class="banner__title text-white mb-md-4 mb-2">立即搜尋職位</h2>
+      <h2 class="banner__title text-white mb-md-9 mb-6">Got Youself A Fine Job !</h2>
       <div class="bg-white rounded box-shadow p-md-6 p-4">
         <form class="banner__searchBar d-flex flex-md-row flex-column
         align-items-md-center align-items-stretch">
@@ -74,14 +74,12 @@
             </button>
             <div class="hotJobCard__jobInfoBox">
               <router-link
-                class="card__title mb-3 text-white d-block "
-                type="button"
+                class="card__title mb-3 text-white d-block pe-auto"
                 :to="`/products-list/product/${goodJobList[0].id}`"
                 >{{ goodJobList[0].title }}</router-link
               >
               <router-link
-                class="text-white mb-3 d-block"
-                type="button"
+                class="text-white mb-3 d-block pe-auto"
                 :to="`/products-list/company/${goodJobList[0].options.company.companyLink}`"
                 >{{ goodJobList[0].options.company.companyName }}</router-link
               >
@@ -113,14 +111,12 @@
                   </button>
                   <div class="hotJobCard__jobInfoBox">
                     <router-link
-                      class="card__title mb-3 text-white d-block "
-                      type="button"
+                      class="card__title mb-3 text-white d-block pe-auto"
                       :to="`/products-list/product/${goodJobList[index].id}`"
                       >{{ goodJobList[index].title }}</router-link
                     >
                     <router-link
-                      class="text-white mb-3 d-block"
-                      type="button"
+                      class="text-white mb-3 d-block pe-auto"
                       :to="
                         `/products-list/company/${goodJobList[index].options.company.companyLink}`
                       "
@@ -217,7 +213,11 @@
                   <img class="logoImage" :src="recommedCompany.imageUrl" alt="" />
                 </div>
                 <div class="txtBox d-flex flex-column justify-content-between ">
-                  <h5 class="page__title mb-3">{{ recommedCompany.title }}</h5>
+                   <router-link
+                      class="page__title mb-3 pe-auto"
+                      :to="`/products-list/company/${recommedCompany.id}`"
+                      >{{ recommedCompany.title }}</router-link
+                    >
                   <p class="page__txt me-2">
                     <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                     >{{ recommedCompany.options.companyAddressCity }}，{{
@@ -233,12 +233,13 @@
               <div class="companyContent mb-3" v-html="recommedCompany.content"></div>
             </div>
             <h5 class="page__title mb-3">現有職位</h5>
-            <ul class="goodCompanyJobList w-100">
+            <div class="goodCompanyJobList w-100">
               <template
                 v-for="(companyJob, index) in recommedCompany.jobsList"
                 :key="companyJob.id"
               >
-                <li class="list__item" v-if="index < 4">
+                <router-link class="list__item" v-if="index < 4"
+                :to="`/products-list/product/${companyJob.id}`">
                   <p class="mb-3">{{ companyJob.title }}</p>
                   <div class="d-flex justify-content-between">
                     <p class="subTxt" v-if="!companyJob.options.job.salaryInterView">
@@ -247,9 +248,9 @@
                     <p class="subTxt" v-if="companyJob.options.job.salaryInterView">薪資面議</p>
                     <p class="subTxt">{{ $filters.date(companyJob.options.job.create) }}</p>
                   </div>
-                </li>
+                </router-link>
               </template>
-            </ul>
+            </div>
             <button
               type="button"
               class="btn btn-outline-gray-line text-dark align-self-md-end align-self-center"

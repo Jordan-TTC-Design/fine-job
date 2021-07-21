@@ -10,24 +10,23 @@
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
-            <div class="d-flex">
-              <div class="jobContent__imgBox">
+            <div class="d-flex flex-md-row flex-column">
+              <div class="jobContent__imgBox mb-md-0 mb-4">
                 <img class="jobImage" :src="jobItem.imageUrl" alt="" />
                 <div class="logoImageBox">
                   <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
                 </div>
               </div>
               <div class="JobContent__txtBox d-flex flex-column justify-content-between">
-                <div class="pt-3">
+                <div class="pt-3 d-md-block d-flex flex-column align-items-center">
                   <h2 class="page__title">{{ jobItem.title }}</h2>
                   <router-link
-                    class="page__txt page__link subTxt  mb-4 d-block"
-                    type="button"
+                    class="page__txt page__link subTxt  mb-4 d-block pe-auto"
                     :to="`/products-list/company/${temCompany.id}`"
                     >{{ jobItem.options.company.companyName }}</router-link
                   >
                 </div>
-                <div class="d-flex justify-content-between align-items-end">
+                <div class="d-flex justify-content-between align-items-end mb-lg-0 mb-4">
                   <div>
                     <p class="page__txt mb-3">
                       <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
@@ -55,6 +54,12 @@
                   </div>
                 </div>
               </div>
+              <router-link
+                class="btn btn-lg btn-primary w-100 pe-auto d-lg-none d-block"
+                aria-current="page"
+                :to="`/apply-job/${jobItem.id}`"
+                >申請職位</router-link
+              >
             </div>
           </div>
           <div class="jobContentBox  box--shadow  mb-3">
@@ -86,10 +91,9 @@
           </div>
         </div>
         <div class="col-lg-3 col-12">
-          <div class="jobSubBox apply box--shadow mb-lg-3  mb-0 p-3 ">
+          <div class="jobSubBox apply box--shadow mb-lg-3 p-3 d-lg-block d-none">
             <router-link
-              type="button"
-              class="btn btn-lg btn-primary w-100"
+              class="btn btn-lg btn-primary w-100 pe-auto"
               aria-current="page"
               :to="`/apply-job/${jobItem.id}`"
               >申請職位</router-link

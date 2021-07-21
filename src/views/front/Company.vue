@@ -10,16 +10,22 @@
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
-            <div class="d-flex">
-              <div class="jobContent__imgBox">
+            <div class="d-flex flex-md-row flex-column align-items-md-start align-items-center">
+              <div class="jobContent__imgBox mb-md-0 mb-4">
                 <div class="logoImageBox">
                   <img class="logoImage" :src="companyItem.imageUrl" alt="" />
                 </div>
               </div>
-              <div class="JobContent__txtBox d-flex flex-column justify-content-between pt-3">
+              <div
+                class="JobContent__txtBox d-flex flex-column justify-content-between
+              align-items-md-start align-items-center pt-3"
+              >
                 <h2 class="page__title mb-3">{{ companyItem.title }}</h2>
-                <div class="d-flex justify-content-between align-items-end">
-                  <div>
+                <div
+                  class="d-flex flex-md-row flex-column justify-content-between
+                align-items-end w-100"
+                >
+                  <div class="align-self-md-stretch align-self-center">
                     <p class="page__txt mb-3">
                       <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                       >{{ companyItem.options.companyAddressCity }}，{{
@@ -40,7 +46,7 @@
               </div>
             </div>
           </div>
-          <div class="jobContentBox  box--shadow  mb-3">
+          <div class="jobContentBox box--shadow mb-3">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司照片</h3>
             <div class="d-flex justify-content-between flex-md-row flex-column">
               <img
@@ -87,13 +93,11 @@
                   </div>
                   <div
                     class="jobList__item__txtBox
-                  flex-grow-1 d-flex flex-column
-                  justify-content-between"
+                  flex-grow-1 d-flex flex-column justify-content-between"
                   >
                     <div class="mb-3 d-flex flex-column">
                       <router-link
-                        class="jobList__item__title text-dark mb-3 me-7"
-                        type="button"
+                        class="jobList__item__title text-dark mb-3 me-7 pe-auto"
                         :to="`/products-list/product/${item.id}`"
                         >{{ item.title }}</router-link
                       >

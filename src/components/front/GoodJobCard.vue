@@ -12,14 +12,12 @@
           />
           <div>
             <router-link
-              class="mb-2 text-white d-block"
-              type="button"
+              class="mb-2 text-white d-block pe-auto"
               :to="`/products-list/product/${jobItem.id}`"
               >{{ jobItem.title }}</router-link
             >
             <router-link
-              class="subTxt text-white d-block"
-              type="button"
+              class="subTxt text-white d-block pe-auto"
               :to="`/products-list/company/${jobItem.options.company.companyLink}`"
               >{{ jobItem.options.company.companyName }}</router-link
             >

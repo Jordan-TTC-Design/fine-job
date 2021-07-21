@@ -139,6 +139,30 @@
     right: 24%;
     animation-delay: 1.5s;
   }
+  @media screen and (max-width: 991px) {
+    .banner__title {
+      font-size: 40px;
+    }
+    .flyTag--a {
+      top: -8%;
+      right: 0%;
+    }
+    .flyTag--b {
+      top: 12%;
+      right: 12%;
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .banner__title {
+      font-size: 32px;
+    }
+    .flyTag--a {
+      display: none;
+    }
+    .flyTag--b {
+      display: none;
+    }
+  }
 }
 @keyframes slide {
   0% {
@@ -215,15 +239,6 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: #fff;
-  &.apply {
-    @media screen and (max-width: 991px) {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      border-radius: 0;
-    }
-  }
   .list__item {
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid #e2e2e2;
@@ -353,6 +368,31 @@
     font-size: 20px;
   }
 }
+//職位頁面
+.jobPage {
+  @media screen and (max-width: 767px) {
+    .jobContent__imgBox {
+      top: 0;
+      width: 100%;
+      left: 0;
+      height: 240px;
+    }
+    .jobContentBox .jobImage {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .jobContentBox .logoImageBox {
+      top: 50%;
+      left: 50%;
+      border-radius: 0.25rem;
+      transform: translate3d(-50%, -50%, 0);
+    }
+  }
+}
+
 // 公司頁面
 .companyPage {
   .jobContent__imgBox {
@@ -371,6 +411,9 @@
       width: 100%;
       max-width: 100%;
       border-radius: 8px;
+    }
+    @media screen and (max-width: 991px) {
+      width: 180px;
     }
   }
   .companyPage__companyImage {
@@ -1116,7 +1159,11 @@ p {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
+    .page__title {
+      font-size: 1.25rem;
+      color: $dark;
+      font-weight: 500;
+    }
     .companyContentBox {
       .companyContent {
         max-height: 164px;
