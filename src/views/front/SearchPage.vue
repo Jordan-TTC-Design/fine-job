@@ -700,7 +700,11 @@
       </div>
     </div>
     <div class="bg-cover--dark d-md-none" v-if="filterBoxState" @click="openSideFilterBox"></div>
-    <button type="btn" class="sideIconBtn btn btn-light mb-2 d-md-none" @click="openSideFilterBox">
+    <button
+      type="button"
+      class="sideIconBtn btn btn-light mb-2 d-md-none"
+      @click="openSideFilterBox"
+    >
       <i class="jobIcon bi bi-funnel"></i>
     </button>
     <UpTopBtn></UpTopBtn>

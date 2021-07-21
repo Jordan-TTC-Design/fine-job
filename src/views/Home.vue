@@ -69,7 +69,7 @@
             v-if="this.dataOk"
             :style="{ 'background-image': `url(${goodJobList[0]['imageUrl']} )` }"
           >
-            <button class="collectBtn btn btn-outline-gray-line position-absolute" type="button">
+            <button class="collectBtn btn btn-outline-light position-absolute" type="button">
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
             <div class="hotJobCard__jobInfoBox">
@@ -106,7 +106,7 @@
                   :style="{ 'background-image': `url(${goodJobList[index]['imageUrl']} )` }"
                 >
                   <button
-                    class="collectBtn btn btn-outline-gray-line position-absolute"
+                    class="collectBtn btn btn-outline-light position-absolute"
                     type="button"
                   >
                     <i class="jobIcon bi bi-bookmark-fill"></i>
@@ -168,12 +168,12 @@
           <GoodJobCard :good-job="item"></GoodJobCard>
         </swiper-slide>
         <div class="swiper-button-prev swiper-custom">
-          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+          <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
             <i class="bi bi-arrow-left actionIcon"></i>
           </button>
         </div>
         <div class="swiper-button-next swiper-custom">
-          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+          <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
             <i class="bi bi-arrow-right actionIcon"></i>
           </button>
         </div>

@@ -22,12 +22,12 @@
           <GoodJobCard :good-job="item"></GoodJobCard>
         </swiper-slide>
         <div class="swiper-button-prev swiper-custom">
-          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+          <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
             <i class="bi bi-arrow-left actionIcon"></i>
           </button>
         </div>
         <div class="swiper-button-next swiper-custom">
-          <button type="btn" class="btn btn-lg rounded-circle iconBtnBox">
+          <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
             <i class="bi bi-arrow-right actionIcon"></i>
           </button>
         </div>
@@ -499,7 +499,7 @@
       </div>
     </div>
     <div class="bg-cover--dark" v-if="filterBoxState" @click="openSideFilterBox"></div>
-    <button type="btn" class="sideIconBtn btn btn-light mb-2" @click="openSideFilterBox">
+    <button type="button" class="sideIconBtn btn btn-light mb-2" @click="openSideFilterBox">
       <i class="jobIcon bi bi-funnel"></i>
     </button>
     <UpTopBtn></UpTopBtn>
