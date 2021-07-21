@@ -4,7 +4,11 @@
     <div class="row justify-content-center">
       <div class="col-lg-6 col-12 ">
         <div class="applyJobPage__sideBox mb-lg-0 mb-6">
-          <button type="button" class="btn btn-outline-gray-line text-dark mb-4">
+          <button
+            type="button"
+            class="btn btn-outline-gray-line text-dark mb-4"
+            @click="$router.go(-1)"
+          >
             <i class="bi bi-chevron-left me-2"></i>返回繼續查看職位
           </button>
           <div ref="jobSelectBox" class="jobSelectBox box--shadow">
@@ -19,14 +23,12 @@
                 <div class="JobContent__txtBox">
                   <div>
                     <router-link
-                      class="jobSelectBox__title mb-3 d-block"
-                      type="button"
+                      class="jobSelectBox__title mb-3 d-block pe-auto"
                       :to="`/products-list/product/${jobItem.id}`"
                       >{{ jobItem.title }}</router-link
                     >
                     <router-link
-                      class="page__txt page__link subTxt  mb-4 d-block"
-                      type="button"
+                      class="page__txt page__link subTxt  mb-4 d-block pe-auto"
                       :to="`/products-list/company/${temCompany.id}`"
                       >{{ jobItem.options.company.companyName }}</router-link
                     >

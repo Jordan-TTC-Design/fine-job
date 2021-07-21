@@ -7,8 +7,10 @@
       <h2 class="banner__title text-white mb-md-4 mb-2">立即搜尋職位</h2>
       <h2 class="banner__title text-white mb-md-9 mb-6">Got Youself A Fine Job !</h2>
       <div class="bg-white rounded box-shadow p-md-6 p-4">
-        <form class="banner__searchBar d-flex flex-md-row flex-column
-        align-items-md-center align-items-stretch">
+        <form
+          class="banner__searchBar d-flex flex-md-row flex-column
+        align-items-md-center align-items-stretch"
+        >
           <img
             class="banner__logo me-3"
             src="../assets/images/header/fineJobLogo-square.svg"
@@ -103,10 +105,7 @@
                   v-if="goodJobList[index]"
                   :style="{ 'background-image': `url(${goodJobList[index]['imageUrl']} )` }"
                 >
-                  <button
-                    class="collectBtn btn btn-outline-light position-absolute"
-                    type="button"
-                  >
+                  <button class="collectBtn btn btn-outline-light position-absolute" type="button">
                     <i class="jobIcon bi bi-bookmark-fill"></i>
                   </button>
                   <div class="hotJobCard__jobInfoBox">
@@ -213,11 +212,11 @@
                   <img class="logoImage" :src="recommedCompany.imageUrl" alt="" />
                 </div>
                 <div class="txtBox d-flex flex-column justify-content-between ">
-                   <router-link
-                      class="page__title mb-3 pe-auto"
-                      :to="`/products-list/company/${recommedCompany.id}`"
-                      >{{ recommedCompany.title }}</router-link
-                    >
+                  <router-link
+                    class="page__title mb-3 pe-auto"
+                    :to="`/products-list/company/${recommedCompany.id}`"
+                    >{{ recommedCompany.title }}</router-link
+                  >
                   <p class="page__txt me-2">
                     <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                     >{{ recommedCompany.options.companyAddressCity }}，{{
@@ -238,8 +237,11 @@
                 v-for="(companyJob, index) in recommedCompany.jobsList"
                 :key="companyJob.id"
               >
-                <router-link class="list__item" v-if="index < 4"
-                :to="`/products-list/product/${companyJob.id}`">
+                <router-link
+                  class="list__item"
+                  v-if="index < 4"
+                  :to="`/products-list/product/${companyJob.id}`"
+                >
                   <p class="mb-3">{{ companyJob.title }}</p>
                   <div class="d-flex justify-content-between">
                     <p class="subTxt" v-if="!companyJob.options.job.salaryInterView">
@@ -251,12 +253,11 @@
                 </router-link>
               </template>
             </div>
-            <button
-              type="button"
+            <router-link
               class="btn btn-outline-gray-line text-dark align-self-md-end align-self-center"
+              :to="`/products-list/company/${recommedCompany.id}`"
+              >查看完整企業資料</router-link
             >
-              查看完整企業資料
-            </button>
           </div>
         </div>
       </div>
