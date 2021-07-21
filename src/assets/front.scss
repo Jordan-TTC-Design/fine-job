@@ -5,24 +5,27 @@
   position: sticky;
   top: 0px;
   z-index: 999;
+  border-bottom: 1px solid $gray-line;
   .header--front__searchModal {
     position: absolute;
     top: 48px;
     right: 0;
     left: 0;
     display: none;
+    opacity: 0;
     transition: all 0.3s;
-    // height: 0;
-    // overflow: hidden;
   }
   .header--front__searchModal.active {
     top: 60px;
     display: block;
-    height: auto;
+    opacity: 1;
     transition: all 0.3s;
   }
   .header__logo {
     max-height: 100%;
+  }
+  .header__navBox {
+    position: relative;
   }
   .header__nav {
     display: flex;
@@ -33,7 +36,7 @@
     }
     .header__companyBtnBox {
       background-color: rgba(255, 255, 255, 0.75);
-      border-radius: 8px 8px 0px 8px;
+      border-radius: 0.75rem 0.75rem 0px 0.75rem;
       color: #3f6745;
       margin-right: 4px;
       padding: 0.75rem 1rem;
@@ -42,9 +45,52 @@
       padding-top: 1px;
       padding-bottom: 1px;
       background-color: rgba(255, 255, 255, 0.5);
-      border-radius: 4px 4px 4px 0px;
+      border-radius: 0.5rem 0.5rem 0.5rem 0px;
       color: #3f6745;
     }
+  }
+  @media screen and (max-width: 991px) {
+    .header__navBox {
+      background-color: $primary;
+      position: fixed;
+      top: 65px;
+      bottom: 0;
+      right: -100%;
+      width: 80%;
+      z-index: 6400;
+      transition: all 0.3s;
+      padding: 1rem;
+    }
+    .header__navBox.openRwdMenu {
+      right: 0%;
+    }
+    .header__nav {
+      flex-direction: column;
+      height: 100%;
+    }
+    .nav-item {
+      width: 100%;
+      border-bottom: 1px solid $gray-line;
+      margin-bottom: 1rem;
+      padding-left: 0;
+      transition: all 0.3s;
+    }
+    .nav-item:hover {
+      padding-left: 24px;
+    }
+  }
+}
+
+.menuCover {
+  position: fixed;
+  top: 65px;
+  left: -100%;
+  bottom: 0;
+  width: 20%;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s;
+  &.openRwdMenu {
+    left: 0;
   }
 }
 .topSearchBanner {
@@ -52,7 +98,6 @@
   padding-top: 108px;
   padding-bottom: 72px;
   margin-top: -48px;
-  border-top: 1px solid #e2e2e2;
   position: relative;
   z-index: 1;
   .banner__logo {
@@ -109,7 +154,7 @@
 .hotJobCard {
   background-color: rgba(0, 0, 0, 0.4);
   background-blend-mode: multiply;
-  background-size: 100%;
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
   height: 160px;
@@ -117,9 +162,11 @@
   border-radius: 0.5rem;
   position: relative;
   transition: all 1s;
-
+  &.card--lg {
+    height: 100%;
+    min-height: 320px;
+  }
   &:hover {
-    background-size: 110%;
     background-color: rgba(0, 0, 0, 0.6);
     transition: ease-in-out all 0.3s;
   }
@@ -168,6 +215,15 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: #fff;
+  &.apply {
+    @media screen and (max-width: 991px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-radius: 0;
+    }
+  }
   .list__item {
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid #e2e2e2;
@@ -320,10 +376,16 @@
   .companyPage__companyImage {
     border-radius: 8px;
     max-width: calc(33.333% - 12px);
+    @media screen and (max-width: 767px) {
+      max-width: 100%;
+    }
   }
   .jobList {
     .jobList__item {
       width: calc(50% - 8px);
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
       .jobList__item__imgBox {
         width: 24%;
         position: relative;
@@ -375,6 +437,9 @@
   border-radius: 0.5rem;
   min-height: 360px;
   padding: 1.5rem;
+  @media screen and (max-width: 767px) {
+    padding: 1rem;
+  }
 }
 .addProcessBox {
   border-radius: 0.5rem;
@@ -484,6 +549,11 @@
 .main {
   min-height: calc(100vh - 366px);
   position: relative;
+  left: 0;
+  transition: all 0.3s;
+  &.openRwdMenu {
+    left: -80%;
+  }
 }
 p {
   line-height: 1.5;
@@ -677,7 +747,7 @@ p {
 .sectionTag {
   background-color: $primary;
   padding: 2px 8px;
-  border-radius: 0.5rem 0.5rem  0.5rem 0;
+  border-radius: 0.5rem 0.5rem 0.5rem 0;
   color: $white;
 }
 // helper
@@ -917,6 +987,17 @@ p {
   .applyJobPage__sideBox {
     position: sticky;
     top: 112px;
+    @media screen and (max-width: 991px) {
+      position: static;
+      .jobSelectBox {
+        max-height: 480px;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      .jobSelectBox {
+        max-height: 240px;
+      }
+    }
   }
   .jobSelectBox {
     max-height: 78vh;
@@ -956,6 +1037,21 @@ p {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  z-index: 800;
+  &.SideBtnBox--page {
+    bottom: 6rem;
+  }
+  @media screen and (max-width: 767px) {
+    .bg-cover--dark {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.3);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: -1;
+    }
+  }
 }
 .sideIconBtn {
   width: 4rem;
@@ -974,12 +1070,33 @@ p {
       color: $primary;
     }
   }
+  @media screen and (max-width: 767px) {
+    width: 3rem;
+    height: 3rem;
+    background-color: $gray-light;
+  }
 }
 .sideFilter.searchFilterBox {
   max-width: 640px;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
   margin-bottom: 0.5rem;
-  z-index: 999;
+  z-index: 9999;
+  @media screen and (max-width: 767px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 -3px 4px rgba(0, 0, 0, 0.16);
+    .bg-cover--dark {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.16);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: -1;
+    }
+  }
 }
 .goodCompanyRecommend {
   position: relative;
@@ -992,27 +1109,49 @@ p {
     top: 0;
     z-index: -1;
   }
-  .companyContentBox {
-    .companyContent {
-      max-height: 164px;
-      overflow: hidden;
-    }
-  }
+
   .goodCompany__Box--left {
     background-color: $white;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    .companyContentBox {
+      .companyContent {
+        max-height: 164px;
+        overflow: hidden;
+      }
+    }
+    @media screen and (max-width: 991px) {
+      .companyContentBox {
+        max-width: 90%;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      border-radius: 0 0 0.5rem 0.5rem;
+      .companyContentBox {
+        max-width: 100%;
+      }
+    }
   }
   .goodCompany__Box--right {
-    background-color: $white;
-    border-radius: 0.5rem;
     position: absolute;
     top: -2rem;
     right: 0;
+    .imageBox {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+    }
     img {
       max-width: 100%;
+    }
+    @media screen and (max-width: 767px) {
+      position: static;
+      .imageBox {
+        border-radius: 0.5rem 0.5rem 0 0;
+      }
     }
   }
   .goodCompanyJobList {
@@ -1021,17 +1160,21 @@ p {
     flex-wrap: wrap;
     .list__item {
       background-color: $white;
-      &:hover {
-        background-color: $gray-light;
-      }
       width: calc(50% - 8px);
       border: 1px solid $gray-line;
       padding: 0.75rem;
       border-radius: 0.5rem;
       margin-bottom: 1rem;
+      &:hover {
+        background-color: $gray-light;
+      }
+      @media screen and (max-width: 767px) {
+        width: 100%;
+      }
     }
   }
 }
+
 .hotCategory {
   .seeMoreBtn {
     cursor: pointer;
@@ -1074,5 +1217,49 @@ p {
         }
       }
     }
+  }
+}
+.form-check {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.footer__nav {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  .nav-item {
+    width: 100%;
+    @media screen and (max-width: 767px) {
+      border-bottom: 1px solid $white;
+      &:first-child {
+        border-radius: 0.5rem 0.5rem 0 0;
+      }
+      &:last-child {
+        border: 0;
+        border-radius: 0 0 0.5rem 0.5rem;
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+    }
+    .nav-link {
+      width: 100%;
+    }
+  }
+}
+.hamburgerMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  height: 44px;
+  width: 44px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+  }
+  .jobIcon {
+    color: $white;
   }
 }

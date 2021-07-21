@@ -3,7 +3,7 @@
     <div ref="Search" class="header--front__searchModal">
       <SearchModal></SearchModal>
     </div>
-    <div class="container d-flex justify-content-between">
+    <div class="container d-flex justify-content-between align-items-center">
       <h1>
         <router-link aria-current="page" to="/"
           ><img
@@ -12,71 +12,97 @@
             alt="logo"
         /></router-link>
       </h1>
-      <ul class="header__nav">
-        <li class="nav-item">
-          <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
-        </li>
-        <li class="nav-item ">
-          <button class="nav-link text-white btn" @click="openSearchModal">搜尋</button>
-        </li>
-        <li class="nav-item ">
-          <router-link class="nav-link text-white" to="/products-list">收藏</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="d-flex text-white text-decoration-none" to="/add-job">
-            <div class="d-flex align-items-end ">
-              <p class="nav-link header__companyBtnBox">立即刊登職位！</p>
-              <p class="nav-link header__companyBtnBox--sm">為您徵才</p>
-            </div>
-          </router-link>
-        </li>
-      </ul>
+      <div class="header__navBox" ref="headerNavBox">
+        <ul class="header__nav" ref="headerNav">
+          <li class="nav-item">
+            <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
+          </li>
+          <li class="nav-item d-lg-block d-none">
+            <button class="nav-link text-white btn" @click="openSearchModal">搜尋</button>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-white" to="/products-list">收藏</router-link>
+          </li>
+          <li class="nav-item d-lg-none d-block">
+            <router-link class="nav-link text-white" to="/add-company">企業會員加入</router-link>
+          </li>
+          <li class="nav-item d-lg-none d-block">
+            <router-link class="nav-link text-white" to="/add-job">新建職位</router-link>
+          </li>
+          <li class="nav-item company d-lg-block d-none">
+            <router-link class="d-flex text-white text-decoration-none" to="/add-job">
+              <div class="d-flex align-items-end position-relative">
+                <p class="nav-link header__companyBtnBox">立即刊登職位！</p>
+                <p class="nav-link header__companyBtnBox--sm">為您徵才</p>
+              </div>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+
+      <div class="menuCover" ref="menuCover" @click="openRwdMenu"></div>
+      <div class="d-flex d-lg-none">
+        <div class="hamburgerMenu d-flex me-2" @click="openSearchModal" ref="headerSearchIcon">
+          <i class="jobIcon bi bi-search"></i>
+        </div>
+        <div class="hamburgerMenu  d-flex" @click="openRwdMenu">
+          <i class="jobIcon bi bi-list"></i>
+        </div>
+      </div>
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main py-7 main--bg">
+  <div class="main py-7 main--bg" ref="main">
     <router-view></router-view>
   </div>
   <footer class="bg-gray-mid pt-8">
     <div class="footer--front bg-primary">
       <div class="container">
         <div class="row py-7">
-          <div class="col-4">
-            <div class="d-flex align-items-center">
+          <div class="col-lg-4 col-12">
+            <div class="d-flex flex-md-row flex-column align-items-center mb-lg-0 mb-md-6 mb-4">
               <img
-                class="bg-white rounded me-4"
+                class="bg-white rounded me-md-4 mb-md-0 mb-4"
                 src="../../assets/images/header/fineJobMark.svg"
                 alt=""
               />
-              <div>
-                <h4 class="text-white mb-3">Fine Job</h4>
+              <div class="d-flex flex-column align-items-md-stretch align-items-center">
+                <h4 class="text-white mb-md-0 mb-2">Fine Job</h4>
                 <p class="text-white">Jordan.ttc.design@gmail.com</p>
               </div>
             </div>
           </div>
-          <div class="col-8">
-            <ul class="d-flex position-reative justify-content-end align-items-center h-100">
+          <div class="col-lg-8 col-12">
+            <ul class="footer__nav justify-content-md-end flex-md-row flex-column">
               <li class="nav-item">
-                <router-link class="nav-link text-white" aria-current="page" to="/"
-                  >首頁</router-link
+                <router-link class="nav-link text-white me-lg-0 me-2" to="/products-list"
+                  >優質工作
+                  <i class="text-white d-lg-none d-inline-block bi bi-arrow-right-circle"></i
+                ></router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white me-lg-0 me-2" to="/add-company"
+                  >企業會員加入
+                  <i class="text-white d-lg-none d-inline-block bi bi-arrow-right-circle"></i
+                ></router-link>
+              </li>
+              <li class="nav-item">
+                <router-link class="nav-link text-white me-lg-0 me-2" to="/add-job"
+                  >新建職位
+                  <i class="text-white d-lg-none d-inline-block bi bi-arrow-right-circle"></i
+                ></router-link>
+              </li>
+              <li class="nav-item">
+                <router-link
+                  class="nav-link text-white me-lg-0 me-2"
+                  to="/admin/dashboard/products-list"
                 >
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link text-white" to="/products-list">優質工作</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link text-white" to="/add-company">新建企業</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link text-white" to="/add-job">新建職位</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
-                  >後台管理</router-link
-                >
+                  後台管理
+                  <i class="text-white d-lg-none d-inline-block bi bi-arrow-right-circle"></i
+                ></router-link>
               </li>
             </ul>
           </div>
@@ -97,24 +123,40 @@ export default {
     SearchModal,
   },
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
+    openRwdMenu() {
+      this.$refs.headerNavBox.classList.toggle('openRwdMenu');
+      this.$refs.menuCover.classList.toggle('openRwdMenu');
+      this.$refs.main.classList.toggle('openRwdMenu');
+      this.$refs.headerSearchIcon.classList.toggle('d-none');
+      this.$refs.Search.classList.remove('active');
+    },
+    closeRwdMenu() {
+      console.log('close');
+      this.$refs.headerNavBox.classList.remove('openRwdMenu');
+      this.$refs.menuCover.classList.remove('openRwdMenu');
+      this.$refs.main.classList.remove('openRwdMenu');
+      this.$refs.headerSearchIcon.classList.remove('d-none');
+    },
     openSearchModal() {
       this.$refs.Search.classList.toggle('active');
-      console.dir(this.$refs.Search.classList);
+      // console.dir(this.$refs.Search.classList);
     },
     closeSearchModal() {
       this.$refs.Search.classList.remove('active');
     },
-
+  },
+  created() {
   },
   mounted() {
     this.closeSearchModal();
+    this.closeRwdMenu();
   },
   updated() {
     this.closeSearchModal();
+    this.closeRwdMenu();
   },
 };
 </script>

@@ -4,7 +4,7 @@
       <h3 class="pageTitle ps-3">推薦職位</h3>
       <swiper
         v-if="dataOk"
-        :slides-per-view="3"
+        :slides-per-view="swiperNum"
         :space-between="20"
         :autoplay="{
           delay: 2500,
@@ -37,7 +37,7 @@
   <div ref="jobsListContainer" class="container">
     <h3 class="pageTitle ps-3">全部職位</h3>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-lg-6 col-12">
         <div class="jobListBox">
           <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
             <p class="text-secondary fw-normal  text-nowrap">總共 {{ jobsList.length }} 個職位</p>
@@ -112,7 +112,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6 col-12 d-lg-block d-none">
         <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
@@ -258,233 +258,247 @@
 
   <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
   <div class="sideBtnBox">
-    <div class="sideFilter searchFilterBox  box--shadow mb-5 p-5" v-if="filterBoxState">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="subTitle text-dark">搜尋條件設定</h3>
-        <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
-          清除全部
-        </button>
-      </div>
-      <div ref="searchFilterForm" v-if="mountState">
-        <div class="row">
-          <div class="col-6 mb-3">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-keyword" class="form-label inputItem__title"
-                >關鍵字</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="searchFilterForm-keyword"
-                placeholder="職位關鍵字"
-                aria-describedby="關鍵字"
-                v-model="filterData.keyword"
-              />
-            </div>
+    <div
+      class="sideFilter searchFilterBox  box--shadow mb-md-5 mb-0 p-5"
+      v-if="filterBoxState"
+      :class="{ active: filterBoxState }"
+    >
+      <div class="filterContent">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="subTitle text-dark">搜尋條件設定</h3>
+          <div class="d-flex">
+            <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
+              清除全部
+            </button>
+            <button type="button" class="btn d-md-none d-block" @click="openSideFilterBox">
+              <i class="text-dark bi bi-x-lg"></i>
+            </button>
           </div>
-          <div class="col-6">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-city" class="form-label inputItem__title">地區</label>
-              <select
-                class="form-select"
-                aria-label="地區"
-                id="searchFilterForm-city"
-                v-model="filterData.city"
-              >
-                <option disabled>請選擇地區</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.city"
-                  :value="item"
-                  :key="'地區' + index"
-                  >{{ item }}</option
+        </div>
+        <div ref="searchFilterForm" class="searchFilterForm" v-if="mountState">
+          <div class="row">
+            <div class="col-md-6 col-12 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-keyword" class="form-label inputItem__title"
+                  >關鍵字</label
                 >
-              </select>
-            </div>
-          </div>
-          <div class="col-6 mb-3">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-industry" class="form-label inputItem__title"
-                >產業類別</label
-              >
-              <select
-                class="form-select"
-                aria-label="產業類別"
-                id="searchFilterForm-industry"
-                v-model="filterData.industryCategory"
-              >
-                <option disabled>請選擇產業類別</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.industryCategory"
-                  :value="item"
-                  :key="'產業類別' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-jobCategory" class="form-label inputItem__title"
-                >職位類別</label
-              >
-              <select
-                class="form-select"
-                aria-label="職位類別"
-                id="searchFilterForm-jobCategory"
-                v-model="filterData.jobCategory"
-              >
-                <option disabled>請選擇職位類別</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.jobCategory"
-                  :value="item"
-                  :key="'職位類別' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-6  mb-3">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-workExp" class="form-label inputItem__title"
-                >工作經驗</label
-              >
-              <select
-                class="form-select"
-                aria-label="工作經驗"
-                id="searchFilterForm-workExp"
-                v-model="filterData.workExp"
-              >
-                <option disabled>請選擇工作經驗</option>
-                <option
-                  v-for="(item, index) in formData.workExp"
-                  :value="item"
-                  :selected="item === '不限'"
-                  :key="'工作經驗' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-education" class="form-label inputItem__title"
-                >學歷要求</label
-              >
-              <select
-                class="form-select"
-                aria-label="學歷要求"
-                id="searchFilterForm-education"
-                v-model="filterData.education"
-              >
-                <option disabled>請選擇學歷要求</option>
-                <option
-                  v-for="(item, index) in formData.education"
-                  :value="item"
-                  :selected="item === '不限'"
-                  :key="'學歷要求' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-6  mb-3">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-workType" class="form-label inputItem__title"
-                >工作性質</label
-              >
-              <select
-                class="form-select"
-                aria-label="工作性質"
-                id="searchFilterForm-workType"
-                v-model="filterData.workType"
-              >
-                <option disabled>請選擇工作性質</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.workType"
-                  :value="item"
-                  :key="'工作性質' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-workTime" class="form-label inputItem__title"
-                >工作時段</label
-              >
-              <select
-                class="form-select"
-                aria-label="工作時段"
-                id="searchFilterForm-workTime"
-                v-model="filterData.workTime"
-              >
-                <option disabled>請選擇工作時段</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.workTime"
-                  :value="item"
-                  :key="'工作時段' + index"
-                  >{{ item }}</option
-                >
-              </select>
-            </div>
-          </div>
-          <div class="col-9 ">
-            <div class="inputGroup--item">
-              <label for="searchFilterForm-salary" class="form-label inputItem__title"
-                >薪資待遇</label
-              >
-              <div class="d-flex align-items-center">
                 <input
-                  type="number"
+                  type="text"
                   class="form-control"
-                  id="searchFilterForm-salary"
-                  placeholder="最低"
-                  aria-describedby="薪資待遇範圍起始"
-                  v-model.number="filterData.salaryLow"
+                  id="searchFilterForm-keyword"
+                  placeholder="職位關鍵字"
+                  aria-describedby="關鍵字"
+                  v-model="filterData.keyword"
                 />
-                <p class="px-2">至</p>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="searchFilterForm-salary-end"
-                  placeholder="最高"
-                  aria-describedby="薪資待遇範圍結束"
-                  v-model.number="filterData.salaryHight"
-                />
-                <div class="form-check py-2 px-3 d-flex justify-content-center align-items-center">
-                  <input
-                    class="form-check-input ms-0 me-2"
-                    type="checkbox"
-                    value="面議"
-                    id="searchFilterForm-salaryInterview"
-                    v-model="filterData.salaryInterView"
-                  />
-                  <label
-                    class="form-check-label text-nowrap"
-                    for="searchFilterForm-salaryInterview"
+              </div>
+            </div>
+            <div class="col-6 mb-md-0 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-city" class="form-label inputItem__title">地區</label>
+                <select
+                  class="form-select"
+                  aria-label="地區"
+                  id="searchFilterForm-city"
+                  v-model="filterData.city"
+                >
+                  <option disabled>請選擇地區</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.city"
+                    :value="item"
+                    :key="'地區' + index"
+                    >{{ item }}</option
                   >
-                    面議
-                  </label>
+                </select>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-industry" class="form-label inputItem__title"
+                  >產業類別</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="產業類別"
+                  id="searchFilterForm-industry"
+                  v-model="filterData.industryCategory"
+                >
+                  <option disabled>請選擇產業類別</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.industryCategory"
+                    :value="item"
+                    :key="'產業類別' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-6 mb-md-0 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-jobCategory" class="form-label inputItem__title"
+                  >職位類別</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="職位類別"
+                  id="searchFilterForm-jobCategory"
+                  v-model="filterData.jobCategory"
+                >
+                  <option disabled>請選擇職位類別</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.jobCategory"
+                    :value="item"
+                    :key="'職位類別' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-6  mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-workExp" class="form-label inputItem__title"
+                  >工作經驗</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="工作經驗"
+                  id="searchFilterForm-workExp"
+                  v-model="filterData.workExp"
+                >
+                  <option disabled>請選擇工作經驗</option>
+                  <option
+                    v-for="(item, index) in formData.workExp"
+                    :value="item"
+                    :selected="item === '不限'"
+                    :key="'工作經驗' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-6 mb-md-0 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-education" class="form-label inputItem__title"
+                  >學歷要求</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="學歷要求"
+                  id="searchFilterForm-education"
+                  v-model="filterData.education"
+                >
+                  <option disabled>請選擇學歷要求</option>
+                  <option
+                    v-for="(item, index) in formData.education"
+                    :value="item"
+                    :selected="item === '不限'"
+                    :key="'學歷要求' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-6  mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-workType" class="form-label inputItem__title"
+                  >工作性質</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="工作性質"
+                  id="searchFilterForm-workType"
+                  v-model="filterData.workType"
+                >
+                  <option disabled>請選擇工作性質</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.workType"
+                    :value="item"
+                    :key="'工作性質' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-6 mb-md-0 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-workTime" class="form-label inputItem__title"
+                  >工作時段</label
+                >
+                <select
+                  class="form-select"
+                  aria-label="工作時段"
+                  id="searchFilterForm-workTime"
+                  v-model="filterData.workTime"
+                >
+                  <option disabled>請選擇工作時段</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.workTime"
+                    :value="item"
+                    :key="'工作時段' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9 col-12 mb-md-0 mb-3">
+              <div class="inputGroup--item">
+                <label for="searchFilterForm-salary" class="form-label inputItem__title"
+                  >薪資待遇</label
+                >
+                <div class="d-flex align-items-center">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="searchFilterForm-salary"
+                    placeholder="最低"
+                    aria-describedby="薪資待遇範圍起始"
+                    v-model.number="filterData.salaryLow"
+                  />
+                  <p class="px-2">至</p>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="searchFilterForm-salary-end"
+                    placeholder="最高"
+                    aria-describedby="薪資待遇範圍結束"
+                    v-model.number="filterData.salaryHight"
+                  />
+                  <div
+                    class="form-check py-2 px-3 d-flex justify-content-center align-items-center"
+                  >
+                    <input
+                      class="form-check-input ms-0 me-2"
+                      type="checkbox"
+                      value="面議"
+                      id="searchFilterForm-salaryInterview"
+                      v-model="filterData.salaryInterView"
+                    />
+                    <label
+                      class="form-check-label text-nowrap"
+                      for="searchFilterForm-salaryInterview"
+                    >
+                      面議
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="col-3">
-            <div class="d-flex justify-content-end align-items-end h-100">
-              <button type="button" class="btn btn-primary btn--applyJob" @click="searchJob">
-                查詢
-              </button>
+            <div class="col-md-3 col-12">
+              <div class="d-flex justify-content-end align-items-end h-100">
+                <button type="button" class="btn btn-primary btn--applyJob" @click="searchJob">
+                  查詢
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="bg-cover--dark" v-if="filterBoxState" @click="openSideFilterBox"></div>
     <button type="btn" class="sideIconBtn btn btn-light mb-2" @click="openSideFilterBox">
       <i class="jobIcon bi bi-funnel"></i>
     </button>
@@ -513,6 +527,9 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
+      fullHeight: 0,
+      swiperNum: 1,
       products: [],
       jobsList: [],
       companiesList: [],
@@ -545,6 +562,18 @@ export default {
       filterBoxState: false,
       mountState: false,
     };
+  },
+  watch: {
+    fullWidth(newValue) {
+      // console.log(newValue);
+      if (newValue > 768) {
+        this.swiperNum = 3;
+      } else if (newValue > 576) {
+        this.swiperNum = 2;
+      } else {
+        this.swiperNum = 1;
+      }
+    },
   },
   methods: {
     openSideFilterBox() {
@@ -593,7 +622,7 @@ export default {
         }
       });
       document.documentElement.scrollTop = 0;
-      this.selectJob(this.nowPageList[0].id);
+      this.selectJobFrist(this.nowPageList[0].id);
     },
     classifyJob() {
       this.products.forEach((item) => {
@@ -610,7 +639,7 @@ export default {
       });
       console.log(this.jobsList);
       this.changeJobSort();
-      this.selectJob(this.jobsList[0].id);
+      this.selectJobFrist(this.jobsList[0].id);
       this.sortGoodJob();
     },
     classifyCompany() {
@@ -799,7 +828,19 @@ export default {
       };
     },
     selectJob(id) {
-      //   console.log(id);
+      console.log(this.fullWidth);
+      if (this.fullWidth > 991) {
+        this.jobsList.forEach((item) => {
+          if (item.id === id) {
+            this.jobItem = item;
+          }
+        });
+        this.$refs.jobSelectBox.scrollTop = 0;
+      } else {
+        this.$router.push(`/products-list/product/${id}`);
+      }
+    },
+    selectJobFrist(id) {
       this.jobsList.forEach((item) => {
         if (item.id === id) {
           this.jobItem = item;
@@ -814,6 +855,13 @@ export default {
   },
   mounted() {
     this.mountState = true;
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    vm.fullHeight = window.innerHeight;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+      vm.fullHeight = window.innerHeight;
+    };
   },
 };
 </script>

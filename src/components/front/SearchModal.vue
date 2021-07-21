@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-8">
-        <div class="bg-white rounded box--shadow--lg p-6">
+      <div class="col-md-8 col-12">
+        <div class="bg-white rounded box--shadow--lg p-md-6 p-3">
           <form class="banner__searchBar d-flex align-items-center">
-            <div class="d-flex justify-content-between align-items-end flex-grow-1">
-              <div class="inputGroup--item flex-grow-1 me-4">
+            <div class="d-flex justify-content-between align-items-md-end align-items-stretch
+            flex-grow-1 flex-md-row flex-column
+            ">
+              <div class="inputGroup--item flex-grow-1 me-md-4">
                 <label for="searchFilterTop-keyword" class="form-label inputItem__title"
                   >關鍵字</label
                 >
@@ -18,7 +20,7 @@
                   v-model="filterData.keyword"
                 />
               </div>
-              <div class="inputGroup--item flex-grow-1 me-4">
+              <div class="inputGroup--item flex-grow-1 me-md-4 mb-md-0 mb-3">
                 <label for="searchFilterTop-city" class="form-label inputItem__title">地區</label>
                 <select
                   class="form-select"

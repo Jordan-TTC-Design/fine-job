@@ -3,8 +3,8 @@
   <div class="container">
     <div class="addProcess mb-6 " v-if="formStep >= 1">
       <h2 class="pageTitle text-primary text-center mb-4">新建職位</h2>
-      <div class="row  justify-content-center">
-        <div class="col-2">
+      <div class="row  justify-content-center d-md-flex d-none">
+        <div class="col-lg-2 col-md-3 ">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--1"
@@ -19,7 +19,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-3 ">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--2"
@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-md-3 ">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--3"
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-4" v-if="formStep === 0">
+      <div class="col-lg-4 col-md-8 col-12" v-if="formStep === 0">
         <!-- 表單第一步：選擇公司 -->
         <div class="box--shadow bg-white rounded p-6" v-if="formStep === 0">
           <Form ref="sendFormInfoForm0" v-slot="{ errors }" @submit="changeStep('next')">
@@ -124,7 +124,7 @@
           </Form>
         </div>
       </div>
-      <div class="col-8" v-if="formStep > 0">
+      <div class="col-lg-8 col-12" v-if="formStep > 0">
         <!-- 表單第二步：填寫職位資料 -->
         <div class="box--shadow bg-white rounded p-6" v-if="formStep === 1">
           <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="changeStep('next')">
@@ -134,7 +134,7 @@
               創建職位需嚴格審核職位內容，請填寫正確合適職位資訊，也幫助求職者能快速了解：
             </p>
             <div class="row">
-              <div class="col-4">
+              <div class="col-md-4 col-12">
                 <!-- 表單2-1：職位圖片(必填) -->
                 <div class="form__inputBox">
                   <div class="form__labelBox">
@@ -193,7 +193,7 @@
                       {{ jobImage.isUpDated ? '已上傳' : '上傳' }}
                     </button>
                   </div>
-                  <Field
+                  <!-- <Field
                     id="sendFormInfoJobImageCheck"
                     ref="sendFormInfoJobImageCheck"
                     name="職位圖片"
@@ -203,10 +203,10 @@
                     v-model="form.user.options.job.jobImageUrl"
                     rules="required"
                   ></Field>
-                  <ErrorMessage name="職位圖片" class="invalid-feedback"></ErrorMessage>
+                  <ErrorMessage name="職位圖片" class="invalid-feedback"></ErrorMessage> -->
                 </div>
               </div>
-              <div class="col-8">
+              <div class="col-md-8 col-12">
                 <!-- 表單2-2：職位名稱(必填) -->
                 <div class="form__inputBox">
                   <div class="form__labelBox">
@@ -275,7 +275,7 @@
                   <ErrorMessage name="需求人數" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoSalary" class="form__label--custom form-label"
@@ -322,9 +322,7 @@
                   </p>
                 </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-6">
+            <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoWorkType" class="form__label--custom form-label"
@@ -364,7 +362,7 @@
                   <ErrorMessage name="工作性質" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoworkTime" class="form__label--custom form-label"
@@ -435,7 +433,7 @@
                   <ErrorMessage name="職位內容" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox" v-if="form.user.options.company.companyJobToken > 0">
                   <div class="form__labelBox">
                     <label for="sendFormInfoCostToken" class="form__label--custom form-label"
@@ -473,7 +471,7 @@
                     type="button"
                     class="btn btn-gray-light"
                     @click="changeStep('back')"
-                    v-show="formStep > 1"
+                    v-show="formStep > 0"
                   >
                     上一步
                   </button>
@@ -483,7 +481,6 @@
                 </div>
               </div>
             </div>
-            <!-- 表單操作按鈕 -->
           </Form>
         </div>
         <!-- 表單第三步：填寫應徵條件 -->
@@ -502,7 +499,7 @@
                     >
                     <p class="formTag--must">必填</p>
                   </div>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     <div
                       class="form-check me-2"
                       v-for="(item, index) in formData.education"
@@ -540,7 +537,7 @@
                     >
                     <p class="formTag--must">必填</p>
                   </div>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     <div
                       class="form-check me-2"
                       v-for="(item, index) in formData.workExp"
@@ -604,7 +601,7 @@
             </div>
             <!-- 表單操作按鈕 -->
             <div class="col-12">
-              <div class="formStepBtnBox d-flex justify-content-end">
+              <div class="formStepBtnBox d-flex justify-content-between">
                 <button
                   type="button"
                   class="btn btn-gray-light"
@@ -628,7 +625,7 @@
               申請方法包含聯絡人、聯絡方式，如果有其他與面試相關的需求，也可以放在申請備註中：
             </p>
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoName" class="form__label--custom form-label"
@@ -650,7 +647,7 @@
                   <ErrorMessage name="聯絡人姓名" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoContactPosition" class="form__label--custom form-label"
@@ -672,7 +669,7 @@
                   <ErrorMessage name="聯絡人職稱" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoTel" class="form__label--custom form-label"
@@ -694,7 +691,7 @@
                   <ErrorMessage name="聯絡人電話" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoEmail" class="form__label--custom form-label"
@@ -770,7 +767,7 @@
         <div class="box--shadow bg-white rounded p-6" v-if="formStep === 4">
           <Form ref="sendFormInfoForm4">
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-md-8 col-12">
                 <h3 class="page__title--sub justify-content-center ">申請創建職位成功</h3>
                 <p class="mb-4 text-center">
                   恭喜您已完成填寫新建職位流程， 本公司會於3個工作天內審核職位資料，如審核完畢會寄

@@ -2,8 +2,8 @@
   <ImageSquareCropper @emit-send-img-data="getImg"></ImageSquareCropper>
   <div class="container applyJobPage">
     <div class="row justify-content-center">
-      <div class="col-6 ">
-        <div class="applyJobPage__sideBox">
+      <div class="col-lg-6 col-12 ">
+        <div class="applyJobPage__sideBox mb-lg-0 mb-6">
           <button type="button" class="btn btn-outline-gray-line text-dark mb-4">
             <i class="bi bi-chevron-left me-2"></i>返回繼續查看職位
           </button>
@@ -120,7 +120,7 @@
           </div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-lg-6 col-12">
         <div class="box--shadow bg-white rounded p-6">
           <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="addCart">
             <h3 class="page__title--sub"><span class="title__icon"></span>求職者申請資訊</h3>
@@ -128,7 +128,7 @@
               請填寫正確資訊，以便企業與您聯繫：
             </p>
             <div class="row">
-              <div class="col-5">
+              <div class="col-md-5 col-12">
                 <!-- 表單2-1：職位圖片(必填) -->
                 <div class="form__inputBox">
                   <div class="form__labelBox">
@@ -210,7 +210,7 @@
                   <ErrorMessage name="個人照片" class="invalid-feedback"></ErrorMessage> -->
                 </div>
               </div>
-              <div class="col-7">
+              <div class="col-md-7 col-12">
                 <!-- 表單2-2：職位名稱(必填) -->
                 <div class="form__inputBox">
                   <div class="form__labelBox">
@@ -341,7 +341,7 @@
                     >
                     <p class="formTag--must">必填</p>
                   </div>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     <div
                       class="form-check me-2"
                       v-for="(item, index) in formData.candidateEducation"
@@ -379,7 +379,7 @@
                     >
                     <p class="formTag--must">必填</p>
                   </div>
-                  <div class="d-flex">
+                  <div class="d-flex flex-wrap">
                     <div
                       class="form-check me-2"
                       v-for="(item, index) in formData.candidateWorkExp"
@@ -410,7 +410,6 @@
                   ></Field>
                   <ErrorMessage name="工作經驗" class="invalid-feedback"></ErrorMessage>
                 </div>
-
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoCvLink" class="form__label--custom form-label"

@@ -2,7 +2,7 @@
   <div class="container-fuild">
     <div v-if="isExist" class="container companyPage">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-lg-9 col-12">
           <div class="jobContentBox box--shadow mb-3  position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
@@ -42,10 +42,10 @@
           </div>
           <div class="jobContentBox  box--shadow  mb-3">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司照片</h3>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between flex-md-row flex-column">
               <img
                 v-for="(item, index) in companyItem.imagesUrl"
-                class="companyPage__companyImage"
+                class="companyPage__companyImage mb-md-0 mb-2"
                 :src="item"
                 alt=""
                 :key="index"
@@ -56,7 +56,7 @@
             <h3 class="page__title--sub"><span class="title__icon"></span>公司簡介</h3>
             <p class="page__txt">{{ companyItem.content }}</p>
           </div>
-          <div class="jobContentBox  box--shadow  mb-3">
+          <div class="jobContentBox  box--shadow  mb-lg-0 mb-3">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司職位</h3>
             <ul class="jobList d-flex flex-wrap justify-content-between">
               <li
@@ -118,7 +118,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-lg-3 col-12">
           <div class="jobSubBox box--shadow  mb-3">
             <h5 class="list__title">瀏覽紀錄</h5>
             <ul>

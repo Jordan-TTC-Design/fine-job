@@ -2,7 +2,7 @@
   <div class="container-fuild">
     <div class="container jobPage" v-if="isExist">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-lg-9 col-12">
           <div class="jobContentBox box--shadow mb-3 position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
@@ -73,7 +73,7 @@
             <p class="page__txt mb-2">其他條件：</p>
             <p class="page__txt">{{ jobItem.options.job.otherRequirement }}</p>
           </div>
-          <div class="jobContentBox box--shadow">
+          <div class="jobContentBox box--shadow mb-lg-0 mb-3">
             <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
             <p class="page__txt mb-2">職位聯絡人：{{ jobItem.options.company.companyContact }}</p>
             <p class="page__txt mb-2">聯絡信箱：{{ jobItem.options.company.companyEmail }}</p>
@@ -85,8 +85,8 @@
             </p>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="jobSubBox box--shadow  mb-3 p-3">
+        <div class="col-lg-3 col-12">
+          <div class="jobSubBox apply box--shadow mb-lg-3  mb-0 p-3 ">
             <router-link
               type="button"
               class="btn btn-lg btn-primary w-100"
@@ -146,7 +146,7 @@
       <h5>找不到產品</h5>
     </div>
   </div>
-  <div class="sideBtnBox">
+  <div class="sideBtnBox SideBtnBox--page">
     <UpTopBtn></UpTopBtn>
   </div>
 </template>

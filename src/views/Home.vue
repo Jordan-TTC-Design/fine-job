@@ -6,15 +6,19 @@
       <p class="flyTag flyTag--b">歡迎你來面試！</p>
       <h2 class="banner__title text-white mb-4">立即搜尋職位</h2>
       <h2 class="banner__title text-white mb-9">Got Youself A Fine Job !</h2>
-      <div class="bg-white rounded box-shadow p-6">
-        <form class="banner__searchBar d-flex align-items-center">
+      <div class="bg-white rounded box-shadow p-md-6 p-4">
+        <form class="banner__searchBar d-flex flex-md-row flex-column
+        align-items-md-center align-items-stretch">
           <img
             class="banner__logo me-3"
             src="../assets/images/header/fineJobLogo-square.svg"
             alt=""
           />
-          <div class="d-flex justify-content-between align-items-end flex-grow-1">
-            <div class="inputGroup--item flex-grow-1 me-4">
+          <div
+            class="d-flex justify-content-between align-items-md-end  align-items-stretch
+            flex-grow-1 flex-md-row flex-column"
+          >
+            <div class="inputGroup--item flex-grow-1 me-md-4">
               <label for="searchFilterTop-keyword" class="form-label inputItem__title"
                 >關鍵字</label
               >
@@ -27,7 +31,7 @@
                 v-model="filterData.keyword"
               />
             </div>
-            <div class="inputGroup--item flex-grow-1 me-4">
+            <div class="inputGroup--item flex-grow-1 me-md-4 mb-md-0 mb-3">
               <label for="searchFilterTop-city" class="form-label inputItem__title">地區</label>
               <select
                 class="form-select"
@@ -58,10 +62,10 @@
         <h3 class="sectionTitle">熱門職位</h3>
         <p class="sectionTag">推薦</p>
       </div>
-      <div class="row">
-        <div class="col-6">
+      <div class="row flex-wrap">
+        <div class="col-lg-6 col-12 mb-lg-0 mb-4">
           <div
-            class="hotJobCard h-100"
+            class="hotJobCard card--lg "
             v-if="this.dataOk"
             :style="{ 'background-image': `url(${goodJobList[0]['imageUrl']} )` }"
           >
@@ -88,10 +92,14 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-lg-6 col-12">
           <div class="row">
             <template v-for="(item, index) in goodJobList" :key="item.id">
-              <div class="col-6" :class="{ 'mb-4': index == 1 }" v-if="index >= 1 && index <= 4">
+              <div
+                class="col-md-6 col-12 mb-4"
+                :class="{ 'mb-lg-0': index > 2 }"
+                v-if="index >= 1 && index <= 4"
+              >
                 <div
                   class="hotJobCard card--sm"
                   v-if="goodJobList[index]"
@@ -141,7 +149,7 @@
         <p class="sectionTag">推薦</p>
       </div>
       <swiper
-        :slides-per-view="3"
+        :slides-per-view="swiperNum"
         :space-between="20"
         :autoplay="{
           delay: 2500,
@@ -181,9 +189,29 @@
         <p class="sectionTag">推薦</p>
       </div>
       <div class="row position-relative">
-        <div class="col-8">
-          <div class="goodCompany__Box--left p-6">
-            <div class="companyContentBox mb-3 pe-8">
+        <div class="col-md-5 col-12  goodCompany__Box--right">
+          <div class="imageBox p-md-6 p-4 pb-4 bg-white">
+            <swiper
+              :slides-per-view="1"
+              :space-between="20"
+              :autoplay="{
+                delay: 2500,
+                disableOnInteraction: false,
+              }"
+              :pagination="{
+                clickable: true,
+              }"
+              v-if="dataOk"
+            >
+              <swiper-slide v-for="companyImage in recommedCompany.imagesUrl" :key="companyImage">
+                <img class="w-100" :src="companyImage" alt="" />
+              </swiper-slide>
+            </swiper>
+          </div>
+        </div>
+        <div class="col-lg-8 col-md-10 col-12">
+          <div class="goodCompany__Box--left p-md-6 p-4">
+            <div class="companyContentBox mb-3 pe-md-8 ">
               <div class="d-flex mb-4">
                 <div class="logoImageBox me-4 ">
                   <img class="logoImage" :src="recommedCompany.imageUrl" alt="" />
@@ -222,28 +250,13 @@
                 </li>
               </template>
             </ul>
-            <button type="button" class="btn btn-outline-gray-line text-dark align-self-end">
+            <button
+              type="button"
+              class="btn btn-outline-gray-line text-dark align-self-md-end align-self-center"
+            >
               查看完整企業資料
             </button>
           </div>
-        </div>
-        <div class="col-5 goodCompany__Box--right p-6 pb-4">
-          <swiper
-        :slides-per-view="1"
-        :space-between="20"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false,
-        }"
-        :pagination="{
-          clickable: true,
-        }"
-        v-if="dataOk"
-      >
-        <swiper-slide v-for="companyImage in recommedCompany.imagesUrl" :key="companyImage">
-        <img  :src="companyImage" alt="" />
-        </swiper-slide>
-      </swiper>
         </div>
       </div>
     </div>
@@ -258,13 +271,18 @@
           <li
             class="list__item"
             v-if="index < 7"
-            :class="{ 'col-6': index === 0, 'col-3': index > 0, 'mb-4': index < 3 }"
+            :class="{
+              'col-lg-6 col-12': index === 0,
+              'col-lg-3 col-6': index > 0,
+              'mb-4': index < 3,
+              'mb-lg-0 mb-4': index > 3,
+            }"
           >
-            <div class="hotCategoryBox p-6">
+            <div class="hotCategoryBox p-md-6 p-3">
               <p class="mb-3">
                 {{ categoryItem.categoryName }}
               </p>
-              <p class="subTxt mb-6">目前共： {{ categoryItem.jobNum }} 職位</p>
+              <p class="subTxt mb-md-6 mb-3">目前共： {{ categoryItem.jobNum }} 職位</p>
               <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
                 查看更多職位 <i class=" jobIcon ms-2 bi bi-arrow-right-circle"></i>
               </p>
@@ -278,9 +296,12 @@
     <div class="container">
       <h3 class="pageTitle text-center">優質合作企業</h3>
       <ul class="row">
-        <template v-for="companyItem in companiesList" :key="companyItem.id">
-          <li class="col-2">
-            <div class="bg-white py-4 px-6 rounded mb-5">
+        <template v-for="(companyItem, index) in companiesList" :key="companyItem.id">
+          <li
+            class="col-lg-2 col-md-4 col-6"
+            :class="{ 'd-lg-block d-none': index > 9, 'd-lg-block d-md-none': index === 9 }"
+          >
+            <div class="bg-white py-md-4 px-md-6 py-2 px-4 rounded mb-md-5 mb-3">
               <router-link :to="`/products-list/company/${companyItem.id}`"
                 ><img class="w-100" :src="companyItem.imageUrl" alt=""
               /></router-link>
@@ -317,6 +338,9 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
+      fullHeight: 0,
+      swiperNum: 1,
       products: [],
       jobsList: [],
       companiesList: [],
@@ -349,8 +373,21 @@ export default {
       jobCategory: [],
       recommedCompany: {
         jobsList: [],
+        options: { companyAddressCity: '' },
       },
     };
+  },
+  watch: {
+    fullWidth(newValue) {
+      console.log(newValue);
+      if (newValue > 768) {
+        this.swiperNum = 3;
+      } else if (newValue > 576) {
+        this.swiperNum = 2;
+      } else {
+        this.swiperNum = 1;
+      }
+    },
   },
   methods: {
     searchByJobCategory(jobCategory) {
@@ -518,7 +555,15 @@ export default {
     this.formData = webData;
     this.getProductsData();
   },
-  mounted() {},
+  mounted() {
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    vm.fullHeight = window.innerHeight;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+      vm.fullHeight = window.innerHeight;
+    };
+  },
 };
 </script>
 

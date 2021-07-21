@@ -2,8 +2,8 @@
   <div class="container">
     <div class="addProcess mb-6">
       <h2 class="pageTitle text-primary text-center mb-4">新建企業</h2>
-      <div class="row  justify-content-center">
-        <div class="col-2">
+      <div class="row justify-content-center d-md-flex d-none">
+        <div class="col-lg-2 col-3">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--1"
@@ -18,7 +18,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-3">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--2"
@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-        <div class="col-2">
+        <div class="col-lg-2 col-3">
           <div
             class="addProcessBox py-2"
             ref="addProcessBox--3"
@@ -51,14 +51,14 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-lg-8 col-12">
         <div class="newCompanyForm box--shadow" v-if="formStep === 1">
           <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="changeStep('next')">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司基本資料</h3>
             <p class="mb-4">於 Fine Job 創建公司需嚴格審核，請填寫正確企業資訊：</p>
             <!-- 表單1-1：公司名稱(必填) -->
             <div class="row">
-              <div class="col-4">
+              <div class="col-md-5 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoCompanyLogo" class="form__label--custom form-label"
@@ -129,7 +129,7 @@
                   <ErrorMessage name="公司Logo" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-8">
+              <div class="col-md-7 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoCompanyName" class="form__label--custom form-label"
@@ -253,7 +253,7 @@
                 </p>
                 <div class="row">
                   <div
-                    class="col-4"
+                    class="col-lg-4 col-12"
                     v-for="(item, index) in temImageInputs"
                     :key="'sendFormInfoImgs' + index"
                   >
@@ -356,7 +356,7 @@
             <p class="mb-4">請填寫企業聯絡人的正確資訊，以便 Fine Jobs 與您聯繫：</p>
             <!-- 表單2-1：聯絡人名稱(必填) -->
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoName" class="form__label--custom form-label"
@@ -378,7 +378,7 @@
                   <ErrorMessage name="聯絡人姓名" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoContactPosition" class="form__label--custom form-label"
@@ -396,7 +396,7 @@
                   />
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoTel" class="form__label--custom form-label"
@@ -418,7 +418,7 @@
                   <ErrorMessage name="聯絡人電話" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoEmail" class="form__label--custom form-label"
@@ -440,7 +440,7 @@
                   <ErrorMessage name="聯絡人Email" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoPassword" class="form__label--custom form-label"
@@ -492,7 +492,7 @@
             </p>
             <!-- 表單2-1：聯絡人名稱(必填) -->
             <div class="row">
-              <div class="col-6">
+              <div class="col-md-6 col-12">
                 <div class="form__inputBox">
                   <div class="form__labelBox">
                     <label for="sendFormInfoAddJobsToken" class="form__label--custom form-label"
@@ -565,7 +565,7 @@
           <Form ref="sendFormInfoForm4" >
             <!-- 表單2-1：聯絡人名稱(必填) -->
             <div class="row justify-content-center">
-              <div class="col-8">
+              <div class="col-md-8 col-12">
                 <h3 class="page__title--sub justify-content-center ">申請創建公司帳戶成功</h3>
                 <p class="mb-4 text-center">
                   恭喜您已完成填寫創建公司帳戶流程， 本公司會於3個工作天內審核資料，如審核完畢會寄
