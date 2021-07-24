@@ -1,59 +1,63 @@
 <template>
-  <div class="topSearchBanner mb-md-7 mb-6">
-    <img class="img-cover" src="../assets/images/home-top-img.png" alt="" />
+  <div class="topSearchBanner mb-7">
     <div class="container position-relative">
-      <p class="flyTag flyTag--a">您好，我想找工作！</p>
-      <p class="flyTag flyTag--b">歡迎你來面試！</p>
-      <h2 class="banner__title text-white mb-md-4 mb-2">立即搜尋職位</h2>
-      <h2 class="banner__title text-white mb-md-9 mb-6">Got Youself A Fine Job !</h2>
-      <div class="bg-white rounded box-shadow p-md-6 p-4">
-        <form
-          class="banner__searchBar d-flex flex-md-row flex-column
+      <div class="topSearchBanner__innerBox">
+        <img class="img-cover" src="https://i.imgur.com/PRGknSk.png" alt="" />
+        <!-- <p class="flyTag flyTag--a">您好，我想找工作！</p>
+      <p class="flyTag flyTag--b">歡迎你來面試！</p> -->
+        <div class="topSearchBanner__txtBox">
+          <h2 class="banner__title text-white mb-md-4 mb-2">立即搜尋職位</h2>
+          <h2 class="banner__title text-white mb-md-9 mb-6">Got Youself A Fine Job !</h2>
+        </div>
+        <div class="bg-white rounded box-shadow p-md-6 p-4">
+          <form
+            class="banner__searchBar d-flex flex-md-row flex-column
         align-items-md-center align-items-stretch"
-        >
-          <img
-            class="banner__logo me-3"
-            src="../assets/images/header/fineJobLogo-square.svg"
-            alt=""
-          />
-          <div
-            class="d-flex justify-content-between align-items-md-end  align-items-stretch
-            flex-grow-1 flex-md-row flex-column"
           >
-            <div class="inputGroup--item flex-grow-1 me-md-4">
-              <label for="searchFilterTop-keyword" class="form-label inputItem__title"
-                >關鍵字</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="searchFilterTop-keyword"
-                placeholder="職位關鍵字"
-                aria-describedby="關鍵字"
-                v-model="filterData.keyword"
-              />
-            </div>
-            <div class="inputGroup--item flex-grow-1 me-md-4 mb-md-0 mb-3">
-              <label for="searchFilterTop-city" class="form-label inputItem__title">地區</label>
-              <select
-                class="form-select"
-                aria-label="地區"
-                id="searchFilterTop-city"
-                v-model="filterData.city"
-              >
-                <option disabled>請選擇地區</option>
-                <option selected value="不限">不限</option>
-                <option
-                  v-for="(item, index) in formData.city"
-                  :value="item"
-                  :key="'地區' + index"
-                  >{{ item }}</option
+            <img
+              class="banner__logo me-3"
+              src="@/assets/images/header/fineJobLogo-square.svg"
+              alt=""
+            />
+            <div
+              class="d-flex justify-content-between align-items-md-end  align-items-stretch
+            flex-grow-1 flex-md-row flex-column"
+            >
+              <div class="inputGroup--item flex-grow-1 me-md-4">
+                <label for="searchFilterTop-keyword" class="form-label inputItem__title"
+                  >關鍵字</label
                 >
-              </select>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="searchFilterTop-keyword"
+                  placeholder="職位關鍵字"
+                  aria-describedby="關鍵字"
+                  v-model="filterData.keyword"
+                />
+              </div>
+              <div class="inputGroup--item flex-grow-1 me-md-4 mb-md-0 mb-3">
+                <label for="searchFilterTop-city" class="form-label inputItem__title">地區</label>
+                <select
+                  class="form-select"
+                  aria-label="地區"
+                  id="searchFilterTop-city"
+                  v-model="filterData.city"
+                >
+                  <option disabled>請選擇地區</option>
+                  <option selected value="不限">不限</option>
+                  <option
+                    v-for="(item, index) in formData.city"
+                    :value="item"
+                    :key="'地區' + index"
+                    >{{ item }}</option
+                  >
+                </select>
+              </div>
+              <button class="btn btn-primary" type="button" @click="toSearchJob">搜尋職位</button>
             </div>
-            <button class="btn btn-primary" type="button" @click="toSearchJob">搜尋職位</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -263,7 +267,7 @@
       </div>
     </div>
   </div>
-  <div class="hotCategory bg-white py-7">
+  <div class="hotCategory bg-white py-7 mb-7">
     <div class="container ">
       <div class="d-flex align-items-center mb-4">
         <h3 class="sectionTitle">熱門職位類別</h3>
@@ -275,23 +279,44 @@
             v-if="index < 7"
             :class="{
               'col-lg-6 col-12': index === 0,
+              hotCategoryList__top: index === 0,
               'col-lg-3 col-6': index > 0,
               'mb-4': index < 3,
               'mb-lg-0 mb-4': index > 3,
             }"
           >
-            <div class="hotCategoryBox p-md-6 p-3">
-              <p class="mb-3">
-                {{ categoryItem.categoryName }}
-              </p>
-              <p class="subTxt mb-md-6 mb-3">目前共： {{ categoryItem.jobNum }} 職位</p>
-              <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
-                查看更多職位 <i class=" jobIcon ms-2 bi bi-arrow-right-circle"></i>
-              </p>
+            <div class="hotCategoryBox p-md-6 p-3 d-flex">
+              <div >
+                <p class="mb-3">
+                  {{ categoryItem.categoryName }}
+                </p>
+                <p class="subTxt mb-md-6 mb-3">目前共： {{ categoryItem.jobNum }} 職位</p>
+                <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
+                  查看更多職位 <i class=" jobIcon ms-2 bi bi-arrow-right-circle"></i>
+                </p>
+              </div>
+              <img :class="{ 'd-none': index > 0 }" src="https://i.imgur.com/fJ55SNe.png" alt="" />
             </div>
           </li>
         </template>
       </ul>
+    </div>
+  </div>
+  <div class="container">
+    <div class="addCompanyBanner bg-primary-light rounded p-5">
+      <div class="d-flex flex-column  mb-md-0 mb-6">
+        <div>
+          <h3 class="text-white mb-2">Find Job 免費刊登職位中</h3>
+          <h3 class="text-white mb-5">立即註冊加入，讓我們幫您找人才！</h3>
+        </div>
+        <div>
+          <button type="button" class="btn btn-light me-2">聯絡我們</button>
+          <router-link class="btn btn-primary" to="/add-company">即刻前往註冊服務</router-link>
+        </div>
+      </div>
+      <img class="img-cover-top" src="https://i.imgur.com/GLgg4Fw.png" alt="" />
+      <img class="img-cover-bottom" src="https://i.imgur.com/hIzL1Kk.png" alt="" />
+      <img class="addCompanyBanner__mainImg" src="https://i.imgur.com/iZmelSd.png" alt="" />
     </div>
   </div>
   <div class="CooperationCompanySection pt-7  pb-2">

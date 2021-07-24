@@ -60,7 +60,7 @@
           </div>
           <div class="jobContentBox  box--shadow  mb-3">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司簡介</h3>
-            <p class="page__txt">{{ companyItem.content }}</p>
+            <div class="page__txt" v-html="companyItem.content"></div>
           </div>
           <div class="jobContentBox  box--shadow  mb-lg-0 mb-3">
             <h3 class="page__title--sub"><span class="title__icon"></span>公司職位</h3>

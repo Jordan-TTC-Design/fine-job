@@ -95,9 +95,6 @@
 }
 .topSearchBanner {
   background-color: #3f6745;
-  padding-top: 108px;
-  padding-bottom: 72px;
-  margin-top: -48px;
   position: relative;
   z-index: 1;
   .banner__logo {
@@ -105,14 +102,49 @@
     background-color: #fff;
     border-radius: 8px;
   }
+  &__innerBox {
+    padding-top: 108px;
+    padding-bottom: 72px;
+    margin-top: -48px;
+    @media screen and (max-width: 991px) {
+      padding-top: 44px;
+    }
+  }
+  &__txtBox {
+    @media screen and (max-width: 991px) {
+      text-align: center;
+      padding-top: 12px;
+      padding-bottom: 120px;
+    }
+    @media screen and (max-width: 767px) {
+      padding-bottom: 160px;
+    }
+  }
   .img-cover {
-    height: 105%;
+    height: 100%;
     position: absolute;
-    top: -5%;
-    bottom: 0;
-    right: 20%;
+    top: 0;
+    right: 0%;
     object-fit: cover;
     z-index: -1;
+    @media screen and (max-width: 1399px) {
+      height: 80%;
+      top: 10%;
+    }
+    @media screen and (max-width: 1199px) {
+      height: 60%;
+      top: 20%;
+    }
+    @media screen and (max-width: 991px) {
+      height: 48%;
+      top: 28%;
+      right: 50%;
+      transform: translateX(50%);
+    }
+    @media screen and (max-width: 767px) {
+      height: 36%;
+      top: 24%;
+    }
   }
 
   .banner__title {
@@ -218,7 +250,66 @@
 .main--bg {
   background-color: #f2f2f2;
 }
-
+.form-bg{
+  // background-image: url(https://i.imgur.com/foNZtm8.png);
+}
+.hotCategoryList {
+  .hotCategoryList__top {
+    position: relative;
+    img {
+      object-fit: contain;
+      position: absolute;
+      top: 0;
+      right: 0;
+      max-height: 100%;
+    }
+  }
+}
+.addCompanyBanner {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  z-index: 1;
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+  &__mainImg {
+    max-width: 50%;
+    position: relative;
+    bottom: -1.5rem;
+    height: auto;
+    object-fit: contain;
+    object-position: bottom;
+    @media screen and (max-width: 991px) {
+      max-width: 36%;
+    }
+    @media screen and (max-width: 767px) {
+      max-width: 100%;
+    }
+  }
+  .img-cover-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 92%;
+    z-index: -1;
+    border-radius: 0 8px 0 0;
+    @media screen and (max-width: 767px) {
+      height: 40%;
+    }
+  }
+  .img-cover-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 60%;
+    z-index: -1;
+    border-radius: 0 0 0 8px;
+    @media screen and (max-width: 767px) {
+      height: 40%;
+    }
+  }
+}
 .list__title {
   color: #1d1d1d;
   font-weight: 500;

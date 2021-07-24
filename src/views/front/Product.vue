@@ -69,14 +69,14 @@
             <p class="page__txt mb-2">產業類別：{{ jobItem.options.company.industryCategory }}</p>
             <p class="page__txt mb-2">工作類別：{{ jobItem.category }}</p>
             <p class="page__txt mb-2">工作內容：</p>
-            <p class="page__txt">{{ jobItem.content }}</p>
+            <div class="page__txt" v-html="jobItem.content"></div>
           </div>
           <div class="jobContentBox box--shadow  mb-3">
             <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
             <p class="page__txt mb-2">學歷要求：{{ jobItem.options.job.education }}</p>
             <p class="page__txt mb-2">工作經驗：{{ jobItem.options.job.workExp }}</p>
             <p class="page__txt mb-2">其他條件：</p>
-            <p class="page__txt">{{ jobItem.options.job.otherRequirement }}</p>
+            <div class="page__txt" v-html="jobItem.options.job.otherRequirement"></div>
           </div>
           <div class="jobContentBox box--shadow mb-lg-0 mb-3">
             <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
@@ -84,10 +84,7 @@
             <p class="page__txt mb-2">聯絡信箱：{{ jobItem.options.company.companyEmail }}</p>
             <p class="page__txt mb-2">聯絡電話：{{ jobItem.options.company.companyTel }}</p>
             <p class="page__txt mb-2">申請備註：</p>
-            <p class="page__txt">
-              • 有意者請透過系統寄送應徵履歷，合者約談，不適任者恕不另行通知，謝謝。 • 請附上cover
-              letter 、 CV/Resume 以及作品集。 • 需自備電腦。
-            </p>
+            <div class="page__txt" v-html="jobItem.options.job.otherApplyInfo"></div>
           </div>
         </div>
         <div class="col-lg-3 col-12">
