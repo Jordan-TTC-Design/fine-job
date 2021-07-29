@@ -3,12 +3,19 @@
 @import '~bootstrap/scss/mixins';
 @import '~cropperjs/dist/cropper.min.css';
 
-
 @import '~bootstrap';
 @import '~swiper/swiper.scss';
 @import '~swiper/components/navigation/navigation.min.css';
 @import '~swiper/components/pagination/pagination.min.css';
 
-@import '../reset.scss';
+//預設＆工具
+@import './setting/reset';
+@import './setting/mixins-me';
+@import './setting/main';
+@import './setting/tools';
+
+//套件自訂
+@import './helpers/swiper';
+
+//頁面
 @import '../front.scss';
-@import './helpers/swiper.scss';

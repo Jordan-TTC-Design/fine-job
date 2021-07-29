@@ -1,0 +1,70 @@
+.bgCover{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: all 0.3s;
+  }
+  .section__titleBox{
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    .titleBox__title {
+      color: $primary;
+      font-size: 1.5rem;
+      font-weight: $fw--bd;
+      margin-right: 0.5rem;
+    }
+    .titleBox__tag {
+      color: $white;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.5rem 0.5rem 0.5rem 0;
+      background-color: $primary;
+    }
+  }
+  .collectBtn {
+    height: 44px;
+    width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    top: 12px;
+    right: 12px;
+    .jobIcon {
+      color: #979797;
+    }
+  }
+  .btn--circle{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    &.btn-outline-light{
+      .jobIcon {
+        color: $light;
+      }
+      &:hover {
+        .jobIcon {
+          color: $gray-dark;
+        }
+      }
+    }
+  }
+  .btn--circle.active{
+    background-color: $white;
+    border: 0;
+    &.btn-outline-light{
+      .jobIcon {
+        color: $primary;
+      }
+      &:hover {
+        .jobIcon {
+          color: $primary;
+        }
+      }
+    }
+  }
+  

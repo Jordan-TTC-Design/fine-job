@@ -1,6 +1,6 @@
 <template>
-  <header class="header--front">
-    <div ref="Search" class="header--front__searchModal">
+  <header class="header header--front">
+    <div ref="Search" class="header__searchModal" >
       <SearchModal></SearchModal>
     </div>
     <div class="container d-flex justify-content-between align-items-center">
@@ -43,7 +43,7 @@
         </ul>
       </div>
 
-      <div class="menuCover" ref="menuCover" @click="openRwdMenu"></div>
+      <div class="bgCover menuCover" ref="menuCover" @click="openRwdMenu"></div>
       <div class="d-flex d-lg-none">
         <div class="hamburgerMenu d-flex me-2" @click="openSearchModal" ref="headerSearchIcon">
           <i class="jobIcon bi bi-search"></i>
@@ -127,16 +127,16 @@ export default {
   },
   methods: {
     openRwdMenu() {
-      this.$refs.headerNavBox.classList.toggle('openRwdMenu');
-      this.$refs.menuCover.classList.toggle('openRwdMenu');
+      this.$refs.headerNavBox.classList.toggle('active');
+      this.$refs.menuCover.classList.toggle('active');
       this.$refs.main.classList.toggle('openRwdMenu');
       this.$refs.headerSearchIcon.classList.toggle('d-none');
       this.$refs.Search.classList.remove('active');
     },
     closeRwdMenu() {
       console.log('close');
-      this.$refs.headerNavBox.classList.remove('openRwdMenu');
-      this.$refs.menuCover.classList.remove('openRwdMenu');
+      this.$refs.headerNavBox.classList.remove('active');
+      this.$refs.menuCover.classList.remove('active');
       this.$refs.main.classList.remove('openRwdMenu');
       this.$refs.headerSearchIcon.classList.remove('d-none');
     },

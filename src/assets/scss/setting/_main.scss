@@ -1,0 +1,23 @@
+//字體粗細
+$fw--li:300;
+$fw--rg:400;
+$fw--md:500;
+$fw--bd:700;
+
+
+//header
+.header{
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 666;
+    &__logo{
+      max-height: 100%;
+    }
+  }
+  .section{
+    margin-bottom: 3rem;
+  }
+  .section--py{
+    padding: 3rem 0;
+  }
