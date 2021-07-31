@@ -1,9 +1,9 @@
 <template>
-  <div class="section">
+  <div ref="recommedJobs" class="section">
     <div class="container">
       <h3 class="section__title ps-3">推薦職位</h3>
       <swiper
-        v-if="dataOk"
+        v-if="hotJobs.length > 0"
         :slides-per-view="swiperNum"
         :space-between="20"
         :autoplay="{
@@ -18,7 +18,7 @@
           prevEl: '.swiper-button-prev',
         }"
       >
-        <swiper-slide v-for="item in goodJobList" :key="item.id">
+        <swiper-slide v-for="item in hotJobs" :key="item.id">
           <GoodJobCard :good-job="item"></GoodJobCard>
         </swiper-slide>
         <div class="swiper-button-prev swiper-custom">
@@ -34,7 +34,7 @@
       </swiper>
     </div>
   </div>
-  <div ref="jobsListContainer" class="container">
+  <div ref="jobsListContainer" class="container" v-if="jobsList.length">
     <h3 class="section__title ps-3">全部職位</h3>
     <div class="row">
       <div class="col-lg-6 col-12">
@@ -51,66 +51,70 @@
             </select>
           </div>
           <ul class="jobList">
-            <li
-              v-for="item in nowPageList"
-              :key="item.id"
-              @click="selectJob(item.id)"
-              :data-id="item.id"
-              class="jobList__item d-flex box--shadow flex-column align-items-start pe-auto"
-            >
-              <button class="collectBtn btn btn-outline-gray-line position-absolute" type="button">
-                <i class="jobIcon bi bi-bookmark-fill"></i>
-              </button>
-              <div class="mb-3">
+            <template v-for="item in nowPageJobs" :key="item.id">
+              <li
+                v-if="nowPageJobs.length"
+                @click="selectJob(item.id)"
+                :data-id="item.id"
+                class="jobList__item d-flex box--shadow flex-column align-items-start pe-auto"
+              >
                 <button
+                  class="collectBtn btn btn-outline-gray-line position-absolute"
                   type="button"
-                  class="jobTag btn"
-                  @click="searchByJobCategory(item.category)"
                 >
-                  {{ item.category }}
+                  <i class="jobIcon bi bi-bookmark-fill"></i>
                 </button>
-              </div>
-              <div class="d-flex">
-                <div class="jobList__item__imgBox">
-                  <img class="jobImage" :src="item.imageUrl" alt="" />
-                  <div class="logoImageBox">
-                    <img class="logoImage" :src="item.options.company.companyLogoUrl" alt="" />
-                  </div>
+                <div class="mb-3">
+                  <button
+                    type="button"
+                    class="jobTag btn"
+                    @click="searchByJobCategory(item.category)"
+                  >
+                    {{ item.category }}
+                  </button>
                 </div>
-                <div
-                  class="jobList__item__txtBox
+                <div class="d-flex">
+                  <div class="jobList__item__imgBox">
+                    <img class="jobImage" :src="item.imageUrl" alt="" />
+                    <div class="logoImageBox">
+                      <img class="logoImage" :src="item.options.company.companyLogoUrl" alt="" />
+                    </div>
+                  </div>
+                  <div
+                    class="jobList__item__txtBox
                   flex-grow-1 d-flex flex-column
                   justify-content-between"
-                >
-                  <div class="mb-3 d-flex flex-column align-items-start">
-                    <router-link
-                      class="jobList__item__title text-dark mb-3 me-7 pe-auto"
-                      :to="`/products-list/product/${item.id}`"
-                      >{{ item.title }}</router-link
-                    >
-                    <router-link
-                      class="page__txt page__link subTxt  mb-2 me-7 pe-auto"
-                      :to="`/products-list/company/${item.options.company.companyLink}`"
-                      >{{ item.options.company.companyName }}</router-link
-                    >
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <p class="text-primary" v-if="!item.options.job.salaryInterView">
-                      {{ item.price }} / 月薪
-                    </p>
-                    <p class="text-primary" v-if="item.options.job.salaryInterView">薪資面議</p>
-                    <p class="subTxt text-secondary">
-                      {{ $filters.date(item.options.job.create) }}
-                    </p>
+                  >
+                    <div class="mb-3 d-flex flex-column align-items-start">
+                      <router-link
+                        class="jobList__item__title text-dark mb-3 me-7 pe-auto"
+                        :to="`/products-list/product/${item.id}`"
+                        >{{ item.title }}</router-link
+                      >
+                      <router-link
+                        class="page__txt page__link subTxt  mb-2 me-7 pe-auto"
+                        :to="`/products-list/company/${item.options.company.companyLink}`"
+                        >{{ item.options.company.companyName }}</router-link
+                      >
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <p class="text-primary" v-if="!item.options.job.salaryInterView">
+                        {{ item.price }} / 月薪
+                      </p>
+                      <p class="text-primary" v-if="item.options.job.salaryInterView">薪資面議</p>
+                      <p class="subTxt text-secondary">
+                        {{ $filters.date(item.options.job.create) }}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </li>
+              </li>
+            </template>
           </ul>
         </div>
       </div>
       <div class="col-lg-6 col-12 d-lg-block d-none">
-        <div ref="jobSelectBox" class="jobSelectBox box--shadow ">
+        <div ref="jobSelectBox" class="jobSelectBox box--shadow">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
               <button
@@ -483,7 +487,7 @@
             </div>
             <div class="col-md-3 col-12">
               <div class="d-flex justify-content-end align-items-end h-100">
-                <button type="button" class="btn btn-primary btn--applyJob" @click="searchJob">
+                <button type="button" class="btn btn-primary btn--applyJob" @click="filterJobs">
                   查詢
                 </button>
               </div>
@@ -502,6 +506,7 @@
 
 <script>
 import emitter from '@/components/helpers/emitter';
+import searchFilter from '@/components/helpers/searchFilter';
 import PagenationModal from '@/components/Pagenation.vue';
 import GoodJobCard from '@/components/front/GoodJobCard.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -526,7 +531,8 @@ export default {
       swiperNum: 1,
       products: [],
       jobsList: [],
-      companiesList: [],
+      hotJobs: [],
+      nowPageJobs: [],
       jobItem: {
         options: {
           company: {
@@ -535,10 +541,9 @@ export default {
           job: {},
         },
       },
-      nowPageList: [],
-      goodJobList: [],
+      searchFilterMethods: {},
+      pageNumber: 1,
       sortWay: 'time',
-      dataOk: false,
       formData: {},
       filterData: {
         keyword: '',
@@ -553,11 +558,38 @@ export default {
         salaryHight: null,
         salaryInterView: false,
       },
+      // 篩選框顯示與否狀態
       filterBoxState: false,
       mountState: false,
     };
   },
   watch: {
+    // sortWay(newValue) {
+    //   if (newValue === 'time') {
+    //     this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
+    //   } else if (newValue === 'money') {
+    //     this.jobsList.sort((a, b) => b.price - a.price);
+    //   }
+    //   console.log(this.jobsList);
+    // },
+    // products(newValue) {
+    //   this.jobsList = [];
+    //   newValue.forEach((item) => {
+    //     if (item.description === '職位') {
+    //       const Obj = item;
+    //       this.sortCompany.forEach((temCompany) => {
+    //         if (Obj.options.company.companyName === temCompany.title) {
+    //           // console.log(temCompany.id);
+    //           Obj.options.company.companyLink = temCompany.id;
+    //         }
+    //       });
+    //       this.jobsList.push(Obj);
+    //     }
+    //   });
+    //   console.log(this.jobsList);
+    //   this.changeJobSort();
+    //   this.selectJobFrist(this.jobsList[0].id);
+    // },
     fullWidth(newValue) {
       // console.log(newValue);
       if (newValue > 768) {
@@ -569,9 +601,22 @@ export default {
       }
     },
   },
-  computed:{
+  computed: {
+    // 所有企業
+    sortCompany() {
+      const temCompanyArray = [];
+      if (this.products.length > 1) {
+        this.products.forEach((item) => {
+          if (item.description === '企業') {
+            temCompanyArray.push(item);
+          }
+        });
+      }
+      return temCompanyArray;
+    },
   },
   methods: {
+    // 打開篩選彈跳視窗
     openSideFilterBox() {
       if (this.filterBoxState) {
         this.filterBoxState = false;
@@ -579,252 +624,45 @@ export default {
         this.filterBoxState = true;
       }
     },
+    // 根據職位類別搜尋
     searchByJobCategory(jobCategory) {
       const keyword = '不限';
       const city = '不限';
       this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
     },
+    // 調整列表排序方式
     changeJobSort() {
-      console.log(this.sortWay);
+      // console.log(this.sortWay);
       if (this.sortWay === 'time') {
         this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
       } else if (this.sortWay === 'money') {
         this.jobsList.sort((a, b) => b.price - a.price);
       }
-      console.log(this.jobsList);
     },
-    sortGoodJob() {
-      const temGoodJob = this.jobsList.filter((item) => item.options.job.promote === 1);
-      console.log(temGoodJob);
-      const arr = new Set([]);
-      for (let index = 0; arr.size < 6; index + 1) {
-        const num = Math.floor(Math.random() * temGoodJob.length);
-        arr.add(num);
-        console.log(arr.size);
-      }
-      arr.forEach((i) => {
-        this.goodJobList.push(temGoodJob[i]);
-      });
-      console.log(this.goodJobList);
-      this.dataOk = true;
-    },
+    // 切換頁面
     changePage(nowPageNum) {
-      this.nowPageList = [];
-      console.log(nowPageNum);
-      const pageFrist = nowPageNum * 10 - 10;
-      this.jobsList.forEach((item, index) => {
-        if (pageFrist <= index && index < nowPageNum * 10) {
-          this.nowPageList.push(item);
-        }
-      });
-      document.documentElement.scrollTop = 0;
-      this.selectJobFrist(this.nowPageList[0].id);
+      this.pageNumber = nowPageNum;
+      this.getNowPageJobs();
     },
-    classifyJob() {
-      this.products.forEach((item) => {
-        if (item.description === '職位') {
-          const Obj = item;
-          this.companiesList.forEach((temCompany) => {
-            if (Obj.options.company.companyName === temCompany.title) {
-              // console.log(temCompany.id);
-              Obj.options.company.companyLink = temCompany.id;
-            }
-          });
-          this.jobsList.push(Obj);
-        }
-      });
-      console.log(this.jobsList);
-      this.changeJobSort();
-      this.selectJobFrist(this.jobsList[0].id);
-      this.sortGoodJob();
-    },
-    classifyCompany() {
-      this.products.forEach((item) => {
-        if (item.description === '企業') {
-          this.companiesList.push(item);
-        }
-      });
-      console.log(this.companiesList);
+    // 篩選查詢
+    filterJobs() {
+      emitter.emit('spinner-open');
       this.classifyJob();
+      console.log(this.jobsList, this.filterData);
+      const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
+      console.log(temArray);
+      this.jobsList = temArray;
+      emitter.emit('spinner-close');
     },
-    cleanList() {
-      this.jobsList = [];
-      this.companiesList = [];
-    },
-    getProductsData() {
-      this.cleanList();
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          //   console.log(res);
-          this.products = res.data.products;
-          emitter.emit('spinner-close');
-          this.classifyCompany();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    searchJob() {
-      this.cleanList();
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          //   console.log(res);
-          this.products = res.data.products;
-          emitter.emit('spinner-close');
-          this.classifyCompany();
-          this.filterCity(this.jobsList);
-          this.filterKeyword(this.jobsList);
-          this.filterWorkTime(this.jobsList);
-          this.filterWorkType(this.jobsList);
-          this.filterEducation(this.jobsList);
-          this.filterJobCategory(this.jobsList);
-          this.filterIndustryCategory(this.jobsList);
-          this.filterSalary(this.jobsList);
-          this.filterSalaryInterView(this.jobsList);
-          console.log(this.jobsList);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    filterKeyword(temArray) {
-      // console.log(temArray);
-      if (this.filterData.keyword !== '') {
-        // console.log(this.filterData.keyword);
-        this.temData = temArray.filter((item) => {
-          const text = item.title + item.options.company.companyName;
-          const searchText = this.filterData.keyword.toLowerCase();
-          const textResult = text.toLowerCase().includes(searchText);
-          return textResult;
-        });
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterCity(temArray) {
-      if (this.filterData.city !== '不限') {
-        // console.log(this.filterData.city);
-        this.temData = temArray.filter(
-          (item) => item.options.company.companyAddressCity === this.filterData.city,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterWorkTime(temArray) {
-      if (this.filterData.workTime !== '不限') {
-        console.log(this.filterData.workTime);
-        this.temData = temArray.filter(
-          (item) => item.options.job.workTime === this.filterData.workTime,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterWorkExp(temArray) {
-      if (this.filterData.workExp !== '不限') {
-        console.log(this.filterData.workExp);
-        this.temData = temArray.filter(
-          (item) => item.options.job.workExp === this.filterData.workExp,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterWorkType(temArray) {
-      if (this.filterData.workType !== '不限') {
-        console.log(this.filterData.workType);
-        this.temData = temArray.filter(
-          (item) => item.options.job.workType === this.filterData.workType,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterEducation(temArray) {
-      if (this.filterData.education !== '不限') {
-        console.log(this.filterData.education);
-        this.temData = temArray.filter(
-          (item) => item.options.job.education === this.filterData.education,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterJobCategory(temArray) {
-      if (this.filterData.jobCategory !== '不限') {
-        // console.log(this.filterData.jobCategory);
-        this.temData = temArray.filter((item) => item.category === this.filterData.jobCategory);
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterIndustryCategory(temArray) {
-      if (this.filterData.industryCategory !== '不限') {
-        console.log(this.filterData.industryCategory);
-        this.temData = temArray.filter(
-          (item) => item.options.job.industryCategory === this.filterData.industryCategory,
-        );
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterSalary(temArray) {
-      const numLow = this.filterData.salaryLow;
-      const numHight = this.filterData.salaryHight;
-      if (numLow !== null && numHight !== null) {
-        this.temData = temArray.filter((item) => item.price > numLow && item.price < numHight);
-      } else if (numLow !== null || numHight !== null) {
-        if (numLow !== null) {
-          this.temData = temArray.filter((item) => item.price > numLow);
-        } else if (numHight !== null) {
-          this.temData = temArray.filter((item) => item.price < numHight);
-        }
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
-    filterSalaryInterView(temArray) {
-      if (this.filterData.salaryInterView) {
-        console.log('只找面議');
-        this.temData = temArray.filter((item) => item.options.job.salaryInterView === true);
-      } else {
-        this.temData = temArray;
-      }
-      this.jobsList = this.temData;
-    },
+    // 清除篩選條件
     cleanFilter() {
-      this.filterData = {
-        keyword: '',
-        city: '不限',
-        industryCategory: '不限',
-        jobCategory: '不限',
-        workExp: '不限',
-        education: '不限',
-        workType: '不限',
-        workTime: '不限',
-        salaryLow: null,
-        salaryHight: null,
-        salaryInterView: false,
-      };
+      this.searchFilterMethods.getFilterData(this.filterData);
+      this.searchFilterMethods.cleanFilter();
+      this.filterData = this.searchFilterMethods.returnFilter();
     },
+    // 點擊卡片：pc->選擇右側職位，pad->跳轉至該職位頁面
     selectJob(id) {
-      console.log(this.fullWidth);
+      // console.log(this.fullWidth);
       if (this.fullWidth > 991) {
         this.jobsList.forEach((item) => {
           if (item.id === id) {
@@ -836,18 +674,78 @@ export default {
         this.$router.push(`/products-list/product/${id}`);
       }
     },
-    selectJobFrist(id) {
-      this.jobsList.forEach((item) => {
-        if (item.id === id) {
-          this.jobItem = item;
+    // 本頁職位
+    getNowPageJobs() {
+      const temPageJobs = [];
+      if (this.jobsList.length !== []) {
+        const pageFrist = this.pageNumber * 10 - 10;
+        this.jobsList.forEach((item, index) => {
+          if (pageFrist <= index && index < this.pageNumber * 10) {
+            temPageJobs.push(item);
+          }
+        });
+        document.documentElement.scrollTop = 0;
+        [this.jobItem] = temPageJobs;
+      }
+      this.nowPageJobs = temPageJobs;
+    },
+    // 熱門職位
+    sortHotJobs() {
+      this.hotJobs = [];
+      if (this.jobsList.length > 0) {
+        const temGoodJob = this.jobsList.filter((item) => item.options.job.promote === 1);
+        const arr = new Set([]);
+        for (let index = 0; arr.size < 6; index += 1) {
+          const num = Math.floor(Math.random() * temGoodJob.length);
+          arr.add(num);
+        }
+        arr.forEach((i) => {
+          this.hotJobs.push(temGoodJob[i]);
+        });
+      }
+    },
+    // 篩選出所有職位
+    classifyJob() {
+      this.jobsList = [];
+      this.changePage(1);
+      this.products.forEach((item) => {
+        if (item.description === '職位') {
+          const Obj = item;
+          this.sortCompany.forEach((temCompany) => {
+            if (Obj.options.company.companyName === temCompany.title) {
+              // console.log(temCompany.id);
+              Obj.options.company.companyLink = temCompany.id;
+            }
+          });
+          this.jobsList.push(Obj);
         }
       });
-      this.$refs.jobSelectBox.scrollTop = 0;
+      // console.log(this.jobsList);
+      this.changeJobSort();
+      this.sortHotJobs();
+      this.getNowPageJobs();
+    },
+    // 抓全部資料
+    getOgData() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          //   console.log(res);
+          this.products = res.data.products;
+          emitter.emit('spinner-close');
+          this.classifyJob();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
   created() {
-    this.getProductsData();
+    this.getOgData();
     this.formData = webData;
+    this.searchFilterMethods = searchFilter;
   },
   mounted() {
     this.mountState = true;
