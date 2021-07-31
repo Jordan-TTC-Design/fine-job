@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-5">
+  <div class="section">
     <div class="container">
-      <h3 class="pageTitle ps-3">推薦職位</h3>
+      <h3 class="section__title ps-3">推薦職位</h3>
       <swiper
         v-if="dataOk"
         :slides-per-view="swiperNum"
@@ -35,7 +35,7 @@
     </div>
   </div>
   <div ref="jobsListContainer" class="container">
-    <h3 class="pageTitle ps-3">全部職位</h3>
+    <h3 class="section__title ps-3">全部職位</h3>
     <div class="row">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
@@ -568,6 +568,8 @@ export default {
         this.swiperNum = 1;
       }
     },
+  },
+  computed:{
   },
   methods: {
     openSideFilterBox() {

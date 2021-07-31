@@ -153,17 +153,17 @@
   flex-direction: column;
   justify-content: flex-end;
   .card__title {
-    color:$light;
+    color: $light;
     transition: all 0.3s;
     &:hover {
-      color: darken($light,16%);
+      color: darken($light, 16%);
     }
   }
   .card__txt {
-    color:$light;
+    color: $light;
     transition: all 0.3s;
     &:hover {
-      color: darken($light,16%);
+      color: darken($light, 16%);
     }
   }
   @include md {
@@ -216,27 +216,149 @@
     font-size: 12px;
   }
 }
-.main--bg {
-  background-color: #f2f2f2;
-}
-.hotCategoryList {
-  .hotCategoryList__top {
-    position: relative;
+// 本週推薦企業
+.weeklyCompany {
+  position: relative;
+  z-index: 1;
+  .section__bg {
+    height: 64%;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    z-index: -1;
+  }
+  &__Box--left {
+    background-color: $white;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    @include md {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+    .page__title {
+      font-size: 1.25rem;
+      color: $dark;
+      font-weight: 500;
+    }
+    .companyContentBox {
+      .companyContent {
+        max-height: 164px;
+        overflow: hidden;
+      }
+      @include lg {
+        max-width: 90%;
+      }
+      @include md {
+        max-width: 100%;
+      }
+    }
+  }
+  &__Box--right {
+    position: absolute;
+    top: -2rem;
+    right: 0;
+    @include md {
+      position: static;
+    }
+    .imageBox {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      @include md {
+        border-radius: 0.5rem 0.5rem 0 0;
+      }
+    }
     img {
-      object-fit: contain;
-      position: absolute;
-      top: 0;
-      right: 0;
-      max-height: 100%;
+      max-width: 100%;
+    }
+  }
+  &JobList {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .list__item {
+      background-color: $white;
+      width: calc(50% - 8px);
+      border: 1px solid $gray-line;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      &:hover {
+        background-color: $gray-light;
+      }
+      @include md {
+        width: 100%;
+      }
     }
   }
 }
+// 熱門職位類別
+.hotCategory {
+  .list__item {
+    position: relative;
+    &:first-child {
+      img {
+        position: absolute;
+        object-fit: contain;
+        top: 0;
+        right: 0;
+        max-height: 100%;
+      }
+      .hotCategoryBox {
+        background-color: $primary;
+        p {
+          color: $white;
+        }
+        .seeMoreBtn {
+          color: $white;
+        }
+        .jobIcon {
+          color: $white;
+        }
+      }
+    }
+  }
+  .seeMoreBtn {
+    cursor: pointer;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s;
+    .jobIcon {
+      color: $dark;
+      font-size: 24px;
+    }
+  }
+  .hotCategoryBox {
+    border-radius: 0.5rem;
+    background-color: $gray-light;
+    min-height: 160px;
+    &:hover {
+      background-color: $primary;
+      p {
+        color: $white;
+      }
+      .seeMoreBtn {
+        color: $white;
+        .jobIcon {
+          color: $white;
+        }
+      }
+    }
+  }
+}
+// 招募企業廣告
 .addCompanyBanner {
   display: flex;
   position: relative;
   justify-content: space-between;
   z-index: 1;
-  @media screen and (max-width: 767px) {
+  background-color: $primary-light;
+
+  @include md {
     flex-direction: column;
   }
   &__mainImg {
@@ -246,10 +368,10 @@
     height: auto;
     object-fit: contain;
     object-position: bottom;
-    @media screen and (max-width: 991px) {
+    @include lg {
       max-width: 36%;
     }
-    @media screen and (max-width: 767px) {
+    @include md {
       max-width: 100%;
     }
   }
@@ -260,7 +382,7 @@
     height: 92%;
     z-index: -1;
     border-radius: 0 8px 0 0;
-    @media screen and (max-width: 767px) {
+    @include md {
       height: 40%;
     }
   }
@@ -271,11 +393,14 @@
     height: 60%;
     z-index: -1;
     border-radius: 0 0 0 8px;
-    @media screen and (max-width: 767px) {
+    @include md {
       height: 40%;
     }
   }
 }
+
+
+
 .list__title {
   color: #1d1d1d;
   font-weight: 500;
@@ -427,7 +552,7 @@
 }
 //職位頁面
 .jobPage {
-  @media screen and (max-width: 767px) {
+  @include md {
     .jobContent__imgBox {
       top: 0;
       width: 100%;
@@ -537,7 +662,7 @@
   border-radius: 0.5rem;
   min-height: 360px;
   padding: 1.5rem;
-  @media screen and (max-width: 767px) {
+  @include md {
     padding: 1rem;
   }
 }
@@ -1175,131 +1300,9 @@ p {
     }
   }
 }
-.goodCompanyRecommend {
-  position: relative;
-  z-index: 1;
-  .section__bg {
-    height: 64%;
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: -1;
-  }
 
-  .goodCompany__Box--left {
-    background-color: $white;
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    .page__title {
-      font-size: 1.25rem;
-      color: $dark;
-      font-weight: 500;
-    }
-    .companyContentBox {
-      .companyContent {
-        max-height: 164px;
-        overflow: hidden;
-      }
-    }
-    @media screen and (max-width: 991px) {
-      .companyContentBox {
-        max-width: 90%;
-      }
-    }
-    @media screen and (max-width: 767px) {
-      border-radius: 0 0 0.5rem 0.5rem;
-      .companyContentBox {
-        max-width: 100%;
-      }
-    }
-  }
-  .goodCompany__Box--right {
-    position: absolute;
-    top: -2rem;
-    right: 0;
-    .imageBox {
-      max-width: 100%;
-      height: auto;
-      border-radius: 0.5rem;
-    }
-    img {
-      max-width: 100%;
-    }
-    @media screen and (max-width: 767px) {
-      position: static;
-      .imageBox {
-        border-radius: 0.5rem 0.5rem 0 0;
-      }
-    }
-  }
-  .goodCompanyJobList {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    .list__item {
-      background-color: $white;
-      width: calc(50% - 8px);
-      border: 1px solid $gray-line;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      margin-bottom: 1rem;
-      &:hover {
-        background-color: $gray-light;
-      }
-      @media screen and (max-width: 767px) {
-        width: 100%;
-      }
-    }
-  }
-}
 
-.hotCategory {
-  .seeMoreBtn {
-    cursor: pointer;
-    padding: 8px 0;
-    display: flex;
-    align-items: center;
-    transition: all 0.3s;
-    .jobIcon {
-      color: $dark;
-      font-size: 24px;
-    }
-  }
-  .list__item:first-child {
-    .hotCategoryBox {
-      background-color: $primary;
-      p {
-        color: $white;
-      }
-    }
-    .seeMoreBtn {
-      color: $white;
-      .jobIcon {
-        color: $white;
-      }
-    }
-  }
-  .hotCategoryBox {
-    border-radius: 0.5rem;
-    background-color: $gray-light;
-    min-height: 160px;
-    &:hover {
-      background-color: $primary;
-      p {
-        color: $white;
-      }
-      .seeMoreBtn {
-        color: $white;
-        .jobIcon {
-          color: $white;
-        }
-      }
-    }
-  }
-}
+
 .form-check {
   padding-top: 8px;
   padding-bottom: 8px;

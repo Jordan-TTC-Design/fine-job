@@ -182,7 +182,7 @@
       </div>
     </div>
     <!-- 本週推薦企業 -->
-    <div class="goodCompanyRecommend section--py" v-if="dataOk">
+    <div class="weeklyCompany section--py" v-if="dataOk">
       <div class="section__bg bg-primary-light"></div>
       <div class="container">
         <div class="section__titleBox">
@@ -190,7 +190,7 @@
           <p class="titleBox__tag">推薦</p>
         </div>
         <div class="row position-relative">
-          <div class="col-md-5 col-12  goodCompany__Box--right">
+          <div class="col-md-5 col-12  weeklyCompany__Box--right">
             <div class="imageBox p-md-6 p-4 pb-4 bg-white">
               <swiper
                 :slides-per-view="1"
@@ -211,7 +211,7 @@
             </div>
           </div>
           <div class="col-lg-8 col-md-10 col-12">
-            <div class="goodCompany__Box--left p-md-6 p-4">
+            <div class="weeklyCompany__Box--left p-md-6 p-4">
               <div class="companyContentBox mb-3 pe-md-8 ">
                 <div class="d-flex mb-4">
                   <div class="logoImageBox me-4 ">
@@ -238,7 +238,7 @@
                 <div class="companyContent mb-3" v-html="weeklyCompany.content"></div>
               </div>
               <h5 class="page__title mb-3">現有職位</h5>
-              <div class="goodCompanyJobList w-100">
+              <div class="weeklyCompanyJobList">
                 <template
                   v-for="(companyJob, index) in weeklyCompany.jobsList"
                   :key="companyJob.id"
@@ -269,8 +269,9 @@
         </div>
       </div>
     </div>
+    <!-- 熱門職位類別 -->
     <div class="hotCategory bg-white section section--py">
-      <div class="container ">
+      <div class="container">
         <div class="section__titleBox">
           <h3 class="titleBox__title">熱門職位類別</h3>
         </div>
@@ -284,13 +285,12 @@
               v-if="index < 7"
               :class="{
                 'col-lg-6 col-12': index === 0,
-                hotCategoryList__top: index === 0,
                 'col-lg-3 col-6': index > 0,
                 'mb-4': index < 3,
                 'mb-lg-0 mb-4': index > 3,
               }"
             >
-              <div class="hotCategoryBox p-md-6 p-3 d-flex">
+              <div class="hotCategoryBox p-md-5 p-3 d-flex">
                 <div>
                   <p class="mb-3">
                     {{ categoryItem.categoryName }}
@@ -311,8 +311,9 @@
         </ul>
       </div>
     </div>
+    <!-- 招募企業廣告 -->
     <div class="container">
-      <div class="addCompanyBanner bg-primary-light rounded p-5">
+      <div class="addCompanyBanner rounded p-5">
         <div class="d-flex flex-column  mb-md-0 mb-6">
           <div>
             <h3 class="text-white mb-2">Find Job 免費刊登職位中</h3>
@@ -328,9 +329,12 @@
         <img class="addCompanyBanner__mainImg" src="https://i.imgur.com/iZmelSd.png" alt="" />
       </div>
     </div>
-    <div class="CooperationCompanySection pt-7  pb-2">
+    <!-- 合作企業 -->
+    <div class="CooperationCompany pt-7  pb-2">
       <div class="container">
-        <h3 class="pageTitle text-center">優質合作企業</h3>
+        <div class="section__titleBox justify-content-center">
+          <h3 class="titleBox__title text-dark">優質合作企業</h3>
+        </div>
         <ul class="row">
           <template v-for="(companyItem, index) in sortCompany" :key="companyItem.id">
             <li
