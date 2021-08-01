@@ -399,91 +399,86 @@
   }
 }
 
+// 搜尋列表＆全部職位列表
 
+// 搜尋列表
 
-.list__title {
-  color: #1d1d1d;
-  font-weight: 500;
-  padding: 12px;
-  border-bottom: 1px solid #e2e2e2;
-}
-.companyImageBox {
-  padding: 12px;
-  img {
-    max-width: 100%;
-    border-radius: 8px;
-  }
-  .companyImage--sub {
-    width: calc(50% - 6px);
-  }
-}
-
-.jobSubBox {
-  border-radius: 0.5rem;
-  background-color: #fff;
+.allJobList {
   .list__item {
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid #e2e2e2;
-    a {
-      display: block;
-      color: #646464;
-    }
-  }
-}
-.jobContentBox {
-  padding: 1.5rem;
-  background-color: #fff;
-  border-radius: 8px;
-  .jobContent__imgBox {
-    width: 48%;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    background-color: $light;
+    margin-bottom: 0.75rem;
     position: relative;
-    margin-right: 48px;
-    .jobImage {
-      max-width: 100%;
-      border-radius: 8px;
+    &.active {
+      &::before {
+        content: '';
+        width: 0.5rem;
+        // height: 100%;
+        border-radius: 0.5rem 0 0 0.5rem;
+        background-color: $primary-light;
+        position: absolute;
+        left: 0px;
+        top:0;
+        bottom: 0;
+        
+      }
+      &::after {
+        content: '';
+        width: 0;
+        height: 0;
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        border-right: 0;
+        border-left: 12px solid $primary-light;
+        border-top: 22px solid transparent;
+        border-bottom: 22px solid transparent;
+        z-index: 2;
+        margin-top: -22px;
+      }
+      @include md{
+        &::before {
+          display: none;
+        } 
+        &::after {
+          display: none;
+        } 
+      }
+    }
+    &__imgBox {
+      width: 24%;
+      position: relative;
+      margin-right: 28px;
+      .jobImage {
+        max-width: 100%;
+        border-radius: 8px;
+      }
+    }
+    &__logoImgBox {
+      position: absolute;
+      top: -0.25rem;
+      right: -1rem;
+      padding: 0.25rem;
+      width: 4.5rem;
+      background-color: $light;
+      border-radius: 0 0 0 0.25rem;
+      .logoImg {
+        max-width: 100%;
+        border: 1px solid $gray-line;
+        border-radius: 0.125rem;
+      }
+    }
+    &__txtBox {
+      text-decoration: none;
+    }
+    &__title {
+      color: $dark;
+      font-weight: $fw--md;
     }
   }
-  .logoImageBox {
-    position: absolute;
-    top: -4px;
-    right: -36px;
-    padding: 6px;
-    background-color: #fff;
-    border-radius: 0px 0px 0px 4px;
-    .logoImage {
-      width: 120px;
-      border: 1px solid #e2e2e2;
-      border-radius: 2px;
-    }
-  }
-  .JobContent__txtBox {
-    width: 100%;
-  }
-  .page__title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #1d1d1d;
-    margin-bottom: 12px;
-  }
-
-  .page__txt {
-    color: #646464;
-  }
-  .page__link {
-    text-decoration: underline;
-  }
 }
-.box--shadow {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
-  // transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  // &:hover {
-  //     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  //   }
-}
-.box--shadow--lg {
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.16);
-}
-
 .jobList {
   .jobList__item {
     padding: 0.75rem;
@@ -491,7 +486,6 @@
     background-color: white;
     margin-bottom: 12px;
     position: relative;
-
     .jobList__item__imgBox {
       width: 24%;
       position: relative;
@@ -515,7 +509,7 @@
       border-radius: 0px 0px 0px 4px;
       .logoImage {
         max-width: 100%;
-        border: 1px solid #e2e2e2;
+        border: 1px solid $gray-line;
         border-radius: 2px;
       }
     }
@@ -550,6 +544,90 @@
     font-size: 20px;
   }
 }
+
+.list__title {
+  color: #1d1d1d;
+  font-weight: 500;
+  padding: 12px;
+  border-bottom: 1px solid $gray-line;
+}
+.companyImageBox {
+  padding: 12px;
+  img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  .companyImage--sub {
+    width: calc(50% - 6px);
+  }
+}
+
+.jobSubBox {
+  border-radius: 0.5rem;
+  background-color: #fff;
+  .list__item {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid $gray-line;
+    a {
+      display: block;
+      color: #646464;
+    }
+  }
+}
+.jobContentBox {
+  padding: 1.5rem;
+  background-color: #fff;
+  border-radius: 8px;
+  .jobContent__imgBox {
+    width: 48%;
+    position: relative;
+    margin-right: 48px;
+    .jobImage {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .logoImageBox {
+    position: absolute;
+    top: -4px;
+    right: -36px;
+    padding: 6px;
+    background-color: #fff;
+    border-radius: 0px 0px 0px 4px;
+    .logoImage {
+      width: 120px;
+      border: 1px solid $gray-line;
+      border-radius: 2px;
+    }
+  }
+  .JobContent__txtBox {
+    width: 100%;
+  }
+  .page__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d1d1d;
+    margin-bottom: 12px;
+  }
+
+  .page__txt {
+    color: #646464;
+  }
+  .page__link {
+    text-decoration: underline;
+  }
+}
+.box--shadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+  // transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  // &:hover {
+  //     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  //   }
+}
+.box--shadow--lg {
+  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.16);
+}
+
 //職位頁面
 .jobPage {
   @include md {
@@ -634,7 +712,7 @@
         border-radius: 0px 0px 0px 4px;
         .logoImage {
           max-width: 100%;
-          border: 1px solid #e2e2e2;
+          border: 1px solid $gray-line;
           border-radius: 2px;
         }
       }
@@ -794,7 +872,7 @@ p {
   border-radius: 0px 0px 0px 4px;
   .logoImage {
     max-width: 100%;
-    border: 1px solid #e2e2e2;
+    border: 1px solid $gray-line;
     border-radius: 2px;
   }
 }
@@ -1075,7 +1153,7 @@ p {
     border-radius: 0px 0px 0px 4px;
     .logoImage {
       width: 120px;
-      border: 1px solid #e2e2e2;
+      border: 1px solid $gray-line;
       border-radius: 2px;
     }
   }
@@ -1300,8 +1378,6 @@ p {
     }
   }
 }
-
-
 
 .form-check {
   padding-top: 8px;

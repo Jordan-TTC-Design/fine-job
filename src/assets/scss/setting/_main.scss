@@ -4,7 +4,11 @@ $fw--rg:400;
 $fw--md:500;
 $fw--bd:700;
 
-
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
 //header
 .header{
     width: 100%;

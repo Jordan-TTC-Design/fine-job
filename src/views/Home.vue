@@ -338,9 +338,12 @@
         <ul class="row">
           <template v-for="(companyItem, index) in sortCompany" :key="companyItem.id">
             <li
-              v-if="index < 12"
+              v-if="index > 0 && index < 13"
               class="col-lg-2 col-md-4 col-6"
-              :class="{ 'd-lg-block d-none': index > 9, 'd-lg-block d-md-none': index === 9 }"
+              :class="{
+                'd-lg-block d-none': index > 0 && index > 10,
+                'd-lg-block d-md-none': index === 10,
+              }"
             >
               <div class="bg-white py-md-4 px-md-6 py-2 px-4 rounded mb-md-5 mb-3">
                 <router-link :to="`/products-list/company/${companyItem.id}`"
@@ -355,7 +358,7 @@
   </div>
 
   <div class="sideBtnBox">
-    <UpTopBtn ></UpTopBtn>
+    <UpTopBtn></UpTopBtn>
   </div>
 </template>
 
