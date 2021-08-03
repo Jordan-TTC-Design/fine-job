@@ -34,8 +34,11 @@
       </swiper>
     </div>
   </div>
-  <div ref="jobsListContainer" class="container" v-if="jobsList.length">
+  <div ref="jobsListContainer" class="jobsListContainer container" v-if="jobsList.length">
     <h3 class="section__title ps-3">全部職位</h3>
+    <div class="d-flex">
+      <p>搜尋條件：</p>
+    </div>
     <div class="row">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
@@ -50,13 +53,15 @@
               <option value="money">薪水高至低</option>
             </select>
           </div>
-          <ul class="jobList">
-            <template v-for="item in nowPageJobs" :key="item.id">
+          <ul ref="jobList" class="allJobList">
+            <template v-for="item in nowPageJobs">
               <li
-                v-if="nowPageJobs.length"
+                :key="item.id"
                 @click="selectJob(item.id)"
                 :data-id="item.id"
-                class="jobList__item d-flex box--shadow flex-column align-items-start pe-auto"
+                v-if="mountState"
+                :ref="`list__item--${item.id}`"
+                class="list__item d-flex box--shadow flex-column align-items-start pe-auto"
               >
                 <button
                   class="collectBtn btn btn-outline-gray-line position-absolute"
@@ -64,7 +69,7 @@
                 >
                   <i class="jobIcon bi bi-bookmark-fill"></i>
                 </button>
-                <div class="mb-3">
+                <div class="list__item__tagBox mb-3">
                   <button
                     type="button"
                     class="jobTag btn"
@@ -73,26 +78,27 @@
                     {{ item.category }}
                   </button>
                 </div>
-                <div class="d-flex">
-                  <div class="jobList__item__imgBox">
+                <div class="d-flex w-100 flex-md-row flex-column">
+                  <div class="list__item__imgBox">
                     <img class="jobImage" :src="item.imageUrl" alt="" />
-                    <div class="logoImageBox">
-                      <img class="logoImage" :src="item.options.company.companyLogoUrl" alt="" />
+                    <div class="img-cover d-md-none"></div>
+                    <div class="list__item__logoImgBox">
+                      <img class="logoImg" :src="item.options.company.companyLogoUrl" alt="" />
                     </div>
                   </div>
                   <div
-                    class="jobList__item__txtBox
+                    class="list__item__txtBox
                   flex-grow-1 d-flex flex-column
                   justify-content-between"
                   >
                     <div class="mb-3 d-flex flex-column align-items-start">
                       <router-link
-                        class="jobList__item__title text-dark mb-3 me-7 pe-auto"
+                        class="list__item__title text-dark mb-3 me-7 pe-auto"
                         :to="`/products-list/product/${item.id}`"
                         >{{ item.title }}</router-link
                       >
                       <router-link
-                        class="page__txt page__link subTxt  mb-2 me-7 pe-auto"
+                        class="page__link subTxt  mb-2 me-7 pe-auto"
                         :to="`/products-list/company/${item.options.company.companyLink}`"
                         >{{ item.options.company.companyName }}</router-link
                       >
@@ -114,7 +120,11 @@
         </div>
       </div>
       <div class="col-lg-6 col-12 d-lg-block d-none">
-        <div ref="jobSelectBox" class="jobSelectBox box--shadow">
+        <div
+          ref="jobSelectBox"
+          class="sideJobBox sideJobBox--sticky box--shadow "
+          v-if="mountState"
+        >
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div class="mb-3">
               <button
@@ -139,16 +149,16 @@
           </div>
           <div class="pb-5 border-bottom border-gray-line">
             <div class="d-flex mb-3">
-              <div class="jobContent__imgBox">
+              <div class="sideJobBox__imgBox">
                 <img class="jobImage" :src="jobItem.imageUrl" alt="" />
                 <div class="logoImageBox">
                   <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
                 </div>
               </div>
-              <div class="JobContent__txtBox">
+              <div class="sideJobBox__txtBox">
                 <div>
                   <router-link
-                    class="jobSelectBox__title mb-3 d-block"
+                    class="sideJobBox__title mb-3 d-block"
                     type="button"
                     :to="`/products-list/product/${jobItem.id}`"
                     >{{ jobItem.title }}</router-link
@@ -187,66 +197,70 @@
                 <router-link
                   class="btn--applyJob btn btn-primary btn-bg d-flex align-items-center me-2"
                   type="button"
-                  :to="`/apply-job/${jobItem.id}`"
+                  :to="`/apply-job`"
                   >申請</router-link
                 >
               </div>
             </div>
           </div>
-          <div class="py-5 border-bottom border-gray-line">
-            <h3 class="page__title--sub"><span class="title__icon"></span>職位內容</h3>
-            <p class="page__txt mb-3">工作性質：{{ jobItem.options.job.workType }}</p>
-            <p class="page__txt mb-3">
+          <div class="sideJobBox__section">
+            <h3 class="section__title--sub"><span class="title__icon"></span>職位內容</h3>
+            <p class="mb-3">
+              <i class="jobIcon--sm me-1 bi bi-journal"></i>工作性質：{{
+                jobItem.options.job.workType
+              }}
+            </p>
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-clock"></i></span>工作時間：{{
                 jobItem.options.job.workTime
               }}
             </p>
-            <p class="page__txt mb-3">
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-building"></i></span>產業類別：{{
                 jobItem.options.company.industryCategory
               }}
             </p>
-            <p class="page__txt mb-3">
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-card-list"></i></span>工作類別：{{
                 jobItem.category
               }}
             </p>
-            <p class="page__txt mb-3">工作內容：</p>
+            <p class="mb-3">工作內容：</p>
             <div class="page__txt" v-html="jobItem.content"></div>
           </div>
-          <div class="py-5 border-bottom border-gray-line">
-            <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
-            <p class="page__txt mb-3">
+          <div class="sideJobBox__section">
+            <h3 class="section__title--sub"><span class="title__icon"> </span>應徵條件</h3>
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-book"></i></span>學歷要求：{{
                 jobItem.options.job.education
               }}
             </p>
-            <p class="page__txt mb-3">
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-briefcase"></i></span>工作經驗：{{
                 jobItem.options.job.workExp
               }}
             </p>
-            <p class="page__txt mb-3">其他條件：</p>
+            <p class="mb-3">其他條件：</p>
             <div class="page__txt" v-html="jobItem.options.job.otherRequirement"></div>
           </div>
-          <div class="pt-5">
-            <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
-            <p class="page__txt mb-3">
+          <div class="sideJobBox__section">
+            <h3 class="section__title--sub"><span class="title__icon"> </span>申請方法</h3>
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-person"></i></span>職位聯絡人：{{
                 jobItem.options.company.companyContact
               }}
             </p>
-            <p class="page__txt mb-3">
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-envelope"></i></span>聯絡信箱：{{
                 jobItem.options.company.companyEmail
               }}
             </p>
-            <p class="page__txt mb-3">
+            <p class="mb-3">
               <span><i class="jobIcon--sm me-1 bi bi-phone"></i></span>聯絡電話：{{
                 jobItem.options.company.companyTel
               }}
             </p>
-            <p class="page__txt mb-3">申請備註：</p>
+            <p class="mb-3">申請備註：</p>
             <div class="page__txt" v-html="jobItem.options.job.otherApplyInfo"></div>
           </div>
         </div>
@@ -653,6 +667,38 @@ export default {
       console.log(temArray);
       this.jobsList = temArray;
       emitter.emit('spinner-close');
+      this.changePage(1);
+      this.getfilterTxt();
+    },
+    // 取得搜尋條件文字
+    getfilterTxt() {
+      const keyWord = this.filterData.keyword === '' ? '' : `${this.filterData.keyword}、`;
+      const city = this.filterData.city === '不限' ? '' : `${this.filterData.city}、`;
+      const industryCategory = this.filterData.industryCategory === '不限' ? '' : `${this.filterData.industryCategory}、`;
+      const jobCategory = this.filterData.jobCategory === '不限' ? '' : `${this.filterData.jobCategory}、`;
+      const workExp = this.filterData.workExp === '不限' ? '' : `${this.filterData.workExp}、`;
+      const education = this.filterData.education === '不限' ? '' : `${this.filterData.education}、`;
+      const workType = this.filterData.workType === '不限' ? '' : `${this.filterData.workType}、`;
+      const workTime = this.filterData.workTime === '不限' ? '' : `${this.filterData.workTime}、`;
+      const salaryLow = this.filterData.salaryLow === null ? '' : `${this.filterData.salaryLow}、`;
+      const salaryHight = this.filterData.salaryHight === null ? '' : `${this.filterData.salaryHight}、`;
+      const salaryInterView = this.filterData.salaryInterView === false ? '' : '薪資面議、';
+      const temTxt = keyWord
+        + city
+        + industryCategory
+        + jobCategory
+        + workExp
+        + education
+        + workType
+        + workTime
+        + salaryLow
+        + salaryHight
+        + salaryInterView;
+      console.log(keyWord);
+      if (temTxt.length > 1) {
+        // temTxt.replace(temTxt.length - 1 , '');
+      }
+      console.log(temTxt);
     },
     // 清除篩選條件
     cleanFilter() {
@@ -662,16 +708,31 @@ export default {
     },
     // 點擊卡片：pc->選擇右側職位，pad->跳轉至該職位頁面
     selectJob(id) {
-      // console.log(this.fullWidth);
+      console.log(this.fullWidth);
       if (this.fullWidth > 991) {
-        this.jobsList.forEach((item) => {
+        this.nowPageJobs.forEach((item) => {
+          this.$refs[`list__item--${item.id}`].classList.remove('active');
           if (item.id === id) {
             this.jobItem = item;
+            this.$refs[`list__item--${item.id}`].classList.add('active');
           }
         });
         this.$refs.jobSelectBox.scrollTop = 0;
       } else {
         this.$router.push(`/products-list/product/${id}`);
+      }
+    },
+    selectJobFrist(id) {
+      if (this.fullWidth > 991) {
+        this.nowPageJobs.forEach((item) => {
+          this.$refs[`list__item--${item.id}`].classList.remove('active');
+          if (item.id === id) {
+            this.jobItem = item;
+            console.dir(this.$refs[`list__item--${id}`]);
+            this.$refs[`list__item--${id}`].classList.add('active');
+          }
+        });
+        this.$refs.jobSelectBox.scrollTop = 0;
       }
     },
     // 本頁職位
@@ -688,6 +749,10 @@ export default {
         [this.jobItem] = temPageJobs;
       }
       this.nowPageJobs = temPageJobs;
+      // 時間差，拜託助教幫忙看這個還有啥解法
+      setTimeout(() => {
+        this.selectJobFrist(this.nowPageJobs[0].id);
+      }, 10);
     },
     // 熱門職位
     sortHotJobs() {

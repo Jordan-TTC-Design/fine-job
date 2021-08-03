@@ -31,10 +31,15 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    top: 12px;
-    right: 12px;
+    top: 0.75rem;
+    right: 0.75rem;
     .jobIcon {
-      color: #979797;
+      color: $secondary;
+    }
+    &:hover{
+      .jobIcon {
+        color: $gray-dark;
+      }
     }
   }
   .btn--circle{
@@ -68,3 +73,18 @@
     }
   }
   
+  .section__title--sub {
+    font-size: 1.25rem;
+    color: $primary;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    .title__icon {
+      display: block;
+      width: 1.5rem;
+      height: 1rem;
+      background-color: $primary;
+      border-radius: 0.5rem 0.5rem 0 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }

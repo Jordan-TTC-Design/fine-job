@@ -401,8 +401,7 @@
 
 // 搜尋列表＆全部職位列表
 
-// 搜尋列表
-
+// 職位列表
 .allJobList {
   .list__item {
     cursor: pointer;
@@ -411,6 +410,9 @@
     background-color: $light;
     margin-bottom: 0.75rem;
     position: relative;
+    @include sm {
+      padding: 0;
+    }
     &.active {
       &::before {
         content: '';
@@ -420,9 +422,8 @@
         background-color: $primary-light;
         position: absolute;
         left: 0px;
-        top:0;
+        top: 0;
         bottom: 0;
-        
       }
       &::after {
         content: '';
@@ -438,22 +439,47 @@
         z-index: 2;
         margin-top: -22px;
       }
-      @include md{
+      @include md {
         &::before {
           display: none;
-        } 
+        }
         &::after {
           display: none;
-        } 
+        }
       }
     }
     &__imgBox {
-      width: 24%;
+      max-width: 24%;
       position: relative;
-      margin-right: 28px;
+      margin-right: 1.75rem;
       .jobImage {
         max-width: 100%;
-        border-radius: 8px;
+        border-radius: 0.25rem;
+      }
+      @include sm {
+        top: 0;
+        left: 0;
+        right: 0;
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 1.5rem;
+        .jobImage {
+          width: 100%;
+          max-height: 10rem;
+          object-fit: cover;
+          border-radius: 0.5rem 0.5rem 0 0;
+        }
+        .img-cover{
+          border-radius: 0.5rem 0.5rem 0 0;
+        }
+      }
+    }
+    &__tagBox {
+      @include sm {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 100;
       }
     }
     &__logoImgBox {
@@ -469,16 +495,79 @@
         border: 1px solid $gray-line;
         border-radius: 0.125rem;
       }
+      @include sm {
+        width: 5rem;
+        border-radius: 0.25rem;
+        top: 90%;
+        left: 0.5rem;
+      }
     }
     &__txtBox {
       text-decoration: none;
+      @include sm {
+        padding: 1rem;
+      }
     }
     &__title {
       color: $dark;
       font-weight: $fw--md;
     }
+    .collectBtn{
+      z-index: 100;
+      @include sm{
+        top: 1rem;
+        right: 1rem;
+        background-color: $light;
+      }
+    }
   }
 }
+// 右側的職位資訊欄
+.jobsListContainer {
+  .sideJobBox {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    &__imgBox {
+      position: relative;
+      width: 32%;
+      margin-right: 2.25rem;
+      .logoImageBox {
+        position: absolute;
+        top: -0.25rem;
+        right: -1.5rem;
+        width: 6rem;
+      }
+    }
+    &__txtBox {
+      max-width: 100%;
+    }
+    &__title {
+      font-weight: $fw--md;
+      color: $dark;
+      font-size: 1.25rem;
+    }
+    &__section {
+      padding: 1.5rem 0;
+      border-bottom: 1px solid $gray-line;
+      &:last-child {
+        padding: 1.5rem 0 0 0;
+        border-bottom: 0;
+      }
+      .section__title {
+      }
+    }
+  }
+  .sideJobBox--sticky {
+    position: sticky;
+    top: 6rem;
+    height: calc(100vh - 132px);
+    overflow: scroll;
+  }
+}
+
+
+// 舊的
 .jobList {
   .jobList__item {
     padding: 0.75rem;
@@ -513,12 +602,13 @@
         border-radius: 2px;
       }
     }
+
   }
   .jobList__item:last-child {
     margin-bottom: 0;
   }
 }
-
+// 舊的
 .jobSelectBox {
   position: sticky;
   top: 96px;
@@ -876,21 +966,7 @@ p {
     border-radius: 2px;
   }
 }
-.page__title--sub {
-  font-size: 20px;
-  display: flex;
-  color: #3f6745;
-  align-items: center;
-  margin-bottom: 16px;
-  .title__icon {
-    display: block;
-    width: 24px;
-    height: 16px;
-    background-color: #3f6745;
-    border-radius: 8px 8px 0px 8px;
-    margin-right: 0.5rem;
-  }
-}
+
 // 工具類
 .pageTitle {
   font-size: 1.5rem;
