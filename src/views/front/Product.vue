@@ -10,7 +10,7 @@
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
-            <div class="d-flex flex-md-row flex-column">
+            <div class="d-flex flex-lg-row flex-column">
               <div class="jobInfoBox__imgBox mb-md-0 mb-4">
                 <img class="jobImg" :src="jobItem.imageUrl" alt="" />
                 <div class="jobInfoBox__logoImgBox">
@@ -55,11 +55,13 @@
                 </div>
               </div>
               <router-link
-                class="btn btn-lg btn-primary w-100 pe-auto d-lg-none d-block"
+                class="btn btn-lg btn-primary w-100 pe-auto d-lg-none d-block mb-3"
                 aria-current="page"
                 :to="`/apply-job/${jobItem.id}`"
-                >申請職位</router-link
-              >
+                >申請職位</router-link>
+              <button
+                class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block"
+                >收藏職位</button>
             </div>
           </div>
           <div class="jobContentSection  box--shadow  mb-3">

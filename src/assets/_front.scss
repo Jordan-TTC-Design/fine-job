@@ -734,17 +734,20 @@
     }
     &__logoImgBox {
       position: absolute;
+      max-width: 7.5rem;
       top: -0.25rem;
       right: -2.25rem;
       padding: 6px;
       background-color: $light;
       border-radius: 0 0 0 0.25rem;
       .logoImg {
-        width: 120px;
+        width: 100%;
         border: 1px solid $gray-line;
         border-radius: 2px;
       }
       @include md {
+        max-width: 4.5rem;
+        padding: 4px;
         top: 50%;
         left: 50%;
         border-radius: 0.25rem;
