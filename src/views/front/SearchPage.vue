@@ -238,6 +238,8 @@
   </div>
   <div class="jobsListContainer container">
     <h3 class="pageTitle ps-3">搜尋結果</h3>
+    <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== '' ">
+      <span class="text-gray-dark">搜尋條件：</span>{{filterTxt}}</p>
     <div class="row">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
@@ -396,7 +398,7 @@
                 <router-link
                   class="btn--applyJob btn btn-primary btn-bg d-flex align-items-center me-2"
                   type="button"
-                  :to="`/apply-job`"
+                  :to="`/apply-job/${jobItem.id}`"
                   >申請</router-link
                 >
               </div>
@@ -761,7 +763,7 @@ export default {
         salaryHight: null,
         salaryInterView: false,
       },
-      // filterJobs: [],
+      filterTxt: '',
       temData: [],
       nowPageJobs: [],
       sortWay: 'time',
@@ -825,8 +827,42 @@ export default {
       console.log(temArray);
       this.jobsList = temArray;
       emitter.emit('spinner-close');
-      // console.log(this.nowPageJobs[0].id);
       this.changePage(1);
+      this.getfilterTxt();
+      if (this.filterBoxState) {
+        this.openSideFilterBox();
+      }
+    },
+    // 取得搜尋條件文字
+    getfilterTxt() {
+      const keyWord = this.filterData.keyword === '' ? '' : `${this.filterData.keyword}、`;
+      const city = this.filterData.city === '不限' ? '' : `${this.filterData.city}、`;
+      const industryCategory = this.filterData.industryCategory === '不限' ? '' : `${this.filterData.industryCategory}、`;
+      const jobCategory = this.filterData.jobCategory === '不限' ? '' : `${this.filterData.jobCategory}、`;
+      const workExp = this.filterData.workExp === '不限' ? '' : `${this.filterData.workExp}、`;
+      const education = this.filterData.education === '不限' ? '' : `${this.filterData.education}、`;
+      const workType = this.filterData.workType === '不限' ? '' : `${this.filterData.workType}、`;
+      const workTime = this.filterData.workTime === '不限' ? '' : `${this.filterData.workTime}、`;
+      const salaryLow = this.filterData.salaryLow === null ? '' : `最低薪資${this.filterData.salaryLow}、`;
+      const salaryHight = this.filterData.salaryHight === null ? '' : `最高薪資${this.filterData.salaryHight}、`;
+      const salaryInterView = this.filterData.salaryInterView === false ? '' : '薪資面議、';
+      const temTxt = keyWord
+        + city
+        + industryCategory
+        + jobCategory
+        + workExp
+        + education
+        + workType
+        + workTime
+        + salaryLow
+        + salaryHight
+        + salaryInterView;
+      if (temTxt.length > 1) {
+        this.filterTxt = temTxt.slice(0, temTxt.length - 1);
+      } else {
+        this.filterTxt = temTxt;
+      }
+      console.log(this.filterTxt);
     },
     // 清除篩選條件
     cleanFilter() {

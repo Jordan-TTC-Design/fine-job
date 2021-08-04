@@ -43,3 +43,31 @@ $fw--bd:700;
   left: 0;
   background-color: rgba(0,0 ,0 ,0.36);
 }
+//main
+.main {
+  min-height: calc(100vh - 366px);
+  position: relative;
+  left: 0;
+  transition: all 0.3s;
+  &.openRwdMenu {
+    left: -80%;
+  }
+}
+p {
+  line-height: 1.5;
+}
+.jobImage {
+  max-width: 100%;
+  border-radius: 8px;
+}
+.logoImageBox {
+  padding: 4px;
+  width: 120px;
+  background-color: #fff;
+  border-radius: 0px 0px 0px 4px;
+  .logoImage {
+    max-width: 100%;
+    border: 1px solid $gray-line;
+    border-radius: 2px;
+  }
+}

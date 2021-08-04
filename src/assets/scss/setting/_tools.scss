@@ -88,3 +88,27 @@
       margin-right: 0.5rem;
     }
   }
+// 側邊按鈕
+  .sideIconBtn {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
+    background-color: rgba(247, 247, 247, 0.9);
+    border:1px solid $light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .jobIcon {
+      font-size: 1.5rem;
+    }
+    &:hover {
+      .jobIcon {
+        color: $primary;
+      }
+    }
+    @media screen and (max-width: 767px) {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }

@@ -34,12 +34,11 @@
       </swiper>
     </div>
   </div>
-  <div ref="jobsListContainer" class="jobsListContainer container" v-if="jobsList.length">
+  <div ref="jobsListContainer" class="jobsListContainer container" >
     <h3 class="section__title ps-3">全部職位</h3>
-    <div class="d-flex">
-      <p>搜尋條件：</p>
-    </div>
-    <div class="row">
+    <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== '' ">
+      <span class="text-gray-dark">搜尋條件：</span>{{filterTxt}}</p>
+    <div class="row" v-if="jobsList.length">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
           <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
@@ -197,7 +196,7 @@
                 <router-link
                   class="btn--applyJob btn btn-primary btn-bg d-flex align-items-center me-2"
                   type="button"
-                  :to="`/apply-job`"
+                  :to="`/apply-job/${jobItem.id}`"
                   >申請</router-link
                 >
               </div>
@@ -574,6 +573,7 @@ export default {
       },
       // 篩選框顯示與否狀態
       filterBoxState: false,
+      filterTxt: '',
       mountState: false,
     };
   },
@@ -669,6 +669,7 @@ export default {
       emitter.emit('spinner-close');
       this.changePage(1);
       this.getfilterTxt();
+      this.openSideFilterBox();
     },
     // 取得搜尋條件文字
     getfilterTxt() {
@@ -680,8 +681,8 @@ export default {
       const education = this.filterData.education === '不限' ? '' : `${this.filterData.education}、`;
       const workType = this.filterData.workType === '不限' ? '' : `${this.filterData.workType}、`;
       const workTime = this.filterData.workTime === '不限' ? '' : `${this.filterData.workTime}、`;
-      const salaryLow = this.filterData.salaryLow === null ? '' : `${this.filterData.salaryLow}、`;
-      const salaryHight = this.filterData.salaryHight === null ? '' : `${this.filterData.salaryHight}、`;
+      const salaryLow = this.filterData.salaryLow === null ? '' : `最低薪資${this.filterData.salaryLow}、`;
+      const salaryHight = this.filterData.salaryHight === null ? '' : `最高薪資${this.filterData.salaryHight}、`;
       const salaryInterView = this.filterData.salaryInterView === false ? '' : '薪資面議、';
       const temTxt = keyWord
         + city
@@ -694,11 +695,12 @@ export default {
         + salaryLow
         + salaryHight
         + salaryInterView;
-      console.log(keyWord);
       if (temTxt.length > 1) {
-        // temTxt.replace(temTxt.length - 1 , '');
+        this.filterTxt = temTxt.slice(0, temTxt.length - 1);
+      } else {
+        this.filterTxt = temTxt;
       }
-      console.log(temTxt);
+      console.log(this.filterTxt);
     },
     // 清除篩選條件
     cleanFilter() {

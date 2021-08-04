@@ -3,7 +3,7 @@
     <div class="container jobPage" v-if="isExist">
       <div class="row">
         <div class="col-lg-9 col-12">
-          <div class="jobContentBox box--shadow mb-3 position-relative">
+          <div class="jobInfoBox box--shadow mb-3 position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
               type="button"
@@ -11,28 +11,28 @@
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
             <div class="d-flex flex-md-row flex-column">
-              <div class="jobContent__imgBox mb-md-0 mb-4">
-                <img class="jobImage" :src="jobItem.imageUrl" alt="" />
-                <div class="logoImageBox">
-                  <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
+              <div class="jobInfoBox__imgBox mb-md-0 mb-4">
+                <img class="jobImg" :src="jobItem.imageUrl" alt="" />
+                <div class="jobInfoBox__logoImgBox">
+                  <img class="logoImg" :src="jobItem.options.company.companyLogoUrl" alt="" />
                 </div>
               </div>
-              <div class="JobContent__txtBox d-flex flex-column justify-content-between">
+              <div class="jobInfoBox__txtBox d-flex flex-column justify-content-between">
                 <div class="pt-3 d-md-block d-flex flex-column align-items-center">
                   <h2 class="page__title">{{ jobItem.title }}</h2>
                   <router-link
-                    class="page__txt page__link subTxt  mb-4 d-block pe-auto"
+                    class=" page__link subTxt  mb-4 d-block pe-auto"
                     :to="`/products-list/company/${temCompany.id}`"
                     >{{ jobItem.options.company.companyName }}</router-link
                   >
                 </div>
                 <div class="d-flex justify-content-between align-items-end mb-lg-0 mb-4">
                   <div>
-                    <p class="page__txt mb-3">
+                    <p class=" mb-3">
                       <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                       >{{ jobItem.options.company.companyAddressCity }}
                     </p>
-                    <p class="page__txt">
+                    <p class="">
                       <span><i class="jobIcon--sm me-1 bi bi-people"></i></span>需求人數：{{
                         jobItem.num
                       }}
@@ -62,29 +62,63 @@
               >
             </div>
           </div>
-          <div class="jobContentBox  box--shadow  mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"></span>職位內容</h3>
-            <p class="page__txt mb-2">工作性質：{{ jobItem.options.job.workType }}</p>
-            <p class="page__txt mb-2">工作時間：{{ jobItem.options.job.workTime }}</p>
-            <p class="page__txt mb-2">產業類別：{{ jobItem.options.company.industryCategory }}</p>
-            <p class="page__txt mb-2">工作類別：{{ jobItem.category }}</p>
-            <p class="page__txt mb-2">工作內容：</p>
-            <div class="page__txt" v-html="jobItem.content"></div>
+          <div class="jobContentSection  box--shadow  mb-3">
+            <h3 class="section__title--sub"><span class="title__icon"></span>職位內容</h3>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-journal"> </i>工作性質：{{
+                jobItem.options.job.workType
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-clock"> </i>工作時間：{{
+                jobItem.options.job.workTime
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-building"> </i>產業類別：{{
+                jobItem.options.company.industryCategory
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-card-list"> </i>工作類別：{{ jobItem.category }}
+            </p>
+            <p class=" mb-2">工作內容：</p>
+            <div class="" v-html="jobItem.content"></div>
           </div>
-          <div class="jobContentBox box--shadow  mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
-            <p class="page__txt mb-2">學歷要求：{{ jobItem.options.job.education }}</p>
-            <p class="page__txt mb-2">工作經驗：{{ jobItem.options.job.workExp }}</p>
-            <p class="page__txt mb-2">其他條件：</p>
-            <div class="page__txt" v-html="jobItem.options.job.otherRequirement"></div>
+          <div class="jobContentSection box--shadow  mb-3">
+            <h3 class="section__title--sub"><span class="title__icon"> </span>應徵條件</h3>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-book"> </i>學歷要求：{{
+                jobItem.options.job.education
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-briefcase"> </i>工作經驗：{{
+                jobItem.options.job.workExp
+              }}
+            </p>
+            <p class=" mb-2">其他條件：</p>
+            <div class="" v-html="jobItem.options.job.otherRequirement"></div>
           </div>
-          <div class="jobContentBox box--shadow mb-lg-0 mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
-            <p class="page__txt mb-2">職位聯絡人：{{ jobItem.options.company.companyContact }}</p>
-            <p class="page__txt mb-2">聯絡信箱：{{ jobItem.options.company.companyEmail }}</p>
-            <p class="page__txt mb-2">聯絡電話：{{ jobItem.options.company.companyTel }}</p>
-            <p class="page__txt mb-2">申請備註：</p>
-            <div class="page__txt" v-html="jobItem.options.job.otherApplyInfo"></div>
+          <div class="jobContentSection box--shadow mb-lg-0 mb-3">
+            <h3 class="section__title--sub"><span class="title__icon"> </span>申請方法</h3>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-person"> </i>職位聯絡人：{{
+                jobItem.options.company.companyContact
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-envelope"> </i>聯絡信箱：{{
+                jobItem.options.company.companyEmail
+              }}
+            </p>
+            <p class=" mb-2">
+              <i class="jobIcon--sm me-1 bi bi-phone"> </i>聯絡電話：{{
+                jobItem.options.company.companyTel
+              }}
+            </p>
+            <p class=" mb-2">申請備註：</p>
+            <div class="" v-html="jobItem.options.job.otherApplyInfo"></div>
           </div>
         </div>
         <div class="col-lg-3 col-12">
@@ -190,6 +224,7 @@ export default {
             this.jobItem = res.data.product;
             // console.log(this.jobItem);
             this.getAllJobs();
+            this.saveJobToLocal(id);
           } else {
             this.isExist = false;
           }
@@ -208,7 +243,7 @@ export default {
         .then((res) => {
           //   console.log(res);
           this.jobsList = res.data.products;
-          console.log(this.jobsList);
+          // console.log(this.jobsList);
           this.findCompany();
         })
         .catch((error) => {
@@ -228,6 +263,18 @@ export default {
       });
       // console.log(this.temCompany);
       emitter.emit('spinner-close');
+    },
+    saveJobToLocal() {
+      // console.log(id);
+      // const temArray = localStorage.getItem('recentJobRead') || [];
+      // const checkData = temArray.some(function(id){
+      // })
+      // if (!) {
+      //   temArray.push(id);
+      // }
+      // const temData = JSON.stringify(temArray);
+      // localStorage.setItem('recentJobRead', temData);
+      // console.log(localStorage.getItem('recentJobRead'));
     },
   },
   created() {

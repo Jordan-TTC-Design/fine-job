@@ -3,21 +3,19 @@
     <div v-if="isExist" class="container companyPage">
       <div class="row">
         <div class="col-lg-9 col-12">
-          <div class="jobContentBox box--shadow mb-3  position-relative">
+          <div class="companyInfoBox box--shadow mb-3  position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
               type="button"
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
-            <div class="d-flex flex-md-row flex-column align-items-md-start align-items-center">
-              <div class="jobContent__imgBox mb-md-0 mb-4">
-                <div class="logoImageBox">
-                  <img class="logoImage" :src="companyItem.imageUrl" alt="" />
-                </div>
+            <div class="d-flex flex-md-row flex-column align-items-md-stretch align-items-center">
+              <div class="companyInfoBox__logoImgBox mb-md-0 mb-4 me-md-4">
+                  <img class="logoImg" :src="companyItem.imageUrl" alt="" />
               </div>
               <div
-                class="JobContent__txtBox d-flex flex-column justify-content-between
+                class="companyInfoBox__txtBox d-flex flex-column justify-content-between
               align-items-md-start align-items-center pt-3"
               >
                 <h2 class="page__title mb-3">{{ companyItem.title }}</h2>
@@ -47,7 +45,7 @@
             </div>
           </div>
           <div class="jobContentBox box--shadow mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"></span>公司照片</h3>
+            <h3 class="section__title--sub"><span class="title__icon"></span>公司照片</h3>
             <div class="d-flex justify-content-between flex-md-row flex-column">
               <img
                 v-for="(item, index) in companyItem.imagesUrl"
@@ -59,21 +57,21 @@
             </div>
           </div>
           <div class="jobContentBox  box--shadow  mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"></span>公司簡介</h3>
+            <h3 class="section__title--sub"><span class="title__icon"></span>公司簡介</h3>
             <div class="page__txt" v-html="companyItem.content"></div>
           </div>
           <div class="jobContentBox  box--shadow  mb-lg-0 mb-3">
-            <h3 class="page__title--sub"><span class="title__icon"></span>公司職位</h3>
-            <ul class="jobList d-flex flex-wrap justify-content-between">
+            <h3 class="section__title--sub"><span class="title__icon"></span>公司職位</h3>
+            <ul class="companyJobList d-flex flex-wrap justify-content-between">
               <li
                 :data-id="item.id"
                 v-for="item in companyJobs"
                 :key="item.id"
-                class="jobList__item d-flex border border-gray-line flex-column align-items-start
+                class="jobList__item d-flex flex-column align-items-start
                   mb-4 "
               >
                 <button
-                  class="collectBtn btn btn-outline-gray-line position-absolute"
+                  class="collectBtn btn  position-absolute"
                   type="button"
                 >
                   <i class="jobIcon bi bi-bookmark-fill"></i>
@@ -89,7 +87,7 @@
                 </div>
                 <div class="d-flex">
                   <div class="jobList__item__imgBox me-3">
-                    <img class="jobImage" :src="item.imageUrl" alt="" />
+                    <img class="jobImg" :src="item.imageUrl" alt="" />
                   </div>
                   <div
                     class="jobList__item__txtBox

@@ -553,7 +553,7 @@ export default {
           console.log(error);
         });
     },
-    // 清除陣列Ｆ
+    // 清除陣列
     cleanList() {
       this.jobsList = [];
     },

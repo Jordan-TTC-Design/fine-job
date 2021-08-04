@@ -7,7 +7,7 @@
           <button
             type="button"
             class="btn btn-outline-gray-line text-dark mb-4"
-            @click="$router.go(-1)"
+            @click="$router.back(-1)"
           >
             <i class="bi bi-chevron-left me-2"></i>返回繼續查看職位
           </button>
@@ -28,17 +28,17 @@
                       >{{ jobItem.title }}</router-link
                     >
                     <router-link
-                      class="page__txt page__link subTxt  mb-4 d-block pe-auto"
+                      class=" page__link subTxt  mb-4 d-block pe-auto"
                       :to="`/products-list/company/${temCompany.id}`"
                       >{{ jobItem.options.company.companyName }}</router-link
                     >
                   </div>
                   <div class="d-flex">
-                    <p class="page__txt me-5 subTxt">
+                    <p class=" me-5 subTxt">
                       <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                       >{{ jobItem.options.company.companyAddressCity }}
                     </p>
-                    <p class="page__txt subTxt">
+                    <p class=" subTxt">
                       <span><i class="jobIcon--sm me-1 bi bi-people"></i></span>需求人數：{{
                         jobItem.num
                       }}
@@ -61,60 +61,60 @@
               </div>
             </div>
             <div class="py-5 border-bottom border-gray-line">
-              <h3 class="page__title--sub"><span class="title__icon"></span>職位內容</h3>
-              <p class="page__txt mb-3">工作性質：{{ jobItem.options.job.workType }}</p>
-              <p class="page__txt mb-3">
+              <h3 class="section__title--sub"><span class="title__icon"></span>職位內容</h3>
+              <p class=" mb-3">工作性質：{{ jobItem.options.job.workType }}</p>
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-clock"></i></span>工作時間：{{
                   jobItem.options.job.workTime
                 }}
               </p>
-              <p class="page__txt mb-3">
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-building"></i></span>產業類別：{{
                   jobItem.options.company.industryCategory
                 }}
               </p>
-              <p class="page__txt mb-3">
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-card-list"></i></span>工作類別：{{
                   jobItem.category
                 }}
               </p>
-              <p class="page__txt mb-3">工作內容：</p>
-              <p class="page__txt">{{ jobItem.content }}</p>
+              <p class=" mb-3">工作內容：</p>
+              <p class="">{{ jobItem.content }}</p>
             </div>
             <div class="py-5 border-bottom border-gray-line">
-              <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
-              <p class="page__txt mb-3">
+              <h3 class="section__title--sub"><span class="title__icon"> </span>應徵條件</h3>
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-book"></i></span>學歷要求：{{
                   jobItem.options.job.education
                 }}
               </p>
-              <p class="page__txt mb-3">
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-briefcase"></i></span>工作經驗：{{
                   jobItem.options.job.workExp
                 }}
               </p>
-              <p class="page__txt mb-3">其他條件：</p>
-              <p class="page__txt">{{ jobItem.options.job.otherRequirement }}</p>
+              <p class=" mb-3">其他條件：</p>
+              <p class="">{{ jobItem.options.job.otherRequirement }}</p>
             </div>
             <div class="pt-5">
-              <h3 class="page__title--sub"><span class="title__icon"> </span>申請方法</h3>
-              <p class="page__txt mb-3">
+              <h3 class="section__title--sub"><span class="title__icon"> </span>申請方法</h3>
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-person"></i></span>職位聯絡人：{{
                   jobItem.options.company.companyContact
                 }}
               </p>
-              <p class="page__txt mb-3">
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-envelope"></i></span>聯絡信箱：{{
                   jobItem.options.company.companyEmail
                 }}
               </p>
-              <p class="page__txt mb-3">
+              <p class=" mb-3">
                 <span><i class="jobIcon--sm me-1 bi bi-phone"></i></span>聯絡電話：{{
                   jobItem.options.company.companyTel
                 }}
               </p>
-              <p class="page__txt mb-3">申請備註：</p>
-              <p class="page__txt">
+              <p class=" mb-3">申請備註：</p>
+              <p class="">
                 • 有意者請透過系統寄送應徵履歷，合者約談，不適任者恕不另行通知，謝謝。 • 請附上cover
                 letter 、 CV/Resume 以及作品集。 • 需自備電腦。
               </p>
@@ -125,7 +125,7 @@
       <div class="col-lg-6 col-12">
         <div class="box--shadow bg-white rounded p-6">
           <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="addCart">
-            <h3 class="page__title--sub"><span class="title__icon"></span>求職者申請資訊</h3>
+            <h3 class="section__title--sub"><span class="title__icon"></span>求職者申請資訊</h3>
             <p class="mb-4">
               請填寫正確資訊，以便企業與您聯繫：
             </p>
