@@ -153,25 +153,25 @@
               </div>
             </div>
           </div>
-          <div class="jobSubBox box--shadow  mb-3">
+          <div class="jobSubBox box--shadow mb-3" v-if="recentJobRead.length">
             <h5 class="list__title">瀏覽紀錄</h5>
             <ul>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
+              <template v-for="(jobRead, index) in recentJobRead" :key="jobRead.id">
+                <li class="list__item" v-if="index < 6">
+                  <p
+                    class="list__item__link mb-2"
+                    @click="gotoJobRead(jobRead.id)"
+                    >{{ jobRead.title }}</p
+                  >
+                  <router-link
+                    class="list__item__link--sub"
+                    aria-current="page"
+                    :to="`/products-list/company/${jobRead.companyId}`"
+                    >{{ jobRead.company }}</router-link
+                  >
+                  <p class="list__item__time">{{ $filters.date(jobRead.time) }}</p>
+                </li>
+              </template>
             </ul>
           </div>
         </div>
@@ -191,6 +191,7 @@ import emitter from '@/components/helpers/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
+  inject: ['reload'],
   components: {
     UpTopBtn,
   },
@@ -208,6 +209,7 @@ export default {
       jobsList: [],
       isExist: null,
       temCompany: {},
+      recentJobRead: [],
     };
   },
   methods: {
@@ -222,9 +224,8 @@ export default {
             this.isExist = true;
             // console.log(res);
             this.jobItem = res.data.product;
-            // console.log(this.jobItem);
+            console.log(this.jobItem);
             this.getAllJobs();
-            this.saveJobToLocal(id);
           } else {
             this.isExist = false;
           }
@@ -258,23 +259,47 @@ export default {
           // console.log(item);
           if (item.title === this.jobItem.options.company.companyName) {
             this.temCompany = item;
+            this.checkLocalJobRead(this.jobItem.id);
           }
         }
       });
       // console.log(this.temCompany);
       emitter.emit('spinner-close');
     },
-    saveJobToLocal() {
-      // console.log(id);
-      // const temArray = localStorage.getItem('recentJobRead') || [];
-      // const checkData = temArray.some(function(id){
-      // })
-      // if (!) {
-      //   temArray.push(id);
-      // }
-      // const temData = JSON.stringify(temArray);
-      // localStorage.setItem('recentJobRead', temData);
-      // console.log(localStorage.getItem('recentJobRead'));
+    // 瀏覽紀錄相關方法
+    // 取得瀏覽紀錄
+    getLocalStorage() {
+      const teMJobReadArray = JSON.parse(localStorage.getItem('recentJobRead'));
+      if (teMJobReadArray) {
+        this.recentJobRead = teMJobReadArray;
+      }
+    },
+    // 檢查是否已經存在
+    checkLocalJobRead(id) {
+      this.getLocalStorage();
+      const checkData = this.recentJobRead.some((item) => item.id === id);
+      if (!checkData) {
+        this.saveJobReadToLocal();
+      }
+    },
+    // 存入local
+    saveJobReadToLocal() {
+      const Obj = {
+        title: this.jobItem.title,
+        company: this.jobItem.options.company.companyName,
+        companyId: this.temCompany.id,
+        id: this.jobItem.id,
+        time: this.jobItem.options.job.create,
+      };
+      this.recentJobRead.push(Obj);
+      const temData = JSON.stringify(this.recentJobRead);
+      localStorage.setItem('recentJobRead', temData);
+      console.log(localStorage.getItem('recentJobRead'));
+    },
+    // 跳轉紀錄的職位
+    gotoJobRead(id) {
+      this.$router.push(`/products-list/product/${id}`);
+      this.reload();
     },
   },
   created() {

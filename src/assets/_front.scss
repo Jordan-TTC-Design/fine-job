@@ -658,7 +658,7 @@
     margin-right: 3rem;
     .jobImage {
       max-width: 100%;
-      border-radius:0.5rem;
+      border-radius: 0.5rem;
     }
   }
   .logoImageBox {
@@ -706,7 +706,7 @@
     border-radius: 0.5rem;
     .page__title {
       font-size: 1.5rem;
-      font-weight:$fw--bd;
+      font-weight: $fw--bd;
       color: $dark;
       margin-bottom: 0.75rem;
     }
@@ -773,27 +773,26 @@
     border-radius: 0.5rem;
     .page__title {
       font-size: 1.5rem;
-      font-weight:$fw--bd;
+      font-weight: $fw--bd;
       color: $dark;
       margin-bottom: 0.75rem;
     }
     &__logoImgBox {
       padding: 0.25rem;
       width: 240px;
-      border-radius:0.5rem;
+      border-radius: 0.5rem;
       background-color: $light;
       border: 1px solid $gray-line;
       display: flex;
       align-items: center;
       justify-content: center;
       .logoImg {
-      width: 100%;
+        width: 100%;
       }
       @include md {
         width: 180px;
         border-radius: 0.25rem;
       }
-      
     }
     &__txtBox {
       width: 100%;
@@ -818,13 +817,13 @@
       padding: 0.75rem;
       border-radius: 0.5rem;
       transition: all 0.3s;
-      &:hover{
+      &:hover {
         border: 1px solid $primary;
       }
       @include md {
         width: 100%;
       }
-      .collectBtn{
+      .collectBtn {
         border: 1px solid $gray-line;
       }
       &__imgBox {
@@ -854,9 +853,26 @@
   .list__item {
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid $gray-line;
-    a {
+    &:hover {
+      background-color: $gray-light;
+    }
+    &__link,
+    &__link--sub {
+      font-size: 1rem;
       display: block;
-      color: #646464;
+      cursor: pointer;
+      color: $gray-dark;
+      &:hover {
+        color: $primary;
+      }
+    }
+    &__link--sub {
+      font-size: 14px;
+    }
+    &__time {
+      font-size: 14px;
+      text-align: end;
+      color:$secondary;
     }
   }
 }
@@ -984,7 +1000,6 @@
     }
   }
 }
-
 
 // 工具類
 .pageTitle {

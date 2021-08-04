@@ -462,7 +462,7 @@
               }}
             </p>
             <p class="mb-3">申請備註：</p>
-            <div class="page__txt" v-html="jobItem.options.job.otherApplyInfo"></div>
+            <div v-html="jobItem.options.job.otherApplyInfo"></div>
           </div>
         </div>
       </div>

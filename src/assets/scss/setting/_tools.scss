@@ -88,6 +88,21 @@
       margin-right: 0.5rem;
     }
   }
+  .page__title--sub {
+    font-size: 1.25rem;
+    color: $primary;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    .title__icon {
+      display: block;
+      width: 1.5rem;
+      height: 1rem;
+      background-color: $primary;
+      border-radius: 0.5rem 0.5rem 0 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
 // 側邊按鈕
   .sideIconBtn {
     width: 3.5rem;
