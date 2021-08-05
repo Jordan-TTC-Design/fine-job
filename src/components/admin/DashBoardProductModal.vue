@@ -31,7 +31,7 @@
                     v-model="modalTemProduct.imageUrl"
                   />
                 </div>
-                <img class="img-fluid" alt="" :src="modalTemProduct.imageUrl" />
+                <img class="img-fluid" alt="圖片" :src="modalTemProduct.imageUrl" />
                 <div class="imageBtnBox">
                   <button
                     class="btn btn-outline-primary btn-sm d-block w-100"
@@ -60,7 +60,7 @@
                       v-model="modalTemProduct.imagesUrl[index]"
                     />
                   </div>
-                  <img class="img-fluid" alt="" :src="item" />
+                  <img class="img-fluid" :alt="'第'+index+'張職位圖片'" :src="item" />
                 </div>
               </div>
             </div>
@@ -177,8 +177,8 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import { Modal } from 'bootstrap';
+import emitter from '@/methods/emitter';
+import { Modal } from 'bootstrap/js/dist/modal';
 
 export default {
   props: ['temProduct'],

@@ -12,7 +12,7 @@ import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
-import date from '@/components/helpers/filters';
+import date from '@/methods/filters';
 import App from './App.vue';
 import router from './router';
 

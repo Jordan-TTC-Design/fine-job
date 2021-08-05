@@ -8,6 +8,7 @@
     <i class="jobIcon bi bi-arrow-up"></i>
   </button>
 </template>
+
 <script>
 export default {
   data() {
@@ -29,9 +30,6 @@ export default {
           this.$refs.upTopBtn.classList.add('d-none');
         }, 100);
       }
-    },
-    fullWidth(newValue) {
-      console.log(newValue);
     },
   },
   methods: {

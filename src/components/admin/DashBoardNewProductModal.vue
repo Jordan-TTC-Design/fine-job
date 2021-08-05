@@ -87,7 +87,7 @@
                     v-model="jobData.options.company.companyLogoUrl"
                   />
                 </div>
-                <img class="img-fluid" alt="" :src="jobData.options.company.companyLogoUrl" />
+                <img class="img-fluid" alt="公司logo" :src="jobData.options.company.companyLogoUrl" />
               </div>
               <div class="col-6">
                 <label for="jobSalary" class="form-label">薪資</label>
@@ -189,7 +189,7 @@
                     v-model="jobData.options.job.jobImageUrl"
                   />
                 </div>
-                <img class="img-fluid" alt="" :src="jobData.options.job.jobImageUrl" />
+                <img class="img-fluid" alt="職位圖片" :src="jobData.options.job.jobImageUrl" />
               </div>
               <div class="col-12">
                 <div class="row">
@@ -479,7 +479,8 @@
                     v-model="companyData.options.company.companyLogoUrl"
                   />
                 </div>
-                <img class="img-fluid" alt="" :src="companyData.options.company.companyLogoUrl" />
+                <img class="img-fluid" alt="公司logo"
+                :src="companyData.options.company.companyLogoUrl" />
               </div>
               <div class="col-12 mb-3">
                 <div v-if="companyData.options.company.companyImagesUrl.length > 0" class="row ">
@@ -497,7 +498,7 @@
                         v-model="companyData.options.company.companyImagesUrl[index]"
                       />
                     </div>
-                    <img class="img-fluid" alt="" :src="item" />
+                    <img class="img-fluid" :alt="'第'+index+'張職位圖片'" :src="item" />
                   </div>
                 </div>
               </div>
@@ -597,9 +598,9 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import { Modal } from 'bootstrap';
-import webData from '@/components/helpers/webData';
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
+import { Modal } from 'bootstrap/js/dist/modal';
 
 export default {
   data() {

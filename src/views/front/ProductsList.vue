@@ -34,10 +34,11 @@
       </swiper>
     </div>
   </div>
-  <div ref="jobsListContainer" class="jobsListContainer container" >
+  <div ref="jobsListContainer" class="jobsListContainer container">
     <h3 class="section__title ps-3">全部職位</h3>
-    <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== '' ">
-      <span class="text-gray-dark">搜尋條件：</span>{{filterTxt}}</p>
+    <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== ''">
+      <span class="text-gray-dark">搜尋條件：</span>{{ filterTxt }}
+    </p>
     <div class="row" v-if="jobsList.length">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
@@ -79,10 +80,14 @@
                 </div>
                 <div class="d-flex w-100 flex-md-row flex-column">
                   <div class="list__item__imgBox">
-                    <img class="jobImage" :src="item.imageUrl" alt="" />
+                    <img class="jobImage" :src="item.imageUrl" :alt="item.title + '職位圖片'" />
                     <div class="img-cover d-md-none"></div>
                     <div class="list__item__logoImgBox">
-                      <img class="logoImg" :src="item.options.company.companyLogoUrl" alt="" />
+                      <img
+                        class="logoImg"
+                        :src="item.options.company.companyLogoUrl"
+                        :alt="jobItem.options.company.companyName + 'logo'"
+                      />
                     </div>
                   </div>
                   <div
@@ -149,9 +154,13 @@
           <div class="pb-5 border-bottom border-gray-line">
             <div class="d-flex mb-3">
               <div class="sideJobBox__imgBox">
-                <img class="jobImage" :src="jobItem.imageUrl" alt="" />
+                <img class="jobImage" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
                 <div class="logoImageBox">
-                  <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
+                  <img
+                    class="logoImage"
+                    :src="jobItem.options.company.companyLogoUrl"
+                    :alt="jobItem.options.company.companyName + 'logo'"
+                  />
                 </div>
               </div>
               <div class="sideJobBox__txtBox">
@@ -269,262 +278,20 @@
 
   <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
   <div class="sideBtnBox">
-    <div
-      class="sideFilter searchFilterBox  box--shadow mb-md-5 mb-0 p-5"
-      v-if="filterBoxState"
-      :class="{ active: filterBoxState }"
-    >
-      <div class="filterContent">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-          <h3 class="subTitle text-dark">搜尋條件設定</h3>
-          <div class="d-flex">
-            <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
-              清除全部
-            </button>
-            <button type="button" class="btn d-md-none d-block" @click="openSideFilterBox">
-              <i class="text-dark bi bi-x-lg"></i>
-            </button>
-          </div>
-        </div>
-        <div ref="searchFilterForm" class="searchFilterForm" v-if="mountState">
-          <div class="row">
-            <div class="col-md-6 col-12 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-keyword" class="form-label inputItem__title"
-                  >關鍵字</label
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="searchFilterForm-keyword"
-                  placeholder="職位關鍵字"
-                  aria-describedby="關鍵字"
-                  v-model="filterData.keyword"
-                />
-              </div>
-            </div>
-            <div class="col-6 mb-md-0 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-city" class="form-label inputItem__title">地區</label>
-                <select
-                  class="form-select"
-                  aria-label="地區"
-                  id="searchFilterForm-city"
-                  v-model="filterData.city"
-                >
-                  <option disabled>請選擇地區</option>
-                  <option selected value="不限">不限</option>
-                  <option
-                    v-for="(item, index) in formData.city"
-                    :value="item"
-                    :key="'地區' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-industry" class="form-label inputItem__title"
-                  >產業類別</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="產業類別"
-                  id="searchFilterForm-industry"
-                  v-model="filterData.industryCategory"
-                >
-                  <option disabled>請選擇產業類別</option>
-                  <option selected value="不限">不限</option>
-                  <option
-                    v-for="(item, index) in formData.industryCategory"
-                    :value="item"
-                    :key="'產業類別' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6 mb-md-0 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-jobCategory" class="form-label inputItem__title"
-                  >職位類別</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="職位類別"
-                  id="searchFilterForm-jobCategory"
-                  v-model="filterData.jobCategory"
-                >
-                  <option disabled>請選擇職位類別</option>
-                  <option selected value="不限">不限</option>
-                  <option
-                    v-for="(item, index) in formData.jobCategory"
-                    :value="item"
-                    :key="'職位類別' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6  mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-workExp" class="form-label inputItem__title"
-                  >工作經驗</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="工作經驗"
-                  id="searchFilterForm-workExp"
-                  v-model="filterData.workExp"
-                >
-                  <option disabled>請選擇工作經驗</option>
-                  <option
-                    v-for="(item, index) in formData.workExp"
-                    :value="item"
-                    :selected="item === '不限'"
-                    :key="'工作經驗' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6 mb-md-0 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-education" class="form-label inputItem__title"
-                  >學歷要求</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="學歷要求"
-                  id="searchFilterForm-education"
-                  v-model="filterData.education"
-                >
-                  <option disabled>請選擇學歷要求</option>
-                  <option
-                    v-for="(item, index) in formData.education"
-                    :value="item"
-                    :selected="item === '不限'"
-                    :key="'學歷要求' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6  mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-workType" class="form-label inputItem__title"
-                  >工作性質</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="工作性質"
-                  id="searchFilterForm-workType"
-                  v-model="filterData.workType"
-                >
-                  <option disabled>請選擇工作性質</option>
-                  <option selected value="不限">不限</option>
-                  <option
-                    v-for="(item, index) in formData.workType"
-                    :value="item"
-                    :key="'工作性質' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-6 mb-md-0 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-workTime" class="form-label inputItem__title"
-                  >工作時段</label
-                >
-                <select
-                  class="form-select"
-                  aria-label="工作時段"
-                  id="searchFilterForm-workTime"
-                  v-model="filterData.workTime"
-                >
-                  <option disabled>請選擇工作時段</option>
-                  <option selected value="不限">不限</option>
-                  <option
-                    v-for="(item, index) in formData.workTime"
-                    :value="item"
-                    :key="'工作時段' + index"
-                    >{{ item }}</option
-                  >
-                </select>
-              </div>
-            </div>
-            <div class="col-md-9 col-12 mb-md-0 mb-3">
-              <div class="inputGroup--item">
-                <label for="searchFilterForm-salary" class="form-label inputItem__title"
-                  >薪資待遇</label
-                >
-                <div class="d-flex align-items-center">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="searchFilterForm-salary"
-                    placeholder="最低"
-                    aria-describedby="薪資待遇範圍起始"
-                    v-model.number="filterData.salaryLow"
-                  />
-                  <p class="px-2">至</p>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="searchFilterForm-salary-end"
-                    placeholder="最高"
-                    aria-describedby="薪資待遇範圍結束"
-                    v-model.number="filterData.salaryHight"
-                  />
-                  <div
-                    class="form-check py-2 px-3 d-flex justify-content-center align-items-center"
-                  >
-                    <input
-                      class="form-check-input ms-0 me-2"
-                      type="checkbox"
-                      value="面議"
-                      id="searchFilterForm-salaryInterview"
-                      v-model="filterData.salaryInterView"
-                    />
-                    <label
-                      class="form-check-label text-nowrap"
-                      for="searchFilterForm-salaryInterview"
-                    >
-                      面議
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-12">
-              <div class="d-flex justify-content-end align-items-end h-100">
-                <button type="button" class="btn btn-primary btn--applyJob" @click="filterJobs">
-                  查詢
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="bg-cover--dark" v-if="filterBoxState" @click="openSideFilterBox"></div>
-    <button type="button" class="sideIconBtn btn btn-light mb-2" @click="openSideFilterBox">
-      <i class="jobIcon bi bi-funnel"></i>
-    </button>
-    <UpTopBtn></UpTopBtn>
+    <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
+    <UpTopBtn />
   </div>
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import searchFilter from '@/components/helpers/searchFilter';
-import PagenationModal from '@/components/Pagenation.vue';
+import emitter from '@/methods/emitter';
+import searchFilter from '@/methods/searchFilter';
+import webData from '@/methods/webData';
+import PagenationModal from '@/components/helpers/Pagenation.vue';
 import GoodJobCard from '@/components/front/GoodJobCard.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
-import webData from '@/components/helpers/webData';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
+import FilterBtn from '@/components/helpers/FilterBtn.vue';
 import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
 
 SwiperCore.use([Autoplay, Pagination, Navigation]);
@@ -536,6 +303,7 @@ export default {
     Swiper,
     SwiperSlide,
     UpTopBtn,
+    FilterBtn,
   },
   data() {
     return {
@@ -578,34 +346,7 @@ export default {
     };
   },
   watch: {
-    // sortWay(newValue) {
-    //   if (newValue === 'time') {
-    //     this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
-    //   } else if (newValue === 'money') {
-    //     this.jobsList.sort((a, b) => b.price - a.price);
-    //   }
-    //   console.log(this.jobsList);
-    // },
-    // products(newValue) {
-    //   this.jobsList = [];
-    //   newValue.forEach((item) => {
-    //     if (item.description === '職位') {
-    //       const Obj = item;
-    //       this.sortCompany.forEach((temCompany) => {
-    //         if (Obj.options.company.companyName === temCompany.title) {
-    //           // console.log(temCompany.id);
-    //           Obj.options.company.companyLink = temCompany.id;
-    //         }
-    //       });
-    //       this.jobsList.push(Obj);
-    //     }
-    //   });
-    //   console.log(this.jobsList);
-    //   this.changeJobSort();
-    //   this.selectJobFrist(this.jobsList[0].id);
-    // },
     fullWidth(newValue) {
-      // console.log(newValue);
       if (newValue > 768) {
         this.swiperNum = 3;
       } else if (newValue > 576) {
@@ -659,17 +400,17 @@ export default {
       this.getNowPageJobs();
     },
     // 篩選查詢
-    filterJobs() {
+    filter(value) {
+      console.log(value);
+      this.filterData = value;
       emitter.emit('spinner-open');
       this.classifyJob();
-      console.log(this.jobsList, this.filterData);
       const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
-      console.log(temArray);
       this.jobsList = temArray;
-      emitter.emit('spinner-close');
       this.changePage(1);
       this.getfilterTxt();
-      this.openSideFilterBox();
+      emitter.emit('filterBtn-close');
+      emitter.emit('spinner-close');
     },
     // 取得搜尋條件文字
     getfilterTxt() {
@@ -700,7 +441,6 @@ export default {
       } else {
         this.filterTxt = temTxt;
       }
-      console.log(this.filterTxt);
     },
     // 清除篩選條件
     cleanFilter() {
@@ -710,7 +450,6 @@ export default {
     },
     // 點擊卡片：pc->選擇右側職位，pad->跳轉至該職位頁面
     selectJob(id) {
-      console.log(this.fullWidth);
       if (this.fullWidth > 991) {
         this.nowPageJobs.forEach((item) => {
           this.$refs[`list__item--${item.id}`].classList.remove('active');
@@ -730,7 +469,6 @@ export default {
           this.$refs[`list__item--${item.id}`].classList.remove('active');
           if (item.id === id) {
             this.jobItem = item;
-            console.dir(this.$refs[`list__item--${id}`]);
             this.$refs[`list__item--${id}`].classList.add('active');
           }
         });
@@ -789,7 +527,9 @@ export default {
       });
       // console.log(this.jobsList);
       this.changeJobSort();
-      this.sortHotJobs();
+      if (!this.hotJobs.length) {
+        this.sortHotJobs(); // 不用再重新撈一次
+      }
       this.getNowPageJobs();
     },
     // 抓全部資料

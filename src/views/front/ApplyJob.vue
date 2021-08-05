@@ -15,9 +15,10 @@
             <div class="pb-5 border-bottom border-gray-line">
               <div class="d-flex mb-3">
                 <div class="jobContent__imgBox">
-                  <img class="jobImage" :src="jobItem.imageUrl" alt="" />
+                  <img class="jobImage" :src="jobItem.imageUrl" alt="職位圖片" />
                   <div class="logoImageBox">
-                    <img class="logoImage" :src="jobItem.options.company.companyLogoUrl" alt="" />
+                    <img class="logoImage" :src="jobItem.options.company.companyLogoUrl"
+                    alt="公司Logo" />
                   </div>
                 </div>
                 <div class="JobContent__txtBox">
@@ -166,7 +167,7 @@
                       class="cropImg h-100"
                       ref="cropImgJob"
                       :src="personalImg.src"
-                      alt=""
+                      alt="個人求職照片"
                     />
                   </div>
                   <div class="d-flex justify-content-between">
@@ -481,9 +482,9 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
-import ImageSquareCropper from '@/components/ImageSquareCropperModal.vue';
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
+import ImageSquareCropper from '@/components/helpers/ImageSquareCropperModal.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
@@ -683,14 +684,11 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.isExist = true;
-            // console.log(res);
             this.jobItem = res.data.product;
             this.getAllJobs();
-            console.log(this.jobItem);
           } else {
             this.isExist = false;
           }
-          //   console.log(this.isExist);
         })
         .catch((error) => {
           console.log(error);
@@ -704,9 +702,7 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.jobsList = res.data.products;
-          console.log(this.jobsList);
           this.findCompany();
         })
         .catch((error) => {
@@ -719,7 +715,6 @@ export default {
       emitter.emit('spinner-open');
       this.jobsList.forEach((item) => {
         if (item.description === '企業') {
-          // console.log(item);
           if (item.title === this.jobItem.options.company.companyName) {
             this.temCompany = item;
           }
@@ -736,7 +731,6 @@ export default {
         .get(url)
         .then((res) => {
           this.cartList = res.data.data.carts;
-          // this.cartTotal = res.data.data.final_total;
           emitter.emit('spinner-close');
           this.sendForm();
         })

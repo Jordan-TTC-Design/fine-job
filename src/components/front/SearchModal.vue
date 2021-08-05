@@ -48,10 +48,9 @@
 </template>
 
 <script>
-import webData from '@/components/helpers/webData';
+import webData from '@/methods/webData';
 
 export default {
-  name: 'searchModal',
   data() {
     return {
       formData: {},
@@ -94,11 +93,9 @@ export default {
       };
     },
   },
-
   created() {
     this.formData = webData;
   },
-  mounted() {},
 };
 </script>
 

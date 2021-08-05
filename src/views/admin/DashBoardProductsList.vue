@@ -134,7 +134,7 @@
             <div class="d-flex">
               <div class="jobContent__imgBox company">
                 <div class="logoImageBox company">
-                  <img class="logoImage" :src="temItem.imageUrl" alt="" />
+                  <img class="logoImage" :src="temItem.imageUrl" :alt="temItem.title+'公司logo'" />
                 </div>
               </div>
               <div class="JobContent__txtBox d-flex flex-column justify-content-between pt-3">
@@ -168,7 +168,7 @@
                 v-for="(item, index) in temItem.imagesUrl"
                 class="companyPage__companyImage"
                 :src="item"
-                alt=""
+                :alt="temItem.title+'公司圖片'+index"
                 :key="index"
               />
             </div>
@@ -253,9 +253,10 @@
             </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
-                <img class="jobImage" :src="temItem.imageUrl" alt="" />
+                <img class="jobImage" :src="temItem.imageUrl" :alt="temItem.title+'職位圖片'" />
                 <div class="logoImageBox">
-                  <img class="logoImage" :src="temItem.options.company.companyLogoUrl" alt="" />
+                  <img class="logoImage" :src="temItem.options.company.companyLogoUrl"
+                  :alt="temItem.options.company.companyName+'公司logo'" />
                 </div>
               </div>
               <div class="JobContent__txtBox d-flex flex-column justify-content-between">
@@ -329,9 +330,9 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
 import EditProductModal from '@/components/admin/DashBoardEditProductModal.vue';
 import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
-import emitter from '@/components/helpers/emitter';
 
 export default {
   components: {

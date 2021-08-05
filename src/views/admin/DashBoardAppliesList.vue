@@ -52,7 +52,7 @@
                   <img
                     class="person__personalImg me-3"
                     :src="item.user.options.personalImg"
-                    alt=""
+                    :alt="item.user.name+'個人求職照片'"
                   />
                   <div>
                     <p class="person__name">{{ item.user.name }}</p>
@@ -80,15 +80,13 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
 import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
-// import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
-import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
 
 export default {
   components: {
     NewProductModal,
-    // DeleteProductModal,
   },
   data() {
     return {
@@ -117,7 +115,6 @@ export default {
   },
   methods: {
     selectItem(id) {
-      // console.log(id);
       if (this.applyListCategory === 'apply-new') {
         this.applyJobs.forEach((item) => {
           if (item.id === id) {
@@ -149,7 +146,6 @@ export default {
       } else {
         this.getProductsData();
       }
-      // console.log(this.appliesListList);
     },
     getOrder(pageNum = 1) {
       emitter.emit('spinner-open');
@@ -159,8 +155,6 @@ export default {
         .get(url)
         .then((res) => {
           emitter.emit('spinner-close');
-          // console.log(res.data);
-          // console.log(res.data.orders);
           this.orders = res.data.orders;
           this.pagination = res.data.pagination;
           this.classifyOrder();
@@ -170,14 +164,12 @@ export default {
         });
     },
     newItem(temObj) {
-      console.log(temObj);
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
       this.$http
         .post(url, temObj)
         .then((res) => {
           console.log(res.data);
-          // this.getOrder();
           if (res.data.success) {
             // this.deleteOrder(this.temItem[0]);
           }
@@ -209,7 +201,6 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.products = res.data.products;
           emitter.emit('spinner-close');
           this.classifyJob();
@@ -225,7 +216,6 @@ export default {
           this.jobsList.push(Obj);
         }
       });
-      // console.log(this.jobsList);
       this.getJobCategory();
     },
     getJobCategory() {
@@ -244,21 +234,17 @@ export default {
     },
     classifyApplyJobsList() {
       this.appliesListList.forEach((item) => {
-        // console.log(item);
         this.jobCategory.forEach((job) => {
           if (job.id === item.user.options.appliedJob) {
             job.applies.push(item);
           }
         });
       });
-      // console.log(this.jobCategory);
       this.jobCategory.forEach((item) => {
         if (item.applies.length > 0) {
-          console.log(item);
           this.applyJobs.push(item);
         }
       });
-      console.log(this.applyJobs);
       [this.temItem] = this.applyJobs;
     },
   },

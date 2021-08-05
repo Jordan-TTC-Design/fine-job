@@ -358,20 +358,20 @@
   </div>
 
   <div class="sideBtnBox">
-    <UpTopBtn></UpTopBtn>
+    <UpTopBtn/>
   </div>
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
 import GoodJobCard from '@/components/front/GoodJobCard.vue';
+import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.min.css';
 import 'swiper/components/pagination/pagination.min.css';
 import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
-import webData from '@/components/helpers/webData';
-import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 SwiperCore.use([Autoplay, Pagination, Navigation]);
 
@@ -413,7 +413,6 @@ export default {
       console.log(newValue);
     },
     fullWidth(newValue) {
-      console.log(newValue);
       if (newValue > 768) {
         this.swiperNum = 3;
       } else if (newValue > 576) {
@@ -430,18 +429,15 @@ export default {
       weeklyCompany.jobsList = this.jobsList.filter(
         (job) => job.options.company.companyName === '台北健身宮',
       );
-      console.log(weeklyCompany);
       return weeklyCompany;
     },
     sortCompany() {
       const temCompanyArray = [];
-      console.log(temCompanyArray);
       if (this.products.length > 1) {
         this.products.forEach((item) => {
           if (item.description === '企業') {
             temCompanyArray.push(item);
           }
-          // console.log(temCompanyArray);
         });
       }
       return temCompanyArray;
@@ -489,8 +485,6 @@ export default {
         });
       }
       categoryArray.sort((a, b) => b.jobNum - a.jobNum);
-      // this.jobCategory = categoryArray;
-      // console.log(this.jobCategory);
       return categoryArray;
     },
   },
@@ -511,7 +505,6 @@ export default {
     },
     // 更改職位排序
     changeJobSort() {
-      // console.log(this.sortWay);
       if (this.sortWay === 'time') {
         this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
       } else if (this.sortWay === 'money') {
@@ -520,7 +513,6 @@ export default {
     },
     // 找出職位
     classifyJob() {
-      console.log(this.sortCompany);
       this.products.forEach((item) => {
         if (item.description === '職位') {
           const Obj = item;
@@ -532,7 +524,6 @@ export default {
           this.jobsList.push(Obj);
         }
       });
-      console.log(this.sortNewJobs);
       this.changeJobSort();
       this.dataOk = true;
     },
@@ -544,7 +535,6 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.products = res.data.products;
           emitter.emit('spinner-close');
           this.classifyJob();

@@ -9,7 +9,7 @@
           ><img
             class="header__logo"
             src="../../assets/images/header/fineJobLogo-white.svg"
-            alt="logo"
+            alt="Fine Job logo"
         /></router-link>
       </h1>
       <div class="header__navBox" ref="headerNavBox">
@@ -67,7 +67,7 @@
               <img
                 class="bg-white rounded me-md-4 mb-md-0 mb-4"
                 src="../../assets/images/header/fineJobMark.svg"
-                alt=""
+                alt="Find Job Mark"
               />
               <div class="d-flex flex-column align-items-md-stretch align-items-center">
                 <h4 class="text-white mb-md-0 mb-2">Fine Job</h4>
@@ -116,7 +116,6 @@
 </template>
 <script>
 import SearchModal from '@/components/front/SearchModal.vue';
-// import emitter from '@/components/helpers/emitter';
 
 export default {
   components: {

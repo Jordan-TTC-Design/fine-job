@@ -27,11 +27,6 @@ const routes = [
         component: () => import('../views/front/Company.vue'),
       },
       {
-        // 搜尋結果列表頁面
-        path: 'search-list',
-        component: () => import('../views/front/SearchList.vue'),
-      },
-      {
         // 搜尋相關職位
         path: 'search/',
         component: () => import('../views/front/SearchPage.vue'),

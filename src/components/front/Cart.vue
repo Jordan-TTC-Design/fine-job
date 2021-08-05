@@ -93,8 +93,8 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import { Modal } from 'bootstrap';
+import emitter from '@/methods/emitter';
+import { Modal } from 'bootstrap/js/dist/modal';
 
 export default {
   data() {

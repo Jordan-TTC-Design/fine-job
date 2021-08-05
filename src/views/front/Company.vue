@@ -12,7 +12,8 @@
             </button>
             <div class="d-flex flex-md-row flex-column align-items-md-stretch align-items-center">
               <div class="companyInfoBox__logoImgBox mb-md-0 mb-4 me-md-4">
-                  <img class="logoImg" :src="companyItem.imageUrl" alt="" />
+                  <img class="logoImg" :src="companyItem.imageUrl"
+                  :alt="companyItem.title+'logo'" />
               </div>
               <div
                 class="companyInfoBox__txtBox d-flex flex-column justify-content-between
@@ -51,7 +52,7 @@
                 v-for="(item, index) in companyItem.imagesUrl"
                 class="companyPage__companyImage mb-md-0 mb-2"
                 :src="item"
-                alt=""
+                :alt="companyItem.title+'公司圖片'+index"
                 :key="index"
               />
             </div>
@@ -87,7 +88,7 @@
                 </div>
                 <div class="d-flex">
                   <div class="jobList__item__imgBox me-3">
-                    <img class="jobImg" :src="item.imageUrl" alt="" />
+                    <img class="jobImg" :src="item.imageUrl" :alt="item.title+'職位圖片'" />
                   </div>
                   <div
                     class="jobList__item__txtBox
@@ -155,7 +156,7 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
+import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
@@ -192,14 +193,11 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.isExist = true;
-            // console.log(res);
             this.companyItem = res.data.product;
-            console.log(this.companyItem);
           } else {
             this.isExist = false;
           }
           emitter.emit('spinner-close');
-          //   console.log(this.isExist);
           this.getJobs();
         })
         .catch((error) => {
@@ -212,10 +210,8 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.jobsList = [];
           this.jobsList = res.data.products;
-          console.log(this.jobsList);
           this.findCompanyJobs();
         })
         .catch((error) => {
@@ -227,19 +223,16 @@ export default {
       emitter.emit('spinner-open');
       this.jobsList.forEach((item) => {
         if (item.description === '職位') {
-          console.log(item);
           if (item.options.company.companyName === this.companyItem.title) {
             console.log(item.options.company.companyName);
             this.companyJobs.push(item);
           }
         }
       });
-      // console.log(this.companyJobs);
       emitter.emit('spinner-close');
     },
   },
   created() {
-    // console.log(this.$route.params.id);
     this.getCompanyData();
   },
   mounted() {},

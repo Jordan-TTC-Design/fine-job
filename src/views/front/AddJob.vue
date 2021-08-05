@@ -163,7 +163,7 @@
                       class="cropImg h-100"
                       ref="cropImgJob"
                       :src="jobImage.src"
-                      alt=""
+                      alt="職位圖片"
                     />
                   </div>
                   <div class="d-flex justify-content-between">
@@ -193,7 +193,7 @@
                       {{ jobImage.isUpDated ? '已上傳' : '上傳' }}
                     </button>
                   </div>
-                  <!-- <Field
+                  <Field
                     id="sendFormInfoJobImageCheck"
                     ref="sendFormInfoJobImageCheck"
                     name="職位圖片"
@@ -203,7 +203,7 @@
                     v-model="form.user.options.job.jobImageUrl"
                     rules="required"
                   ></Field>
-                  <ErrorMessage name="職位圖片" class="invalid-feedback"></ErrorMessage> -->
+                  <ErrorMessage name="職位圖片" class="invalid-feedback"></ErrorMessage>
                 </div>
               </div>
               <div class="col-md-8 col-12">
@@ -790,10 +790,9 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
-// import Cropper from 'cropperjs';
-import ImageCropper from '@/components/ImageCropperModal.vue';
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
+import ImageCropper from '@/components/helpers/ImageCropperModal.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
@@ -942,7 +941,6 @@ export default {
       })
         .then((res) => {
           console.log('imagur:', res.data, nowId);
-          console.log(this.uploadImgState);
           if (this.uploadImgState === 'upLoadSingleImg') {
             this.jobImage.isUpDated = true;
             this.form.user.options.job.jobImageUrl = res.data.data.link;
@@ -988,7 +986,6 @@ export default {
     sendForm() {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
       if (this.formState === false) {
-        console.log('沒東西');
         this.deleteCart();
       } else {
         const formData = {
@@ -998,7 +995,6 @@ export default {
           .post(url, formData)
           .then((res) => {
             console.log(`${res.data.message}`);
-            console.log(res);
             if (res.data.success) {
               this.changeStep('next');
             }
@@ -1028,7 +1024,6 @@ export default {
         this.formStep += 1;
       }
       document.documentElement.scrollTop = 0;
-      console.log(this.formStep);
     },
     // 選取名稱後會自動帶入一些企業基本資料
     checkCompanyToken() {
@@ -1104,13 +1099,11 @@ export default {
           this.companyList.push(item);
         }
       });
-      console.log(this.companyList);
     },
   },
   created() {
     this.deleteCart();
     this.formData = webData;
-    console.log(webData);
   },
   mounted() {
     this.getProductsData();

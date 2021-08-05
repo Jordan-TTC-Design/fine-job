@@ -1,14 +1,15 @@
 <template>
   <div class=" card goodJobCard">
     <div class="goodJobCard__imgBox">
-      <img class="goodJobCard__img card-img-top" :src="jobItem.imageUrl" alt="" />
+      <img class="goodJobCard__img card-img-top" :src="jobItem.imageUrl"
+      :alt="jobItem.title+'職位圖片'" />
       <div class="img-cover"></div>
       <div class="goodJobCard__jobInfoBox">
         <div class="d-flex">
           <img
             class="goodJobCard__logo me-2"
             :src="jobItem.options.company.companyLogoUrl"
-            :alt="jobItem.title"
+            :alt="jobItem.options.company.companyName+'公司logo'"
           />
           <div>
             <router-link
@@ -23,7 +24,7 @@
             >
           </div>
         </div>
-        <img class="goodJobCard__img" :src="jobItem.imageUrl" alt="" />
+        <img class="goodJobCard__img" :src="jobItem.imageUrl" :alt="jobItem.title+'職位圖片'" />
       </div>
     </div>
 
@@ -40,11 +41,9 @@
 </template>
 
 <script>
-// import emitter from '@/components/helpers/emitter';
 
 export default {
   props: ['goodJob'],
-  name: 'goodJobCard',
   data() {
     return {
       jobItem: {},
@@ -67,7 +66,6 @@ export default {
   created() {
     this.jobItem = this.goodJob;
   },
-  mounted() {},
 };
 </script>
 

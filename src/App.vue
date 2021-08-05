@@ -2,8 +2,9 @@
   <router-view v-if="isRouterAlive"> </router-view>
   <spinner></spinner>
 </template>
+
 <script>
-import Spinner from './components/Spinner.vue';
+import Spinner from '@/components/helpers/Spinner.vue';
 
 export default {
   components: {
@@ -28,9 +29,9 @@ export default {
       });
     },
   },
-  created() {},
 };
 </script>
+
 <style lang="scss">
 @import './assets/scss/all';
 </style>

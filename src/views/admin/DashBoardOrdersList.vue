@@ -158,7 +158,7 @@
                   <img
                     class="logoImage"
                     :src="temItem.user.options.company.companyLogoUrl"
-                    alt=""
+                    :alt="temItem.user.options.company.companyName+'公司logo'"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@
                 v-for="(item, index) in temItem.user.options.company.companyImagesUrl"
                 class="companyPage__companyImage"
                 :src="item"
-                alt=""
+                :alt="temItem.user.options.company.companyName+'公司圖片'+index"
                 :key="index"
               />
             </div>
@@ -295,12 +295,13 @@
             </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
-                <img class="jobImage" :src="temItem.user.options.job.jobImageUrl" alt="" />
+                <img class="jobImage" :src="temItem.user.options.job.jobImageUrl"
+                :alt="temItem.user.options.job.jobName+'職位圖片'" />
                 <div class="logoImageBox">
                   <img
                     class="logoImage"
                     :src="temItem.user.options.company.companyLogoUrl"
-                    alt=""
+                    :alt="temItem.user.options.company.companyName+'公司logo'"
                   />
                 </div>
               </div>
@@ -368,10 +369,9 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
 import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
-// import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
-import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
 
 export default {
   components: {

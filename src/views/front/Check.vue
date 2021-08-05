@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
+import emitter from '@/methods/emitter';
 
 export default {
   data() {
@@ -118,10 +118,6 @@ export default {
         options: {
           call: '',
         },
-      },
-      apiData: {
-        apiUrl: 'https://vue3-course-api.hexschool.io',
-        api: 'jordanttcdesign',
       },
       cartState: false,
     };

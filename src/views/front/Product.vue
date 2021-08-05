@@ -12,9 +12,13 @@
             </button>
             <div class="d-flex flex-lg-row flex-column">
               <div class="jobInfoBox__imgBox mb-md-0 mb-4">
-                <img class="jobImg" :src="jobItem.imageUrl" alt="" />
+                <img class="jobImg" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
                 <div class="jobInfoBox__logoImgBox">
-                  <img class="logoImg" :src="jobItem.options.company.companyLogoUrl" alt="" />
+                  <img
+                    class="logoImg"
+                    :src="jobItem.options.company.companyLogoUrl"
+                    :alt="jobItem.options.company.companyName + 'logo'"
+                  />
                 </div>
               </div>
               <div class="jobInfoBox__txtBox d-flex flex-column justify-content-between">
@@ -58,10 +62,11 @@
                 class="btn btn-lg btn-primary w-100 pe-auto d-lg-none d-block mb-3"
                 aria-current="page"
                 :to="`/apply-job/${jobItem.id}`"
-                >申請職位</router-link>
-              <button
-                class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block"
-                >收藏職位</button>
+                >申請職位</router-link
+              >
+              <button class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block">
+                收藏職位
+              </button>
             </div>
           </div>
           <div class="jobContentSection  box--shadow  mb-3">
@@ -138,18 +143,22 @@
           >
             <h5 class="list__title">公司照片</h5>
             <div class="companyImageBox">
-              <img class="mb-2" :src="jobItem.options.company.companyImagesUrl[0]" alt="" />
+              <img
+                class="mb-2"
+                :src="jobItem.options.company.companyImagesUrl[0]"
+                :alt="jobItem.options.company.companyName + '公司圖片一'"
+              />
               <div class="d-flex justify-content-between">
                 <img
                   v-if="jobItem.options.company.companyImagesUrl.length > 0"
                   class="companyImage--sub"
                   :src="jobItem.options.company.companyImagesUrl[1]"
-                  alt=""
+                  :alt="jobItem.options.company.companyName + '公司圖片二'"
                 />
                 <img
                   v-if="jobItem.options.company.companyImagesUrl.length > 1"
                   :src="jobItem.options.company.companyImagesUrl[2]"
-                  alt=""
+                  :alt="jobItem.options.company.companyName + '公司圖片三'"
                   class="companyImage--sub"
                 />
               </div>
@@ -160,11 +169,9 @@
             <ul>
               <template v-for="(jobRead, index) in recentJobRead" :key="jobRead.id">
                 <li class="list__item" v-if="index < 6">
-                  <p
-                    class="list__item__link mb-2"
-                    @click="gotoJobRead(jobRead.id)"
-                    >{{ jobRead.title }}</p
-                  >
+                  <p class="list__item__link mb-2" @click="gotoJobRead(jobRead.id)">
+                    {{ jobRead.title }}
+                  </p>
                   <router-link
                     class="list__item__link--sub"
                     aria-current="page"
@@ -184,12 +191,12 @@
     </div>
   </div>
   <div class="sideBtnBox SideBtnBox--page">
-    <UpTopBtn></UpTopBtn>
+    <UpTopBtn/>
   </div>
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
+import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 
 export default {
@@ -224,14 +231,11 @@ export default {
         .then((res) => {
           if (res.data.success) {
             this.isExist = true;
-            // console.log(res);
             this.jobItem = res.data.product;
-            console.log(this.jobItem);
             this.getAllJobs();
           } else {
             this.isExist = false;
           }
-          //   console.log(this.isExist);
         })
         .catch((error) => {
           console.log(error);
@@ -244,9 +248,7 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.jobsList = res.data.products;
-          // console.log(this.jobsList);
           this.findCompany();
         })
         .catch((error) => {
@@ -258,14 +260,12 @@ export default {
       emitter.emit('spinner-open');
       this.jobsList.forEach((item) => {
         if (item.description === '企業') {
-          // console.log(item);
           if (item.title === this.jobItem.options.company.companyName) {
             this.temCompany = item;
             this.checkLocalJobRead(this.jobItem.id);
           }
         }
       });
-      // console.log(this.temCompany);
       emitter.emit('spinner-close');
     },
     // 瀏覽紀錄相關方法
@@ -279,6 +279,9 @@ export default {
     // 檢查是否已經存在
     checkLocalJobRead(id) {
       this.getLocalStorage();
+      if (!this.recentJobRead.length) {
+        this.recentJobRead = [];
+      }
       const checkData = this.recentJobRead.some((item) => item.id === id);
       if (!checkData) {
         this.saveJobReadToLocal();
@@ -296,7 +299,6 @@ export default {
       this.recentJobRead.push(Obj);
       const temData = JSON.stringify(this.recentJobRead);
       localStorage.setItem('recentJobRead', temData);
-      console.log(localStorage.getItem('recentJobRead'));
     },
     // 跳轉紀錄的職位
     gotoJobRead(id) {

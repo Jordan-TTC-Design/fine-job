@@ -87,7 +87,7 @@
                         class="cropImg h-100"
                         ref="cropImgCompanyLogo"
                         :src="companyLogo.src"
-                        alt=""
+                        alt="公司Logo"
                       />
                     </div>
                     <div class="d-flex justify-content-between">
@@ -302,7 +302,7 @@
                             class="cropImg"
                             :ref="'cropImg' + index"
                             :src="temImages[index]"
-                            alt=""
+                            :alt="'公司圖片'+index"
                           />
                         </div>
                         <div class="d-flex justify-content-between">
@@ -598,13 +598,13 @@
     </div>
   </div>
 
-  <ImageCropper @emit-send-img-data="getImg"></ImageCropper>
+<ImageCropper @emit-send-img-data="getImg" />
 </template>
 
 <script>
-import emitter from '@/components/helpers/emitter';
-import webData from '@/components/helpers/webData';
-import ImageCropper from '@/components/ImageCropperModal.vue';
+import emitter from '@/methods/emitter';
+import webData from '@/methods/webData';
+import ImageCropper from '@/components/helpers/ImageCropperModal.vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export default {
