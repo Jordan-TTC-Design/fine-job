@@ -12,7 +12,12 @@
             </button>
             <div class="d-flex flex-lg-row flex-column">
               <div class="jobInfoBox__imgBox mb-md-0 mb-4">
-                <img class="jobImg" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
+                <img
+                  class="jobImg putPointer"
+                  :src="jobItem.imageUrl"
+                  :alt="jobItem.title + '職位圖片'"
+                  @click="openImgModal(jobItem.imageUrl)"
+                />
                 <div class="jobInfoBox__logoImgBox">
                   <img
                     class="logoImg"
@@ -131,7 +136,7 @@
         <div class="col-lg-3 col-12">
           <div class="jobSubBox apply box--shadow mb-lg-3 p-3 d-lg-block d-none">
             <router-link
-              class="btn btn-lg btn-primary w-100 pe-auto"
+              class="btn btn-lg btn-primary w-100"
               aria-current="page"
               :to="`/apply-job/${jobItem.id}`"
               >申請職位</router-link
@@ -141,31 +146,34 @@
             v-if="jobItem.options.company.companyImagesUrl.length > 0"
             class="jobSubBox jobPage__companyImage box--shadow  mb-3"
           >
-            <h5 class="list__title">公司照片</h5>
-            <div class="companyImageBox">
+            <h5 class="jobSubBox__title">公司照片</h5>
+            <div class="companyImgBox">
               <img
-                class="mb-2"
+                class="mb-2 putPointer"
                 :src="jobItem.options.company.companyImagesUrl[0]"
                 :alt="jobItem.options.company.companyName + '公司圖片一'"
+                @click="openImgModal(jobItem.options.company.companyImagesUrl)"
               />
               <div class="d-flex justify-content-between">
                 <img
                   v-if="jobItem.options.company.companyImagesUrl.length > 0"
-                  class="companyImage--sub"
+                  class="companyImage--sub putPointer"
                   :src="jobItem.options.company.companyImagesUrl[1]"
                   :alt="jobItem.options.company.companyName + '公司圖片二'"
+                  @click="openImgModal(jobItem.options.company.companyImagesUrl)"
                 />
                 <img
                   v-if="jobItem.options.company.companyImagesUrl.length > 1"
                   :src="jobItem.options.company.companyImagesUrl[2]"
                   :alt="jobItem.options.company.companyName + '公司圖片三'"
-                  class="companyImage--sub"
+                  class="companyImage--sub putPointer"
+                  @click="openImgModal(jobItem.options.company.companyImagesUrl)"
                 />
               </div>
             </div>
           </div>
           <div class="jobSubBox box--shadow mb-3" v-if="recentJobRead.length">
-            <h5 class="list__title">瀏覽紀錄</h5>
+            <h5 class="jobSubBox__title">瀏覽紀錄</h5>
             <ul>
               <template v-for="(jobRead, index) in recentJobRead" :key="jobRead.id">
                 <li class="list__item" v-if="index < 6">
@@ -191,18 +199,21 @@
     </div>
   </div>
   <div class="sideBtnBox SideBtnBox--page">
-    <UpTopBtn/>
+    <UpTopBtn />
   </div>
+  <ImgPopModal />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
+import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
 
 export default {
   inject: ['reload'],
   components: {
     UpTopBtn,
+    ImgPopModal,
   },
   data() {
     return {
@@ -222,6 +233,9 @@ export default {
     };
   },
   methods: {
+    openImgModal(imgUrl) {
+      emitter.emit('imgPopModal-open', imgUrl);
+    },
     getProductData() {
       emitter.emit('spinner-open');
       const { id } = this.$route.params;

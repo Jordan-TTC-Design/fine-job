@@ -400,7 +400,6 @@
 }
 
 // 搜尋列表＆全部職位列表
-
 // 職位列表
 .allJobList {
   .list__item {
@@ -523,179 +522,43 @@
   }
 }
 // 右側的職位資訊欄
-.jobsListContainer {
-  .sideJobBox {
-    background-color: #fff;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    &__imgBox {
-      position: relative;
-      width: 32%;
-      margin-right: 2.25rem;
-      .logoImageBox {
-        position: absolute;
-        top: -0.25rem;
-        right: -1.5rem;
-        width: 6rem;
-      }
-    }
-    &__txtBox {
-      max-width: 100%;
-    }
-    &__title {
-      font-weight: $fw--md;
-      color: $dark;
-      font-size: 1.25rem;
-    }
-    &__section {
-      padding: 1.5rem 0;
-      border-bottom: 1px solid $gray-line;
-      &:last-child {
-        padding: 1.5rem 0 0 0;
-        border-bottom: 0;
-      }
-    }
-  }
-  .sideJobBox--sticky {
-    position: sticky;
-    top: 6rem;
-    height: calc(100vh - 132px);
-    overflow: scroll;
-  }
-}
-
-// 舊的
-.jobList {
-  .jobList__item {
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    background-color: white;
-    margin-bottom: 12px;
-    position: relative;
-    .jobList__item__imgBox {
-      width: 24%;
-      position: relative;
-      margin-right: 28px;
-      .jobImage {
-        max-width: 100%;
-        border-radius: 8px;
-      }
-    }
-    .jobList__item__txtBox {
-      text-decoration: none;
-      font-weight: 500;
-    }
-    .logoImageBox {
-      position: absolute;
-      top: -4px;
-      right: -16px;
-      padding: 4px;
-      width: 72px;
-      background-color: #fff;
-      border-radius: 0px 0px 0px 4px;
-      .logoImage {
-        max-width: 100%;
-        border: 1px solid $gray-line;
-        border-radius: 2px;
-      }
-    }
-  }
-  .jobList__item:last-child {
-    margin-bottom: 0;
-  }
-}
-// 舊的
-.jobSelectBox {
-  position: sticky;
-  top: 96px;
-  height: calc(100vh - 132px);
-  overflow: scroll;
+.sideJobBox {
   background-color: #fff;
   border-radius: 0.5rem;
-  padding: 24px;
-  .jobContent__imgBox {
+  padding: 1.5rem;
+  &__imgBox {
     position: relative;
     width: 32%;
-    margin-right: 36px;
+    margin-right: 2.25rem;
     .logoImageBox {
       position: absolute;
-      top: -4px;
-      right: -24px;
-      width: 100px;
+      top: -0.25rem;
+      right: -1.5rem;
+      width: 6rem;
     }
   }
-  .jobSelectBox__title {
-    font-weight: 500;
-    color: #1d1d1d;
-    font-size: 20px;
-  }
-}
-
-.list__title {
-  color: #1d1d1d;
-  font-weight: 500;
-  padding: 12px;
-  border-bottom: 1px solid $gray-line;
-}
-.companyImageBox {
-  padding: 12px;
-  img {
+  &__txtBox {
     max-width: 100%;
-    border-radius: 8px;
   }
-  .companyImage--sub {
-    width: calc(50% - 6px);
-  }
-}
-
-.jobContentBox {
-  padding: 1.5rem;
-  background-color: $light;
-  border-radius: 0.5rem;
-  .jobContent__imgBox {
-    width: 48%;
-    position: relative;
-    margin-right: 3rem;
-    .jobImage {
-      max-width: 100%;
-      border-radius: 0.5rem;
-    }
-  }
-  .logoImageBox {
-    position: absolute;
-    top: -0.25rem;
-    right: -2.25rem;
-    padding: 6px;
-    background-color: $light;
-    border-radius: 0 0 0 0.25rem;
-    .logoImage {
-      width: 7.5rem;
-      border: 1px solid $gray-line;
-      border-radius: 2px;
-    }
-  }
-  .JobContent__txtBox {
-    width: 100%;
-  }
-  .page__title {
-    font-size: 1.5rem;
-    font-weight: bold;
+  &__title {
+    font-weight: $fw--md;
     color: $dark;
-    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
   }
-  .page__link {
-    text-decoration: underline;
+  &__section {
+    padding: 1.5rem 0;
+    border-bottom: 1px solid $gray-line;
+    &:last-child {
+      padding: 1.5rem 0 0 0;
+      border-bottom: 0;
+    }
   }
 }
-.box--shadow {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
-  // transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  // &:hover {
-  //     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  //   }
-}
-.box--shadow--lg {
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.16);
+.sideJobBox--sticky {
+  position: sticky;
+  top: 6rem;
+  height: calc(100vh - 132px);
+  overflow: scroll;
 }
 
 //職位頁面
@@ -767,6 +630,16 @@
     text-decoration: underline;
   }
 }
+.companyImgBox {
+  padding: 0.75rem;
+  img {
+    max-width: 100%;
+    border-radius: 0.5rem;
+  }
+  .companyImage--sub {
+    width: calc(50% - 6px);
+  }
+}
 
 // 公司頁面
 .companyPage {
@@ -808,7 +681,7 @@
   .companyPage__companyImage {
     border-radius: 8px;
     max-width: calc(33.333% - 12px);
-    @media screen and (max-width: 767px) {
+    @include sm {
       max-width: 100%;
     }
   }
@@ -849,10 +722,15 @@
   top: 24px;
   right: 24px;
 }
-
 .jobSubBox {
   border-radius: 0.5rem;
-  background-color: #fff;
+  background-color: $light;
+  &__title{
+    color: $dark;
+    font-weight: $fw--md;
+    padding: 0.75rem;
+    border-bottom: 1px solid $gray-line;
+  }
   .list__item {
     padding: 0.5rem 0.75rem;
     border-bottom: 1px solid $gray-line;
@@ -875,7 +753,7 @@
     &__time {
       font-size: 14px;
       text-align: end;
-      color:$secondary;
+      color: $secondary;
     }
   }
 }
@@ -888,6 +766,7 @@
 .footer--front {
   background-color: #3f6745;
 }
+
 
 //新增企業
 .newCompanyForm {
@@ -1165,294 +1044,16 @@
   }
 }
 
-//後台
-.admin-sideList {
-  border: 0px;
-  position: sticky;
-  top: 158px;
-  max-height: calc(80vh - 132px);
-  overflow: scroll;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  .sideList__item {
-    padding: 0.75rem;
-    cursor: pointer;
-    position: relative;
-    &:hover {
-      background-color: $primary-light;
-      .sideList__item__title {
-        color: $primary;
-      }
-      .sideList__item__subTxt {
-        color: $primary;
-      }
-    }
-    &::after {
-      content: '';
-      position: absolute;
-      display: block;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      background-color: $primary;
-      border-radius: 0.25rem 0 0 0.25rem;
-      width: 0.25rem;
-      opacity: 0;
-      transition: all 0.3;
-    }
-    &.active {
-      border: 1px solid $gray-line;
-      background-color: $white;
-      .sideList__item__title {
-        color: $primary;
-      }
-      .sideList__item__subTxt {
-        color: $primary;
-      }
-      &::after {
-        opacity: 1;
-      }
-    }
-    &__title {
-      color: $dark;
-      font-weight: 500;
-    }
-    &__subTxt {
-      color: $secondary;
-      font-size: 12px;
-    }
-  }
-}
-.adminSelectBox {
-  min-height: calc(80vh - 132px);
-  background-color: #fff;
-  border-radius: 0.5rem;
-  padding: 1.5rem;
-}
-.pageSubTitle {
-  font-size: 20px;
-  color: $dark;
-}
-.selectBox__section {
-  position: relative;
-  border-bottom: 1px solid $gray-line;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  &:first-child {
-    padding-top: 0;
-  }
-  &:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-  }
-  .collectBtn {
-    right: 0;
-  }
-  .jobContent__imgBox {
-    width: 48%;
-    position: relative;
-    margin-right: 48px;
-    .jobImage {
-      max-width: 100%;
-      border-radius: 8px;
-    }
-  }
-  .logoImageBox {
-    position: absolute;
-    top: -4px;
-    right: -36px;
-    padding: 6px;
-    background-color: #fff;
-    border-radius: 0px 0px 0px 4px;
-    .logoImage {
-      width: 120px;
-      border: 1px solid $gray-line;
-      border-radius: 2px;
-    }
-  }
-  .JobContent__txtBox {
-    width: 100%;
-  }
-  .page__title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #1d1d1d;
-    margin-bottom: 12px;
-  }
-  .page__txt {
-    color: #646464;
-  }
-  .page__link {
-    text-decoration: underline;
-  }
-  .companyPage__companyImage {
-    border-radius: 8px;
-    max-width: calc(33.333% - 12px);
-  }
-  .logoImageBox.company {
-    position: relative;
-    right: 0;
-    top: 0;
-    padding: 0px;
-    width: 240px;
-    background-color: #fff;
-    border-radius: 8px;
-    .logoImage {
-      width: 100%;
-      max-width: 100%;
-      border-radius: 8px;
-    }
-  }
-  .jobContent__imgBox.company {
-    width: auto;
-    margin-right: 12px;
-  }
-}
-.innerList__item {
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid $gray-line;
-  &:hover {
-    background-color: $gray-light;
-  }
-  &:first-child {
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
-  &:last-child {
-    border-bottom: 0;
-    border-radius: 0 0 0.5rem 0.5rem;
-  }
-}
-.admin__subHeader {
-  background-color: $white;
-  position: sticky;
-  top: 64px;
-  z-index: 1;
-}
-.admin__subNav {
-  min-height: 60px;
-  display: flex;
-  background-color: $white;
-  &__title {
-    font-size: 20px;
-    color: $dark;
-    font-weight: 500;
-    margin-right: 3rem;
-  }
-  &__item {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    position: relative;
-    transition: all 0.3s;
-    &::after {
-      position: absolute;
-      content: '';
-      display: block;
-      background-color: $primary;
-      bottom: 0;
-      right: 4px;
-      left: 4px;
-      height: 0.25rem;
-      border-radius: 0.25rem 0.25rem 0 0;
-      transition: all 0.3s;
-      opacity: 0;
-    }
-    &:hover {
-      background-color: $primary-light;
-      .admin__subNav__txt {
-        color: $primary;
-      }
-    }
-    &.active {
-      background-color: $primary-light;
-      &::after {
-        opacity: 1;
-      }
-      .admin__subNav__txt {
-        color: $primary;
-      }
-    }
-  }
-}
-.applyJobPage {
-  position: relative;
-  .applyJobPage__sideBox {
-    position: sticky;
-    top: 112px;
-    @media screen and (max-width: 991px) {
-      position: static;
-      .jobSelectBox {
-        max-height: 480px;
-      }
-    }
-    @media screen and (max-width: 767px) {
-      .jobSelectBox {
-        max-height: 240px;
-      }
-    }
-  }
-  .jobSelectBox {
-    max-height: 78vh;
-  }
-}
-.candidateList {
-  &__person {
-    min-height: 80px;
-    background-color: $white;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    &:hover {
-      background-color: $gray-light;
-      .person__name {
-        color: $primary;
-      }
-    }
-    .person__personalImg {
-      border: 1px solid $gray-line;
-      border-radius: 50%;
-      height: 5rem;
-      width: 5rem;
-    }
-    .person__name {
-      font-size: 20px;
-      color: $dark;
-    }
-    .person__txt {
-      margin-bottom: 0.25rem;
-    }
-  }
-}
-.sideBtnBox {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 4%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  z-index: 800;
-  &.SideBtnBox--page {
-    bottom: 6rem;
-  }
-  @media screen and (max-width: 767px) {
-    .bg-cover--dark {
-      position: fixed;
-      background-color: rgba(0, 0, 0, 0.3);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: -1;
-    }
-  }
-}
+
+
+
 
 .sideFilter.searchFilterBox {
   max-width: 640px;
   box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
   margin-bottom: 0.5rem;
   z-index: 9999;
-  @media screen and (max-width: 767px) {
+  @include sm {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -1481,7 +1082,7 @@
   height: 100%;
   .nav-item {
     width: 100%;
-    @media screen and (max-width: 767px) {
+    @include sm {
       border-bottom: 1px solid $white;
       &:first-child {
         border-radius: 0.5rem 0.5rem 0 0;

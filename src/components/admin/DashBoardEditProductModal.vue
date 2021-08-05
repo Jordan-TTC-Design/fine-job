@@ -582,7 +582,6 @@ import webData from '@/methods/webData';
 import { Modal } from 'bootstrap/js/dist/modal';
 
 export default {
-  // props: ['editItem', 'modalName'],
   data() {
     return {
       editmodal: {},

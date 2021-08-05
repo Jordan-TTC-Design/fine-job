@@ -1,5 +1,5 @@
 <template>
-  <NewProductModal ref="newProductModal" @new-item="newItem"></NewProductModal>
+  <NewProductModal ref="newProductModal" @new-item="newItem" />
   <div class="admin__subHeader mb-6 box--shadow">
     <div class="container">
       <div class="admin__subNav">
@@ -376,7 +376,6 @@ import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
 export default {
   components: {
     NewProductModal,
-    // DeleteProductModal,
   },
   data() {
     return {

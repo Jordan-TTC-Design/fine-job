@@ -11,7 +11,7 @@
           >
             <i class="bi bi-chevron-left me-2"></i>返回繼續查看職位
           </button>
-          <div ref="jobSelectBox" class="jobSelectBox box--shadow">
+          <div ref="jobSelectBox" class="sideJobBox box--shadow">
             <div class="pb-5 border-bottom border-gray-line">
               <div class="d-flex mb-3">
                 <div class="jobContent__imgBox">
@@ -24,7 +24,7 @@
                 <div class="JobContent__txtBox">
                   <div>
                     <router-link
-                      class="jobSelectBox__title mb-3 d-block pe-auto"
+                      class="sideJobBox__title mb-3 d-block pe-auto"
                       :to="`/products-list/product/${jobItem.id}`"
                       >{{ jobItem.title }}</router-link
                     >

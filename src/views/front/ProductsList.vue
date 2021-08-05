@@ -276,7 +276,7 @@
     </div>
   </div>
 
-  <PagenationModal :jobs-list="jobsList" @change-page="changePage"></PagenationModal>
+  <PagenationModal :jobs-list="jobsList" @change-page="changePage"/>
   <div class="sideBtnBox">
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />

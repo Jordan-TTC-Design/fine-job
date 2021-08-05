@@ -1,7 +1,7 @@
 <template>
   <header class="header header--front">
     <div ref="Search" class="header__searchModal" >
-      <SearchModal></SearchModal>
+      <SearchModal/>
     </div>
     <div class="container d-flex justify-content-between align-items-center">
       <h1>

@@ -321,19 +321,6 @@ export default {
       this.closeFilter();
     });
   },
-  // mounted() {
-  //   const vm = this;
-  //   vm.fullWidth = window.innerWidth;
-  //   vm.fullHeight = window.innerHeight;
-  //   vm.scrollTop = window.scrollY;
-  //   window.onresize = () => {
-  //     vm.fullWidth = window.innerWidth;
-  //     vm.fullHeight = window.innerHeight;
-  //   };
-  //   window.onscroll = () => {
-  //     vm.scrollTop = window.scrollY;
-  //   };
-  // },
 };
 </script>
 

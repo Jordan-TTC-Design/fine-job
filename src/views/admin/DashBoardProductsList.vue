@@ -3,8 +3,8 @@
     ref="DeleteProductModal"
     :tem-product="temProduct"
     @deltet-product="deleteProduct"
-  ></DeleteProductModal>
-  <EditProductModal ref="EditProductModal" @update-product="updateProduct"></EditProductModal>
+  />
+  <EditProductModal ref="EditProductModal" @update-product="updateProduct" />
   <div class="admin__subHeader mb-6 box--shadow">
     <div class="container">
       <div class="admin__subNav">
@@ -134,7 +134,11 @@
             <div class="d-flex">
               <div class="jobContent__imgBox company">
                 <div class="logoImageBox company">
-                  <img class="logoImage" :src="temItem.imageUrl" :alt="temItem.title+'公司logo'" />
+                  <img
+                    class="logoImage"
+                    :src="temItem.imageUrl"
+                    :alt="temItem.title + '公司logo'"
+                  />
                 </div>
               </div>
               <div class="JobContent__txtBox d-flex flex-column justify-content-between pt-3">
@@ -168,7 +172,7 @@
                 v-for="(item, index) in temItem.imagesUrl"
                 class="companyPage__companyImage"
                 :src="item"
-                :alt="temItem.title+'公司圖片'+index"
+                :alt="temItem.title + '公司圖片' + index"
                 :key="index"
               />
             </div>
@@ -253,10 +257,13 @@
             </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
-                <img class="jobImage" :src="temItem.imageUrl" :alt="temItem.title+'職位圖片'" />
+                <img class="jobImage" :src="temItem.imageUrl" :alt="temItem.title + '職位圖片'" />
                 <div class="logoImageBox">
-                  <img class="logoImage" :src="temItem.options.company.companyLogoUrl"
-                  :alt="temItem.options.company.companyName+'公司logo'" />
+                  <img
+                    class="logoImage"
+                    :src="temItem.options.company.companyLogoUrl"
+                    :alt="temItem.options.company.companyName + '公司logo'"
+                  />
                 </div>
               </div>
               <div class="JobContent__txtBox d-flex flex-column justify-content-between">

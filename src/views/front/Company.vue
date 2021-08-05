@@ -45,23 +45,24 @@
               </div>
             </div>
           </div>
-          <div class="jobContentBox box--shadow mb-3">
+          <div class="companyInfoBox box--shadow mb-3">
             <h3 class="section__title--sub"><span class="title__icon"></span>公司照片</h3>
             <div class="d-flex justify-content-between flex-md-row flex-column">
               <img
                 v-for="(item, index) in companyItem.imagesUrl"
-                class="companyPage__companyImage mb-md-0 mb-2"
+                class="companyPage__companyImage mb-md-0 mb-2 putPointer"
                 :src="item"
                 :alt="companyItem.title+'公司圖片'+index"
                 :key="index"
+                @click="openImgModal(companyItem.imagesUrl)"
               />
             </div>
           </div>
-          <div class="jobContentBox  box--shadow  mb-3">
+          <div class="companyInfoBox  box--shadow  mb-3">
             <h3 class="section__title--sub"><span class="title__icon"></span>公司簡介</h3>
             <div class="page__txt" v-html="companyItem.content"></div>
           </div>
-          <div class="jobContentBox  box--shadow  mb-lg-0 mb-3">
+          <div class="companyInfoBox  box--shadow  mb-lg-0 mb-3">
             <h3 class="section__title--sub"><span class="title__icon"></span>公司職位</h3>
             <ul class="companyJobList d-flex flex-wrap justify-content-between">
               <li
@@ -123,7 +124,7 @@
         </div>
         <div class="col-lg-3 col-12">
           <div class="jobSubBox box--shadow  mb-3">
-            <h5 class="list__title">瀏覽紀錄</h5>
+            <h5 class="jobSubBox__title">瀏覽紀錄</h5>
             <ul>
               <li class="list__item">
                 <a class="mb-2">UI Designer</a>
@@ -151,17 +152,20 @@
     </div>
   </div>
   <div class="sideBtnBox">
-    <UpTopBtn></UpTopBtn>
+    <UpTopBtn/>
   </div>
+  <ImgPopModal />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
+import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
 
 export default {
   components: {
     UpTopBtn,
+    ImgPopModal,
   },
   data() {
     return {
@@ -179,6 +183,9 @@ export default {
     };
   },
   methods: {
+    openImgModal(imgUrl) {
+      emitter.emit('imgPopModal-open', imgUrl);
+    },
     searchByJobCategory(jobCategory) {
       const keyword = '不限';
       const city = '不限';
