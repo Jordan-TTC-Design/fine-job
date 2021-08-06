@@ -813,7 +813,6 @@ export default {
         .post(url, formData)
         .then((res) => {
           console.log(`${res.data.message}`);
-          console.log(res);
           emitter.emit('spinner-close');
           if (res.data.success) {
             this.changeStep('next');
@@ -871,7 +870,6 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          console.log(res);
           this.cartList = res.data.data.carts;
           // this.cartTotal = res.data.data.final_total;
           emitter.emit('spinner-close');
@@ -885,8 +883,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
       this.$http
         .delete(url)
-        .then((res) => {
-          console.log(`${res.data.message}`);
+        .then(() => {
           this.getCart();
         })
         .catch((error) => {

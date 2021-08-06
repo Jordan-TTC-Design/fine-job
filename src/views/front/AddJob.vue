@@ -894,25 +894,20 @@ export default {
   methods: {
     // 取得圖片傳給modal
     loadingImg(e) {
-      console.log(this.uploadImgState);
       const nowId = '';
       emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
     },
     // 從modal抓回圖片
     getImg(data, img, id) {
-      console.log(data, img, id);
       if (this.uploadImgState === 'upLoadMutiImg') {
-        console.log(data, img, id);
         this.temImageInputs[id].src = data;
         this.temImages[id] = img.src;
-        console.log(this.temImageInputs[id]);
       } else if (this.uploadImgState === 'upLoadSingleImg') {
         this.jobImage.src = data;
       }
     },
     // 觸發 圖片input
     clickInput(e) {
-      console.log(e.target.dataset.input);
       if (e.target.dataset.input === 'upLoadSingleImg') {
         this.$refs.sendFormInfoJobImage.click();
         this.uploadImgState = 'upLoadSingleImg';
@@ -975,8 +970,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http
         .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
+        .then(() => {
           this.sendForm();
         })
         .catch((error) => {
@@ -994,7 +988,6 @@ export default {
         this.$http
           .post(url, formData)
           .then((res) => {
-            console.log(`${res.data.message}`);
             if (res.data.success) {
               this.changeStep('next');
             }
@@ -1068,8 +1061,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
       this.$http
         .delete(url)
-        .then((res) => {
-          console.log(`${res.data.message}`);
+        .then(() => {
           this.getCart();
         })
         .catch((error) => {
@@ -1083,7 +1075,6 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.tempLists = res.data.products;
           this.sortCompany(this.tempLists);
           emitter.emit('spinner-close');

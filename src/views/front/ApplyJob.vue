@@ -1,5 +1,4 @@
 <template>
-  <ImageSquareCropper @emit-send-img-data="getImg"></ImageSquareCropper>
   <div class="container applyJobPage">
     <div class="row justify-content-center">
       <div class="col-lg-6 col-12 ">
@@ -11,17 +10,17 @@
           >
             <i class="bi bi-chevron-left me-2"></i>返回繼續查看職位
           </button>
-          <div ref="jobSelectBox" class="sideJobBox box--shadow">
+          <div ref="sideJobBox" class="sideJobBox sideJobBox--sticky box--shadow">
             <div class="pb-5 border-bottom border-gray-line">
               <div class="d-flex mb-3">
-                <div class="jobContent__imgBox">
-                  <img class="jobImage" :src="jobItem.imageUrl" alt="職位圖片" />
+                <div class="sideJobBox__imgBox">
+                  <img class="jobImg" :src="jobItem.imageUrl" alt="職位圖片" />
                   <div class="logoImageBox">
-                    <img class="logoImage" :src="jobItem.options.company.companyLogoUrl"
+                    <img class="logoImg" :src="jobItem.options.company.companyLogoUrl"
                     alt="公司Logo" />
                   </div>
                 </div>
-                <div class="JobContent__txtBox">
+                <div class="sideJobBox__txtBox">
                   <div>
                     <router-link
                       class="sideJobBox__title mb-3 d-block pe-auto"
@@ -479,6 +478,7 @@
       </div>
     </div>
   </div>
+  <ImageSquareCropper  @emit-send-img-data="getImg"/>
 </template>
 
 <script>
@@ -569,25 +569,20 @@ export default {
   methods: {
     // 取得圖片傳給modal
     loadingImg(e) {
-      console.log(this.uploadImgState);
       const nowId = '';
       emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
     },
     // 從modal抓回圖片
     getImg(data, img, id) {
-      console.log(data, img, id);
       if (this.uploadImgState === 'upLoadMutiImg') {
-        console.log(data, img, id);
         this.temImageInputs[id].src = data;
         this.temImages[id] = img.src;
-        console.log(this.temImageInputs[id]);
       } else if (this.uploadImgState === 'upLoadSingleImg') {
         this.personalImg.src = data;
       }
     },
     // 觸發 圖片input
     clickInput(e) {
-      console.log(e.target.dataset.input);
       if (e.target.dataset.input === 'upLoadSingleImg') {
         this.$refs.sendFormInfoPersonalImg.click();
         this.uploadImgState = 'upLoadSingleImg';
@@ -642,8 +637,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http
         .post(url, product)
-        .then((res) => {
-          console.log(`${res.data.message}:${id}`);
+        .then(() => {
           this.getCart();
         })
         .catch((error) => {
@@ -661,9 +655,7 @@ export default {
       };
       this.$http
         .post(url, formData)
-        .then((res) => {
-          console.log(`${res.data.message}`);
-          console.log(res);
+        .then(() => {
           // this.getCart();
           // this.$router.push('/');
           // 不知道怎清空
@@ -720,7 +712,6 @@ export default {
           }
         }
       });
-      console.log(this.temCompany);
       emitter.emit('spinner-close');
     },
     // 取得購物車資料
@@ -743,8 +734,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
       this.$http
         .delete(url)
-        .then((res) => {
-          console.log(`${res.data.message}`);
+        .then(() => {
         })
         .catch((error) => {
           console.log(error);
@@ -753,9 +743,10 @@ export default {
   },
   created() {
     this.formData = webData;
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
     this.deleteCart();
     this.getProductData();
+    emitter.emit('spinner-open-bg', 500);
   },
   mounted() {
     emitter.emit('close-cart');

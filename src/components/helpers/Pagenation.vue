@@ -46,7 +46,6 @@ export default {
       this.checkPagination();
     },
     changePage(action) {
-      console.log(action);
       if (action === 'next' && this.paginationData.has_next) {
         this.paginationData.current_page += 1;
       } else if (action === 'pre' && this.paginationData.has_pre) {

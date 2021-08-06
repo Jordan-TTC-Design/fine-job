@@ -133,7 +133,6 @@ export default {
       this.$refs.Search.classList.remove('active');
     },
     closeRwdMenu() {
-      console.log('close');
       this.$refs.headerNavBox.classList.remove('active');
       this.$refs.menuCover.classList.remove('active');
       this.$refs.main.classList.remove('openRwdMenu');

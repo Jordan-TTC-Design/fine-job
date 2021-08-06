@@ -1,15 +1,15 @@
 <template>
-  <div class=" card goodJobCard">
+  <div class="card goodJobCard">
     <div class="goodJobCard__imgBox">
       <img class="goodJobCard__img card-img-top" :src="jobItem.imageUrl"
-      :alt="jobItem.title+'職位圖片'" />
+      :alt="`${jobItem.title}職位圖片`" />
       <div class="img-cover"></div>
       <div class="goodJobCard__jobInfoBox">
         <div class="d-flex">
           <img
             class="goodJobCard__logo me-2"
             :src="jobItem.options.company.companyLogoUrl"
-            :alt="jobItem.options.company.companyName+'公司logo'"
+            :alt="`${jobItem.options.company.companyName}公司logo`"
           />
           <div>
             <router-link
@@ -48,11 +48,6 @@ export default {
     return {
       jobItem: {},
     };
-  },
-  methods: {
-    checkData() {
-      console.log(this.jobItem);
-    },
   },
   watch: {
     goodJob: {

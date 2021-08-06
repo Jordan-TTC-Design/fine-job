@@ -49,7 +49,7 @@
                     <option
                       v-for="(item, index) in formData.city"
                       :value="item"
-                      :key="'地區' + index"
+                      :key="`地區${index}`"
                       >{{ item }}</option
                     >
                   </select>
@@ -70,7 +70,7 @@
       <div class="row flex-wrap">
         <div class="col-lg-6 col-12 mb-lg-0 mb-4">
           <div
-            class="card--hotJob card--lg "
+            class="card--hotJob card--lg"
             v-if="this.sortHotJobs[0]"
             :style="{ 'background-image': `url(${sortHotJobs[0]['imageUrl']} )` }"
           >
@@ -297,7 +297,7 @@
                   </p>
                   <p class="subTxt mb-md-6 mb-3">目前共： {{ categoryItem.jobNum }} 職位</p>
                   <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
-                    查看更多職位 <i class=" jobIcon ms-2 bi bi-arrow-right-circle"></i>
+                    查看更多職位 <i class="jobIcon ms-2 bi bi-arrow-right-circle"></i>
                   </p>
                 </div>
                 <img
@@ -330,7 +330,7 @@
       </div>
     </div>
     <!-- 合作企業 -->
-    <div class="CooperationCompany pt-7  pb-2">
+    <div class="CooperationCompany pt-7 pb-2">
       <div class="container">
         <div class="section__titleBox justify-content-center">
           <h3 class="titleBox__title text-dark">優質合作企業</h3>
@@ -358,7 +358,7 @@
   </div>
 
   <div class="sideBtnBox">
-    <UpTopBtn/>
+    <UpTopBtn />
   </div>
 </template>
 
@@ -409,9 +409,6 @@ export default {
     };
   },
   watch: {
-    scrollTop(newValue) {
-      console.log(newValue);
-    },
     fullWidth(newValue) {
       if (newValue > 768) {
         this.swiperNum = 3;
@@ -551,6 +548,7 @@ export default {
   created() {
     this.formData = webData;
     this.getOgData();
+    emitter.emit('spinner-open-bg', 1500);
   },
   mounted() {
     const vm = this;

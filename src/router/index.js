@@ -32,11 +32,6 @@ const routes = [
         component: () => import('../views/front/SearchPage.vue'),
       },
       {
-        // 結帳
-        path: 'cart-checkout',
-        component: () => import('../views/front/Check.vue'),
-      },
-      {
         // 申請職位頁面
         path: 'apply-job/:id',
         name: 'ApplyJob',

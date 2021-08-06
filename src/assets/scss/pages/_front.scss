@@ -409,20 +409,24 @@
     background-color: $light;
     margin-bottom: 0.75rem;
     position: relative;
+    &::before {
+      content: '';
+      width: 0.5rem;
+      // height: 100%;
+      border-radius: 0.5rem 0 0 0.5rem;
+      background-color: $primary-light;
+      position: absolute;
+      left: 0px;
+      top: 0;
+      bottom: 0;
+      display: none;
+    }
     @include sm {
       padding: 0;
     }
     &.active {
       &::before {
-        content: '';
-        width: 0.5rem;
-        // height: 100%;
-        border-radius: 0.5rem 0 0 0.5rem;
-        background-color: $primary-light;
-        position: absolute;
-        left: 0px;
-        top: 0;
-        bottom: 0;
+        display: block;
       }
       &::after {
         content: '';
@@ -446,6 +450,9 @@
           display: none;
         }
       }
+    }
+    &:hover{
+      background-color: rgba($color: $light, $alpha: 0.5);
     }
     &__imgBox {
       max-width: 24%;
@@ -510,6 +517,9 @@
     &__title {
       color: $dark;
       font-weight: $fw--md;
+      &:hover{
+        color: $primary;
+      }
     }
     .collectBtn {
       z-index: 100;
@@ -527,14 +537,23 @@
   border-radius: 0.5rem;
   padding: 1.5rem;
   &__imgBox {
-    position: relative;
     width: 32%;
-    margin-right: 2.25rem;
+      position: relative;
+      margin-right: 3rem;
+      .jobImg {
+        max-width: 100%;
+        border-radius: 0.5rem;
+      }
     .logoImageBox {
       position: absolute;
       top: -0.25rem;
       right: -1.5rem;
       width: 6rem;
+      .logoImg {
+        width: 100%;
+        border: 1px solid $gray-line;
+        border-radius: 2px;
+      }
     }
   }
   &__txtBox {
@@ -737,6 +756,10 @@
     &:hover {
       background-color: $gray-light;
     }
+    &:last-child{
+    border-bottom: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+    }
     &__link,
     &__link--sub {
       font-size: 1rem;
@@ -884,45 +907,6 @@
 }
 
 // 工具類
-.pageTitle {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1d1d1d;
-  margin-bottom: 16px;
-}
-.subTxt {
-  font-size: 14px;
-  font-weight: normal;
-}
-.jobIcon--sm {
-  font-size: 16px;
-  color: #646464;
-}
-
-.btn--applyJob {
-  min-width: 120px;
-  justify-content: center;
-  display: flex;
-}
-.jobIcon {
-  font-size: 20px;
-  color: #646464;
-}
-.jobTag {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background-color: #f2f2f2;
-  display: inline-block;
-}
-.btn--web {
-  font-size: 16px;
-  font-weight: 500;
-}
-.subTitle {
-  font-size: 20px;
-  font-weight: 500;
-}
 .inputGroup--item {
   .inputItem__title {
     // color:#1d1d1d;

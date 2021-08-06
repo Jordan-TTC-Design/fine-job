@@ -41,7 +41,7 @@
 
 <script>
 import emitter from '@/methods/emitter';
-import { Modal } from 'bootstrap/js/dist/modal';
+import Modal from 'bootstrap/js/dist/modal';
 import Cropper from 'cropperjs';
 
 export default {

@@ -111,9 +111,7 @@ export default {
       this.$http.post(api, { api_token: this.token }).then((res) => {
         if (res.data.success) {
           this.isLogin = true;
-          // console.log(res);
         } else {
-          // console.log(res);
           this.$router.push('/admin');
         }
       });

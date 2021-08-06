@@ -54,7 +54,6 @@ export default {
       this.$http
         .post(`${process.env.VUE_APP_API}/admin/signin`, user)
         .then((res) => {
-          console.log(res);
           const { data } = res;
           if (data.success === true) {
             // 加入token

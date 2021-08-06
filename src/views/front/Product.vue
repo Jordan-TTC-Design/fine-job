@@ -15,14 +15,14 @@
                 <img
                   class="jobImg putPointer"
                   :src="jobItem.imageUrl"
-                  :alt="jobItem.title + '職位圖片'"
+                  :alt="`${jobItem.title}職位圖片`"
                   @click="openImgModal(jobItem.imageUrl)"
                 />
                 <div class="jobInfoBox__logoImgBox">
                   <img
                     class="logoImg"
                     :src="jobItem.options.company.companyLogoUrl"
-                    :alt="jobItem.options.company.companyName + 'logo'"
+                    :alt="`${jobItem.options.company.companyName}logo`"
                   />
                 </div>
               </div>
@@ -37,11 +37,11 @@
                 </div>
                 <div class="d-flex justify-content-between align-items-end mb-lg-0 mb-4">
                   <div>
-                    <p class=" mb-3">
+                    <p class="mb-3">
                       <span><i class="jobIcon--sm me-1 bi bi-geo-alt"></i></span
                       >{{ jobItem.options.company.companyAddressCity }}
                     </p>
-                    <p class="">
+                    <p>
                       <span><i class="jobIcon--sm me-1 bi bi-people"></i></span>需求人數：{{
                         jobItem.num
                       }}
@@ -76,61 +76,61 @@
           </div>
           <div class="jobContentSection  box--shadow  mb-3">
             <h3 class="section__title--sub"><span class="title__icon"></span>職位內容</h3>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-journal"> </i>工作性質：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-journal"></i>工作性質：{{
                 jobItem.options.job.workType
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-clock"> </i>工作時間：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-clock"></i>工作時間：{{
                 jobItem.options.job.workTime
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-building"> </i>產業類別：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-building"></i>產業類別：{{
                 jobItem.options.company.industryCategory
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-card-list"> </i>工作類別：{{ jobItem.category }}
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-card-list"></i>工作類別：{{ jobItem.category }}
             </p>
-            <p class=" mb-2">工作內容：</p>
-            <div class="" v-html="jobItem.content"></div>
+            <p class="mb-2">工作內容：</p>
+            <div v-html="jobItem.content"></div>
           </div>
           <div class="jobContentSection box--shadow  mb-3">
-            <h3 class="section__title--sub"><span class="title__icon"> </span>應徵條件</h3>
-            <p class=" mb-2">
+            <h3 class="section__title--sub"><span class="title__icon"></span>應徵條件</h3>
+            <p class="mb-2">
               <i class="jobIcon--sm me-1 bi bi-book"> </i>學歷要求：{{
                 jobItem.options.job.education
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-briefcase"> </i>工作經驗：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-briefcase"></i>工作經驗：{{
                 jobItem.options.job.workExp
               }}
             </p>
-            <p class=" mb-2">其他條件：</p>
-            <div class="" v-html="jobItem.options.job.otherRequirement"></div>
+            <p class="mb-2">其他條件：</p>
+            <div v-html="jobItem.options.job.otherRequirement"></div>
           </div>
           <div class="jobContentSection box--shadow mb-lg-0 mb-3">
-            <h3 class="section__title--sub"><span class="title__icon"> </span>申請方法</h3>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-person"> </i>職位聯絡人：{{
+            <h3 class="section__title--sub"><span class="title__icon"></span>申請方法</h3>
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-person"></i>職位聯絡人：{{
                 jobItem.options.company.companyContact
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-envelope"> </i>聯絡信箱：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-envelope"></i>聯絡信箱：{{
                 jobItem.options.company.companyEmail
               }}
             </p>
-            <p class=" mb-2">
-              <i class="jobIcon--sm me-1 bi bi-phone"> </i>聯絡電話：{{
+            <p class="mb-2">
+              <i class="jobIcon--sm me-1 bi bi-phone"></i>聯絡電話：{{
                 jobItem.options.company.companyTel
               }}
             </p>
-            <p class=" mb-2">申請備註：</p>
-            <div class="" v-html="jobItem.options.job.otherApplyInfo"></div>
+            <p class="mb-2">申請備註：</p>
+            <div v-html="jobItem.options.job.otherApplyInfo"></div>
           </div>
         </div>
         <div class="col-lg-3 col-12">
@@ -172,25 +172,7 @@
               </div>
             </div>
           </div>
-          <div class="jobSubBox box--shadow mb-3" v-if="recentJobRead.length">
-            <h5 class="jobSubBox__title">瀏覽紀錄</h5>
-            <ul>
-              <template v-for="(jobRead, index) in recentJobRead" :key="jobRead.id">
-                <li class="list__item" v-if="index < 6">
-                  <p class="list__item__link mb-2" @click="gotoJobRead(jobRead.id)">
-                    {{ jobRead.title }}
-                  </p>
-                  <router-link
-                    class="list__item__link--sub"
-                    aria-current="page"
-                    :to="`/products-list/company/${jobRead.companyId}`"
-                    >{{ jobRead.company }}</router-link
-                  >
-                  <p class="list__item__time">{{ $filters.date(jobRead.time) }}</p>
-                </li>
-              </template>
-            </ul>
-          </div>
+          <JobReadRecord />
         </div>
       </div>
     </div>
@@ -208,12 +190,14 @@
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
+import JobReadRecord from '@/components/front/JobReadRecord.vue';
 
 export default {
   inject: ['reload'],
   components: {
     UpTopBtn,
     ImgPopModal,
+    JobReadRecord,
   },
   data() {
     return {
@@ -276,55 +260,21 @@ export default {
         if (item.description === '企業') {
           if (item.title === this.jobItem.options.company.companyName) {
             this.temCompany = item;
-            this.checkLocalJobRead(this.jobItem.id);
           }
         }
       });
       emitter.emit('spinner-close');
-    },
-    // 瀏覽紀錄相關方法
-    // 取得瀏覽紀錄
-    getLocalStorage() {
-      const teMJobReadArray = JSON.parse(localStorage.getItem('recentJobRead'));
-      if (teMJobReadArray) {
-        this.recentJobRead = teMJobReadArray;
-      }
-    },
-    // 檢查是否已經存在
-    checkLocalJobRead(id) {
-      this.getLocalStorage();
-      if (!this.recentJobRead.length) {
-        this.recentJobRead = [];
-      }
-      const checkData = this.recentJobRead.some((item) => item.id === id);
-      if (!checkData) {
-        this.saveJobReadToLocal();
-      }
-    },
-    // 存入local
-    saveJobReadToLocal() {
-      const Obj = {
-        title: this.jobItem.title,
-        company: this.jobItem.options.company.companyName,
-        companyId: this.temCompany.id,
-        id: this.jobItem.id,
-        time: this.jobItem.options.job.create,
+      const sendObj = {
+        job: this.jobItem,
+        company: this.temCompany,
       };
-      this.recentJobRead.push(Obj);
-      const temData = JSON.stringify(this.recentJobRead);
-      localStorage.setItem('recentJobRead', temData);
-    },
-    // 跳轉紀錄的職位
-    gotoJobRead(id) {
-      this.$router.push(`/products-list/product/${id}`);
-      this.reload();
+      emitter.emit('check-job-read-local', sendObj);
     },
   },
   created() {
-    console.log(this.$route.params);
     this.getProductData();
+    emitter.emit('spinner-open-bg', 500);
   },
-  mounted() {},
 };
 </script>
 

@@ -4,11 +4,6 @@ $fw--rg:400;
 $fw--md:500;
 $fw--bd:700;
 
-* {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-}
 //header
 .header{
     width: 100%;
@@ -43,6 +38,7 @@ $fw--bd:700;
   left: 0;
   background-color: rgba(0,0 ,0 ,0.36);
 }
+
 //main
 .main {
   min-height: calc(100vh - 366px);
@@ -71,27 +67,57 @@ p {
     border-radius: 2px;
   }
 }
-// 側邊按鈕
-.sideBtnBox {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 4%;
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: $fw--bd;
+  color: $dark;
+  margin-bottom: 1rem;
+}
+.subTitle {
+  font-size: 1.25rem;
+  font-weight: $fw--md;
+}
+.section__title--sub {
+  font-size: 1.25rem;
+  color: $primary;
+  margin-bottom: 1rem;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  z-index: 800;
-  &.SideBtnBox--page {
-    bottom: 6rem;
+  align-items: center;
+  .title__icon {
+    display: block;
+    width: 1.5rem;
+    height: 1rem;
+    background-color: $primary;
+    border-radius: 0.5rem 0.5rem 0 0.5rem;
+    margin-right: 0.5rem;
   }
-  @include sm {
-    .bg-cover--dark {
-      position: fixed;
-      background-color: rgba(0, 0, 0, 0.3);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: -1;
-    }
+}
+.page__title--sub {
+  font-size: 1.25rem;
+  color: $primary;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  .title__icon {
+    display: block;
+    width: 1.5rem;
+    height: 1rem;
+    background-color: $primary;
+    border-radius: 0.5rem 0.5rem 0 0.5rem;
+    margin-right: 0.5rem;
   }
+}
+.subTxt {
+  font-size: 14px;
+  font-weight: $fw--rg;
+}
+
+// icon設定
+.jobIcon {
+  font-size: 1.25rem;
+  color: $gray-dark;
+}
+.jobIcon--sm {
+  font-size: 1rem;
+  color: $gray-dark;
 }

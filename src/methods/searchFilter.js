@@ -23,7 +23,6 @@ const searchFilter = {
     //   temJobsList,
     //   temFilterData,
     // };
-    // console.log(temObj);
     return this.jobsList;
   },
   getJobsList(temArray) {
@@ -69,7 +68,6 @@ const searchFilter = {
   filterKeyword(filterData) {
     let temData = [];
     if (filterData.keyword !== '') {
-      // console.log(filterData.keyword);
       temData = this.jobsList.filter((item) => {
         const text = item.title + item.options.company.companyName;
         const searchText = filterData.keyword.toLowerCase();
@@ -84,7 +82,6 @@ const searchFilter = {
   filterCity(filterData) {
     let temData = [];
     if (filterData.city !== '不限') {
-      // console.log(filterData.city);
       temData = this.jobsList.filter(
         (item) => item.options.company.companyAddressCity === filterData.city,
       );
@@ -96,7 +93,6 @@ const searchFilter = {
   filterWorkTime(filterData) {
     let temData = [];
     if (filterData.workTime !== '不限') {
-      console.log(filterData.workTime);
       temData = this.jobsList.filter((item) => item.options.job.workTime === filterData.workTime);
     } else {
       temData = this.jobsList;
@@ -133,7 +129,6 @@ const searchFilter = {
   filterJobCategory(filterData) {
     let temData = [];
     if (filterData.jobCategory !== '不限') {
-      // console.log(filterData.jobCategory);
       temData = this.jobsList.filter((item) => item.category === filterData.jobCategory);
     } else {
       temData = this.jobsList;
@@ -143,15 +138,12 @@ const searchFilter = {
   filterIndustryCategory(filterData) {
     let temData = [];
     if (filterData.industryCategory !== '不限') {
-      //   console.log(filterData.industryCategory);
-      //   console.log(this.jobsList);
       temData = this.jobsList.filter(
         (item) => item.options.company.industryCategory === filterData.industryCategory,
       );
     } else {
       temData = this.jobsList;
     }
-    // console.log(temData);
     this.jobsList = temData;
   },
   filterSalary(filterData) {
@@ -174,7 +166,6 @@ const searchFilter = {
   filterSalaryInterView(filterData) {
     let temData = [];
     if (filterData.salaryInterView) {
-      console.log('只找面議');
       temData = this.jobsList.filter((item) => item.options.job.salaryInterView === true);
     } else {
       temData = this.jobsList;

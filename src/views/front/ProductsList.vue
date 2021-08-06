@@ -4,19 +4,7 @@
       <h3 class="section__title ps-3">推薦職位</h3>
       <swiper
         v-if="hotJobs.length > 0"
-        :slides-per-view="swiperNum"
-        :space-between="20"
-        :autoplay="{
-          delay: 2500,
-          disableOnInteraction: false,
-        }"
-        :pagination="{
-          clickable: true,
-        }"
-        :navigation="{
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        }"
+        :options="swiperOption"
       >
         <swiper-slide v-for="item in hotJobs" :key="item.id">
           <GoodJobCard :good-job="item"></GoodJobCard>
@@ -36,14 +24,16 @@
   </div>
   <div ref="jobsListContainer" class="jobsListContainer container">
     <h3 class="section__title ps-3">全部職位</h3>
-    <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== ''">
-      <span class="text-gray-dark">搜尋條件：</span>{{ filterTxt }}
-    </p>
     <div class="row" v-if="jobsList.length">
       <div class="col-lg-6 col-12">
         <div class="jobListBox">
           <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-            <p class="text-secondary fw-normal  text-nowrap">總共 {{ jobsList.length }} 個職位</p>
+            <div class="d-flex flex-wrap">
+              <p class="text-primary me-2" v-if="filterTxt !== ''">
+                <span class="text-secondary">搜尋條件：</span>{{ filterTxt }}
+              </p>
+              <p class="text-secondary fw-normal  text-nowrap">共 {{ jobsList.length }} 個職位</p>
+            </div>
             <select
               class="form-select form-select-lg w-auto border-0 text-gray-dark"
               @change="changeJobSort($event)"
@@ -97,7 +87,7 @@
                   >
                     <div class="mb-3 d-flex flex-column align-items-start">
                       <router-link
-                        class="list__item__title text-dark mb-3 me-7 pe-auto"
+                        class="list__item__title mb-3 me-7 pe-auto"
                         :to="`/products-list/product/${item.id}`"
                         >{{ item.title }}</router-link
                       >
@@ -126,7 +116,7 @@
       <div class="col-lg-6 col-12 d-lg-block d-none">
         <div
           ref="jobSelectBox"
-          class="sideJobBox sideJobBox--sticky box--shadow "
+          class="sideJobBox sideJobBox--sticky box--shadow"
           v-if="mountState"
         >
           <div class="d-flex justify-content-between align-items-center mb-3">
@@ -154,12 +144,12 @@
           <div class="pb-5 border-bottom border-gray-line">
             <div class="d-flex mb-3">
               <div class="sideJobBox__imgBox">
-                <img class="jobImage" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
+                <img class="jobImage" :src="jobItem.imageUrl" :alt="`${jobItem.title}職位圖片`" />
                 <div class="logoImageBox">
                   <img
                     class="logoImage"
                     :src="jobItem.options.company.companyLogoUrl"
-                    :alt="jobItem.options.company.companyName + 'logo'"
+                    :alt="`${jobItem.options.company.companyName}logo`"
                   />
                 </div>
               </div>
@@ -198,7 +188,7 @@
               <p class="text-primary fw-bold" v-if="jobItem.options.job.salaryInterView">
                 薪資面議
               </p>
-              <div class="d-flex align-items-center ">
+              <div class="d-flex align-items-center">
                 <p class="subTxt text-secondary me-2">
                   {{ $filters.date(jobItem.options.job.create) }}
                 </p>
@@ -276,7 +266,7 @@
     </div>
   </div>
 
-  <PagenationModal :jobs-list="jobsList" @change-page="changePage"/>
+  <PagenationModal :jobs-list="jobsList" @change-page="changePage" />
   <div class="sideBtnBox">
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />
@@ -309,7 +299,6 @@ export default {
     return {
       fullWidth: 0,
       fullHeight: 0,
-      swiperNum: 1,
       products: [],
       jobsList: [],
       hotJobs: [],
@@ -343,6 +332,24 @@ export default {
       filterBoxState: false,
       filterTxt: '',
       mountState: false,
+      // swiper
+      swiperNum: 1,
+      swiperOption: {
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          clickable: true,
+        },
+        loop: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        slidesPerView: this.swiperNum,
+        spaceBetween: '20',
+      },
     };
   },
   watch: {
@@ -387,7 +394,6 @@ export default {
     },
     // 調整列表排序方式
     changeJobSort() {
-      // console.log(this.sortWay);
       if (this.sortWay === 'time') {
         this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
       } else if (this.sortWay === 'money') {
@@ -401,7 +407,6 @@ export default {
     },
     // 篩選查詢
     filter(value) {
-      console.log(value);
       this.filterData = value;
       emitter.emit('spinner-open');
       this.classifyJob();
@@ -518,14 +523,12 @@ export default {
           const Obj = item;
           this.sortCompany.forEach((temCompany) => {
             if (Obj.options.company.companyName === temCompany.title) {
-              // console.log(temCompany.id);
               Obj.options.company.companyLink = temCompany.id;
             }
           });
           this.jobsList.push(Obj);
         }
       });
-      // console.log(this.jobsList);
       this.changeJobSort();
       if (!this.hotJobs.length) {
         this.sortHotJobs(); // 不用再重新撈一次
@@ -539,7 +542,6 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          //   console.log(res);
           this.products = res.data.products;
           emitter.emit('spinner-close');
           this.classifyJob();
@@ -553,6 +555,7 @@ export default {
     this.getOgData();
     this.formData = webData;
     this.searchFilterMethods = searchFilter;
+    emitter.emit('spinner-open-bg', 1000);
   },
   mounted() {
     this.mountState = true;

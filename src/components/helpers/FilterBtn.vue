@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-between align-items-center mb-4">
         <h3 class="subTitle text-dark">搜尋條件設定</h3>
         <div class="d-flex">
-          <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
+          <button type="button" class="btn btn-gray-light" @click="cleanFilter">
             清除全部
           </button>
           <button type="button" class="btn d-md-none d-block" @click="openFilter">
@@ -47,7 +47,7 @@
                 <option
                   v-for="(item, index) in formData.city"
                   :value="item"
-                  :key="'地區' + index"
+                  :key="`地區${index}`"
                   >{{ item }}</option
                 >
               </select>
@@ -69,7 +69,7 @@
                 <option
                   v-for="(item, index) in formData.industryCategory"
                   :value="item"
-                  :key="'產業類別' + index"
+                  :key="`產業類別${index}`"
                   >{{ item }}</option
                 >
               </select>
@@ -91,7 +91,7 @@
                 <option
                   v-for="(item, index) in formData.jobCategory"
                   :value="item"
-                  :key="'職位類別' + index"
+                  :key="`職位類別${index}`"
                   >{{ item }}</option
                 >
               </select>
@@ -113,7 +113,7 @@
                   v-for="(item, index) in formData.workExp"
                   :value="item"
                   :selected="item === '不限'"
-                  :key="'工作經驗' + index"
+                  :key="`工作經驗${index}`"
                   >{{ item }}</option
                 >
               </select>
@@ -135,13 +135,13 @@
                   v-for="(item, index) in formData.education"
                   :value="item"
                   :selected="item === '不限'"
-                  :key="'學歷要求' + index"
+                  :key="`學歷要求${index}`"
                   >{{ item }}</option
                 >
               </select>
             </div>
           </div>
-          <div class="col-6  mb-3">
+          <div class="col-6 mb-3">
             <div class="inputGroup--item">
               <label for="searchFilterForm-workType" class="form-label inputItem__title"
                 >工作性質</label
@@ -157,7 +157,7 @@
                 <option
                   v-for="(item, index) in formData.workType"
                   :value="item"
-                  :key="'工作性質' + index"
+                  :key="`工作性質${index}`"
                   >{{ item }}</option
                 >
               </select>
@@ -179,7 +179,7 @@
                 <option
                   v-for="(item, index) in formData.workTime"
                   :value="item"
-                  :key="'工作時段' + index"
+                  :key="`工作時段${index}`"
                   >{{ item }}</option
                 >
               </select>

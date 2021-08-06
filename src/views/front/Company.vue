@@ -12,8 +12,11 @@
             </button>
             <div class="d-flex flex-md-row flex-column align-items-md-stretch align-items-center">
               <div class="companyInfoBox__logoImgBox mb-md-0 mb-4 me-md-4">
-                  <img class="logoImg" :src="companyItem.imageUrl"
-                  :alt="companyItem.title+'logo'" />
+                <img
+                  class="logoImg"
+                  :src="companyItem.imageUrl"
+                  :alt="`${companyItem.title}logo`"
+                />
               </div>
               <div
                 class="companyInfoBox__txtBox d-flex flex-column justify-content-between
@@ -52,7 +55,7 @@
                 v-for="(item, index) in companyItem.imagesUrl"
                 class="companyPage__companyImage mb-md-0 mb-2 putPointer"
                 :src="item"
-                :alt="companyItem.title+'公司圖片'+index"
+                :alt="`${companyItem.title}公司圖片${index}`"
                 :key="index"
                 @click="openImgModal(companyItem.imagesUrl)"
               />
@@ -69,13 +72,9 @@
                 :data-id="item.id"
                 v-for="item in companyJobs"
                 :key="item.id"
-                class="jobList__item d-flex flex-column align-items-start
-                  mb-4 "
+                class="jobList__item d-flex flex-column align-items-start mb-4"
               >
-                <button
-                  class="collectBtn btn  position-absolute"
-                  type="button"
-                >
+                <button class="collectBtn btn  position-absolute" type="button">
                   <i class="jobIcon bi bi-bookmark-fill"></i>
                 </button>
                 <div class="mb-3">
@@ -89,7 +88,7 @@
                 </div>
                 <div class="d-flex">
                   <div class="jobList__item__imgBox me-3">
-                    <img class="jobImg" :src="item.imageUrl" :alt="item.title+'職位圖片'" />
+                    <img class="jobImg" :src="item.imageUrl" :alt="`${item.title}職位圖片`" />
                   </div>
                   <div
                     class="jobList__item__txtBox
@@ -123,27 +122,7 @@
           </div>
         </div>
         <div class="col-lg-3 col-12">
-          <div class="jobSubBox box--shadow  mb-3">
-            <h5 class="jobSubBox__title">瀏覽紀錄</h5>
-            <ul>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-              <li class="list__item">
-                <a class="mb-2">UI Designer</a>
-                <a>六角學院</a>
-              </li>
-            </ul>
-          </div>
+          <JobReadRecord />
         </div>
       </div>
     </div>
@@ -152,7 +131,7 @@
     </div>
   </div>
   <div class="sideBtnBox">
-    <UpTopBtn/>
+    <UpTopBtn />
   </div>
   <ImgPopModal />
 </template>
@@ -161,11 +140,13 @@
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
+import JobReadRecord from '@/components/front/JobReadRecord.vue';
 
 export default {
   components: {
     UpTopBtn,
     ImgPopModal,
+    JobReadRecord,
   },
   data() {
     return {
@@ -204,12 +185,12 @@ export default {
           } else {
             this.isExist = false;
           }
-          emitter.emit('spinner-close');
           this.getJobs();
         })
         .catch((error) => {
           console.log(error);
         });
+      emitter.emit('spinner-close');
     },
     getJobs() {
       emitter.emit('spinner-open');
@@ -231,18 +212,18 @@ export default {
       this.jobsList.forEach((item) => {
         if (item.description === '職位') {
           if (item.options.company.companyName === this.companyItem.title) {
-            console.log(item.options.company.companyName);
             this.companyJobs.push(item);
           }
         }
       });
       emitter.emit('spinner-close');
+      emitter.emit('check-job-read-local');
     },
   },
   created() {
     this.getCompanyData();
+    emitter.emit('spinner-open-bg', 500);
   },
-  mounted() {},
 };
 </script>
 

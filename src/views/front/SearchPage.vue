@@ -5,7 +5,7 @@
         <div class="searchFilterBox  box--shadow mb-5 p-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="subTitle text-dark">搜尋條件設定</h3>
-            <button type="button" class="btn btn-gray-light btn-lg btn--web" @click="cleanFilter">
+            <button type="button" class="btn btn-gray-light" @click="cleanFilter">
               清除全部
             </button>
           </div>
@@ -299,7 +299,7 @@
                   >
                     <div class="mb-3 d-flex flex-column align-items-start">
                       <router-link
-                        class="list__item__title text-dark mb-3 me-7 pe-auto"
+                        class="list__item__title mb-3 me-7 pe-auto"
                         :to="`/products-list/product/${item.id}`"
                         >{{ item.title }}</router-link
                       >
@@ -356,12 +356,12 @@
           <div class="pb-5 border-bottom border-gray-line">
             <div class="d-flex mb-3">
               <div class="sideJobBox__imgBox">
-                <img class="jobImage" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
+                <img class="jobImage" :src="jobItem.imageUrl" :alt="`${jobItem.title}職位圖片`" />
                 <div class="logoImageBox">
                   <img
                     class="logoImage"
                     :src="jobItem.options.company.companyLogoUrl"
-                    :alt="jobItem.options.company.companyName + 'logo'"
+                    :alt="`${jobItem.options.company.companyName}logo`"
                   />
                 </div>
               </div>
@@ -572,7 +572,6 @@ export default {
     },
     // 篩選查詢
     filterJobs() {
-      // this.mountState = false;
       emitter.emit('spinner-open');
       this.classifyJob();
       const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
@@ -583,7 +582,6 @@ export default {
       emitter.emit('filterBtn-close');
     },
     filter(value) {
-      console.log(value);
       this.filterData = value;
       emitter.emit('spinner-open');
       this.classifyJob();
@@ -725,6 +723,7 @@ export default {
     this.searchFilterMethods = searchFilter;
     this.filterQuery = this.$route.query;
     this.getSearchFilterData();
+    emitter.emit('spinner-open-bg', 1000);
   },
   mounted() {
     const vm = this;

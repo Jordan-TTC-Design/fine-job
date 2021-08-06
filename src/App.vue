@@ -1,14 +1,17 @@
 <template>
-  <router-view v-if="isRouterAlive"> </router-view>
-  <spinner></spinner>
+  <router-view v-if="isRouterAlive"></router-view>
+  <Spinner/>
+  <SpinnerBg/>
 </template>
 
 <script>
 import Spinner from '@/components/helpers/Spinner.vue';
+import SpinnerBg from '@/components/helpers/SpinnerBg.vue';
 
 export default {
   components: {
     Spinner,
+    SpinnerBg,
   },
   provide() {
     return {
