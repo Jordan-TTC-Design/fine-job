@@ -35,7 +35,12 @@
               :class="{ putPointer: !folder.jobCheck }"
             >
               <div class="collectFolder--sm">
-                <img class="collectFolder__imgCover" :src="folder.jobs[0].imageUrl" alt="" />
+                <img
+                  class="collectFolder__imgCover"
+                  v-if="folder.jobs[0]"
+                  :src="folder.jobs[0].imageUrl"
+                  alt=""
+                />
               </div>
               <div class="d-flex align-items-center justify-content-between flex-grow-1">
                 <div class="d-flex align-items-center">
@@ -127,14 +132,15 @@ export default {
   emits: ['return-job-collection'],
   data() {
     return {
-      modal: '',
-      createJobModal: '',
+      modal: {},
+      createJobModal: {},
       jobCollection: [],
       sentJob: {},
       collectFolder: [],
       creatFolderForm: {
         title: '',
       },
+      justCreateFolder: false,
     };
   },
   methods: {
@@ -154,19 +160,21 @@ export default {
       this.createJobModal.show();
     },
     createFolder() {
-      // 先收集需要的資料
-      const Obj = {
-        title: this.sentJob.title,
-        company: this.sentJob.options.company.companyName,
-        id: this.sentJob.id,
-        imageUrl: this.sentJob.imageUrl,
-        time: this.sentJob.options.job.create,
-      };
       const temFolder = {
         title: this.creatFolderForm.title || '未命名收藏夾',
-        jobs: [Obj],
-        id: Math.floor(Date.now() / 1000),
+        jobs: [],
+        id: `${Math.floor(Date.now() / 1000)}`,
       };
+      if (this.justCreateFolder === false) {
+        const Obj = {
+          title: this.sentJob.title,
+          company: this.sentJob.options.company.companyName,
+          id: this.sentJob.id,
+          imageUrl: this.sentJob.imageUrl,
+          time: this.sentJob.options.job.create,
+        };
+        temFolder.jobs.push(Obj);
+      }
       this.jobCollection.push(temFolder);
       const temData = JSON.stringify(this.jobCollection);
       localStorage.setItem('fineJob-jobCollection', temData);
@@ -205,39 +213,6 @@ export default {
       console.log(this.jobCollection);
       console.log(this.collectFolder);
     },
-    // // 存入local
-    // collectJobToLocal() {
-    //   // 先收集需要的資料
-    //   const Obj = {
-    //     title: this.sentJob.title,
-    //     company: this.sentJob.options.company.companyName,
-    //     id: this.sentJob.id,
-    //     imageUrl: this.sentJob.imageUrl,
-    //     time: this.sentJob.options.job.create,
-    //   };
-    //   // 收藏夾
-    //   const collectFolder = {
-    //     title: this.creatFolderForm.title,
-    //     jobs: [],
-    //   };
-    //   collectFolder.jobs.push(Obj);
-    //   this.jobCollection.push(collectFolder);
-    //   const temData = JSON.stringify(this.jobCollection);
-    //   localStorage.setItem('fineJob-jobCollection', temData);
-    //   this.getLocalStorage();
-    //   this.closeModal();
-    // },
-    // // 檢查是否已經存在
-    // checkLocalJobCollection(id) {
-    //   this.getLocalStorage();
-    //   if (!this.jobCollection) {
-    //     this.jobCollection = [];
-    //   }
-    //   const checkData = this.jobCollection.some((item) => item.id === id);
-    //   if (!checkData) {
-    //     this.collectJobToLocal();
-    //   }
-    // },
     // 瀏覽紀錄相關方法
     // 取得瀏覽紀錄
     getLocalStorage() {
@@ -246,7 +221,6 @@ export default {
         this.jobCollection = temJobCollectionsArray;
         this.collectFolder = JSON.parse(JSON.stringify(temJobCollectionsArray));
       }
-      console.log(this.jobCollection);
     },
     returnJobCollection() {
       this.$emit('return-job-collection', this.jobCollection);
@@ -255,15 +229,20 @@ export default {
   created() {
     this.getLocalStorage();
     emitter.on('return-local-collection', () => {
-      console.log('hi');
       this.returnJobCollection();
     });
     // 打開收藏選單
     emitter.on('open-collect-modal', (item) => {
+      this.justCreateFolder = false;
       this.sentJob = item;
       console.log(this.sentJob);
       this.openModal();
       this.checkCollection(this.sentJob.id);
+    });
+    // 打開收藏選單
+    emitter.on('open-creat-collect-modal', () => {
+      this.justCreateFolder = true;
+      this.openCreateFolderModal();
     });
     // 關閉收藏選單
     emitter.on('close-collect-modal', () => {
@@ -271,11 +250,8 @@ export default {
     });
   },
   mounted() {
-    console.log('進入');
-    console.log(this.modal, this.createJobModal);
     this.modal = new Modal(this.$refs.jobCollectModal);
     this.createJobModal = new Modal(this.$refs.createJobCollectModal);
-    console.log(this.modal, this.createJobModal);
   },
 };
 </script>

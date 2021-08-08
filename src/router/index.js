@@ -17,9 +17,14 @@ const routes = [
         component: () => import('../views/front/ProductsList.vue'),
       },
       {
-        // 全部產品頁面
+        // 收藏頁面
         path: 'collection',
         component: () => import('../views/front/Collection.vue'),
+      },
+      {
+        // 收藏夾
+        path: 'collection-folder/:id',
+        component: () => import('../views/front/CollectionFolder.vue'),
       },
       {
         // 獨立產品頁面
@@ -39,19 +44,16 @@ const routes = [
       {
         // 申請職位頁面
         path: 'apply-job/:id',
-        name: 'ApplyJob',
         component: () => import('../views/front/ApplyJob.vue'),
       },
       {
         // 新建企業
         path: 'add-company',
-        name: 'AddCompany',
         component: () => import('../views/front/AddCompany.vue'),
       },
       {
         // 新建職位
         path: 'add-job',
-        name: 'AddJob',
         component: () => import('../views/front/AddJob.vue'),
       },
     ],

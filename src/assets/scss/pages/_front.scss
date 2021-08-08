@@ -937,10 +937,12 @@
 }
 // 收藏頁面
 //收藏夾
+
 .collectionBox {
   cursor: pointer;
   padding: 1rem;
   border-radius: 0.5rem;
+  position: relative;
   &:hover {
     background-color: $light;
   }
@@ -954,11 +956,13 @@
   }
 }
 .collectionBox__imgBox {
+  position: relative;
   height: 240px;
   background-color: $gray-light;
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
   &__item {
     background-color: $gray-line;
     overflow: hidden;
@@ -1010,7 +1014,37 @@
     object-fit: cover;
   }
 }
-
+.collectionBox--new {
+  height: 100%;
+  &:hover {
+    .collectionBox--new__newBtn,.jobIcon {
+      color: $primary;
+    }
+  }
+  &__cover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .collectionBox--new__newBtn {
+      background-color: $gray-light;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+    }
+  }
+  .collectionBox__imgBox {
+    &__item {
+      &::after {
+        background-color: rgba($color: $dark, $alpha: 0);
+      }
+    }
+  }
+}
 .nowFolder {
   display: flex;
   align-items: center;

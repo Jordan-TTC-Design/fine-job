@@ -600,7 +600,7 @@
 <script>
 import emitter from '@/methods/emitter';
 import webData from '@/methods/webData';
-import { Modal } from 'bootstrap/js/dist/modal';
+import Modal from 'bootstrap/js/dist/modal';
 
 export default {
   data() {
