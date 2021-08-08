@@ -1,100 +1,73 @@
 <template>
   <div class="page--py">
-    <div ref="recommedJobs" class="section">
-      <div class="container">
-        <h3 class="section__title ps-3">推薦職位</h3>
-        <swiper v-if="hotJobs.length > 0" :options="swiperOption">
-          <swiper-slide v-for="item in hotJobs" :key="item.id">
-            <GoodJobCard :good-job="item" />
-          </swiper-slide>
-          <div class="swiper-button-prev swiper-custom">
-            <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
-              <i class="bi bi-arrow-left actionIcon"></i>
-            </button>
-          </div>
-          <div class="swiper-button-next swiper-custom">
-            <button type="button" class="btn btn-lg rounded-circle iconBtnBox">
-              <i class="bi bi-arrow-right actionIcon"></i>
-            </button>
-          </div>
-        </swiper>
-      </div>
-    </div>
-    <div ref="jobsListContainer" class="jobsListContainer container">
-      <h3 class="section__title ps-3">全部職位</h3>
-      <div class="row" v-if="jobsList.length">
-        <div class="col-lg-6 col-12">
-          <div class="jobListBox">
-            <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-              <div class="d-flex flex-wrap">
-                <p class="text-primary me-2" v-if="filterTxt !== ''">
-                  <span class="text-secondary">搜尋條件：</span>{{ filterTxt }}
-                </p>
-                <p class="text-secondary fw-normal  text-nowrap">共 {{ jobsList.length }} 個職位</p>
-              </div>
-              <select
-                class="form-select form-select-lg w-auto border-0 text-gray-dark"
-                @change="changeJobSort($event)"
-                v-model="sortWay"
-              >
-                <option selected value="time">最新至最舊</option>
-                <option value="money">薪水高至低</option>
-              </select>
-            </div>
-            <ul ref="jobList" class="allJobList">
-              <template v-for="item in nowPageJobs" :key="item.id">
-                <li v-if="nowPageJobs.length > 0">
-                  <JobListCard
-                    :ref="`jobList__item--${item.id}`"
-                    :job-list-item="item"
-                    @select-job="selectJob"
-                    @search-by-job-category="searchByJobCategory"
+    <div class="container">
+      <div class="row">
+        <template v-for="(folder, index) in jobCollectionList" :key="index">
+          <div class="col-md-4 col-12" v-if="jobCollectionList.length > 0">
+            <div class="collectionBox">
+              <div class="collectionBox__imgBox">
+                <div class="collectionBox__imgBox__item item--fri">
+                  <img
+                    v-if="folder.jobs[0]"
+                    :src="folder.jobs[0].imageUrl"
+                    :alt="`職位圖片${index}`"
                   />
-                </li>
-              </template>
-            </ul>
+                </div>
+                <div class="collectionBox__imgBox__innerBox">
+                  <div class="collectionBox__imgBox__item item--sec">
+                    <img
+                      v-if="folder.jobs[1]"
+                      :src="folder.jobs[1].imageUrl"
+                      :alt="`職位圖片${index}`"
+                    />
+                  </div>
+                  <div class="collectionBox__imgBox__innerBox__littleBox">
+                    <div class="collectionBox__imgBox__item item--tri">
+                      <img
+                        v-if="folder.jobs[2]"
+                        :src="folder.jobs[2].imageUrl"
+                        :alt="`職位圖片${index}`"
+                      />
+                    </div>
+                    <div class="collectionBox__imgBox__item item--four">
+                      <img
+                        v-if="folder.jobs[3]"
+                        :src="folder.jobs[3].imageUrl"
+                        :alt="`職位圖片${index}`"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="collectionBox__txtBox">
+                <p class="txtBox__title">{{ folder.title }}</p>
+                <p>{{ folder.jobs.length }} 個職位</p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-6 col-12 d-lg-block d-none">
-          <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
-        </div>
+        </template>
       </div>
     </div>
-    <PagenationModal :jobs-list="jobsList" @change-page="changePage" />
   </div>
   <div class="sideBtnBox">
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal"/>
+  <JobCollect ref="JobCollectModal" @return-job-collection="returnJobCollection" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 import searchFilter from '@/methods/searchFilter';
 import webData from '@/methods/webData';
-import PagenationModal from '@/components/helpers/Pagenation.vue';
-import GoodJobCard from '@/components/front/GoodJobCard.vue';
-import JobListCard from '@/components/front/JobListCard.vue';
-import JobListSideJobBox from '@/components/front/JobListSideJobBox.vue';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import FilterBtn from '@/components/helpers/FilterBtn.vue';
 import JobCollect from '@/components/helpers/JobCollect.vue';
-import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
-
-SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 export default {
   components: {
-    PagenationModal,
-    GoodJobCard,
-    JobListCard,
-    Swiper,
-    SwiperSlide,
     UpTopBtn,
     FilterBtn,
-    JobListSideJobBox,
     JobCollect,
   },
   data() {
@@ -153,6 +126,7 @@ export default {
         slidesPerView: this.swiperNum,
         spaceBetween: '20',
       },
+      jobCollectionList: [],
     };
   },
   watch: {
@@ -181,6 +155,11 @@ export default {
     },
   },
   methods: {
+    // 取得收藏職位資料
+    returnJobCollection(array) {
+      this.jobCollectionList = array;
+      console.log(this.jobCollectionList);
+    },
     // 打開篩選彈跳視窗
     openSideFilterBox() {
       if (this.filterBoxState) {
@@ -276,19 +255,19 @@ export default {
         this.$router.push(`/products-list/product/${id}`);
       }
     },
-    selectJobFrist(id) {
-      if (this.fullWidth > 991) {
-        this.nowPageJobs.forEach((item) => {
-          if (item.id === id) {
-            this.jobItem = item;
-            this.$refs[`jobList__item--${item.id}`].openSelectEffect();
-          } else if (item.id !== id) {
-            this.$refs[`jobList__item--${item.id}`].closeSelectEffect();
-          }
-        });
-        this.$refs.jobSelectBox.toTop();
-      }
-    },
+    // selectJobFrist(id) {
+    //   if (this.fullWidth > 991) {
+    //     this.nowPageJobs.forEach((item) => {
+    //       if (item.id === id) {
+    //         this.jobItem = item;
+    //         this.$refs[`jobList__item--${item.id}`].openSelectEffect();
+    //       } else if (item.id !== id) {
+    //         this.$refs[`jobList__item--${item.id}`].closeSelectEffect();
+    //       }
+    //     });
+    //     this.$refs.jobSelectBox.toTop();
+    //   }
+    // },
     // 本頁職位
     getNowPageJobs() {
       const temPageJobs = [];
@@ -305,7 +284,7 @@ export default {
       this.nowPageJobs = temPageJobs;
       setTimeout(() => {
         if (this.nowPageJobs.length > 0) {
-          this.selectJobFrist(this.nowPageJobs[0].id);
+          // this.selectJobFrist(this.nowPageJobs[0].id);
         }
       }, 10);
     },
@@ -376,6 +355,7 @@ export default {
       vm.fullWidth = window.innerWidth;
       vm.fullHeight = window.innerHeight;
     };
+    emitter.emit('return-local-collection');
   },
 };
 </script>

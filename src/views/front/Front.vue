@@ -24,7 +24,7 @@
             <button class="nav-link text-white btn" @click="openSearchModal">搜尋</button>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link text-white" to="/products-list">收藏</router-link>
+            <router-link class="nav-link text-white" to="/collection">收藏</router-link>
           </li>
           <li class="nav-item d-lg-none d-block">
             <router-link class="nav-link text-white" to="/add-company">企業會員加入</router-link>
@@ -55,10 +55,10 @@
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main py-7 main--bg" ref="main">
+  <div class="main main--bg" ref="main">
     <router-view></router-view>
   </div>
-  <footer class="bg-gray-mid pt-8">
+  <footer class="bg-gray-mid">
     <div class="footer--front bg-primary">
       <div class="container">
         <div class="row py-7">

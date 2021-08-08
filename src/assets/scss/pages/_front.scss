@@ -94,7 +94,7 @@
   &__innerBox {
     padding-top: 6.75rem;
     padding-bottom: 4.5rem;
-    margin-top: -3rem;
+    margin-top: -4rem;
     @include md {
       padding-top: 2.75rem;
     }
@@ -220,61 +220,88 @@
 .weeklyCompany {
   position: relative;
   z-index: 1;
-  .section__bg {
-    height: 64%;
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 0;
-    z-index: -1;
+  border-bottom: 1px solid $gray-line;
+  @include md {
+    padding-bottom: 5.5rem;
   }
-  &__Box--left {
-    background-color: $white;
-    border-radius: 0.5rem;
+  .btn--goToCompany {
+    width: 100%;
+    @include md {
+      position: absolute;
+      bottom: 3rem;
+      left: 0;
+    }
+  }
+  &__infoBox {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    @include md {
-      border-radius: 0 0 0.5rem 0.5rem;
+    height: 100%;
+    border-right: 1px solid $gray-line;
+    padding-right: 1.25rem;
+    .logoImgBox {
+      width: 60%;
     }
     .page__title {
       font-size: 1.25rem;
       color: $dark;
       font-weight: 500;
     }
-    .companyContentBox {
-      .companyContent {
-        max-height: 164px;
-        overflow: hidden;
+    @include md {
+      border: 0;
+      flex-direction: row;
+      align-items: start;
+      .logoImgBox {
+        width: 30%;
+        margin-right: 1.25rem;
+      }
+      .txtBox {
+        width: 100%;
+      }
+    }
+  }
+  &__companyContentBox {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    @include md {
+      flex-direction: column-reverse;
+    }
+    .companyContent {
+      max-width: calc(40% - 10px);
+      max-height: 264px;
+      overflow: hidden;
+      @include lg {
+        max-width: calc(50% - 10px);
+      }
+      @include md {
+        max-width: 100%;
+      }
+    }
+    .imgBox {
+      max-width: calc(60% - 10px);
+      height: 264px;
+      border-radius: 0.5rem;
+      .swiper-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        .imgBox__img {
+          width: 100%;
+          height: calc(100% - 1.5rem);
+          object-fit: cover;
+          border-radius: 0.5rem;
+        }
       }
       @include lg {
-        max-width: 90%;
+        max-width: calc(50% - 10px);
       }
       @include md {
         max-width: 100%;
       }
     }
   }
-  &__Box--right {
-    position: absolute;
-    top: -2rem;
-    right: 0;
-    @include md {
-      position: static;
-    }
-    .imageBox {
-      max-width: 100%;
-      height: auto;
-      border-radius: 0.5rem;
-      @include md {
-        border-radius: 0.5rem 0.5rem 0 0;
-      }
-    }
-    img {
-      max-width: 100%;
-    }
-  }
-  &JobList {
+  &__jobList {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -289,12 +316,16 @@
       &:hover {
         background-color: $gray-light;
       }
-      @include md {
+      &__title:hover {
+        color: $primary;
+      }
+      @include sm {
         width: 100%;
       }
     }
   }
 }
+
 // 熱門職位類別
 .hotCategory {
   .list__item {
@@ -451,7 +482,7 @@
         }
       }
     }
-    &:hover{
+    &:hover {
       background-color: rgba($color: $light, $alpha: 0.5);
     }
     &__imgBox {
@@ -517,7 +548,7 @@
     &__title {
       color: $dark;
       font-weight: $fw--md;
-      &:hover{
+      &:hover {
         color: $primary;
       }
     }
@@ -538,12 +569,12 @@
   padding: 1.5rem;
   &__imgBox {
     width: 32%;
-      position: relative;
-      margin-right: 3rem;
-      .jobImg {
-        max-width: 100%;
-        border-radius: 0.5rem;
-      }
+    position: relative;
+    margin-right: 3rem;
+    .jobImg {
+      max-width: 100%;
+      border-radius: 0.5rem;
+    }
     .logoImageBox {
       position: absolute;
       top: -0.25rem;
@@ -744,7 +775,7 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: $light;
-  &__title{
+  &__title {
     color: $dark;
     font-weight: $fw--md;
     padding: 0.75rem;
@@ -756,9 +787,9 @@
     &:hover {
       background-color: $gray-light;
     }
-    &:last-child{
-    border-bottom: 0;
-    border-radius: 0 0 0.5rem 0.5rem;
+    &:last-child {
+      border-bottom: 0;
+      border-radius: 0 0 0.5rem 0.5rem;
     }
     &__link,
     &__link--sub {
@@ -789,7 +820,6 @@
 .footer--front {
   background-color: #3f6745;
 }
-
 
 //新增企業
 .newCompanyForm {
@@ -903,6 +933,123 @@
       font-size: 16px;
       color: $primary;
     }
+  }
+}
+// 收藏頁面
+//收藏夾
+.collectionBox {
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  &:hover {
+    background-color: $light;
+  }
+  .txtBox__title {
+    // font-size: 20px;
+    font-weight: $fw--md;
+    color: $dark;
+  }
+  .txtBox__title:hover {
+    color: $primary;
+  }
+}
+.collectionBox__imgBox {
+  height: 240px;
+  background-color: $gray-light;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  &__item {
+    background-color: $gray-line;
+    overflow: hidden;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba($color: $dark, $alpha: 0.3);
+    }
+  }
+  .item--fri {
+    width: calc(50% - 0.125rem);
+    height: 100%;
+    border-radius: 0.5rem 0 0 0.5rem;
+  }
+  &__innerBox {
+    width: calc(50% - 0.125rem);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .item--sec {
+      height: calc(50% - 0.125rem);
+      width: 100%;
+      border-radius: 0 0.5rem 0 0;
+    }
+    &__littleBox {
+      display: flex;
+      justify-content: space-between;
+      height: calc(50% - 0.125rem);
+    }
+    .item--tri {
+      width: calc(50% - 0.125rem);
+      height: 100%;
+    }
+    .item--four {
+      width: calc(50% - 0.125rem);
+      height: 100%;
+      border-radius: 0 0 0.5rem 0;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.nowFolder {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  &:hover {
+    background-color: $gray-light;
+    .collectFolder--sm {
+      background-color: $gray-line;
+    }
+    .collectFolder__title {
+      color: $primary;
+    }
+  }
+  .collectFolder--sm {
+    width: 44px;
+    height: 44px;
+    background-color: $gray-light;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    .collectFolder__imgCover {
+      border-radius: 0.5rem;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+  .collectFolder--new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .jobIcon {
+      color: $dark;
+    }
+  }
+  .collectFolder__subTxt {
+    font-size: 14px;
+    color: $secondary;
   }
 }
 
@@ -1028,13 +1175,9 @@
   }
 }
 
-
-
-
-
 .sideFilter.searchFilterBox {
   max-width: 640px;
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
+  @include shadow-md;
   margin-bottom: 0.5rem;
   z-index: 9999;
   @include sm {

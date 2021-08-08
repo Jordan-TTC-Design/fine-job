@@ -1,23 +1,27 @@
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
-  background-color: #3f6745;
-  width: 24px;
-  border-radius: 4px;
-  // transition-duration: 0.3s;
+  background-color: $primary;
+  width:1.5rem;
+  border-radius:0.25rem;
 }
+
 .swiper-wrapper {
-  padding-bottom: 36px;
+  padding-bottom:2.25rem;
 }
 .swiper-button-prev.swiper-custom,
 .swiper-button-next.swiper-custom {
   top: 40%;
 }
 .swiper-button-prev.swiper-custom {
-  left: 24px;
+  left: 1.5rem;
 }
 .swiper-button-next.swiper-custom {
-  right: 24px;
+  right: 1.5rem;
 }
 .swiper-button-next:after,
 .swiper-button-prev:after {
   display: none;
+}
+// 首頁的企業推薦修改
+.weeklyCompany .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets{
+  bottom: 0;
 }

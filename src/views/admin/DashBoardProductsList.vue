@@ -127,7 +127,7 @@
           <div class="selectBox__section  position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
-              type="button"
+              type="button" @click="emitter.emit('open-collect-modal')"
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>

@@ -11,7 +11,7 @@
 .section__titleBox {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   .titleBox__title {
     color: $primary;
     font-size: 1.5rem;
@@ -103,7 +103,7 @@
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.16);
+  @include shadow-md;
   background-color: rgba(247, 247, 247, 0.9);
   border: 1px solid $light;
   display: flex;
@@ -139,19 +139,19 @@
     color:$dark;
   }
 }
-特殊樣式工具區
+// 特殊樣式工具區
 // 手指
 .putPointer {
   cursor: pointer;
 }
 // 陰影
 .box--shadow {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.16);
+  @include shadow-normal;
   // transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   // &:hover {
   //     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   //   }
 }
 .box--shadow--lg {
-  box-shadow: 0 5px 6px rgba(0, 0, 0, 0.16);
+  @include shadow-lg;
 }

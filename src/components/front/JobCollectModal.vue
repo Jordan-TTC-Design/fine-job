@@ -178,7 +178,7 @@
 
 <script>
 import emitter from '@/methods/emitter';
-import Modal from 'bootstrap/js/dist/modal';
+import { Modal } from 'bootstrap/js/dist/modal';
 
 export default {
   props: ['temProduct'],

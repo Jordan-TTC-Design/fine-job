@@ -17,6 +17,11 @@ const routes = [
         component: () => import('../views/front/ProductsList.vue'),
       },
       {
+        // 全部產品頁面
+        path: 'collection',
+        component: () => import('../views/front/Collection.vue'),
+      },
+      {
         // 獨立產品頁面
         path: 'products-list/product/:id',
         component: () => import('../views/front/Product.vue'),
