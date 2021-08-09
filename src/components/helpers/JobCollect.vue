@@ -228,9 +228,16 @@ export default {
   },
   created() {
     this.getLocalStorage();
+  },
+  mounted() {
+    console.log('open Modal');
+    this.modal = new Modal(this.$refs.jobCollectModal);
+    this.createJobModal = new Modal(this.$refs.createJobCollectModal);
+    console.log('open Modal');
     emitter.on('return-local-collection', () => {
       this.returnJobCollection();
     });
+    this.modal.show();
     // 打開收藏選單
     emitter.on('open-collect-modal', (item) => {
       this.justCreateFolder = false;
@@ -249,9 +256,30 @@ export default {
       this.closeModal();
     });
   },
-  mounted() {
-    this.modal = new Modal(this.$refs.jobCollectModal);
-    this.createJobModal = new Modal(this.$refs.createJobCollectModal);
+  unmounted() {
+    console.log('close Modal');
+    this.modal.dispose();
+    this.createJobModal.dispose();
+    emitter.off('return-local-collection', () => {
+      this.returnJobCollection();
+    });
+    // 打開收藏選單
+    emitter.off('open-collect-modal', (item) => {
+      this.justCreateFolder = false;
+      this.sentJob = item;
+      console.log(this.sentJob);
+      this.openModal();
+      this.checkCollection(this.sentJob.id);
+    });
+    // 打開收藏選單
+    emitter.off('open-creat-collect-modal', () => {
+      this.justCreateFolder = true;
+      this.openCreateFolderModal();
+    });
+    // 關閉收藏選單
+    emitter.off('close-collect-modal', () => {
+      this.closeModal();
+    });
   },
 };
 </script>
