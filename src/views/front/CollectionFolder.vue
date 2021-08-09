@@ -1,7 +1,7 @@
 <template>
   <div class="page--py">
     <div ref="jobsListContainer" class="jobsListContainer container">
-      <h3 class="section__title ps-3">全部職位</h3>
+      <h3 class="section__title ps-3">職位收藏夾 - {{jobFolder.title}}</h3>
       <div class="row" v-if="nowPageJobs.length">
         <div class="col-lg-6 col-12">
           <div class="jobListBox">
@@ -61,9 +61,6 @@ import JobListSideJobBox from '@/components/front/JobListSideJobBox.vue';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import FilterBtn from '@/components/helpers/FilterBtn.vue';
 import JobCollect from '@/components/helpers/JobCollect.vue';
-import SwiperCore, { Autoplay, Pagination, Navigation } from 'swiper/core';
-
-SwiperCore.use([Autoplay, Pagination, Navigation]);
 
 export default {
   components: {
@@ -179,9 +176,9 @@ export default {
     // 調整列表排序方式
     changeJobSort() {
       if (this.sortWay === 'time') {
-        this.jobsList.sort((a, b) => b.options.job.create - a.options.job.create);
+        this.jobFolderDetail.sort((a, b) => b.options.job.create - a.options.job.create);
       } else if (this.sortWay === 'money') {
-        this.jobsList.sort((a, b) => b.price - a.price);
+        this.jobFolderDetail.sort((a, b) => b.price - a.price);
       }
     },
     // 切換頁面
@@ -193,9 +190,9 @@ export default {
     filter(value) {
       this.filterData = value;
       emitter.emit('spinner-open');
-      this.classifyJob();
-      const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
-      this.jobsList = temArray;
+      this.getfolderJobs();
+      const temArray = this.searchFilterMethods.filter(this.jobFolderDetail, this.filterData);
+      this.jobFolderDetail = temArray;
       this.changePage(1);
       this.getfilterTxt();
       emitter.emit('filterBtn-close');
@@ -287,18 +284,17 @@ export default {
           this.selectJobFrist(this.nowPageJobs[0].id);
         }
       }, 10);
-      console.log(this.nowPageJobs);
     },
     getfolderJobs() {
+      this.jobFolderDetail = [];
       this.jobFolder.jobs.forEach((item) => {
         this.jobsList.forEach((job) => {
           if (item.id === job.id) {
-            console.log(job);
             this.jobFolderDetail.push(job);
           }
         });
       });
-      console.log(this.jobFolderDetail);
+      this.changeJobSort();
       this.changePage(1);
     },
     // 篩選出所有職位
@@ -315,7 +311,6 @@ export default {
           this.jobsList.push(Obj);
         }
       });
-      this.changeJobSort();
       this.getfolderJobs();
     },
     // 抓全部資料
@@ -337,13 +332,11 @@ export default {
     returnJobCollection(array) {
       this.jobCollectionList = array;
       const { id } = this.$route.params;
-      console.log(id);
       this.jobCollectionList.forEach((item) => {
         if (item.id === id) {
           this.jobFolder = { ...item };
         }
       });
-      console.log(this.jobFolder);
       this.getOgData();
     },
   },

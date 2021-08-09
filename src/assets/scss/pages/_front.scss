@@ -775,6 +775,12 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: $light;
+  .applyImg{
+    width: 100%;
+    background-color: $gray-light;
+    border-radius: 0.5rem ;
+    margin-bottom: 0.5rem;
+  }
   &__title {
     color: $dark;
     font-weight: $fw--md;
@@ -944,7 +950,7 @@
   border-radius: 0.5rem;
   position: relative;
   &:hover {
-    background-color: $light;
+    background-color: $gray-light;
   }
   .txtBox__title {
     // font-size: 20px;
@@ -1274,5 +1280,16 @@
   }
   .jobIcon {
     color: $white;
+  }
+}
+
+.img--searchNoJob{
+  max-width:48%;
+  margin: 2rem 0;
+  @include md{
+  max-width:64%;
+  }
+  @include sm{
+    max-width: 80%;
   }
 }

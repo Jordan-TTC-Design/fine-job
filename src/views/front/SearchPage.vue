@@ -240,14 +240,14 @@
     </div>
     <div class="jobsListContainer container">
       <h3 class="pageTitle ps-3">搜尋結果</h3>
-      <p class="ps-3 mb-4 text-primary" v-if="filterTxt !== ''">
+      <p class="ps-3 mb-6 text-primary" v-if="filterTxt !== ''">
         <span class="text-gray-dark">搜尋條件：</span>{{ filterTxt }}
       </p>
       <div class="row">
-        <div class="col-lg-6 col-12">
+        <div class="col-lg-6 col-12" v-if="jobsList.length > 0 ">
           <div class="jobListBox">
             <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-              <p class="text-secondary fw-normal  text-nowrap">總共 {{ jobsList.length }} 個職位</p>
+              <p class="text-secondary fw-normal  text-nowrap">目前共 {{ jobsList.length }} 個職位</p>
               <select
                 class="form-select form-select-lg w-auto border-0 text-gray-dark"
                 @change="changeJobSort($event)"
@@ -271,8 +271,11 @@
             </ul>
           </div>
         </div>
-        <div class="col-lg-6 col-12 d-lg-block d-none">
+        <div class="col-lg-6 col-12 d-lg-block d-none" v-if="jobsList.length > 0 ">
           <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
+        </div>
+        <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0 ">
+          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="">
         </div>
       </div>
     </div>
@@ -282,6 +285,7 @@
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />
   </div>
+  <JobCollect ref="JobCollectModal"/>
 </template>
 
 <script>
@@ -292,6 +296,7 @@ import PagenationModal from '@/components/helpers/Pagenation.vue';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import FilterBtn from '@/components/helpers/FilterBtn.vue';
 import JobListCard from '@/components/front/JobListCard.vue';
+import JobCollect from '@/components/helpers/JobCollect.vue';
 import JobListSideJobBox from '@/components/front/JobListSideJobBox.vue';
 
 export default {
@@ -301,6 +306,7 @@ export default {
     FilterBtn,
     JobListCard,
     JobListSideJobBox,
+    JobCollect,
   },
   inject: ['reload'],
   data() {

@@ -1,8 +1,11 @@
 <template>
   <div class="card goodJobCard">
     <div class="goodJobCard__imgBox">
-      <img class="goodJobCard__img card-img-top" :src="jobItem.imageUrl"
-      :alt="`${jobItem.title}職位圖片`" />
+      <img
+        class="goodJobCard__img card-img-top"
+        :src="jobItem.imageUrl"
+        :alt="`${jobItem.title}職位圖片`"
+      />
       <div class="img-cover"></div>
       <div class="goodJobCard__jobInfoBox">
         <div class="d-flex">
@@ -24,10 +27,9 @@
             >
           </div>
         </div>
-        <img class="goodJobCard__img" :src="jobItem.imageUrl" :alt="jobItem.title+'職位圖片'" />
+        <img class="goodJobCard__img" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
       </div>
     </div>
-
     <div class="card-body">
       <div class="d-flex justify-content-between">
         <p class="subTxt" v-if="!jobItem.options.job.salaryInterView">{{ jobItem.price }} / 月薪</p>
@@ -57,6 +59,9 @@ export default {
         console.log(this.jobItem);
       },
     },
+  },
+  methods: {
+
   },
   created() {
     this.jobItem = this.goodJob;

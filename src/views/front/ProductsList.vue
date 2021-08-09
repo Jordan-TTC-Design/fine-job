@@ -22,16 +22,14 @@
     </div>
     <div ref="jobsListContainer" class="jobsListContainer container">
       <h3 class="section__title ps-3">全部職位</h3>
-      <div class="row" v-if="jobsList.length">
-        <div class="col-lg-6 col-12">
+      <p class="ps-3 mb-6 text-primary" v-if="filterTxt !== ''">
+        <span class="text-gray-dark">搜尋條件：</span>{{ filterTxt }}
+      </p>
+      <div class="row" >
+        <div class="col-lg-6 col-12" v-if="jobsList.length > 0">
           <div class="jobListBox">
             <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-              <div class="d-flex flex-wrap">
-                <p class="text-primary me-2" v-if="filterTxt !== ''">
-                  <span class="text-secondary">搜尋條件：</span>{{ filterTxt }}
-                </p>
-                <p class="text-secondary fw-normal  text-nowrap">共 {{ jobsList.length }} 個職位</p>
-              </div>
+                <p class="text-secondary fw-normal  text-nowrap">目前共 {{ jobsList.length }} 個職位</p>
               <select
                 class="form-select form-select-lg w-auto border-0 text-gray-dark"
                 @change="changeJobSort($event)"
@@ -55,8 +53,11 @@
             </ul>
           </div>
         </div>
-        <div class="col-lg-6 col-12 d-lg-block d-none">
+        <div class="col-lg-6 col-12 d-lg-block d-none" v-if="jobsList.length > 0">
           <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
+        </div>
+        <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0 ">
+          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="">
         </div>
       </div>
     </div>

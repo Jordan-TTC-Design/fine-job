@@ -19,10 +19,10 @@ $fw--bd: 700;
 }
 .section--py {
   padding: 4rem 0;
-  @include lg{
-  padding: 3rem 0;
+  @include lg {
+    padding: 3rem 0;
   }
-  @include md{
+  @include md {
     padding: 3rem 0;
   }
 }
@@ -79,7 +79,7 @@ p {
   border-radius: 0.5rem;
   .logoImg {
     max-width: 100%;
-  border-radius: 0.25rem;
+    border-radius: 0.25rem;
   }
 }
 .pageTitle {
@@ -138,13 +138,52 @@ p {
 }
 
 // 前台每一頁的padding
-.page--py{
+.page--py {
   padding-top: 4rem;
   padding-bottom: 4rem;
-  @include lg{
+  @include lg {
     padding-bottom: 3rem;
+  }
+  @include md {
+    padding-bottom: 3rem;
+  }
+}
+//頁面小分頁
+.page__sideNav {
+  background-color: $light;
+  padding: 0 0.75rem;
+  border-radius: 0.5rem;
+  display: flex;
+  &__item{
+    height: 44px;
+    padding: 0 1rem ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s;
+    &__title{
+      color: $dark;
+      font-weight:$fw--md;
     }
-    @include md{
-      padding-bottom: 3rem;
+    &::after{
+      content: '';
+      position: absolute;
+      bottom: 0;
+      background-color: $primary;
+      height: 0rem;
+      width: 100%;
+      border-radius: 0.25rem 0.25rem 0 0;
     }
+    &.active {
+      .page__sideNav__item__title{
+        color:$primary
+      }
+      &::after{
+        height: 0.25rem;
+      }
+    }
+
+  }
+  
 }

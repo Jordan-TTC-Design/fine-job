@@ -138,7 +138,8 @@
             </div>
           </div>
           <div class="col-lg-3 col-12">
-            <div class="jobSubBox apply box--shadow mb-lg-3 p-3 d-lg-block d-none">
+            <div class="jobSubBox  box--shadow mb-lg-3 p-3 d-lg-block d-none">
+              <img class="applyImg" src="https://i.imgur.com/2MEGlKs.png" alt="">
               <router-link
                 class="btn btn-lg btn-primary w-100"
                 aria-current="page"

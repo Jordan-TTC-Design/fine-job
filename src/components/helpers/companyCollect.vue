@@ -1,7 +1,7 @@
 <template>
   <div
-    ref="jobCollectModal"
-    class="jobCollectModal modal fade"
+    ref="companyCollectModal"
+    class="companyCollectModal modal fade"
     id="exampleModalToggle"
     aria-hidden="true"
     aria-labelledby="exampleModalToggleLabel"
@@ -62,8 +62,8 @@
     </div>
   </div>
   <div
-    ref="createJobCollectModal"
-    class="jobCollectModal modal fade"
+    ref="createcompanyCollectModal"
+    class="companyCollectModal modal fade"
     id="exampleModalToggle2"
     aria-hidden="true"
     aria-labelledby="exampleModalToggleLabel2"
@@ -134,7 +134,7 @@ export default {
     return {
       modal: {},
       createJobModal: {},
-      jobCollection: [],
+      companyCollection: [],
       sentJob: {},
       collectFolder: [],
       creatFolderForm: {
@@ -175,9 +175,9 @@ export default {
         };
         temFolder.jobs.push(Obj);
       }
-      this.jobCollection.push(temFolder);
-      const temData = JSON.stringify(this.jobCollection);
-      localStorage.setItem('fineJob-jobCollection', temData);
+      this.companyCollection.push(temFolder);
+      const temData = JSON.stringify(this.companyCollection);
+      localStorage.setItem('fineJob-companyCollection', temData);
       this.getLocalStorage();
       this.closeModal();
     },
@@ -192,16 +192,16 @@ export default {
           time: this.sentJob.options.job.create,
         };
         console.log(Obj);
-        this.jobCollection.forEach((item, index) => {
+        this.companyCollection.forEach((item, index) => {
           if (item.id === folderId) {
             console.log(item.title);
-            this.jobCollection[index].jobs.push(Obj);
+            this.companyCollection[index].jobs.push(Obj);
           }
         });
-        const temData = JSON.stringify(this.jobCollection);
-        localStorage.setItem('fineJob-jobCollection', temData);
+        const temData = JSON.stringify(this.companyCollection);
+        localStorage.setItem('fineJob-companyCollection', temData);
         this.getLocalStorage();
-        console.log(this.jobCollection);
+        console.log(this.companyCollection);
         this.closeModal();
       }
     },
@@ -210,16 +210,16 @@ export default {
         const checkData = item.jobs.some((job) => job.id === id);
         this.collectFolder[index].jobCheck = checkData;
       });
-      console.log(this.jobCollection);
+      console.log(this.companyCollection);
       console.log(this.collectFolder);
     },
     // 瀏覽紀錄相關方法
     // 取得瀏覽紀錄
     getLocalStorage() {
-      const temJobCollectionsArray = JSON.parse(localStorage.getItem('fineJob-jobCollection'));
-      if (temJobCollectionsArray) {
-        this.jobCollection = temJobCollectionsArray;
-        this.collectFolder = JSON.parse(JSON.stringify(temJobCollectionsArray));
+      const temcompanyCollectionsArray = JSON.parse(localStorage.getItem('fineJob-companyCollection'));
+      if (temcompanyCollectionsArray) {
+        this.companyCollection = temcompanyCollectionsArray;
+        this.collectFolder = JSON.parse(JSON.stringify(temcompanyCollectionsArray));
       }
     },
     // 刪除收藏夾
@@ -230,7 +230,7 @@ export default {
         }
       });
       const temData = JSON.stringify(this.collectFolder);
-      localStorage.setItem('fineJob-jobCollection', temData);
+      localStorage.setItem('fineJob-companyCollection', temData);
       this.getLocalStorage();
     },
     // 刪除職位
@@ -241,12 +241,12 @@ export default {
         }
       });
       const temData = JSON.stringify(this.collectFolder);
-      localStorage.setItem('fineJob-jobCollection', temData);
+      localStorage.setItem('fineJob-companyCollection', temData);
       this.getLocalStorage();
     },
     // emit監聽
-    emitReturnJobCollection() {
-      this.$emit('return-job-collection', this.jobCollection);
+    emitReturncompanyCollection() {
+      this.$emit('return-job-collection', this.companyCollection);
     },
     emitOpenCollectModal(item) {
       console.log('open Modal');
@@ -265,9 +265,9 @@ export default {
     this.getLocalStorage();
   },
   mounted() {
-    this.modal = new Modal(this.$refs.jobCollectModal);
-    this.createJobModal = new Modal(this.$refs.createJobCollectModal);
-    emitter.on('return-local-collection', this.emitReturnJobCollection);
+    this.modal = new Modal(this.$refs.companyCollectModal);
+    this.createJobModal = new Modal(this.$refs.createcompanyCollectModal);
+    emitter.on('return-local-collection', this.emitReturncompanyCollection);
     emitter.on('open-collect-modal', this.emitOpenCollectModal);
     emitter.on('open-creat-collect-modal', this.emitOpenCreatCollectModal);
     emitter.on('close-collect-modal', this.closeModal());
@@ -275,7 +275,7 @@ export default {
   unmounted() {
     this.modal.dispose();
     this.createJobModal.dispose();
-    emitter.off('return-local-collection', this.emitReturnJobCollection);
+    emitter.off('return-local-collection', this.emitReturncompanyCollection);
     emitter.off('open-collect-modal', this.emitOpenCollectModal);
     emitter.off('open-creat-collect-modal', this.emitOpenCreatCollectModal);
     emitter.off('close-collect-modal', this.closeModal());

@@ -81,7 +81,8 @@
                 :style="{ 'background-image': `url(${sortHotJobs[0]['imageUrl']} )` }"
               >
                 <div class="card__btnBox">
-                  <button class="btn--circle btn btn-outline-light" type="button">
+                  <button class="btn--circle btn btn-outline-light" type="button"
+                  @click="collectJob(sortHotJobs[0])">
                     <i class="jobIcon bi bi-bookmark-fill"></i>
                   </button>
                 </div>
@@ -118,7 +119,8 @@
                       :style="{ 'background-image': `url(${sortHotJobs[index]['imageUrl']} )` }"
                     >
                       <div class="card__btnBox">
-                        <button class="btn--circle btn btn-outline-light" type="button">
+                        <button class="btn--circle btn btn-outline-light" type="button"
+                        @click="collectJob(item)">
                           <i class="jobIcon bi bi-bookmark-fill"></i>
                         </button>
                       </div>
@@ -370,10 +372,10 @@
       </div>
     </div>
   </div>
-
   <div class="sideBtnBox">
     <UpTopBtn />
   </div>
+  <JobCollect ref="JobCollectModal"/>
 </template>
 
 <script>
@@ -381,6 +383,7 @@ import emitter from '@/methods/emitter';
 import webData from '@/methods/webData';
 import GoodJobCard from '@/components/front/GoodJobCard.vue';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
+import JobCollect from '@/components/helpers/JobCollect.vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.min.css';
@@ -395,6 +398,7 @@ export default {
     Swiper,
     SwiperSlide,
     UpTopBtn,
+    JobCollect,
   },
   data() {
     return {
@@ -500,6 +504,9 @@ export default {
     },
   },
   methods: {
+    collectJob(item) {
+      emitter.emit('open-collect-modal', item);
+    },
     // 搜尋方法
     // 直接搜尋
     toSearchJob() {
