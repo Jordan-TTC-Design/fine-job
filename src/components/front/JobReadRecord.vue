@@ -70,7 +70,6 @@ export default {
       localStorage.setItem('jobReadList', temData);
     },
     // 跳轉紀錄的職位
-<<<<<<< HEAD
     goToJobRead(id) {
       if (this.$route.path.match('/products-list/product/')) {
         this.$router.push(`/products-list/product/${id}`);
@@ -87,11 +86,6 @@ export default {
       } else {
         this.$router.push(`/products-list/company/${id}`);
       }
-=======
-    gotoJobRead(id) {
-      this.$router.push(`/products-list/product/${id}`);
-      this.reload();
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
     },
   },
   created() {

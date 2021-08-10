@@ -63,14 +63,22 @@
           </div>
         </div>
         <div class="col-lg-6 col-12 d-lg-block d-none" v-if="jobsList.length > 0">
-          <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
+          <JobListSideJobBox
+            ref="jobSelectBox"
+            :select-job-item="jobItem"
+            @search-by-job-category="searchByJobCategory"
+          />
         </div>
         <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0">
           <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="" />
         </div>
       </div>
     </div>
-    <PagenationModal :jobs-list="jobsList" @change-page="changePage" />
+    <PagenationModal
+      :jobs-list="jobsList"
+      @change-page="changePage"
+      @search-by-job-category="searchByJobCategory"
+    />
   </div>
   <div class="sideBtnBox">
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />

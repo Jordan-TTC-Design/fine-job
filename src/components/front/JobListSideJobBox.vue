@@ -2,7 +2,7 @@
   <div ref="sideJobBox" class="sideJobBox sideJobBox--sticky box--shadow">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="mb-3">
-        <button type="button" class="jobTag btn" @click="searchByJobCategory(jobItem.category)">
+        <button type="button" class="jobTag btn"  @click="searchByJobCategory">
           {{ jobItem.category }}
         </button>
       </div>
@@ -146,6 +146,7 @@ import emitter from '@/methods/emitter';
 
 export default {
   props: ['selectJobItem'],
+  emits: ['search-by-job-category'],
   data() {
     return {
       jobItem: {},
@@ -160,6 +161,10 @@ export default {
     },
   },
   methods: {
+    searchByJobCategory() {
+      console.log(this.jobItem.category);
+      this.$emit('search-by-job-category', this.jobItem.category);
+    },
     // 收藏職位
     collectJob(item) {
       emitter.emit('open-collect-modal', item);

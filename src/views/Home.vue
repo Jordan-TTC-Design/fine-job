@@ -81,27 +81,22 @@
                 :style="{ 'background-image': `url(${sortHotJobs[0]['imageUrl']} )` }"
               >
                 <div class="card__btnBox">
-                  <button class="btn--circle btn btn-outline-light" type="button"
-                  @click="collectJob(sortHotJobs[0])">
+                  <button
+                    class="btn--circle btn btn-outline-light"
+                    type="button"
+                    @click="collectJob(sortHotJobs[0])"
+                  >
                     <i class="jobIcon bi bi-bookmark-fill"></i>
                   </button>
                 </div>
                 <div class="txtBox">
                   <router-link
-<<<<<<< HEAD
                     class="card__title mb-3  d-block putPointer"
-=======
-                    class="card__title mb-3  d-block pe-auto"
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                     :to="`/products-list/product/${sortHotJobs[0].id}`"
                     >{{ sortHotJobs[0].title }}</router-link
                   >
                   <router-link
-<<<<<<< HEAD
                     class="card__txt mb-3 d-block putPointer"
-=======
-                    class="card__txt mb-3 d-block pe-auto"
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                     :to="`/products-list/company/${sortHotJobs[0].options.company.companyLink}`"
                     >{{ sortHotJobs[0].options.company.companyName }}</router-link
                   >
@@ -109,7 +104,8 @@
                     {{ sortHotJobs[0].price }} / 月薪
                   </p>
                   <p class="jobTag" v-if="sortHotJobs[0].options.job.salaryInterView">
-                    薪資面議</p>
+                    薪資面議
+                  </p>
                 </div>
               </div>
             </div>
@@ -127,30 +123,25 @@
                       :style="{ 'background-image': `url(${sortHotJobs[index]['imageUrl']} )` }"
                     >
                       <div class="card__btnBox">
-                        <button class="btn--circle btn btn-outline-light" type="button"
-                        @click="collectJob(item)">
+                        <button
+                          class="btn--circle btn btn-outline-light"
+                          type="button"
+                          @click="collectJob(item)"
+                        >
                           <i class="jobIcon bi bi-bookmark-fill"></i>
                         </button>
                       </div>
                       <div class="txtBox">
                         <router-link
-<<<<<<< HEAD
                           class="card__title d-block putPointer"
-=======
-                          class="card__title d-block pe-auto"
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                           :to="`/products-list/product/${sortHotJobs[index].id}`"
                           >{{ sortHotJobs[index].title }}</router-link
                         >
                         <router-link
-<<<<<<< HEAD
                           class="card__txt d-block putPointer"
-=======
-                          class="card__txt d-block pe-auto"
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                           :to="
-                            `/products-list/company/
-                            ${sortHotJobs[index].options.company.companyLink}`
+                            `/products-list/company/${sortHotJobs[index].options.
+                            company.companyLink}`
                           "
                           >{{ sortHotJobs[index].options.company.companyName }}</router-link
                         >
@@ -224,11 +215,7 @@
                   </div>
                   <div class="txtBox d-flex flex-column justify-content-between">
                     <router-link
-<<<<<<< HEAD
                       class="page__title mb-4 putPointer"
-=======
-                      class="page__title mb-4 pe-auto"
->>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                       :to="`/products-list/company/${weeklyCompany.id}`"
                       >{{ weeklyCompany.title }}</router-link
                     >
@@ -391,7 +378,7 @@
   <div class="sideBtnBox">
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal"/>
+  <JobCollect ref="JobCollectModal" />
 </template>
 
 <script>

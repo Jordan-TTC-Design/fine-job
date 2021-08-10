@@ -856,6 +856,26 @@
       }
     }
   }
+  .collectBtn--company {
+    border-radius: 0.5rem;
+    color: $dark;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    transition: all 0.3s;
+    min-width: 110px;
+    .jobIcon {
+      font-size: 1rem;
+    }
+    &.active {
+      background-color: $primary-light;
+      border: 1px solid $primary-light;
+      color: $primary;
+      .jobIcon {
+        color: $primary;
+      }
+    }
+  }
 }
 .collectBtn.pageState {
   top: 24px;
