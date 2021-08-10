@@ -8,6 +8,7 @@
               <button
                 class="collectBtn btn btn-outline-gray-line position-absolute pageState"
                 type="button"
+                @click="collectJob(jobItem)"
               >
                 <i class="jobIcon bi bi-bookmark-fill"></i>
               </button>
@@ -191,6 +192,7 @@
     <UpTopBtn />
   </div>
   <ImgPopModal />
+  <JobCollect ref="JobCollectModal"/>
 </template>
 
 <script>
@@ -198,6 +200,7 @@ import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
 import JobReadRecord from '@/components/front/JobReadRecord.vue';
+import JobCollect from '@/components/helpers/JobCollect.vue';
 
 export default {
   inject: ['reload'],
@@ -205,6 +208,7 @@ export default {
     UpTopBtn,
     ImgPopModal,
     JobReadRecord,
+    JobCollect,
   },
   data() {
     return {
@@ -224,6 +228,9 @@ export default {
     };
   },
   methods: {
+    collectJob(item) {
+      emitter.emit('open-collect-modal', item);
+    },
     openImgModal(imgUrl) {
       emitter.emit('imgPopModal-open', imgUrl);
     },

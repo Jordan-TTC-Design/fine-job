@@ -132,7 +132,7 @@ export default {
   emits: ['return-job-collection'],
   data() {
     return {
-      modal: {},
+      jobFolderModal: {},
       createJobModal: {},
       jobCollection: [],
       sentJob: {},
@@ -145,15 +145,15 @@ export default {
   },
   methods: {
     openModal() {
-      console.log(this.modal);
-      this.modal.show();
+      console.log(this.jobFolderModal);
+      this.jobFolderModal.show();
     },
     closeModal() {
-      this.modal.hide();
+      this.jobFolderModal.hide();
       this.createJobModal.hide();
     },
     openCreateFolderModal() {
-      this.modal.hide();
+      this.jobFolderModal.hide();
       this.creatFolderForm = {
         title: '',
       };
@@ -265,7 +265,7 @@ export default {
     this.getLocalStorage();
   },
   mounted() {
-    this.modal = new Modal(this.$refs.jobCollectModal);
+    this.jobFolderModal = new Modal(this.$refs.jobCollectModal);
     this.createJobModal = new Modal(this.$refs.createJobCollectModal);
     emitter.on('return-local-collection', this.emitReturnJobCollection);
     emitter.on('open-collect-modal', this.emitOpenCollectModal);
@@ -273,7 +273,7 @@ export default {
     emitter.on('close-collect-modal', this.closeModal());
   },
   unmounted() {
-    this.modal.dispose();
+    this.jobFolderModal.dispose();
     this.createJobModal.dispose();
     emitter.off('return-local-collection', this.emitReturnJobCollection);
     emitter.off('open-collect-modal', this.emitOpenCollectModal);
