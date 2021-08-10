@@ -97,6 +97,7 @@
       </div>
       <div
         ref="collectionBoxList--company"
+<<<<<<< HEAD
         class="collectionBoxList--company"
         v-if="navState === 'company'"
       >
@@ -169,10 +170,32 @@
                   class="collectionCompanyCard__Job--unRecruit"
                 >
                   <p class="text-secondary">企業目前尚未開啟招募</p>
+=======
+        class="bg-light p-6 rounded"
+        v-if="navState === 'company'"
+      >
+        <div class="row">
+          <div class="col-md-4 col-12">
+            <div class="collectionBox collectionBox--new" @click="newCollectionFolder">
+              <div class="collectionBox__imgBox">
+                <div class="collectionBox__imgBox__item item--fri"></div>
+                <div class="collectionBox__imgBox__innerBox">
+                  <div class="collectionBox__imgBox__item item--sec"></div>
+                  <div class="collectionBox__imgBox__innerBox__littleBox">
+                    <div class="collectionBox__imgBox__item item--tri"></div>
+                    <div class="collectionBox__imgBox__item item--four"></div>
+                  </div>
+                </div>
+                <div class="collectionBox--new__cover">
+                  <p class="collectionBox--new__newBtn">
+                    <i class="jobIcon bi bi-plus-lg me-2"></i>新增收藏夾
+                  </p>
+>>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
                 </div>
               </div>
+              <div class="collectionBox__txtBox"></div>
             </div>
-          </template>
+          </div>
         </div>
       </div>
     </div>
@@ -181,20 +204,17 @@
     <UpTopBtn />
   </div>
   <JobCollect ref="JobCollectModal" @return-job-collection="returnJobCollection" />
-  <CompanyCollect @returnCompanyCollection="returnCompanyCollection" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import JobCollect from '@/components/helpers/JobCollect.vue';
-import CompanyCollect from '@/components/helpers/CompanyCollect.vue';
 
 export default {
   components: {
     UpTopBtn,
     JobCollect,
-    CompanyCollect,
   },
   data() {
     return {
@@ -209,14 +229,11 @@ export default {
           job: {},
         },
       },
-      companyCollectionList: [],
       jobCollectionList: [],
-      companyIsCollect: false,
     };
   },
   watch: {
     navState(newValue, oldValue) {
-      emitter.emit('spinner-open-bg', 1000);
       console.log(newValue, oldValue);
       this.$refs[`page__sideNav__item--${newValue}`].classList.add('active');
       this.$refs[`page__sideNav__item--${oldValue}`].classList.remove('active');
@@ -248,9 +265,6 @@ export default {
     },
   },
   methods: {
-    collectCompany(item) {
-      emitter.emit('open-collect-company-modal', item);
-    },
     newCollectionFolder() {
       emitter.emit('open-creat-collect-modal');
     },
@@ -258,6 +272,7 @@ export default {
     returnJobCollection(array) {
       this.jobCollectionList = array;
     },
+<<<<<<< HEAD
     returnCompanyCollection(array) {
       console.log(array);
       this.companyCollectionList = array;
@@ -298,6 +313,8 @@ export default {
       this.findComapnyJobs();
       emitter.emit('spinner-close');
     },
+=======
+>>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
   },
   created() {
     emitter.emit('spinner-open-bg', 1000);

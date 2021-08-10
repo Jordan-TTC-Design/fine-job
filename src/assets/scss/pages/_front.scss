@@ -812,26 +812,6 @@
     &__txtBox {
       width: 100%;
     }
-    .collectBtn--company {
-      border-radius: 0.5rem;
-      color: $dark;
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      transition: all 0.3s;
-      min-width: 110px;
-      .jobIcon {
-        font-size: 1rem;
-      }
-      &.active {
-        background-color: $primary-light;
-        border: 1px solid $primary-light;
-        color: $primary;
-        .jobIcon {
-          color: $primary;
-        }
-      }
-    }
   }
   .jobContent__imgBox {
     width: auto;
@@ -884,10 +864,10 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: $light;
-  .applyImg {
+  .applyImg{
     width: 100%;
     background-color: $gray-light;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem ;
     margin-bottom: 0.5rem;
   }
   &__title {
@@ -1196,8 +1176,7 @@
 .collectionBox--new {
   height: 100%;
   &:hover {
-    .collectionBox--new__newBtn,
-    .jobIcon {
+    .collectionBox--new__newBtn,.jobIcon {
       color: $primary;
     }
   }
@@ -1480,13 +1459,13 @@
   }
 }
 
-.img--searchNoJob {
-  max-width: 48%;
+.img--searchNoJob{
+  max-width:48%;
   margin: 2rem 0;
-  @include md {
-    max-width: 64%;
+  @include md{
+  max-width:64%;
   }
-  @include sm {
+  @include sm{
     max-width: 80%;
   }
 }

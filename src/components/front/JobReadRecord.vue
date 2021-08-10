@@ -4,21 +4,20 @@
     <ul>
       <template v-for="(jobRead, index) in jobReadList" :key="jobRead.id">
         <li class="list__item" v-if="index < 6">
-          <p class="list__item__link mb-2" @click="goToJobRead(jobRead.id)">
+          <p class="list__item__link mb-2" @click="gotoJobRead(jobRead.id)">
             {{ jobRead.title }}
           </p>
-          <p
+          <router-link
             class="list__item__link--sub"
             aria-current="page"
-            @click="goToCompanyRead(jobRead.companyId)"
+            :to="`/products-list/company/${jobRead.companyId}`"
+            >{{ jobRead.company }}</router-link
           >
-            {{ jobRead.company }}
-          </p>
           <p class="list__item__time">{{ $filters.date(jobRead.time) }}</p>
         </li>
       </template>
       <li class="list__item" v-if="jobReadList.length === 0">
-        <p>尚無瀏覽紀錄</p>
+          <p>尚無瀏覽紀錄</p>
       </li>
     </ul>
   </div>
@@ -44,6 +43,7 @@ export default {
       if (temJobReadArray) {
         this.jobReadList = temJobReadArray;
       }
+      console.log(this.jobReadList);
     },
     // 檢查是否已經存在
     checkLocalJobRead(id) {
@@ -63,13 +63,14 @@ export default {
         company: this.sentCompany.title,
         companyId: this.sentCompany.id,
         id: this.sentJob.id,
-        time: `${Math.floor(Date.now() / 1000)}`,
+        time: this.sentJob.options.job.create,
       };
       this.jobReadList.push(Obj);
       const temData = JSON.stringify(this.jobReadList);
       localStorage.setItem('jobReadList', temData);
     },
     // 跳轉紀錄的職位
+<<<<<<< HEAD
     goToJobRead(id) {
       if (this.$route.path.match('/products-list/product/')) {
         this.$router.push(`/products-list/product/${id}`);
@@ -86,6 +87,11 @@ export default {
       } else {
         this.$router.push(`/products-list/company/${id}`);
       }
+=======
+    gotoJobRead(id) {
+      this.$router.push(`/products-list/product/${id}`);
+      this.reload();
+>>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
     },
   },
   created() {
@@ -95,6 +101,7 @@ export default {
         this.sentCompany = sendObj.company;
         this.checkLocalJobRead(this.sentJob.id);
       } else {
+        console.log('純看');
         this.getLocalStorage();
       }
     });

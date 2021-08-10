@@ -6,13 +6,10 @@
           <div class="col-lg-9 col-12">
             <div class="companyInfoBox box--shadow mb-3  position-relative">
               <button
-                class="collectBtn--company btn btn-outline-gray-line"
+                class="collectBtn btn btn-outline-gray-line position-absolute pageState"
                 type="button"
-                :class="{ active: companyIsCollect }"
-                @click="collectCompany(companyItem)"
               >
-                <i class="jobIcon bi bi-bookmark-fill me-1"></i
-                >{{ this.companyIsCollect ? '已關注' : '關注公司' }}
+                <i class="jobIcon bi bi-bookmark-fill"></i>
               </button>
               <div class="d-flex flex-md-row flex-column align-items-md-stretch align-items-center">
                 <div class="companyInfoBox__logoImgBox mb-md-0 mb-4 me-md-4">
@@ -78,11 +75,7 @@
                   :key="item.id"
                   class="jobList__item d-flex flex-column align-items-start mb-4"
                 >
-                  <button
-                    class="collectBtn btn  position-absolute"
-                    type="button"
-                    @click="collectJob(item)"
-                  >
+                  <button class="collectBtn btn  position-absolute" type="button">
                     <i class="jobIcon bi bi-bookmark-fill"></i>
                   </button>
                   <div class="mb-3">
@@ -143,8 +136,6 @@
     <UpTopBtn />
   </div>
   <ImgPopModal />
-  <JobCollect ref="jobCollectModal" />
-  <CompanyCollect @returnCompanyCollection="checkCompanyCollect" />
 </template>
 
 <script>
@@ -152,16 +143,12 @@ import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
 import JobReadRecord from '@/components/front/JobReadRecord.vue';
-import JobCollect from '@/components/helpers/JobCollect.vue';
-import CompanyCollect from '@/components/helpers/CompanyCollect.vue';
 
 export default {
   components: {
     UpTopBtn,
     ImgPopModal,
     JobReadRecord,
-    JobCollect,
-    CompanyCollect,
   },
   data() {
     return {
@@ -176,11 +163,10 @@ export default {
       companyJobs: [],
       jobsList: [],
       isExist: null,
-      companyIsCollect: false,
-      companyCollectionList: {},
     };
   },
   methods: {
+<<<<<<< HEAD
     collectCompany(item) {
       const temJobList = [];
       this.companyJobs.forEach((companyJob) => {
@@ -205,6 +191,8 @@ export default {
     collectJob(item) {
       emitter.emit('open-collect-modal', item);
     },
+=======
+>>>>>>> parent of a357312 ([JS]收藏公司功能、修復瀏覽紀錄錯誤)
     openImgModal(imgUrl) {
       emitter.emit('imgPopModal-open', imgUrl);
     },
@@ -223,7 +211,6 @@ export default {
           if (res.data.success) {
             this.isExist = true;
             this.companyItem = res.data.product;
-            this.checkCompanyCollect(this.companyCollectionList);
           } else {
             this.isExist = false;
           }
