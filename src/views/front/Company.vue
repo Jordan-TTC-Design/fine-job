@@ -182,7 +182,15 @@ export default {
   },
   methods: {
     collectCompany(item) {
-      emitter.emit('open-collect-company-modal', item);
+      const temJobList = [];
+      this.companyJobs.forEach((companyJob) => {
+        temJobList.push(companyJob.id);
+      });
+      const companyData = {
+        companyInfo: item,
+        companyJobList: temJobList,
+      };
+      emitter.emit('open-collect-company-modal', companyData);
     },
     checkCompanyCollect(collection) {
       this.companyCollectionList = collection;

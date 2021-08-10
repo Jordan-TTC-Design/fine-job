@@ -139,6 +139,14 @@
     color:$dark;
   }
 }
+.jobTag--new{
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: $primary;
+  color:$light;
+  display: inline-block;
+}
 // 特殊樣式工具區
 // 手指
 .putPointer {

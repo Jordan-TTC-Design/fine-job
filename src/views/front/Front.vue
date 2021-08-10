@@ -1,7 +1,7 @@
 <template>
   <header class="header header--front">
-    <div ref="Search" class="header__searchModal" >
-      <SearchModal/>
+    <div ref="Search" class="header__searchModal">
+      <SearchModal />
     </div>
     <div class="container d-flex justify-content-between align-items-center">
       <h1>
@@ -14,16 +14,16 @@
       </h1>
       <div class="header__navBox" ref="headerNavBox">
         <ul class="header__nav" ref="headerNav">
-          <li class="nav-item">
+          <li class="nav-item" :class="{ active: this.navState === '首頁' }">
             <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" :class="{ active: this.navState === '優質工作' }">
             <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
           </li>
           <li class="nav-item d-lg-block d-none">
             <button class="nav-link text-white btn" @click="openSearchModal">搜尋</button>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" :class="{ active: this.navState === '收藏' }">
             <router-link class="nav-link text-white" to="/collection">收藏</router-link>
           </li>
           <li class="nav-item d-lg-none d-block">
@@ -122,9 +122,22 @@ export default {
     SearchModal,
   },
   data() {
-    return {};
+    return {
+      navState: '',
+    };
   },
   methods: {
+    checkNavState() {
+      if (this.$route.path === '/') {
+        this.navState = '首頁';
+      } else if (this.$route.path === '/products-list') {
+        this.navState = '優質工作';
+      } else if (this.$route.path === '/collection') {
+        this.navState = '收藏';
+      } else {
+        this.navState = '';
+      }
+    },
     openRwdMenu() {
       this.$refs.headerNavBox.classList.toggle('active');
       this.$refs.menuCover.classList.toggle('active');
@@ -146,13 +159,15 @@ export default {
       this.$refs.Search.classList.remove('active');
     },
   },
-  created() {
+  create() {
+    this.checkNavState();
   },
   mounted() {
     this.closeSearchModal();
     this.closeRwdMenu();
   },
   updated() {
+    this.checkNavState();
     this.closeSearchModal();
     this.closeRwdMenu();
   },

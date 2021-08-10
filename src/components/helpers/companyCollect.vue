@@ -21,10 +21,11 @@
               aria-label="Close"
             ></button>
           </div>
-          <h4>請問您確定要取消收藏 {{ sentCompany.title }} ?</h4>
+          <p class="text-center mb-4">請問您確定要取消收藏?</p>
+          <p class="text-center mb-6 text-primary ">{{ sentCompany.title }}</p>
           <div class="d-flex">
             <button
-              class="btn btn-gray-light me-2"
+              class="btn btn-gray-light me-2 flex-grow-1"
               data-bs-toggle="companyCollectModal"
               data-bs-dismiss="companyCollectModal"
             >
@@ -32,7 +33,7 @@
             </button>
             <button
               type="submit"
-              class="btn btn-primary"
+              class="btn btn-primary flex-grow-1"
               @click="deleteCompanyFromLocal(sentCompany.id)"
             >
               確定
@@ -55,6 +56,7 @@ export default {
       companyModal: {},
       companyCollection: [],
       sentCompany: {},
+      companyJobList: [],
     };
   },
   methods: {
@@ -85,6 +87,7 @@ export default {
         logoImageUrl: this.sentCompany.imageUrl,
         imagesUrl: this.sentCompany.imagesUrl,
         time: `${Math.floor(Date.now() / 1000)}`,
+        jobList: [],
       };
       this.companyCollection.push(Obj);
       const temData = JSON.stringify(this.companyCollection);
@@ -119,10 +122,11 @@ export default {
       this.$emit('return-company-collection', this.companyCollection);
     },
     // emit監聽
-    emitOpenCollectModal(item) {
+    emitOpenCollectModal(companyData) {
       console.log('open Modal');
-      this.sentCompany = item;
-      console.log(this.sentCompany);
+      console.log(companyData);
+      this.sentCompany = companyData.companyInfo;
+      this.companyJobList = companyData.companyJobList;
       this.toggleCollectCompany(this.sentCompany.id);
     },
   },

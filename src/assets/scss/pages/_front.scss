@@ -24,6 +24,37 @@
     .nav-link {
       font-weight: $fw--md;
     }
+    .nav-item {
+      position: relative;
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        background-color: $light;
+        height: 0rem;
+        width: 100%;
+        border-radius: 0.25rem 0.25rem 0 0;
+      }
+      &.active {
+        &::after {
+          height: 0.25rem;
+        }
+        @include md {
+          &::after {
+          height: 1rem;
+          }
+        }
+      }
+      @include md {
+        &::after {
+          left: 0;
+          bottom: 50%;
+          width: 4px;
+          transform: translateY(25%);
+          border-radius: 0.25rem;
+        }
+      }
+    }
   }
   .header__companyBtnBox {
     color: $primary;
@@ -60,7 +91,8 @@
     }
     .nav-item {
       width: 100%;
-      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      margin-top: 0.5rem;
       border-bottom: 1px solid $gray-line;
       padding-left: 0;
     }
@@ -610,7 +642,38 @@
   height: calc(100vh - 132px);
   overflow: scroll;
 }
-
+.filterBox{
+  background-color: $light;
+  &__section{
+    padding-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid $gray-line;
+    &__tag{
+      padding: 6px 12px;
+      background-color:$gray-light;
+      color:$dark;
+      border-radius: 0.25rem;
+      font-size: 14px;
+      margin-right: 1.5rem;
+    }
+    &__tag--title{
+      width: 80px;
+      display: flex;
+      justify-content: center;
+      color:$dark;
+      font-size: 16px;
+      font-weight: $fw--md;
+      margin-right: 1.5rem;
+    }
+    &:last-child{
+      padding-bottom: 0;
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+}
 //職位頁面
 .jobPage {
   .jobInfoBox {
@@ -1113,7 +1176,53 @@
     color: $secondary;
   }
 }
-
+.collectionBoxList--company {
+  min-height: 320px;
+}
+.collectionCompanyCard {
+  margin-bottom: 1.25rem;
+  &__companyInfoBox {
+    padding: 0.75rem;
+    border-bottom: 1px solid $gray-line;
+    &__logoBox {
+      max-width: 4rem;
+      padding: 0.25rem;
+      border: 1px solid $gray-line;
+      border-radius: 0.25rem;
+    }
+    .logoBox__logo {
+      width: 100%;
+    }
+  }
+  .card__title {
+    font-size: 1rem;
+    color: $dark;
+    font-weight: $fw--md;
+  }
+  &__Job {
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 0 0 0.5rem 0.5rem;
+    min-height: 80px;
+    &--unRecruit {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      min-height: 80px;
+    }
+    &:hover {
+      background-color: $gray-light;
+    }
+    &__title {
+      font-weight: $fw--md;
+      color: $dark;
+    }
+  }
+}
 // 工具類
 .inputGroup--item {
   .inputItem__title {

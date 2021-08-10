@@ -3,7 +3,14 @@
     <div ref="recommedJobs" class="section">
       <div class="container">
         <h3 class="section__title ps-3">推薦職位</h3>
-        <swiper v-if="hotJobs.length > 0" :options="swiperOption">
+        <swiper
+          v-if="hotJobs.length > 0"
+          :slides-per-view="swiperNum"
+          :space-between="20"
+          :autoplay="swiperDetail.autoPlay"
+          :pagination="swiperDetail.pagination"
+          :navigation="swiperDetail.navigation"
+        >
           <swiper-slide v-for="item in hotJobs" :key="item.id">
             <GoodJobCard :good-job="item" />
           </swiper-slide>
@@ -25,11 +32,13 @@
       <p class="ps-3 mb-6 text-primary" v-if="filterTxt !== ''">
         <span class="text-gray-dark">搜尋條件：</span>{{ filterTxt }}
       </p>
-      <div class="row" >
+      <div class="row">
         <div class="col-lg-6 col-12" v-if="jobsList.length > 0">
           <div class="jobListBox">
             <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-                <p class="text-secondary fw-normal  text-nowrap">目前共 {{ jobsList.length }} 個職位</p>
+              <p class="text-secondary fw-normal  text-nowrap">
+                目前共 {{ jobsList.length }} 個職位
+              </p>
               <select
                 class="form-select form-select-lg w-auto border-0 text-gray-dark"
                 @change="changeJobSort($event)"
@@ -56,8 +65,8 @@
         <div class="col-lg-6 col-12 d-lg-block d-none" v-if="jobsList.length > 0">
           <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
         </div>
-        <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0 ">
-          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="">
+        <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0">
+          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="" />
         </div>
       </div>
     </div>
@@ -67,7 +76,7 @@
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal"/>
+  <JobCollect ref="JobCollectModal" />
 </template>
 
 <script>
@@ -138,29 +147,27 @@ export default {
       mountState: false,
       // swiper
       swiperNum: 1,
-      swiperOption: {
-        autoplay: {
+      swiperDetail: {
+        autoPlay: {
           delay: 2500,
           disableOnInteraction: false,
         },
         pagination: {
           clickable: true,
         },
-        loop: true,
         navigation: {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         },
         slidesPerView: this.swiperNum,
-        spaceBetween: '20',
       },
     };
   },
   watch: {
     fullWidth(newValue) {
-      if (newValue > 768) {
+      if (newValue > 991.75) {
         this.swiperNum = 3;
-      } else if (newValue > 576) {
+      } else if (newValue > 767) {
         this.swiperNum = 2;
       } else {
         this.swiperNum = 1;
@@ -366,7 +373,7 @@ export default {
     this.getOgData();
     this.formData = webData;
     this.searchFilterMethods = searchFilter;
-    emitter.emit('spinner-open-bg', 1000);
+    emitter.emit('spinner-open-bg', 1200);
   },
   mounted() {
     this.mountState = true;

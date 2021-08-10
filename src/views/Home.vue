@@ -91,12 +91,12 @@
                 </div>
                 <div class="txtBox">
                   <router-link
-                    class="card__title mb-3  d-block put-pointer"
+                    class="card__title mb-3  d-block putPointer"
                     :to="`/products-list/product/${sortHotJobs[0].id}`"
                     >{{ sortHotJobs[0].title }}</router-link
                   >
                   <router-link
-                    class="card__txt mb-3 d-block put-pointer"
+                    class="card__txt mb-3 d-block putPointer"
                     :to="`/products-list/company/${sortHotJobs[0].options.company.companyLink}`"
                     >{{ sortHotJobs[0].options.company.companyName }}</router-link
                   >
@@ -133,12 +133,12 @@
                       </div>
                       <div class="txtBox">
                         <router-link
-                          class="card__title d-block put-pointer"
+                          class="card__title d-block putPointer"
                           :to="`/products-list/product/${sortHotJobs[index].id}`"
                           >{{ sortHotJobs[index].title }}</router-link
                         >
                         <router-link
-                          class="card__txt d-block put-pointer"
+                          class="card__txt d-block putPointer"
                           :to="
                             `/products-list/company/${sortHotJobs[index].options.
                             company.companyLink}`
@@ -215,7 +215,7 @@
                   </div>
                   <div class="txtBox d-flex flex-column justify-content-between">
                     <router-link
-                      class="page__title mb-4 put-pointer"
+                      class="page__title mb-4 putPointer"
                       :to="`/products-list/company/${weeklyCompany.id}`"
                       >{{ weeklyCompany.title }}</router-link
                     >
@@ -244,15 +244,11 @@
                   <div class="companyContent mb-3" v-html="weeklyCompany.content"></div>
                   <div class="imgBox">
                     <swiper
-                      :slides-per-view="1"
+                      :slides-per-view="swiperNum"
                       :space-between="20"
-                      :autoplay="{
-                        delay: 2500,
-                        disableOnInteraction: false,
-                      }"
-                      :pagination="{
-                        clickable: true,
-                      }"
+                      :autoplay="swiperDetail.autoPlay"
+                      :pagination="swiperDetail.pagination"
+                      :navigation="swiperDetail.navigation"
                       v-if="dataOk"
                     >
                       <swiper-slide
@@ -412,7 +408,6 @@ export default {
       fullWidth: 0,
       fullHeight: 0,
       scrollTop: 0,
-      swiperNum: 1,
       products: [],
       jobsList: [],
       sortWay: 'time',
@@ -431,11 +426,26 @@ export default {
         salaryHight: null,
         salaryInterView: false,
       },
+      swiperNum: 1,
+      swiperDetail: {
+        autoPlay: {
+          delay: 2500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        slidesPerView: this.swiperNum,
+      },
     };
   },
   watch: {
     fullWidth(newValue) {
-      if (newValue > 992) {
+      if (newValue > 991.75) {
         this.swiperNum = 3;
       } else if (newValue > 767) {
         this.swiperNum = 2;
@@ -477,7 +487,6 @@ export default {
           temHotArray.push(temGoodJob[i]);
         });
       }
-      console.log(temHotArray);
       return temHotArray;
     },
     sortNewJobs() {

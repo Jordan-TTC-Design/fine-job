@@ -71,15 +71,20 @@ export default {
     },
     // 跳轉紀錄的職位
     goToJobRead(id) {
-      this.$router.push(`/products-list/product/${id}`);
       if (this.$route.path.match('/products-list/product/')) {
+        this.$router.push(`/products-list/product/${id}`);
         this.reload();
+      } else {
+        this.$router.push(`/products-list/product/${id}`);
       }
     },
+    // reload的時候怪怪的，還無法正確跳頁
     goToCompanyRead(id) {
-      this.$router.push(`/products-list/company/${id}`);
       if (this.$route.path.match('/products-list/company/')) {
+        this.$router.push(`/products-list/company/${id}`);
         this.reload();
+      } else {
+        this.$router.push(`/products-list/company/${id}`);
       }
     },
   },
