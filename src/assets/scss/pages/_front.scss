@@ -41,7 +41,7 @@
         }
         @include md {
           &::after {
-          height: 1rem;
+            height: 1rem;
           }
         }
       }
@@ -642,35 +642,61 @@
   height: calc(100vh - 132px);
   overflow: scroll;
 }
-.filterBox{
+.filterBox {
   background-color: $light;
-  &__section{
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  &__section {
     padding-bottom: 1rem;
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
     border-bottom: 1px solid $gray-line;
-    &__tag{
+    position: relative;
+    &__tag {
       padding: 6px 12px;
-      background-color:$gray-light;
-      color:$dark;
+      background-color: $gray-light;
+      color: $dark;
       border-radius: 0.25rem;
       font-size: 14px;
       margin-right: 1.5rem;
+      white-space:nowrap;
     }
-    &__tag--title{
+    &__tag--title {
       width: 80px;
       display: flex;
       justify-content: center;
-      color:$dark;
+      color: $dark;
       font-size: 16px;
       font-weight: $fw--md;
       margin-right: 1.5rem;
     }
-    &:last-child{
+    &:last-child {
       padding-bottom: 0;
       margin-bottom: 0;
       border-bottom: 0;
+    }
+    @include lg{
+      &__tag {
+        padding: 6px 8px;
+        margin-right: 1rem;
+      }
+      &__tag--title {
+        width: 72px;
+        margin-right: 1rem;
+      }
+    }
+    @include md{
+      flex-direction: column;
+      align-items: start;
+      &__tag {
+        margin-right: 0rem;
+        margin-bottom: 0.75rem;
+      }
+      &__tag--title {
+        margin-right: 0rem;
+        margin-bottom: 0.75rem;
+      }
     }
   }
 }
@@ -901,9 +927,73 @@
   }
 }
 // 搜尋頁面
-.searchFilterBox {
+.sideFilterBox {
   background-color: $white;
   border-radius: 0.5rem;
+  max-width: 320px;
+  margin-bottom: 0.5rem;
+  z-index: 9999;
+  max-height: 80vh;
+  position: relative;
+  @include shadow-md;
+  @include sm {
+    max-width: 100%;
+    max-height: calc( 100vh - 2rem );
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: 0 -3px 4px rgba(0, 0, 0, 0.16);
+    .bg-cover--dark {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.16);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: -1;
+    }
+  }
+  &__Header{
+    background-color: $gray-light;
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__contentBox{
+    padding: 1rem;
+    max-height: 320px;
+    overflow:scroll;
+    @include sm {
+      max-height: 480px;
+    }
+  }
+  &__section{
+    padding: 1rem 0;
+    border-bottom: 1px solid $gray-line;
+    &:last-child{
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+    &__tag {
+      padding: 0.25rem 0.75rem;
+      background-color: $gray-light;
+      color: $dark;
+      border-radius: 0.25rem;
+      font-size: 14px;
+      white-space:nowrap;
+      margin-bottom: 0.75rem;
+      display: inline-block;
+    }
+  }
+  &__footer{
+    border-top: 1px solid $gray-line;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 //front-footer
 .footer--front {
@@ -1342,29 +1432,6 @@
   }
   .ck-content h2 {
     font-size: 24px;
-  }
-}
-
-.sideFilter.searchFilterBox {
-  max-width: 640px;
-  @include shadow-md;
-  margin-bottom: 0.5rem;
-  z-index: 9999;
-  @include sm {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    box-shadow: 0 -3px 4px rgba(0, 0, 0, 0.16);
-    .bg-cover--dark {
-      position: fixed;
-      background-color: rgba(0, 0, 0, 0.16);
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      z-index: -1;
-    }
   }
 }
 
