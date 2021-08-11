@@ -17,8 +17,7 @@
             <button
               type="button"
               class="btn-close"
-              data-bs-dismiss="companyCollectModal"
-              aria-label="Close"
+              @click="closeModal"
             ></button>
           </div>
           <p class="text-center mb-4">請問您確定要取消收藏?</p>
@@ -26,8 +25,7 @@
           <div class="d-flex">
             <button
               class="btn btn-gray-light me-2 flex-grow-1"
-              data-bs-toggle="companyCollectModal"
-              data-bs-dismiss="companyCollectModal"
+              @click="closeModal"
             >
               返回
             </button>

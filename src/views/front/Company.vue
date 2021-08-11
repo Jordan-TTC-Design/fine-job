@@ -6,7 +6,8 @@
           <div class="col-lg-9 col-12">
             <div class="companyInfoBox box--shadow mb-3  position-relative">
               <button
-                class="collectBtn--company btn btn-outline-gray-line d-md-flex d-none"
+                class="collectBtn--company btn btn-outline-gray-line d-md-flex
+                d-none justify-content-center"
                 type="button"
                 :class="{ active: companyIsCollect }"
                 @click="collectCompany(companyItem)"
@@ -49,7 +50,8 @@
                       </p>
                     </div>
                     <button
-                      class="collectBtn--company--phone btn btn-outline-gray-line w-100 mt-4 d-md-0"
+                      class="collectBtn--company--phone btn btn-outline-gray-line
+                      w-100 mt-4 d-md-0 d-md-none"
                       type="button"
                       :class="{ active: companyIsCollect }"
                       @click="collectCompany(companyItem)"
