@@ -56,7 +56,6 @@ export default {
       deep: true,
       handler(newValue) {
         this.jobItem = newValue;
-        console.log(this.jobItem);
       },
     },
   },

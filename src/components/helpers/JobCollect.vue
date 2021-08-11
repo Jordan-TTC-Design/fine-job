@@ -145,7 +145,6 @@ export default {
   },
   methods: {
     openModal() {
-      console.log(this.modal);
       this.modal.show();
     },
     closeModal() {
@@ -191,17 +190,14 @@ export default {
           imageUrl: this.sentJob.imageUrl,
           time: this.sentJob.options.job.create,
         };
-        console.log(Obj);
         this.jobCollection.forEach((item, index) => {
           if (item.id === folderId) {
-            console.log(item.title);
             this.jobCollection[index].jobs.push(Obj);
           }
         });
         const temData = JSON.stringify(this.jobCollection);
         localStorage.setItem('fineJob-jobCollection', temData);
         this.getLocalStorage();
-        console.log(this.jobCollection);
         this.closeModal();
       }
     },
@@ -210,8 +206,6 @@ export default {
         const checkData = item.jobs.some((job) => job.id === id);
         this.collectFolder[index].jobCheck = checkData;
       });
-      console.log(this.jobCollection);
-      console.log(this.collectFolder);
     },
     // 瀏覽紀錄相關方法
     // 取得瀏覽紀錄
@@ -249,10 +243,8 @@ export default {
       this.$emit('return-job-collection', this.jobCollection);
     },
     emitOpenCollectModal(item) {
-      console.log('open Modal');
       this.justCreateFolder = false;
       this.sentJob = item;
-      console.log(this.sentJob);
       this.openModal();
       this.checkCollection(this.sentJob.id);
     },

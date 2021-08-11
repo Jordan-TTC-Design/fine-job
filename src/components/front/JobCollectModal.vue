@@ -224,8 +224,6 @@ export default {
     });
   },
   mounted() {
-    // console.log(this.$refs.productModal);
-    console.log(this.$refs.productModal);
     this.modal = new Modal(this.$refs.productModal);
   },
 };

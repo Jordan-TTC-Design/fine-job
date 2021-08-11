@@ -4,7 +4,7 @@
     position: sticky;
     top: 158px;
     max-height: calc(80vh - 132px);
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: #fff;
     border-radius: 0.5rem;
     .sideList__item {

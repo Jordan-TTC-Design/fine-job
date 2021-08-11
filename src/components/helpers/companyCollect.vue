@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     openModal() {
-      console.log(this.companyModal);
       this.companyModal.show();
     },
     closeModal() {
@@ -69,7 +68,6 @@ export default {
     },
     // 執行判斷要收藏還是刪除企業
     toggleCollectCompany(companyId) {
-      console.log(this.companyCollection);
       const checkResult = this.companyCollection.some((item) => item.id === companyId);
       if (checkResult === false) {
         this.saveCompanyToLocal();
@@ -115,7 +113,6 @@ export default {
       if (temcompanyCollectionsArray) {
         this.companyCollection = temcompanyCollectionsArray;
       }
-      console.log(this.companyCollection);
       this.returnCompanyCollection();
     },
     returnCompanyCollection() {
@@ -123,8 +120,6 @@ export default {
     },
     // emit監聽
     emitOpenCollectModal(companyData) {
-      console.log('open Modal');
-      console.log(companyData);
       this.sentCompany = companyData.companyInfo;
       this.companyJobList = companyData.companyJobList;
       this.toggleCollectCompany(this.sentCompany.id);

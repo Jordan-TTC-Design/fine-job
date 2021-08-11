@@ -68,7 +68,10 @@
       </div>
       <div class="container">
         <!-- 熱門職位 -->
-        <div ref="sectionHotJob" class="section--py border-bottom border-primary-light">
+        <div
+          ref="sectionHotJob"
+          class="sectionHotJob section--py border-bottom border-primary-light"
+        >
           <div class="section__titleBox">
             <h3 class="titleBox__title">熱門職位</h3>
             <p class="titleBox__tag">推薦</p>
@@ -140,8 +143,8 @@
                         <router-link
                           class="card__txt d-block putPointer"
                           :to="
-                            `/products-list/company/${sortHotJobs[index].options.
-                            company.companyLink}`
+                            `/products-list/company
+                            /${sortHotJobs[index].options.company.companyLink}`
                           "
                           >{{ sortHotJobs[index].options.company.companyName }}</router-link
                         >
@@ -168,17 +171,9 @@
           <swiper
             :slides-per-view="swiperNum"
             :space-between="20"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-            :pagination="{
-              clickable: true,
-            }"
-            :navigation="{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-            }"
+            :autoplay="swiperDetail.autoPlay"
+            :pagination="swiperDetail.pagination"
+            :navigation="swiperDetail.navigation"
             v-if="dataOk"
           >
             <swiper-slide v-for="item in sortNewJobs" :key="item.id">
@@ -244,11 +239,11 @@
                   <div class="companyContent mb-3" v-html="weeklyCompany.content"></div>
                   <div class="imgBox">
                     <swiper
-                      :slides-per-view="swiperNum"
+                      :slides-per-view="1"
                       :space-between="20"
-                      :autoplay="swiperDetail.autoPlay"
-                      :pagination="swiperDetail.pagination"
-                      :navigation="swiperDetail.navigation"
+                      :autoplay="companySwiperDetail.autoPlay"
+                      :pagination="companySwiperDetail.pagination"
+                      :loop="true"
                       v-if="dataOk"
                     >
                       <swiper-slide
@@ -302,11 +297,11 @@
                     'col-lg-6 col-12': index === 0,
                     'col-lg-3 col-6': index > 0,
                     'mb-4': index < 3,
-                    'mb-lg-0 mb-4': index > 3,
+                    'mb-lg-0 mb-4': index >= 3,
                   }"
                 >
                   <div class="hotCategoryBox p-md-5 p-3 d-flex">
-                    <div>
+                    <div class="d-flex flex-column justify-content-between">
                       <p class="mb-3">
                         {{ categoryItem.categoryName }}
                       </p>
@@ -440,6 +435,15 @@ export default {
           prevEl: '.swiper-button-prev',
         },
         slidesPerView: this.swiperNum,
+      },
+      companySwiperDetail: {
+        autoPlay: {
+          delay: 2000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          clickable: true,
+        },
       },
     };
   },

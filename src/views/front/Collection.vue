@@ -217,7 +217,6 @@ export default {
   watch: {
     navState(newValue, oldValue) {
       emitter.emit('spinner-open-bg', 1000);
-      console.log(newValue, oldValue);
       this.$refs[`page__sideNav__item--${newValue}`].classList.add('active');
       this.$refs[`page__sideNav__item--${oldValue}`].classList.remove('active');
     },
@@ -270,7 +269,6 @@ export default {
           }
         });
       });
-      console.log(this.companyCollectionList);
     },
     getOgData() {
       emitter.emit('spinner-open');
@@ -294,7 +292,6 @@ export default {
           this.jobsList.push(item);
         }
       });
-      console.log(this.jobsList);
       this.findComapnyJobs();
       emitter.emit('spinner-close');
     },

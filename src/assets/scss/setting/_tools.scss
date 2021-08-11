@@ -134,17 +134,17 @@
   border-radius: 0.25rem;
   background-color: $gray-mid;
   display: inline-block;
-  &:hover{
+  &:hover {
     background-color: $gray-line;
-    color:$dark;
+    color: $dark;
   }
 }
-.jobTag--new{
+.jobTag--new {
   font-size: 0.75rem;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   background-color: $primary;
-  color:$light;
+  color: $light;
   display: inline-block;
 }
 // 特殊樣式工具區
@@ -162,4 +162,9 @@
 }
 .box--shadow--lg {
   @include shadow-lg;
+}
+@include md {
+  .w-md-100 {
+    width: 100%;
+  }
 }

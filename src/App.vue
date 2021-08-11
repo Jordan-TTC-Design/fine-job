@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     reload() {
-      console.log('reload occure');
       this.isRouterAlive = false;
       this.$nextTick(() => {
         this.isRouterAlive = true;

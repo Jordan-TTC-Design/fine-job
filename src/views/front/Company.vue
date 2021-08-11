@@ -200,7 +200,6 @@ export default {
       } else {
         this.companyIsCollect = false;
       }
-      console.log(this.companyIsCollect);
     },
     collectJob(item) {
       emitter.emit('open-collect-modal', item);

@@ -88,7 +88,6 @@ export default {
       this.$emit('select-job', this.jobItem.id);
     },
     searchByJobCategory() {
-      console.log(this.jobItem.category);
       this.$emit('search-by-job-category', this.jobItem.category);
     },
     openSelectEffect() {

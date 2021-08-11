@@ -4,14 +4,14 @@
     <ul>
       <template v-for="(jobRead, index) in jobReadList" :key="jobRead.id">
         <li class="list__item" v-if="index < 6">
-          <p class="list__item__link mb-2" @click="gotoJobRead(jobRead.id)">
+          <p class="list__item__link mb-2 putPointer" @click="goToJobRead(jobRead.id)">
             {{ jobRead.title }}
           </p>
-          <router-link
-            class="list__item__link--sub"
+          <p
+            class="list__item__link--sub putPointer"
             aria-current="page"
-            :to="`/products-list/company/${jobRead.companyId}`"
-            >{{ jobRead.company }}</router-link
+            @click="goToCompanyRead(jobRead.companyId)"
+            >{{ jobRead.company }}</p
           >
           <p class="list__item__time">{{ $filters.date(jobRead.time) }}</p>
         </li>
@@ -43,7 +43,6 @@ export default {
       if (temJobReadArray) {
         this.jobReadList = temJobReadArray;
       }
-      console.log(this.jobReadList);
     },
     // 檢查是否已經存在
     checkLocalJobRead(id) {
@@ -78,7 +77,7 @@ export default {
         this.$router.push(`/products-list/product/${id}`);
       }
     },
-    // reload的時候怪怪的，還無法正確跳頁
+    // reload的時候怪怪的，還無法正確跳頁，要多跳一次
     goToCompanyRead(id) {
       if (this.$route.path.match('/products-list/company/')) {
         this.$router.push(`/products-list/company/${id}`);
@@ -95,7 +94,6 @@ export default {
         this.sentCompany = sendObj.company;
         this.checkLocalJobRead(this.sentJob.id);
       } else {
-        console.log('純看');
         this.getLocalStorage();
       }
     });

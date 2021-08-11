@@ -162,7 +162,6 @@ export default {
   },
   methods: {
     searchByJobCategory() {
-      console.log(this.jobItem.category);
       this.$emit('search-by-job-category', this.jobItem.category);
     },
     // 收藏職位

@@ -79,17 +79,11 @@ export default {
     emitter.on('imgPopModal-open', (item) => {
       this.openModal();
       const temType = typeof item;
-      console.log(temType);
       if (temType === 'object') {
-        console.log(item);
         this.imgPopUrlObj = item;
-        console.log(this.imgPopUrlObj.length);
         this.imgPopUrl = this.imgPopUrlObj[this.nowNumber];
-        console.log(this.imgPopUrl);
-        console.log(this.imgPopUrlObj[this.nowNumber]);
         this.changeBtnState = true;
       } else if (temType === 'string') {
-        console.log(item);
         this.imgPopUrl = item;
         this.changeBtnState = false;
       }
