@@ -74,7 +74,8 @@
                   :to="`/apply-job/${jobItem.id}`"
                   >申請職位</router-link
                 >
-                <button class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block">
+                <button class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block"
+                @click="collectJob(jobItem)">
                   收藏職位
                 </button>
               </div>

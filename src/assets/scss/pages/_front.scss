@@ -896,6 +896,23 @@
       }
     }
   }
+  .collectBtn--company--phone {
+    border-radius: 0.5rem;
+    color: $dark;
+    transition: all 0.3s;
+    min-width: 110px;
+    .jobIcon {
+      font-size: 1rem;
+    }
+    &.active {
+      background-color: $primary-light;
+      border: 1px solid $primary-light;
+      color: $primary;
+      .jobIcon {
+        color: $primary;
+      }
+    }
+  }
 }
 .collectBtn.pageState {
   top: 24px;

@@ -6,7 +6,7 @@
           <div class="col-lg-9 col-12">
             <div class="companyInfoBox box--shadow mb-3  position-relative">
               <button
-                class="collectBtn--company btn btn-outline-gray-line"
+                class="collectBtn--company btn btn-outline-gray-line d-md-flex d-none"
                 type="button"
                 :class="{ active: companyIsCollect }"
                 @click="collectCompany(companyItem)"
@@ -48,6 +48,15 @@
                         {{ $filters.date(companyItem.options.create) }}
                       </p>
                     </div>
+                    <button
+                      class="collectBtn--company--phone btn btn-outline-gray-line w-100 mt-4 d-md-0"
+                      type="button"
+                      :class="{ active: companyIsCollect }"
+                      @click="collectCompany(companyItem)"
+                    >
+                      <i class="jobIcon bi bi-bookmark-fill me-1"></i
+                      >{{ this.companyIsCollect ? '已關注' : '關注公司' }}
+                    </button>
                   </div>
                 </div>
               </div>
