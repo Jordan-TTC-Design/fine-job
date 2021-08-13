@@ -128,17 +128,17 @@
                   <div
                     class="form-check"
                     v-for="(item, index) in formData.workTime"
-                    :key="'workTime' + index"
+                    :key="`workTime${index}`"
                   >
                     <input
                       class="form-check-input"
                       type="radio"
                       :value="item"
-                      :id="'workTime' + index"
+                      :id="`workTime${index}`"
                       name="上班時段"
                       v-model="jobData.options.job.workTime"
                     />
-                    <label class="form-check-label" :for="'workTime' + index">
+                    <label class="form-check-label" :for="`workTime${index}`">
                       {{ item }}
                     </label>
                   </div>
@@ -150,17 +150,17 @@
                   <div
                     class="form-check"
                     v-for="(item, index) in formData.workType"
-                    :key="'workType' + index"
+                    :key="`workType${index}`"
                   >
                     <input
                       class="form-check-input"
                       type="radio"
                       :value="item"
-                      :id="'workType' + index"
+                      :id="`workType${index}`"
                       name="工作性質"
                       v-model="jobData.options.job.workType"
                     />
-                    <label class="form-check-label" :for="'workType' + index">
+                    <label class="form-check-label" :for="`workType${index}`">
                       {{ item }}
                     </label>
                   </div>
@@ -269,17 +269,17 @@
                       <div
                         class="form-check"
                         v-for="(item, index) in formData.workExp"
-                        :key="'workExp' + index"
+                        :key="`workExp${index}`"
                       >
                         <input
                           class="form-check-input"
                           type="radio"
                           :value="item"
-                          :id="'workExp' + index"
+                          :id="`workExp${index}`"
                           name="工作經驗"
                           v-model="jobData.options.job.workExp"
                         />
-                        <label class="form-check-label" :for="'workExp' + index">
+                        <label class="form-check-label" :for="`workExp${index}`">
                           {{ item }}
                         </label>
                       </div>
@@ -291,17 +291,17 @@
                       <div
                         class="form-check"
                         v-for="(item, index) in formData.education"
-                        :key="'education' + index"
+                        :key="`education${index}`"
                       >
                         <input
                           class="form-check-input"
                           type="radio"
                           :value="item"
-                          :id="'education' + index"
+                          :id="`education${index}`"
                           name="學歷要求"
                           v-model="jobData.options.job.education"
                         />
-                        <label class="form-check-label" :for="'education' + index">
+                        <label class="form-check-label" :for="`education${index}`">
                           {{ item }}
                         </label>
                       </div>
@@ -498,7 +498,7 @@
                         v-model="companyData.options.company.companyImagesUrl[index]"
                       />
                     </div>
-                    <img class="img-fluid" :alt="'第'+index+'張職位圖片'" :src="item" />
+                    <img class="img-fluid" :alt="`第${index}張職位圖片`" :src="item" />
                   </div>
                 </div>
               </div>

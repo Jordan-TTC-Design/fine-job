@@ -23,7 +23,7 @@
             ></button>
           </div>
           <div ref="newFolder" class="nowFolder putPointer" @click="openCreateFolderModal">
-            <div class="collectFolder--sm collectFolder--new ">
+            <div class="collectFolder--sm collectFolder--new">
               <i class="jobIcon bi bi-plus-lg"></i>
             </div>
             <p class="collectFolder__title">新建收藏夾</p>
@@ -39,7 +39,7 @@
                   class="collectFolder__imgCover"
                   v-if="folder.jobs[0]"
                   :src="folder.jobs[0].imageUrl"
-                  alt=""
+                  :alt="`${folder.jobs.title}職位圖片`"
                 />
               </div>
               <div class="d-flex align-items-center justify-content-between flex-grow-1">
@@ -114,6 +114,7 @@
               data-bs-target="#exampleModalToggle"
               data-bs-toggle="modal"
               data-bs-dismiss="modal"
+              type="button"
             >
               返回
             </button>

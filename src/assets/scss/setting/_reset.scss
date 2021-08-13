@@ -85,7 +85,6 @@ video {
   color: #646464;
 }
 
-
 article,
 aside,
 details,
@@ -119,7 +118,6 @@ ul {
   list-style: none;
 }
 blockquote,
-
 q {
   quotes: none;
 }
@@ -149,6 +147,6 @@ input {
 
 * {
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }

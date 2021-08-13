@@ -1,13 +1,8 @@
 <template>
   <div class="imgPopModalContainer" v-if="imgPopModalState">
     <div class="img-cover" @click="closeModal"></div>
-    <div class="imgPopModalBox" >
+    <div class="imgPopModalBox">
       <img class="imgPopModalBox__img" :src="imgPopUrl" alt="展示圖片" />
-      <!-- <img
-        class="imgPopModalBox__img"
-        src="https://images.unsplash.com/photo-1606787619248-f301830a5a57?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-        alt="展示圖片"
-      /> -->
       <button
         type="button"
         class="closeBtn btn btn-lg btn-outline-light rounded-circle iconBtnBox"
@@ -73,10 +68,7 @@ export default {
     openModal() {
       this.imgPopModalState = true;
     },
-  },
-  created() {
-    // this.imgPopUrl = this.imgUrl;
-    emitter.on('imgPopModal-open', (item) => {
+    emitImgPopModalOpen(item) {
       this.openModal();
       const temType = typeof item;
       if (temType === 'object') {
@@ -87,7 +79,13 @@ export default {
         this.imgPopUrl = item;
         this.changeBtnState = false;
       }
-    });
+    },
+  },
+  mounted() {
+    emitter.on('imgPopModal-open', this.emitImgPopModalOpen);
+  },
+  unmounted() {
+    emitter.off('imgPopModal-open', this.emitImgPopModalOpen);
   },
 };
 </script>

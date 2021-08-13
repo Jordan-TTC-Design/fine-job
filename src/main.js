@@ -1,4 +1,3 @@
-// /* eslint-disable no-unused-vars */
 import { createApp } from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import {
@@ -7,7 +6,6 @@ import {
 import {
   required, email, min,
 } from '@vee-validate/rules';
-// import { Popover } from 'bootstrap';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 import axios from 'axios';

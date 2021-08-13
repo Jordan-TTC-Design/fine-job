@@ -169,8 +169,8 @@
   }
 }
 //首頁熱門職位
-.sectionHotJob{
-  @include md{
+.sectionHotJob {
+  @include md {
     padding-bottom: 2rem;
   }
 }
@@ -365,9 +365,9 @@
 
 // 熱門職位類別
 .hotCategory {
-  .hotCategoryList{
+  .hotCategoryList {
     align-items: stretch;
-    @include md{
+    @include md {
       margin-bottom: -1rem;
     }
   }
@@ -473,9 +473,9 @@
     }
   }
 }
-.cooperationCompany{
+.cooperationCompany {
   margin-bottom: -1.5rem;
-  @include sm{
+  @include sm {
     margin-bottom: -0.75rem;
   }
 }
@@ -677,7 +677,7 @@
       border-radius: 0.25rem;
       font-size: 14px;
       margin-right: 1.5rem;
-      white-space:nowrap;
+      white-space: nowrap;
     }
     &__tag--title {
       width: 80px;
@@ -693,7 +693,7 @@
       margin-bottom: 0;
       border-bottom: 0;
     }
-    @include lg{
+    @include lg {
       &__tag {
         padding: 6px 8px;
         margin-right: 1rem;
@@ -703,10 +703,10 @@
         margin-right: 1rem;
       }
     }
-    @include md{
+    @include md {
       flex-direction: column;
       align-items: start;
-      &__content{
+      &__content {
         align-self: stretch;
       }
       &__tag {
@@ -921,10 +921,10 @@
 .jobSubBox {
   border-radius: 0.5rem;
   background-color: $light;
-  .applyImg{
+  .applyImg {
     width: 100%;
     background-color: $gray-light;
-    border-radius: 0.5rem ;
+    border-radius: 0.5rem;
     margin-bottom: 0.5rem;
   }
   &__title {
@@ -975,7 +975,7 @@
   @include shadow-md;
   @include sm {
     max-width: 100%;
-    max-height: calc( 100vh - 2rem );
+    max-height: calc(100vh - 2rem);
     position: fixed;
     bottom: 0;
     left: 0;
@@ -991,7 +991,7 @@
       z-index: -1;
     }
   }
-  &__Header{
+  &__Header {
     background-color: $gray-light;
     padding: 1rem;
     border-radius: 0.5rem 0.5rem 0 0;
@@ -999,18 +999,18 @@
     align-items: center;
     justify-content: space-between;
   }
-  &__contentBox{
+  &__contentBox {
     padding: 1rem;
     max-height: 320px;
-    overflow-y:auto;
+    overflow-y: auto;
     @include sm {
       max-height: 480px;
     }
   }
-  &__section{
+  &__section {
     padding: 1rem 0;
     border-bottom: 1px solid $gray-line;
-    &:last-child{
+    &:last-child {
       border-bottom: 0;
       padding-bottom: 0;
     }
@@ -1020,12 +1020,12 @@
       color: $dark;
       border-radius: 0.25rem;
       font-size: 14px;
-      white-space:nowrap;
+      white-space: nowrap;
       margin-bottom: 0.75rem;
       display: inline-block;
     }
   }
-  &__footer{
+  &__footer {
     border-top: 1px solid $gray-line;
     padding: 1rem;
     display: flex;
@@ -1233,7 +1233,8 @@
 .collectionBox--new {
   height: 100%;
   &:hover {
-    .collectionBox--new__newBtn,.jobIcon {
+    .collectionBox--new__newBtn,
+    .jobIcon {
       color: $primary;
     }
   }
@@ -1516,79 +1517,79 @@
   }
 }
 
-.img--searchNoJob{
-  max-width:48%;
+.img--searchNoJob {
+  max-width: 48%;
   margin: 2rem 0;
-  @include md{
-  max-width:64%;
+  @include md {
+    max-width: 64%;
   }
-  @include sm{
+  @include sm {
     max-width: 80%;
   }
 }
 // 申請畫面scss
-.applyContainer{
+.applyContainer {
   background-color: $light;
   border-radius: 0.5rem;
   display: flex;
-  &__applySideBox{
+  &__applySideBox {
     width: 36%;
-    background-color:$gray-line;
-    border-radius:0.5rem 0 0 0.5rem;
-    padding:1.5rem;
-    .logoImgBox{
+    background-color: $gray-line;
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 1.5rem;
+    .logoImgBox {
       width: 24%;
       border-radius: 0.25rem;
     }
-    .applySideBox__companyBox{
+    .applySideBox__companyBox {
       display: flex;
       align-items: center;
       padding-bottom: 1rem;
       border-bottom: 1px solid $gray-line;
       margin-bottom: 1rem;
     }
-    .applySideBox{
+    .applySideBox {
       max-height: calc(100% - 4rem);
       overflow-y: auto;
     }
   }
-  .applySideBox__section{
+  .applySideBox__section {
     padding-bottom: 1rem;
     border-bottom: 1px solid $gray-line;
     margin-bottom: 0.75rem;
-    &:last-child{
+    &:last-child {
       border-bottom: 0;
       padding-bottom: 0;
       margin-bottom: 0;
     }
-    &__open{
+    &__open {
       cursor: pointer;
       width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-weight: $fw--md;
-      color:$dark;
+      color: $dark;
       padding-right: 0.75rem;
       height: 44px;
     }
-    &__content{
+    &__content {
       margin-top: 0.75rem;
     }
   }
-  &__applyInfoBox{
+  &__applyInfoBox {
     width: 64%;
     padding: 1.5rem;
   }
-  .applySideBox{
+  .applySideBox {
     background-color: $light;
     padding: 0.75rem;
     border-radius: 0.5rem;
   }
-  .applyBackBtn{
-    &__title{
+  .applyBackBtn {
+    &__title {
       position: relative;
-      &::before{
+      &::before {
         content: '';
         width: 1px;
         height: 20px;
@@ -1599,30 +1600,30 @@
         position: absolute;
       }
     }
-  } 
-  @include md{
+  }
+  @include md {
     flex-direction: column;
-    &__applySideBox{
+    &__applySideBox {
       width: 100%;
       border-radius: 0.5rem 0.5rem 0 0;
     }
-    .applySideBox{
+    .applySideBox {
       max-height: 240px;
       overflow-y: auto;
     }
-    &__applyInfoBox{
+    &__applyInfoBox {
       width: 100%;
-      border-radius:0 0 0.5rem 0.5rem;
+      border-radius: 0 0 0.5rem 0.5rem;
     }
   }
-  @include sm{
-    .applySideBox{
+  @include sm {
+    .applySideBox {
       display: none;
     }
-    &__applySideBox{
+    &__applySideBox {
       padding: 1rem;
     }
-    .applySideBox{
+    .applySideBox {
       padding: 1rem;
     }
   }

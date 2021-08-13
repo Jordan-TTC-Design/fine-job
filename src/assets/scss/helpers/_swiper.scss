@@ -1,11 +1,11 @@
 .swiper-pagination-bullet.swiper-pagination-bullet-active {
   background-color: $primary;
-  width:1.5rem;
-  border-radius:0.25rem;
+  width: 1.5rem;
+  border-radius: 0.25rem;
 }
 
 .swiper-wrapper {
-  padding-bottom:2.25rem;
+  padding-bottom: 2.25rem;
 }
 .swiper-button-prev.swiper-custom,
 .swiper-button-next.swiper-custom {
@@ -22,6 +22,7 @@
   display: none;
 }
 // 首頁的企業推薦修改
-.weeklyCompany .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets{
+.weeklyCompany
+  .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets {
   bottom: 0;
 }

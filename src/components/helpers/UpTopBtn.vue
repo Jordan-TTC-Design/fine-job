@@ -1,7 +1,7 @@
 <template>
   <button
     ref="upTopBtn"
-    type="btn"
+    type="button"
     class="d-none sideIconBtn upTopBtn btn btn-light"
     @click="toTop"
   >

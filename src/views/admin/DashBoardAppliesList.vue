@@ -52,7 +52,7 @@
                   <img
                     class="person__personalImg me-3"
                     :src="item.user.options.personalImg"
-                    :alt="item.user.name+'個人求職照片'"
+                    :alt="`${item.user.name}個人求職照片`"
                   />
                   <div>
                     <p class="person__name">{{ item.user.name }}</p>
@@ -154,13 +154,14 @@ export default {
       this.$http
         .get(url)
         .then((res) => {
-          emitter.emit('spinner-close');
           this.orders = res.data.orders;
           this.pagination = res.data.pagination;
           this.classifyOrder();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     newItem(temObj) {
@@ -173,11 +174,12 @@ export default {
           if (res.data.success) {
             // this.deleteOrder(this.temItem[0]);
           }
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     deleteOrder(id) {
       emitter.emit('spinner-open');
@@ -191,8 +193,9 @@ export default {
           this.getOrder();
           emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     getProductsData() {
@@ -205,8 +208,9 @@ export default {
           emitter.emit('spinner-close');
           this.classifyJob();
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     classifyJob() {

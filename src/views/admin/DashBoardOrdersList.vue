@@ -158,7 +158,7 @@
                   <img
                     class="logoImage"
                     :src="temItem.user.options.company.companyLogoUrl"
-                    :alt="temItem.user.options.company.companyName+'公司logo'"
+                    :alt="`${temItem.user.options.company.companyName}公司logo`"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@
                 v-for="(item, index) in temItem.user.options.company.companyImagesUrl"
                 class="companyPage__companyImage"
                 :src="item"
-                :alt="temItem.user.options.company.companyName+'公司圖片'+index"
+                :alt="`${temItem.user.options.company.companyName}公司圖片${index}`"
                 :key="index"
               />
             </div>
@@ -295,13 +295,16 @@
             </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
-                <img class="jobImage" :src="temItem.user.options.job.jobImageUrl"
-                :alt="temItem.user.options.job.jobName+'職位圖片'" />
+                <img
+                  class="jobImage"
+                  :src="temItem.user.options.job.jobImageUrl"
+                  :alt="`${temItem.user.options.job.jobName}職位圖片`"
+                />
                 <div class="logoImageBox">
                   <img
                     class="logoImage"
                     :src="temItem.user.options.company.companyLogoUrl"
-                    :alt="temItem.user.options.company.companyName+'公司logo'"
+                    :alt="`${temItem.user.options.company.companyName}公司logo`"
                   />
                 </div>
               </div>
@@ -476,8 +479,9 @@ export default {
           this.pagination = res.data.pagination;
           this.classifyOrder();
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     newItemModal(e) {
@@ -510,8 +514,9 @@ export default {
             // this.deleteOrder();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     newItem(temObj) {
@@ -526,11 +531,12 @@ export default {
           if (res.data.success) {
             // this.deleteOrder(this.temItem[0]);
           }
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     deleteOrder(id) {
       emitter.emit('spinner-open');
@@ -544,8 +550,9 @@ export default {
           this.getOrder();
           emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
   },

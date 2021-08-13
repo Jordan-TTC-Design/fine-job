@@ -21,7 +21,8 @@
             <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
           </li>
           <li class="nav-item d-lg-block d-none">
-            <button class="nav-link text-white btn" @click="openSearchModal">搜尋</button>
+            <button class="nav-link text-white btn" type="button"
+            @click="openSearchModal">搜尋</button>
           </li>
           <li class="nav-item" :class="{ active: this.navState === '收藏' }">
             <router-link class="nav-link text-white" to="/collection">收藏</router-link>
@@ -48,7 +49,7 @@
         <div class="hamburgerMenu d-flex me-2" @click="openSearchModal" ref="headerSearchIcon">
           <i class="jobIcon bi bi-search"></i>
         </div>
-        <div class="hamburgerMenu  d-flex" @click="openRwdMenu">
+        <div class="hamburgerMenu d-flex" @click="openRwdMenu">
           <i class="jobIcon bi bi-list"></i>
         </div>
       </div>
@@ -153,7 +154,6 @@ export default {
     },
     openSearchModal() {
       this.$refs.Search.classList.toggle('active');
-      // console.dir(this.$refs.Search.classList);
     },
     closeSearchModal() {
       this.$refs.Search.classList.remove('active');

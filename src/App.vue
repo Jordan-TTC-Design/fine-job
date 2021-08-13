@@ -1,17 +1,20 @@
 <template>
   <router-view v-if="isRouterAlive"></router-view>
-  <Spinner/>
-  <SpinnerBg/>
+  <Spinner />
+  <SpinnerBg />
+  <AlertMessage />
 </template>
 
 <script>
 import Spinner from '@/components/helpers/Spinner.vue';
 import SpinnerBg from '@/components/helpers/SpinnerBg.vue';
+import AlertMessage from '@/components/helpers/AlertMessage.vue';
 
 export default {
   components: {
     Spinner,
     SpinnerBg,
+    AlertMessage,
   },
   provide() {
     return {

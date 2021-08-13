@@ -2,7 +2,7 @@
   <div ref="sideJobBox" class="sideJobBox sideJobBox--sticky box--shadow">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <div class="mb-3">
-        <button type="button" class="jobTag btn"  @click="searchByJobCategory">
+        <button type="button" class="jobTag btn" @click="searchByJobCategory">
           {{ jobItem.category }}
         </button>
       </div>
@@ -119,22 +119,22 @@
       <div class="page__txt" v-html="jobItem.options.job.otherRequirement"></div>
     </div>
     <div class="sideJobBox__section">
-      <h3 class="section__title--sub"><span class="title__icon"> </span>申請方法</h3>
+      <h3 class="section__title--sub"><span class="title__icon"></span>申請方法</h3>
       <p class="mb-3">
         <span><i class="jobIcon--sm me-1 bi bi-person"></i></span>職位聯絡人：{{
           jobItem.options.company.companyContact
         }}
       </p>
-      <p class="mb-3">
+      <a class="mb-3 d-block" :href="`mailto:${jobItem.options.company.companyEmail}`">
         <span><i class="jobIcon--sm me-1 bi bi-envelope"></i></span>聯絡信箱：{{
           jobItem.options.company.companyEmail
         }}
-      </p>
-      <p class="mb-3">
+      </a>
+      <a class="mb-3 d-block" :href="`tel:${jobItem.options.company.companyTel}`">
         <span><i class="jobIcon--sm me-1 bi bi-phone"></i></span>聯絡電話：{{
           jobItem.options.company.companyTel
         }}
-      </p>
+      </a>
       <p class="mb-3">申請備註：</p>
       <div class="page__txt" v-html="jobItem.options.job.otherApplyInfo"></div>
     </div>

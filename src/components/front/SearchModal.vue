@@ -3,9 +3,11 @@
     <div class="row justify-content-center">
       <div class="col-md-8 col-12">
         <div class="bg-white rounded box--shadow--lg p-md-6 p-3">
-          <form class="banner__searchBar d-flex align-items-center">
-            <div class="d-flex justify-content-between align-items-md-end align-items-stretch
-            flex-grow-1 flex-md-row flex-column">
+          <form class="banner__searchBar d-flex align-items-center" @submit="toSearchJob">
+            <div
+              class="d-flex justify-content-between align-items-md-end align-items-stretch
+            flex-grow-1 flex-md-row flex-column"
+            >
               <div class="inputGroup--item flex-grow-1 me-md-4">
                 <label for="searchFilterTop-keyword" class="form-label inputItem__title"
                   >關鍵字</label
@@ -32,12 +34,12 @@
                   <option
                     v-for="(item, index) in formData.city"
                     :value="item"
-                    :key="'地區' + index"
+                    :key="`地區${index}`"
                     >{{ item }}</option
                   >
                 </select>
               </div>
-              <button type="button" class="btn btn-primary" @click="toSearchJob">搜尋職位</button>
+              <button type="submit" class="btn btn-primary">搜尋職位</button>
             </div>
           </form>
         </div>

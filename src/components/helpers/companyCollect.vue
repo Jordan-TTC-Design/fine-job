@@ -14,23 +14,16 @@
             <div>
               <h3 class="section__title--sub mb-2"><span class="title__icon"></span>取消收藏</h3>
             </div>
-            <button
-              type="button"
-              class="btn-close"
-              @click="closeModal"
-            ></button>
+            <button type="button" class="btn-close" @click="closeModal"></button>
           </div>
           <p class="text-center mb-4">請問您確定要取消收藏?</p>
           <p class="text-center mb-6 text-primary ">{{ sentCompany.title }}</p>
           <div class="d-flex">
-            <button
-              class="btn btn-gray-light me-2 flex-grow-1"
-              @click="closeModal"
-            >
+            <button type="button" class="btn btn-gray-light me-2 flex-grow-1" @click="closeModal">
               返回
             </button>
             <button
-              type="submit"
+              type="button"
               class="btn btn-primary flex-grow-1"
               @click="deleteCompanyFromLocal(sentCompany.id)"
             >

@@ -38,7 +38,7 @@
                       <option
                         v-for="(item, index) in formData.city"
                         :value="item"
-                        :key="'地區' + index"
+                        :key="`地區${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -143,7 +143,7 @@
                         v-for="(item, index) in formData.workExp"
                         :value="item"
                         :selected="item === '不限'"
-                        :key="'工作經驗' + index"
+                        :key="`工作經驗${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -165,7 +165,7 @@
                         v-for="(item, index) in formData.education"
                         :value="item"
                         :selected="item === '不限'"
-                        :key="'學歷要求' + index"
+                        :key="`學歷要求${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -192,7 +192,7 @@
                       <option
                         v-for="(item, index) in formData.workType"
                         :value="item"
-                        :key="'工作性質' + index"
+                        :key="`工作性質${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -214,7 +214,7 @@
                       <option
                         v-for="(item, index) in formData.workTime"
                         :value="item"
-                        :key="'工作時段' + index"
+                        :key="`工作時段${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -236,7 +236,7 @@
                       <option
                         v-for="(item, index) in formData.jobCategory"
                         :value="item"
-                        :key="'職位類別' + index"
+                        :key="`職位類別${index}`"
                         >{{ item }}</option
                       >
                     </select>
@@ -279,7 +279,7 @@
         <div class="col-lg-6 col-12" v-if="jobsList.length > 0">
           <div class="jobListBox">
             <div class="d-flex justify-content-between align-items-center ps-3 mb-3">
-              <p class="text-secondary fw-normal  text-nowrap">
+              <p class="text-secondary fw-normal text-nowrap">
                 目前共 {{ jobsList.length }} 個職位
               </p>
               <select
@@ -313,14 +313,18 @@
           />
         </div>
         <div class="col-12 d-flex justify-content-center" v-if="jobsList.length === 0">
-          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="" />
+          <img class="img--searchNoJob" src="https://i.imgur.com/a1OATil.png" alt="搜不到職位" />
         </div>
       </div>
     </div>
     <PagenationModal :jobs-list="jobsList" @change-page="changePage" />
   </div>
   <div class="sideBtnBox">
-    <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
+    <FilterBtn
+      :tem-filter-data="filterData"
+      @send-filter-data="filter"
+      @get-filter-txt="getFilterTxt"
+    />
     <UpTopBtn />
   </div>
   <JobCollect ref="JobCollectModal" />
@@ -438,51 +442,25 @@ export default {
       this.classifyJob();
       const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
       this.jobsList = temArray;
-      emitter.emit('spinner-close');
       this.changePage(1);
-      this.getfilterTxt();
+      emitter.emit('get-filter-txt');
       emitter.emit('filterBtn-close');
+      emitter.emit('spinner-close');
     },
     filter(value) {
-      this.filterData = value;
       emitter.emit('spinner-open');
+      this.filterData = value;
       this.classifyJob();
       const temArray = this.searchFilterMethods.filter(this.jobsList, this.filterData);
       this.jobsList = temArray;
-      emitter.emit('spinner-close');
       this.changePage(1);
-      this.getfilterTxt();
+      emitter.emit('get-filter-txt');
       emitter.emit('filterBtn-close');
+      emitter.emit('spinner-close');
     },
     // 取得搜尋條件文字
-    getfilterTxt() {
-      const keyWord = this.filterData.keyword === '' ? '' : `${this.filterData.keyword}、`;
-      const city = this.filterData.city === '不限' ? '' : `${this.filterData.city}、`;
-      const industryCategory = this.filterData.industryCategory === '不限' ? '' : `${this.filterData.industryCategory}、`;
-      const jobCategory = this.filterData.jobCategory === '不限' ? '' : `${this.filterData.jobCategory}、`;
-      const workExp = this.filterData.workExp === '不限' ? '' : `${this.filterData.workExp}、`;
-      const education = this.filterData.education === '不限' ? '' : `${this.filterData.education}、`;
-      const workType = this.filterData.workType === '不限' ? '' : `${this.filterData.workType}、`;
-      const workTime = this.filterData.workTime === '不限' ? '' : `${this.filterData.workTime}、`;
-      const salaryLow = this.filterData.salaryLow === null ? '' : `最低薪資${this.filterData.salaryLow}、`;
-      const salaryHight = this.filterData.salaryHight === null ? '' : `最高薪資${this.filterData.salaryHight}、`;
-      const salaryInterView = this.filterData.salaryInterView === false ? '' : '薪資面議、';
-      const temTxt = keyWord
-        + city
-        + industryCategory
-        + jobCategory
-        + workExp
-        + education
-        + workType
-        + workTime
-        + salaryLow
-        + salaryHight
-        + salaryInterView;
-      if (temTxt.length > 1) {
-        this.filterTxt = temTxt.slice(0, temTxt.length - 1);
-      } else {
-        this.filterTxt = temTxt;
-      }
+    getFilterTxt(txt) {
+      this.filterTxt = txt;
     },
     // 清除篩選條件
     cleanFilter() {
@@ -567,11 +545,12 @@ export default {
         .get(url)
         .then((res) => {
           this.products = res.data.products;
-          emitter.emit('spinner-close');
           this.filterJobs();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     // 抓取動態路由參數

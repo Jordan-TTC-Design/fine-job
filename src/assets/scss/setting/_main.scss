@@ -148,19 +148,19 @@ p {
   padding: 0 0.75rem;
   border-radius: 0.5rem;
   display: flex;
-  &__item{
+  &__item {
     height: 44px;
-    padding: 0 1rem ;
+    padding: 0 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     transition: all 0.3s;
-    &__title{
+    &__title {
       color: $dark;
-      font-weight:$fw--md;
+      font-weight: $fw--md;
     }
-    &::after{
+    &::after {
       content: '';
       position: absolute;
       bottom: 0;
@@ -170,14 +170,12 @@ p {
       border-radius: 0.25rem 0.25rem 0 0;
     }
     &.active {
-      .page__sideNav__item__title{
-        color:$primary
+      .page__sideNav__item__title {
+        color: $primary;
       }
-      &::after{
+      &::after {
         height: 0.25rem;
       }
     }
-
   }
-  
 }

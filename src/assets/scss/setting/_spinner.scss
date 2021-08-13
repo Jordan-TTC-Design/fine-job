@@ -11,7 +11,7 @@
   z-index: 2000;
   flex-direction: column;
 }
-.spinnerContainer.spinner--open{
+.spinnerContainer.spinner--open {
   display: flex;
 }
 .spinnerBox {
@@ -121,10 +121,10 @@
     left: 8px;
     top: -4px;
   }
-  &__txt{
+  &__txt {
     text-align: center;
     margin-top: 2rem;
-    color:$primary;
+    color: $primary;
   }
 }
 .talk__dot--animation {
@@ -141,7 +141,6 @@
   animation-delay: 0.4s;
 }
 
-
 @keyframes talk-dot-show {
   0%,
   80%,
@@ -156,17 +155,17 @@
 //有背景的spinner
 .spinnerContainer--bg {
   background-color: $primary;
-  .spinnerBg__logoBox{
+  .spinnerBg__logoBox {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     bottom: 32px;
-    .header__logo{
+    .header__logo {
       width: 160px;
     }
   }
 }
-.spinnerContainer--bg.spinner--open--bg{
+.spinnerContainer--bg.spinner--open--bg {
   display: flex;
 }

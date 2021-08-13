@@ -32,7 +32,7 @@
                   <div class="pt-3 d-md-block d-flex flex-column align-items-center">
                     <h2 class="page__title">{{ jobItem.title }}</h2>
                     <router-link
-                      class=" page__link subTxt  mb-4 d-block pe-auto"
+                      class="page__link subTxt mb-4 d-block pe-auto"
                       :to="`/products-list/company/${temCompany.id}`"
                       >{{ jobItem.options.company.companyName }}</router-link
                     >
@@ -74,13 +74,16 @@
                   :to="`/apply-job/${jobItem.id}`"
                   >申請職位</router-link
                 >
-                <button class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block"
-                @click="collectJob(jobItem)">
+                <button
+                  class="btn btn-lg btn-gray-light w-100 pe-auto d-lg-none d-block"
+                  @click="collectJob(jobItem)"
+                  type="button"
+                >
                   收藏職位
                 </button>
               </div>
             </div>
-            <div class="jobContentSection  box--shadow  mb-3">
+            <div class="jobContentSection box--shadow mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>職位內容</h3>
               <p class="mb-2">
                 <i class="jobIcon--sm me-1 bi bi-journal"></i>工作性質：{{
@@ -103,7 +106,7 @@
               <p class="mb-2">工作內容：</p>
               <div v-html="jobItem.content"></div>
             </div>
-            <div class="jobContentSection box--shadow  mb-3">
+            <div class="jobContentSection box--shadow mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>應徵條件</h3>
               <p class="mb-2">
                 <i class="jobIcon--sm me-1 bi bi-book"> </i>學歷要求：{{
@@ -125,23 +128,23 @@
                   jobItem.options.company.companyContact
                 }}
               </p>
-              <p class="mb-2">
+              <a :href="`mailto:${jobItem.options.company.companyEmail}`" class="mb-2 d-block">
                 <i class="jobIcon--sm me-1 bi bi-envelope"></i>聯絡信箱：{{
                   jobItem.options.company.companyEmail
                 }}
-              </p>
-              <p class="mb-2">
+              </a>
+              <a class="mb-3 d-block" :href="`tel:${jobItem.options.company.companyTel}`">
                 <i class="jobIcon--sm me-1 bi bi-phone"></i>聯絡電話：{{
                   jobItem.options.company.companyTel
                 }}
-              </p>
+              </a>
               <p class="mb-2">申請備註：</p>
               <div v-html="jobItem.options.job.otherApplyInfo"></div>
             </div>
           </div>
           <div class="col-lg-3 col-12">
-            <div class="jobSubBox  box--shadow mb-lg-3 p-3 d-lg-block d-none">
-              <img class="applyImg" src="https://i.imgur.com/2MEGlKs.png" alt="">
+            <div class="jobSubBox box--shadow mb-lg-3 p-3 d-lg-block d-none">
+              <img class="applyImg" src="https://i.imgur.com/2MEGlKs.png" alt="申請職位在這裡" />
               <router-link
                 class="btn btn-lg btn-primary w-100"
                 aria-current="page"
@@ -151,14 +154,14 @@
             </div>
             <div
               v-if="jobItem.options.company.companyImagesUrl.length > 0"
-              class="jobSubBox jobPage__companyImage box--shadow  mb-3"
+              class="jobSubBox jobPage__companyImage box--shadow mb-3"
             >
               <h5 class="jobSubBox__title">公司照片</h5>
               <div class="companyImgBox">
                 <img
                   class="mb-2 putPointer"
                   :src="jobItem.options.company.companyImagesUrl[0]"
-                  :alt="jobItem.options.company.companyName + '公司圖片一'"
+                  :alt="`${jobItem.options.company.companyName}公司圖片1`"
                   @click="openImgModal(jobItem.options.company.companyImagesUrl)"
                 />
                 <div class="d-flex justify-content-between">
@@ -166,13 +169,13 @@
                     v-if="jobItem.options.company.companyImagesUrl.length > 0"
                     class="companyImage--sub putPointer"
                     :src="jobItem.options.company.companyImagesUrl[1]"
-                    :alt="jobItem.options.company.companyName + '公司圖片二'"
+                    :alt="`${jobItem.options.company.companyName}公司圖片2`"
                     @click="openImgModal(jobItem.options.company.companyImagesUrl)"
                   />
                   <img
                     v-if="jobItem.options.company.companyImagesUrl.length > 1"
                     :src="jobItem.options.company.companyImagesUrl[2]"
-                    :alt="jobItem.options.company.companyName + '公司圖片三'"
+                    :alt="`${jobItem.options.company.companyName}公司圖片3`"
                     class="companyImage--sub putPointer"
                     @click="openImgModal(jobItem.options.company.companyImagesUrl)"
                   />
@@ -193,7 +196,7 @@
     <UpTopBtn />
   </div>
   <ImgPopModal />
-  <JobCollect ref="JobCollectModal"/>
+  <JobCollect ref="JobCollectModal" />
 </template>
 
 <script>
@@ -249,11 +252,12 @@ export default {
           } else {
             this.isExist = false;
           }
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     getAllJobs() {
       emitter.emit('spinner-open');
@@ -263,11 +267,12 @@ export default {
         .then((res) => {
           this.jobsList = res.data.products;
           this.findCompany();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     findCompany() {
       emitter.emit('spinner-open');
@@ -278,12 +283,12 @@ export default {
           }
         }
       });
-      emitter.emit('spinner-close');
       const sendObj = {
         job: this.jobItem,
         company: this.temCompany,
       };
       emitter.emit('check-job-read-local', sendObj);
+      emitter.emit('spinner-open');
     },
   },
   created() {

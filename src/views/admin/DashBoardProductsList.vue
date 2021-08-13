@@ -127,7 +127,8 @@
           <div class="selectBox__section  position-relative">
             <button
               class="collectBtn btn btn-outline-gray-line position-absolute pageState"
-              type="button" @click="emitter.emit('open-collect-modal')"
+              type="button"
+              @click="emitter.emit('open-collect-modal')"
             >
               <i class="jobIcon bi bi-bookmark-fill"></i>
             </button>
@@ -137,7 +138,7 @@
                   <img
                     class="logoImage"
                     :src="temItem.imageUrl"
-                    :alt="temItem.title + '公司logo'"
+                    :alt="`${temItem.title}公司logo`"
                   />
                 </div>
               </div>
@@ -172,7 +173,7 @@
                 v-for="(item, index) in temItem.imagesUrl"
                 class="companyPage__companyImage"
                 :src="item"
-                :alt="temItem.title + '公司圖片' + index"
+                :alt="`${temItem.title}公司圖片${index}`"
                 :key="index"
               />
             </div>
@@ -257,12 +258,12 @@
             </button>
             <div class="d-flex">
               <div class="jobContent__imgBox">
-                <img class="jobImage" :src="temItem.imageUrl" :alt="temItem.title + '職位圖片'" />
+                <img class="jobImage" :src="temItem.imageUrl" :alt="`${temItem.title}職位圖片`" />
                 <div class="logoImageBox">
                   <img
                     class="logoImage"
                     :src="temItem.options.company.companyLogoUrl"
-                    :alt="temItem.options.company.companyName + '公司logo'"
+                    :alt="`${temItem.options.company.companyName}公司logo`"
                   />
                 </div>
               </div>
@@ -464,8 +465,9 @@ export default {
             // this.deleteOrder();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     classifyProduct() {
@@ -501,8 +503,9 @@ export default {
           this.classifyProduct();
           emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     openModal(e, item) {
@@ -557,8 +560,9 @@ export default {
           emitter.emit('close-product-delete');
           emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     // 檢查無誤
@@ -586,8 +590,9 @@ export default {
           this.getProductData();
           emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="page--py">
     <div class="container">
-      <div class="row  justify-content-center">
+      <div class="row justify-content-center">
         <div class="col-xl-10 col-12">
           <div class="applyContainer">
             <div class="applyContainer__applySideBox">
@@ -21,7 +21,8 @@
                       <img
                         class="logoImg"
                         :src="jobItem.options.company.companyLogoUrl"
-                        alt="公司Logo"
+                        :alt="`${temCompany.title}企業Logo`"
+                        v-if="temCompany.title"
                       />
                     </div>
                     <router-link
@@ -139,16 +140,19 @@
                         jobItem.options.company.companyContact
                       }}
                     </p>
-                    <p class="mb-3">
+                    <a
+                      class="mb-3 d-block"
+                      :href="`mailto:${jobItem.options.company.companyEmail}`"
+                    >
                       <span><i class="jobIcon--sm me-1 bi bi-envelope"></i></span>聯絡信箱：{{
                         jobItem.options.company.companyEmail
                       }}
-                    </p>
-                    <p class="mb-3">
+                    </a>
+                    <a class="mb-3 d-block" :href="`tel:${jobItem.options.company.companyTel}`">
                       <span><i class="jobIcon--sm me-1 bi bi-phone"></i></span>聯絡電話：{{
                         jobItem.options.company.companyTel
                       }}
-                    </p>
+                    </a>
                     <p class="mb-3">申請備註：</p>
                     <div v-html="jobItem.options.job.otherApplyInfo"></div>
                   </div>
@@ -156,7 +160,7 @@
               </div>
             </div>
             <div class="applyContainer__applyInfoBox">
-              <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="addCart">
+              <Form ref="sendFormInfoForm1" v-slot="{ errors }" @submit="sendApplyFormProcess">
                 <h3 class="section__title--sub"><span class="title__icon"></span>求職者申請資訊</h3>
                 <p class="mb-4">
                   請填寫正確資訊，以便企業與您聯繫：
@@ -177,11 +181,9 @@
                         name="個人照片"
                         type="file"
                         class="form-control d-none"
-                        :class="{ 'is-invalid': errors['個人照片'] }"
-                        rules="required"
                         data-input="upLoadSingleImg"
-                        @change="loadingImg($event)"
                         accept="image/*"
+                        @change="loadingImg($event)"
                       />
                       <div class="cropImgBox">
                         <button
@@ -231,17 +233,17 @@
                           {{ personalImg.isUpDated ? '已上傳' : '上傳' }}
                         </button>
                       </div>
-                      <!-- <Field
-                    id="sendFormInfoPersonalImgCheck"
-                    ref="sendFormInfoPersonalImgCheck"
-                    name="個人照片"
-                    type="text"
-                    class="form-control d-none"
-                    :class="{ 'is-invalid': errors['個人照片'] }"
-                    v-model="form.user.options.personalImg"
-                    rules="required"
-                  ></Field>
-                  <ErrorMessage name="個人照片" class="invalid-feedback"></ErrorMessage> -->
+                      <Field
+                        id="sendFormInfoPersonalImgCheck"
+                        ref="sendFormInfoPersonalImgCheck"
+                        name="個人照片"
+                        type="text"
+                        class="form-control d-none"
+                        :class="{ 'is-invalid': errors['個人照片'] }"
+                        v-model="form.user.options.personalImg"
+                        rules="required"
+                      ></Field>
+                      <ErrorMessage name="個人照片" class="invalid-feedback"></ErrorMessage>
                     </div>
                   </div>
                   <div class="col-md-7 col-12">
@@ -335,9 +337,9 @@
                           >聯絡地址</label
                         >
                         <p class="formTag--must me-2">必填</p>
-                        <p class="subTxt">(可填寫大概區域，只用於企業參考用)</p>
+                        <p class="subTxt">(可填寫大概區域，只供企業參考用)</p>
                       </div>
-                      <div class="">
+                      <div>
                         <Field
                           id="sendFormInfoAddressCity"
                           ref="sendFormInfoAddressCity"
@@ -359,7 +361,7 @@
                           ref="sendFormInfoAddressDetail"
                           name="詳細地址"
                           type="text"
-                          class="form-control "
+                          class="form-control"
                           :class="{ 'is-invalid': errors['詳細地址'] }"
                           placeholder="請輸入詳細地址"
                           rules="required"
@@ -385,26 +387,26 @@
                             class="form-check-input"
                             type="radio"
                             :value="item"
-                            :id="'education' + index"
+                            :id="`education${index}`"
                             name="學歷"
                             v-model="form.user.options.education"
                           />
-                          <label class="form-check-label" :for="'education' + index">
+                          <label class="form-check-label" :for="`education${index}`">
                             {{ item }}
                           </label>
                         </div>
+                        <Field
+                          id="sendFormInfoEducationCheck"
+                          ref="sendFormInfoEducationCheck"
+                          name="學歷"
+                          type="text"
+                          class="form-control d-none"
+                          :class="{ 'is-invalid': errors['學歷'] }"
+                          v-model="form.user.options.education"
+                          rules="required"
+                        ></Field>
+                        <ErrorMessage name="學歷" class="invalid-feedback"></ErrorMessage>
                       </div>
-                      <Field
-                        id="sendFormInfoEducationCheck"
-                        ref="sendFormInfoEducationCheck"
-                        name="學歷"
-                        type="text"
-                        class="form-control d-none"
-                        :class="{ 'is-invalid': errors['學歷'] }"
-                        v-model="form.user.options.education"
-                        rules="required"
-                      ></Field>
-                      <ErrorMessage name="學歷要求" class="invalid-feedback"></ErrorMessage>
                     </div>
                     <div class="form__inputBox">
                       <div class="form__labelBox">
@@ -423,11 +425,11 @@
                             class="form-check-input"
                             type="radio"
                             :value="item"
-                            :id="'workExp' + index"
+                            :id="`workExp${index}`"
                             name="工作經驗"
                             v-model="form.user.options.workExp"
                           />
-                          <label class="form-check-label" :for="'workExp' + index">
+                          <label class="form-check-label" :for="`workExp${index}`">
                             {{ item }}
                           </label>
                         </div>
@@ -485,13 +487,13 @@
                     <div class="form__inputBox form__infoEditBox">
                       <div class="form__labelBox">
                         <label for="sendFormInfoMessage" class="form__label--custom form-label"
-                          >留言</label
+                          >求職信</label
                         >
                       </div>
                       <ckeditor
                         id="sendFormInfoMessage"
                         ref="sendFormInfoMessage"
-                        name="留言"
+                        name="求職信"
                         :editor="editor"
                         tag-name="textarea"
                         v-model="form.message"
@@ -515,7 +517,6 @@
       </div>
     </div>
   </div>
-
   <ImageSquareCropper @emit-send-img-data="getImg" />
 </template>
 
@@ -616,7 +617,7 @@ export default {
     // 取得圖片傳給modal
     loadingImg(e) {
       const nowId = '';
-      emitter.emit('open-imageCropper', [e.target.files[0], nowId]);
+      emitter.emit('open-imageSquareCropper', [e.target.files[0], nowId]);
     },
     // 從modal抓回圖片
     getImg(data, img, id) {
@@ -637,7 +638,6 @@ export default {
     // 上傳圖片
     updateImg(e) {
       emitter.emit('spinner-open');
-      const nowId = e.target.dataset.id;
       this.uploadImgState = e.target.dataset.input;
       let item = null;
       if (this.uploadImgState === 'upLoadSingleImg') {
@@ -656,45 +656,65 @@ export default {
         },
       })
         .then((res) => {
-          console.log('imagur:', res.data, nowId);
-          console.log(this.uploadImgState);
           if (this.uploadImgState === 'upLoadSingleImg') {
             this.personalImg.isUpDated = true;
             this.form.user.options.personalImg = res.data.data.link;
-            console.log(this.form.user.options.personalImg);
+            emitter.emit('alertMessage-open', this.form.user.options.personalImg);
           }
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     deleteImgInput() {
       this.personalImg.src = '';
       this.personalImg.isUpDated = false;
       this.form.user.options.personalImg = '';
     },
-    // 以下是表單操作
-    // 送出表單前檢查
-    // 加入購物車後，才會傳送表單
-    addCart() {
+    // 以下是表單送出的過程
+    // 1.由於api限制，先將職位加入購物車
+    sendApplyFormProcess() {
+      emitter.emit('spinner-open');
       const { id } = this.jobItem;
       const product = { data: { product_id: id, qty: 1 } };
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
       this.$http
         .post(url, product)
         .then(() => {
-          this.getCart();
+          this.getCart(); // 抓購物車資料
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
-    // 送出表單
+    // 重新抓取購物車資料，才會啟動傳送表單
+    getCart() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          this.cartList = res.data.data.carts;
+          this.sendForm(); // 送出申請表單
+          emitter.emit('spinner-close');
+        })
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
+        });
+    },
+    // 送出申請表單
     sendForm() {
+      emitter.emit('spinner-open');
+      // 整理傳送資料
       this.form.user.options.appliedJob = this.jobItem.id;
       this.form.user.address = `${this.form.user.options.addressCity}
       ${this.form.user.options.addressDetail}`;
+      // api路徑
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/order`;
       const formData = {
         data: this.form,
@@ -702,15 +722,14 @@ export default {
       this.$http
         .post(url, formData)
         .then(() => {
-          this.getCart();
-          this.$router.push('/');
-          // 不知道怎清空
+          emitter.emit('spinner-close');
+          this.$router.push('/'); // 送出成功後回到首頁
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
-
     // 以下是api資料動作
     // 取得產品資料
     getProductData() {
@@ -727,13 +746,14 @@ export default {
           } else {
             this.isExist = false;
           }
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
-    // 取得全部產品
+    // 取得全部產品，為了要抓到企業資料
     getAllJobs() {
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
@@ -742,11 +762,12 @@ export default {
         .then((res) => {
           this.jobsList = res.data.products;
           this.findCompany();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     // 篩選企業
     findCompany() {
@@ -760,41 +781,22 @@ export default {
       });
       emitter.emit('spinner-close');
     },
-    // 取得購物車資料
-    getCart() {
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/cart`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.cartList = res.data.data.carts;
-          emitter.emit('spinner-close');
-          this.sendForm();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
     // 刪除購物車資料
     deleteCart() {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/carts`;
       this.$http
         .delete(url)
         .then(() => {})
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('alertMessage-open', err);
         });
     },
   },
   created() {
     this.formData = webData;
-    // console.log(this.$route.params);
-    this.deleteCart();
+    this.deleteCart(); // 避免有加入過其他資料，先清空購物車
     this.getProductData();
-    emitter.emit('spinner-open-bg', 500);
-  },
-  mounted() {
-    emitter.emit('close-cart');
+    emitter.emit('spinner-open-bg', 800);
   },
 };
 </script>

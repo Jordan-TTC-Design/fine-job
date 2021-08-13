@@ -1,258 +1,258 @@
 //後台
 .admin-sideList {
-    border: 0px;
-    position: sticky;
-    top: 158px;
-    max-height: calc(80vh - 132px);
-    overflow-y: scroll;
-    background-color: #fff;
-    border-radius: 0.5rem;
-    .sideList__item {
-      padding: 0.75rem;
-      cursor: pointer;
-      position: relative;
-      &:hover {
-        background-color: $primary-light;
-        .sideList__item__title {
-          color: $primary;
-        }
-        .sideList__item__subTxt {
-          color: $primary;
-        }
-      }
-      &::after {
-        content: '';
-        position: absolute;
-        display: block;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background-color: $primary;
-        border-radius: 0.25rem 0 0 0.25rem;
-        width: 0.25rem;
-        opacity: 0;
-        transition: all 0.3;
-      }
-      &.active {
-        border: 1px solid $gray-line;
-        background-color: $white;
-        .sideList__item__title {
-          color: $primary;
-        }
-        .sideList__item__subTxt {
-          color: $primary;
-        }
-        &::after {
-          opacity: 1;
-        }
-      }
-      &__title {
-        color: $dark;
-        font-weight: 500;
-      }
-      &__subTxt {
-        color: $secondary;
-        font-size: 12px;
-      }
-    }
-  }
-  .adminSelectBox {
-    min-height: calc(80vh - 132px);
-    background-color: #fff;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-  }
-  .pageSubTitle {
-    font-size: 20px;
-    color: $dark;
-  }
-  .selectBox__section {
+  border: 0px;
+  position: sticky;
+  top: 158px;
+  max-height: calc(80vh - 132px);
+  overflow-y: scroll;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  .sideList__item {
+    padding: 0.75rem;
+    cursor: pointer;
     position: relative;
-    border-bottom: 1px solid $gray-line;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    &:first-child {
-      padding-top: 0;
-    }
-    &:last-child {
-      padding-bottom: 0;
-      border-bottom: 0;
-    }
-    .collectBtn {
-      right: 0;
-    }
-    .jobContent__imgBox {
-      width: 48%;
-      position: relative;
-      margin-right: 48px;
-      .jobImage {
-        max-width: 100%;
-        border-radius: 8px;
+    &:hover {
+      background-color: $primary-light;
+      .sideList__item__title {
+        color: $primary;
+      }
+      .sideList__item__subTxt {
+        color: $primary;
       }
     }
-    .logoImageBox {
+    &::after {
+      content: '';
       position: absolute;
-      top: -4px;
-      right: -36px;
-      padding: 6px;
-      background-color: #fff;
-      border-radius: 0px 0px 0px 4px;
-      .logoImage {
-        width: 120px;
-        border: 1px solid $gray-line;
-        border-radius: 2px;
-      }
-    }
-    .JobContent__txtBox {
-      width: 100%;
-    }
-    .page__title {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #1d1d1d;
-      margin-bottom: 12px;
-    }
-    .page__txt {
-      color: #646464;
-    }
-    .page__link {
-      text-decoration: underline;
-    }
-    .companyPage__companyImage {
-      border-radius: 8px;
-      max-width: calc(33.333% - 12px);
-    }
-    .logoImageBox.company {
-      position: relative;
+      display: block;
       right: 0;
       top: 0;
-      padding: 0px;
-      width: 240px;
-      background-color: #fff;
-      border-radius: 8px;
-      .logoImage {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 8px;
+      bottom: 0;
+      background-color: $primary;
+      border-radius: 0.25rem 0 0 0.25rem;
+      width: 0.25rem;
+      opacity: 0;
+      transition: all 0.3;
+    }
+    &.active {
+      border: 1px solid $gray-line;
+      background-color: $white;
+      .sideList__item__title {
+        color: $primary;
+      }
+      .sideList__item__subTxt {
+        color: $primary;
+      }
+      &::after {
+        opacity: 1;
       }
     }
-    .jobContent__imgBox.company {
-      width: auto;
-      margin-right: 12px;
-    }
-  }
-  .innerList__item {
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid $gray-line;
-    &:hover {
-      background-color: $gray-light;
-    }
-    &:first-child {
-      border-radius: 0.5rem 0.5rem 0 0;
-    }
-    &:last-child {
-      border-bottom: 0;
-      border-radius: 0 0 0.5rem 0.5rem;
-    }
-  }
-  .admin__subHeader {
-    background-color: $white;
-    position: sticky;
-    top: 64px;
-    z-index: 1;
-  }
-  .admin__subNav {
-    min-height: 60px;
-    display: flex;
-    background-color: $white;
     &__title {
-      font-size: 20px;
       color: $dark;
       font-weight: 500;
-      margin-right: 3rem;
     }
-    &__item {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      padding: 0 1rem;
-      position: relative;
-      transition: all 0.3s;
-      &::after {
-        position: absolute;
-        content: '';
-        display: block;
-        background-color: $primary;
-        bottom: 0;
-        right: 4px;
-        left: 4px;
-        height: 0.25rem;
-        border-radius: 0.25rem 0.25rem 0 0;
-        transition: all 0.3s;
-        opacity: 0;
-      }
-      &:hover {
-        background-color: $primary-light;
-        .admin__subNav__txt {
-          color: $primary;
-        }
-      }
-      &.active {
-        background-color: $primary-light;
-        &::after {
-          opacity: 1;
-        }
-        .admin__subNav__txt {
-          color: $primary;
-        }
-      }
+    &__subTxt {
+      color: $secondary;
+      font-size: 12px;
     }
   }
-  .applyJobPage {
+}
+.adminSelectBox {
+  min-height: calc(80vh - 132px);
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+.pageSubTitle {
+  font-size: 20px;
+  color: $dark;
+}
+.selectBox__section {
+  position: relative;
+  border-bottom: 1px solid $gray-line;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  &:first-child {
+    padding-top: 0;
+  }
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .collectBtn {
+    right: 0;
+  }
+  .jobContent__imgBox {
+    width: 48%;
     position: relative;
-    .applyJobPage__sideBox {
-      position: sticky;
-      top: 112px;
-      @include md {
-        position: static;
-        .jobSelectBox {
-          max-height: 480px;
-        }
-      }
-      @include sm {
-        .jobSelectBox {
-          max-height: 240px;
-        }
-      }
-    }
-    .jobSelectBox {
-      max-height: 78vh;
+    margin-right: 48px;
+    .jobImage {
+      max-width: 100%;
+      border-radius: 8px;
     }
   }
-  .candidateList {
-    &__person {
-      min-height: 80px;
-      background-color: $white;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      &:hover {
-        background-color: $gray-light;
-        .person__name {
-          color: $primary;
-        }
+  .logoImageBox {
+    position: absolute;
+    top: -4px;
+    right: -36px;
+    padding: 6px;
+    background-color: #fff;
+    border-radius: 0px 0px 0px 4px;
+    .logoImage {
+      width: 120px;
+      border: 1px solid $gray-line;
+      border-radius: 2px;
+    }
+  }
+  .JobContent__txtBox {
+    width: 100%;
+  }
+  .page__title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1d1d1d;
+    margin-bottom: 12px;
+  }
+  .page__txt {
+    color: #646464;
+  }
+  .page__link {
+    text-decoration: underline;
+  }
+  .companyPage__companyImage {
+    border-radius: 8px;
+    max-width: calc(33.333% - 12px);
+  }
+  .logoImageBox.company {
+    position: relative;
+    right: 0;
+    top: 0;
+    padding: 0px;
+    width: 240px;
+    background-color: #fff;
+    border-radius: 8px;
+    .logoImage {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
+  .jobContent__imgBox.company {
+    width: auto;
+    margin-right: 12px;
+  }
+}
+.innerList__item {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid $gray-line;
+  &:hover {
+    background-color: $gray-light;
+  }
+  &:first-child {
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  &:last-child {
+    border-bottom: 0;
+    border-radius: 0 0 0.5rem 0.5rem;
+  }
+}
+.admin__subHeader {
+  background-color: $white;
+  position: sticky;
+  top: 64px;
+  z-index: 1;
+}
+.admin__subNav {
+  min-height: 60px;
+  display: flex;
+  background-color: $white;
+  &__title {
+    font-size: 20px;
+    color: $dark;
+    font-weight: 500;
+    margin-right: 3rem;
+  }
+  &__item {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    position: relative;
+    transition: all 0.3s;
+    &::after {
+      position: absolute;
+      content: '';
+      display: block;
+      background-color: $primary;
+      bottom: 0;
+      right: 4px;
+      left: 4px;
+      height: 0.25rem;
+      border-radius: 0.25rem 0.25rem 0 0;
+      transition: all 0.3s;
+      opacity: 0;
+    }
+    &:hover {
+      background-color: $primary-light;
+      .admin__subNav__txt {
+        color: $primary;
       }
-      .person__personalImg {
-        border: 1px solid $gray-line;
-        border-radius: 50%;
-        height: 5rem;
-        width: 5rem;
+    }
+    &.active {
+      background-color: $primary-light;
+      &::after {
+        opacity: 1;
       }
+      .admin__subNav__txt {
+        color: $primary;
+      }
+    }
+  }
+}
+.applyJobPage {
+  position: relative;
+  .applyJobPage__sideBox {
+    position: sticky;
+    top: 112px;
+    @include md {
+      position: static;
+      .jobSelectBox {
+        max-height: 480px;
+      }
+    }
+    @include sm {
+      .jobSelectBox {
+        max-height: 240px;
+      }
+    }
+  }
+  .jobSelectBox {
+    max-height: 78vh;
+  }
+}
+.candidateList {
+  &__person {
+    min-height: 80px;
+    background-color: $white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    &:hover {
+      background-color: $gray-light;
       .person__name {
-        font-size: 20px;
-        color: $dark;
-      }
-      .person__txt {
-        margin-bottom: 0.25rem;
+        color: $primary;
       }
     }
+    .person__personalImg {
+      border: 1px solid $gray-line;
+      border-radius: 50%;
+      height: 5rem;
+      width: 5rem;
+    }
+    .person__name {
+      font-size: 20px;
+      color: $dark;
+    }
+    .person__txt {
+      margin-bottom: 0.25rem;
+    }
   }
+}

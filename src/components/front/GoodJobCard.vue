@@ -27,7 +27,7 @@
             >
           </div>
         </div>
-        <img class="goodJobCard__img" :src="jobItem.imageUrl" :alt="jobItem.title + '職位圖片'" />
+        <img class="goodJobCard__img" :src="jobItem.imageUrl" :alt="`${jobItem.title}職位圖片`" />
       </div>
     </div>
     <div class="card-body">

@@ -147,7 +147,7 @@
                   v-if="company.jobList.length > 0"
                   :to="`/products-list/product/${company.jobList[company.jobList.length - 1].id}`"
                 >
-                  <div class="d-flex justify-content-between  align-items-center mb-2">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
                     <p class="collectionCompanyCard__Job__title">
                       {{ company.jobList[company.jobList.length - 1].title }}
                     </p>
@@ -188,7 +188,7 @@
 import emitter from '@/methods/emitter';
 import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import JobCollect from '@/components/helpers/JobCollect.vue';
-import CompanyCollect from '@/components/helpers/companyCollect.vue';
+import CompanyCollect from '@/components/helpers/CompanyCollect.vue';
 
 export default {
   components: {
@@ -258,7 +258,6 @@ export default {
       this.jobCollectionList = array;
     },
     returnCompanyCollection(array) {
-      console.log(array);
       this.companyCollectionList = array;
     },
     findComapnyJobs() {
@@ -279,11 +278,12 @@ export default {
           this.allData = [];
           this.allData = res.data.products;
           this.classifyJobs();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     classifyJobs() {
       emitter.emit('spinner-open');

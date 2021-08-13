@@ -43,14 +43,14 @@
       </div>
     </div>
     <div class="spinnerBg__logoBox">
-        <h1>
-          <img
-            class="header__logo"
-            src="../../assets/images/header/fineJobLogo-white.svg"
-            alt="Fine Job logo"
-          />
-        </h1>
-      </div>
+      <h1>
+        <img
+          class="header__logo"
+          src="../../assets/images/header/fineJobLogo-white.svg"
+          alt="Fine Job logo"
+        />
+      </h1>
+    </div>
   </div>
 </template>
 
@@ -69,13 +69,13 @@ export default {
       this.$refs.spinnerBg.classList.remove('spinner--open--bg');
     },
   },
-  created() {
-    emitter.on('spinner-close-bg', () => {
-      this.spinnerClose();
-    });
-    emitter.on('spinner-open-bg', (time) => {
-      this.spinnerOpen(time);
-    });
+  mounted() {
+    emitter.on('spinner-close-bg', this.spinnerClose);
+    emitter.on('spinner-open-bg', this.spinnerOpen);
+  },
+  unmounted() {
+    emitter.off('spinner-close-bg', this.spinnerClose);
+    emitter.off('spinner-open-bg', this.spinnerOpen);
   },
 };
 </script>

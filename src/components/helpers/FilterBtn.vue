@@ -258,7 +258,7 @@ import webData from '@/methods/webData';
 
 export default {
   props: ['temFilterData'],
-  emits: ['send-filter-data'],
+  emits: ['send-filter-data', 'get-filter-txt'],
   data() {
     return {
       formData: {},
@@ -275,6 +275,7 @@ export default {
         salaryHight: null,
         salaryInterView: false,
       },
+      filterTxt: '',
       filterBoxOpenState: false,
       openMoreFilterState: false,
       mountState: false,
@@ -329,13 +330,49 @@ export default {
         salaryInterView: false,
       };
     },
+    // 取得搜尋條件文字
+    getFilterTxt() {
+      const keyWord = this.filterData.keyword === '' ? '' : `${this.filterData.keyword}、`;
+      const city = this.filterData.city === '不限' ? '' : `${this.filterData.city}、`;
+      const industryCategory = this.filterData.industryCategory === '不限' ? '' : `${this.filterData.industryCategory}、`;
+      const jobCategory = this.filterData.jobCategory === '不限' ? '' : `${this.filterData.jobCategory}、`;
+      const workExp = this.filterData.workExp === '不限' ? '' : `${this.filterData.workExp}、`;
+      const education = this.filterData.education === '不限' ? '' : `${this.filterData.education}、`;
+      const workType = this.filterData.workType === '不限' ? '' : `${this.filterData.workType}、`;
+      const workTime = this.filterData.workTime === '不限' ? '' : `${this.filterData.workTime}、`;
+      const salaryLow = this.filterData.salaryLow === null ? '' : `最低薪資${this.filterData.salaryLow}、`;
+      const salaryHight = this.filterData.salaryHight === null ? '' : `最高薪資${this.filterData.salaryHight}、`;
+      const salaryInterView = this.filterData.salaryInterView === false ? '' : '薪資面議、';
+      const temTxt = keyWord
+        + city
+        + industryCategory
+        + jobCategory
+        + workExp
+        + education
+        + workType
+        + workTime
+        + salaryLow
+        + salaryHight
+        + salaryInterView;
+      if (temTxt.length > 1) {
+        this.filterTxt = temTxt.slice(0, temTxt.length - 1);
+      } else {
+        this.filterTxt = temTxt;
+      }
+      this.$emit('get-filter-txt', this.filterTxt);
+    },
   },
   created() {
     this.formData = webData;
     this.filterData = this.temFilterData;
-    emitter.on('filterBtn-close', () => {
-      this.closeFilter();
-    });
+  },
+  mounted() {
+    emitter.on('filterBtn-close', this.closeFilter);
+    emitter.on('get-filter-txt', this.getFilterTxt);
+  },
+  unmounted() {
+    emitter.off('filterBtn-close', this.closeFilter);
+    emitter.off('get-filter-txt', this.getFilterTxt);
   },
 };
 </script>

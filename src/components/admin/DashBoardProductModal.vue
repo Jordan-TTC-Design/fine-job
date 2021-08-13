@@ -34,6 +34,7 @@
                 <img class="img-fluid" alt="圖片" :src="modalTemProduct.imageUrl" />
                 <div class="imageBtnBox">
                   <button
+                    type="button"
                     class="btn btn-outline-primary btn-sm d-block w-100"
                     @click="addImageUrl()"
                   >
@@ -42,6 +43,7 @@
                 </div>
                 <div v-if="modalTemProduct.imagesUrl.length > 0 || false">
                   <button
+                    type="button"
                     class="btn btn-outline-danger btn-sm d-block w-100"
                     @click="deleteImageUrl()"
                   >
@@ -60,7 +62,7 @@
                       v-model="modalTemProduct.imagesUrl[index]"
                     />
                   </div>
-                  <img class="img-fluid" :alt="'第'+index+'張職位圖片'" :src="item" />
+                  <img class="img-fluid" :alt="`第${index}張職位圖片`" :src="item" />
                 </div>
               </div>
             </div>

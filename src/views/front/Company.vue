@@ -4,7 +4,7 @@
       <div v-if="isExist" class="container companyPage">
         <div class="row">
           <div class="col-lg-9 col-12">
-            <div class="companyInfoBox box--shadow mb-3  position-relative">
+            <div class="companyInfoBox box--shadow mb-3 position-relative">
               <button
                 class="collectBtn--company btn btn-outline-gray-line d-md-flex
                 d-none justify-content-center"
@@ -76,11 +76,11 @@
                 />
               </div>
             </div>
-            <div class="companyInfoBox  box--shadow  mb-3">
+            <div class="companyInfoBox  box--shadow mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>公司簡介</h3>
               <div class="page__txt" v-html="companyItem.content"></div>
             </div>
-            <div class="companyInfoBox  box--shadow  mb-lg-0 mb-3">
+            <div class="companyInfoBox  box--shadow mb-lg-0 mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>公司職位</h3>
               <ul class="companyJobList d-flex flex-wrap justify-content-between">
                 <li
@@ -90,7 +90,7 @@
                   class="jobList__item d-flex flex-column align-items-start mb-4"
                 >
                   <button
-                    class="collectBtn btn  position-absolute"
+                    class="collectBtn btn position-absolute"
                     type="button"
                     @click="collectJob(item)"
                   >
@@ -164,7 +164,7 @@ import UpTopBtn from '@/components/helpers/UpTopBtn.vue';
 import ImgPopModal from '@/components/helpers/ImgPopModal.vue';
 import JobReadRecord from '@/components/front/JobReadRecord.vue';
 import JobCollect from '@/components/helpers/JobCollect.vue';
-import CompanyCollect from '@/components/helpers/companyCollect.vue';
+import CompanyCollect from '@/components/helpers/CompanyCollect.vue';
 
 export default {
   components: {
@@ -238,11 +238,12 @@ export default {
             this.isExist = false;
           }
           this.getJobs();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     getJobs() {
       emitter.emit('spinner-open');
@@ -253,11 +254,12 @@ export default {
           this.jobsList = [];
           this.jobsList = res.data.products;
           this.findCompanyJobs();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
-      emitter.emit('spinner-close');
     },
     findCompanyJobs() {
       emitter.emit('spinner-open');
@@ -268,8 +270,8 @@ export default {
           }
         }
       });
-      emitter.emit('spinner-close');
       emitter.emit('check-job-read-local');
+      emitter.emit('spinner-close');
     },
   },
   created() {

@@ -2,14 +2,14 @@
   <div
     class="modal fade"
     tabindex="-1"
-    aria-labelledby="exampleModalLabel"
+    aria-labelledby="imageCropperModal"
     aria-hidden="true"
     ref="imageCropperModal"
   >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">編輯照片{{ nowId }}</h5>
+          <h5 class="modal-title">編輯照片{{ nowId }}</h5>
           <button type="button" @click="closeModal" class="btn-close" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -47,7 +47,7 @@ import Cropper from 'cropperjs';
 export default {
   data() {
     return {
-      modal: {},
+      imageCropperModal: {},
       cropper: {},
       cropsrc: '',
       nowId: 0,
@@ -62,21 +62,22 @@ export default {
       if (data) {
         this.isImg = true;
         reader.readAsDataURL(data);
-        reader.onload = (event) => {
-          console.log(event);
+        reader.onload = () => {
           const dataURL = reader.result;
           this.imgData = this.$refs.cropperImage;
           this.imgData.src = dataURL;
           this.cropper = new Cropper(this.imgData, {
             aspectRatio: 16 / 9,
-            viewMode: 1,
+            viewMode: 0,
             dragMode: 'move',
-            zoomable: false,
-            scalable: false,
+            minContainerWidth: 480,
+            minContainerHeight: 360,
+            zoomable: true,
+            scalable: true,
             crop: () => {
               const canves = this.cropper.getCroppedCanvas({
-                maxWidth: 320,
-                maxHeight: 180,
+                maxWidth: 960,
+                maxHeight: 720,
               });
               this.destination = canves.toDataURL('image/jpeg');
             },
@@ -103,34 +104,22 @@ export default {
     cleanImg() {
       if (this.isImg) {
         this.cropsrc = '';
-        console.log('delete');
         this.cropper.destroy();
         this.isImg = false;
       }
     },
     closeModal() {
-      this.modal.hide();
+      this.imageCropperModal.hide();
       this.cleanImg();
     },
     openModal() {
-      this.modal.show();
+      this.imageCropperModal.show();
     },
-  },
-  created() {
-    emitter.on('close-imageCropper', () => {
-      this.closeModal();
-    });
-    emitter.on('delete-imageCropper', () => {
-      this.cleanImg();
-    });
-  },
-  mounted() {
-    emitter.on('open-imageCropper', (data) => {
+    emitOpenImageCropper(data) {
       // 檢查有無之前遺留的
       if (this.cropper !== {}) {
         this.cleanImg();
       }
-      console.log(data);
       if (data[2] === 'upLoadSingleImg') {
         this.nowId = '';
       } else {
@@ -140,8 +129,19 @@ export default {
       setTimeout(() => {
         this.putImage(data[0]);
       }, 1500);
-    });
-    this.modal = new Modal(this.$refs.imageCropperModal);
+    },
+  },
+  mounted() {
+    this.imageCropperModal = new Modal(this.$refs.imageCropperModal);
+    emitter.on('open-imageCropper', this.emitOpenImageCropper);
+    emitter.on('close-imageCropper', this.closeModal);
+    emitter.on('delete-imageCropper', this.cleanImg);
+  },
+  unmounted() {
+    this.imageCropperModal.dispose();
+    emitter.off('close-imageCropper', this.closeModal);
+    emitter.off('delete-imageCropper', this.cleanImg);
+    emitter.off('open-imageCropper', this.emitOpenImageCropper);
   },
 };
 </script>
@@ -151,9 +151,8 @@ export default {
   display: block;
   width: 100%;
   background: color #f7f7f7;
-  .cropperImage{
+  .cropperImage {
     max-width: 100%;
-
   }
 }
 .cropper-container {

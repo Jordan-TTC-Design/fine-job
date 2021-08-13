@@ -5,7 +5,11 @@
       <div class="mainBanner bg-primary">
         <div class="container position-relative">
           <div class="mainBanner__innerBox">
-            <img class="mainBanner__img--bg" src="https://i.imgur.com/PRGknSk.png" alt="" />
+            <img
+              class="mainBanner__img--bg"
+              src="https://i.imgur.com/PRGknSk.png"
+              alt="找工作在這裡"
+            />
             <div class="mainBanner__txtBox">
               <h2 class="mainBanner__title mb-md-4 mb-2">立即搜尋職位</h2>
               <h2 class="mainBanner__title mb-md-9 mb-6">Got Youself A Fine Job !</h2>
@@ -13,12 +17,13 @@
             <div class="bg-white rounded box-shadow p-md-6 p-4">
               <form
                 class="mainBanner__searchBar d-flex flex-md-row flex-column
-        align-items-md-center align-items-stretch"
+                align-items-md-center align-items-stretch"
+                @submit="toSearchJob"
               >
                 <img
                   class="mainBanner__logo me-3"
                   src="@/assets/images/header/fineJobLogo-square.svg"
-                  alt=""
+                  alt="Fine Job logo"
                 />
                 <div
                   class="d-flex justify-content-between align-items-md-end  align-items-stretch
@@ -57,7 +62,7 @@
                       >
                     </select>
                   </div>
-                  <button class="btn btn-primary" type="button" @click="toSearchJob">
+                  <button class="btn btn-primary" type="submit">
                     搜尋職位
                   </button>
                 </div>
@@ -94,7 +99,7 @@
                 </div>
                 <div class="txtBox">
                   <router-link
-                    class="card__title mb-3  d-block putPointer"
+                    class="card__title mb-3 d-block putPointer"
                     :to="`/products-list/product/${sortHotJobs[0].id}`"
                     >{{ sortHotJobs[0].title }}</router-link
                   >
@@ -143,8 +148,8 @@
                         <router-link
                           class="card__txt d-block putPointer"
                           :to="
-                            `/products-list/company
-                            /${sortHotJobs[index].options.company.companyLink}`
+                            `/products-list/company/${sortHotJobs[index].options.
+                            company.companyLink}`
                           "
                           >{{ sortHotJobs[index].options.company.companyName }}</router-link
                         >
@@ -206,7 +211,11 @@
               <div class="col-lg-3 col-12 mb-lg-0 mb-md-6 mb-4">
                 <div class="weeklyCompany__infoBox">
                   <div class="logoImgBox mb-4">
-                    <img class="logoImg" :src="weeklyCompany.imageUrl" alt="" />
+                    <img
+                      class="logoImg"
+                      :src="weeklyCompany.imageUrl"
+                      :alt="`${weeklyCompany.title}企業logo`"
+                    />
                   </div>
                   <div class="txtBox d-flex flex-column justify-content-between">
                     <router-link
@@ -250,7 +259,7 @@
                         v-for="companyImage in weeklyCompany.imagesUrl"
                         :key="companyImage"
                       >
-                        <img class="imgBox__img" :src="companyImage" alt="" />
+                        <img class="imgBox__img" :src="companyImage" alt="本週推薦企業logo" />
                       </swiper-slide>
                     </swiper>
                   </div>
@@ -313,7 +322,7 @@
                     <img
                       :class="{ 'd-none': index > 0 }"
                       src="https://i.imgur.com/fJ55SNe.png"
-                      alt=""
+                      alt="圖片-根據職位類別搜尋"
                     />
                   </div>
                 </li>
@@ -338,13 +347,17 @@
                 >
               </div>
             </div>
-            <img class="img-cover-top" src="https://i.imgur.com/GLgg4Fw.png" alt="" />
-            <img class="img-cover-bottom" src="https://i.imgur.com/hIzL1Kk.png" alt="" />
-            <img class="addCompanyBanner__mainImg" src="https://i.imgur.com/iZmelSd.png" alt="" />
+            <img class="img-cover-top" src="https://i.imgur.com/GLgg4Fw.png" alt="圖片" />
+            <img class="img-cover-bottom" src="https://i.imgur.com/hIzL1Kk.png" alt="圖片" />
+            <img
+              class="addCompanyBanner__mainImg"
+              src="https://i.imgur.com/iZmelSd.png"
+              alt="圖片"
+            />
           </div>
         </div>
         <!-- 合作企業 -->
-        <div class="cooperationCompany">
+        <div class="cooperationCompany" v-if="sortCompany.length > 0">
           <div class="section__titleBox justify-content-center">
             <h3 class="titleBox__title text-dark">優質合作企業</h3>
           </div>
@@ -360,7 +373,10 @@
               >
                 <div class="bg-white py-md-4 px-md-6 py-2 px-4 rounded mb-md-5 mb-3">
                   <router-link :to="`/products-list/company/${companyItem.id}`"
-                    ><img class="w-100" :src="companyItem.imageUrl" alt=""
+                    ><img
+                      class="w-100"
+                      :src="companyItem.imageUrl"
+                      :alt="`${companyItem.title}企業logo`"
                   /></router-link>
                 </div>
               </li>
@@ -575,11 +591,12 @@ export default {
         .get(url)
         .then((res) => {
           this.products = res.data.products;
-          emitter.emit('spinner-close');
           this.classifyJob();
+          emitter.emit('spinner-close');
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
         });
     },
     // 清除陣列

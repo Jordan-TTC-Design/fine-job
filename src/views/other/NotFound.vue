@@ -1,15 +1,11 @@
 <template>
-    <div class="container-fuild">
-        <h5>404</h5>
-    </div>
+  <div class="container-fuild">
+    <h5>404</h5>
+  </div>
 </template>
 
 <script>
-export default {
-
-};
+export default {};
 </script>
 
-<style lang="scss">
-
-</style>
+<style lang="scss"></style>

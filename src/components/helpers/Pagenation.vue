@@ -14,7 +14,9 @@
             </button>
           </li>
           <li v-for="item in paginationData.total_pages" :key="item" class="page-item">
-            <button class="page-link" :data-num="item" @click="jumpPage(item)">{{ item }}</button>
+            <button class="page-link" :data-num="item" @click="jumpPage(item)" type="button">
+              {{ item }}
+            </button>
           </li>
           <li class="page-item" :class="{ disabled: !paginationData.has_next }">
             <button type="button" class="page-link" aria-label="Next" @click="changePage('next')">
@@ -85,7 +87,6 @@ export default {
   },
   created() {
     this.temList = this.jobsList;
-    // this.checkPagination();
   },
 };
 </script>

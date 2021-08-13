@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
 
 export default {
   props: ['item'],
@@ -55,8 +56,8 @@ export default {
           console.log(res);
           this.getProductData();
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('alertMessage-open', err);
         });
     },
   },

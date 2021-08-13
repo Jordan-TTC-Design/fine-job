@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-4 mt-4">
         <h1 class="h3 mb-3 font-weight-normal text-center">請先登入</h1>
-        <form id="form" class="form-signin">
+        <form id="form" class="form-signin" @submit="login">
           <div class="form-floating mb-3">
             <input
               type="email"
@@ -27,7 +27,7 @@
             />
             <label for="password">Password</label>
           </div>
-          <button type="button" class="btn btn-lg btn-primary w-100 mt-3" @click="login">
+          <button type="submit" class="btn btn-lg btn-primary w-100 mt-3">
             登入
           </button>
         </form>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import emitter from '@/methods/emitter';
+
 export default {
   data() {
     return {
@@ -59,18 +61,14 @@ export default {
             // 加入token
             const { token, expired } = res.data;
             document.cookie = `hexToken=${token};expires=${new Date(expired)};`;
-            console.log('登入成功');
             this.$router.push('/admin/dashboard/products-list');
-            // this.username = '';
-            // this.password = '';
           } else {
-            console.log('登入失敗');
             this.username = '';
             this.password = '';
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          emitter.emit('alertMessage-open', err);
         });
     },
   },

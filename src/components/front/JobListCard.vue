@@ -30,9 +30,8 @@
         </div>
       </div>
       <div
-        class="list__item__txtBox
-                  flex-grow-1 d-flex flex-column
-                  justify-content-between"
+        class="list__item__txtBox flex-grow-1 d-flex flex-column
+        justify-content-between"
       >
         <div class="mb-3 d-flex flex-column align-items-start">
           <router-link
@@ -41,7 +40,7 @@
             >{{ jobItem.title }}</router-link
           >
           <router-link
-            class="page__link subTxt  mb-2 me-7 pe-auto"
+            class="page__link subTxt mb-2 me-7 pe-auto"
             :to="`/products-list/company/${jobItem.options.company.companyLink}`"
             >{{ jobItem.options.company.companyName }}</router-link
           >

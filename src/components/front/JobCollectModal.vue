@@ -1,14 +1,9 @@
 <template>
-  <div
-    ref="productModal"
-    class="modal fade"
-    tabindex="-1"
-    aria-labelledby="productModalLabel"
-  >
+  <div ref="jobCollectModal" class="modal fade" tabindex="-1" aria-labelledby="jobCollectModal">
     <div class="modal-dialog modal-xl">
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
-          <h5 id="productModalLabel" class="modal-title">
+          <h5 id="jobCollectModal" class="modal-title">
             <span>新增產品</span>
           </h5>
           <button
@@ -34,6 +29,7 @@
                 <img class="img-fluid" alt="圖片" :src="modalTemProduct.imageUrl" />
                 <div class="imageBtnBox">
                   <button
+                    type="button"
                     class="btn btn-outline-primary btn-sm d-block w-100"
                     @click="addImageUrl()"
                   >
@@ -42,6 +38,7 @@
                 </div>
                 <div v-if="modalTemProduct.imagesUrl.length > 0 || false">
                   <button
+                    type="button"
                     class="btn btn-outline-danger btn-sm d-block w-100"
                     @click="deleteImageUrl()"
                   >
@@ -60,7 +57,7 @@
                       v-model="modalTemProduct.imagesUrl[index]"
                     />
                   </div>
-                  <img class="img-fluid" :alt="'第'+index+'張職位圖片'" :src="item" />
+                  <img class="img-fluid" :alt="`第${index}張職位圖片`" :src="item" />
                 </div>
               </div>
             </div>
@@ -184,9 +181,8 @@ export default {
   props: ['temProduct'],
   data() {
     return {
-      modal: '',
+      jobCollectModal: {},
       modalTemProduct: { imagesUrl: [] },
-      // modalTemProduct: { },
     };
   },
   methods: {
@@ -200,10 +196,10 @@ export default {
       this.$emit('update-product', this.modalTemProduct);
     },
     openModal() {
-      this.modal.show();
+      this.jobCollectModal.show();
     },
     closeModal() {
-      this.modal.hide();
+      this.jobCollectModal.hide();
     },
   },
   watch: {
@@ -216,15 +212,16 @@ export default {
   },
   created() {
     this.modalTemProduct = this.temProduct;
-    emitter.on('close-product-detail', () => {
-      this.closeModal();
-    });
-    emitter.on('open-product-detail', () => {
-      this.openModal();
-    });
   },
   mounted() {
-    this.modal = new Modal(this.$refs.productModal);
+    this.jobCollectModal = new Modal(this.$refs.productModal);
+    emitter.on('close-product-detail', this.closeModal);
+    emitter.on('open-product-detail', this.openModal);
+  },
+  unmounted() {
+    this.jobCollectModal.dispose();
+    emitter.off('close-product-detail', this.closeModal);
+    emitter.off('open-product-detail', this.openModal);
   },
 };
 </script>
