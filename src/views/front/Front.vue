@@ -21,8 +21,9 @@
             <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
           </li>
           <li class="nav-item d-lg-block d-none">
-            <button class="nav-link text-white btn" type="button"
-            @click="openSearchModal">搜尋</button>
+            <button class="nav-link text-white btn" type="button" @click="openSearchModal">
+              搜尋
+            </button>
           </li>
           <li class="nav-item" :class="{ active: this.navState === '收藏' }">
             <router-link class="nav-link text-white" to="/collection">收藏</router-link>

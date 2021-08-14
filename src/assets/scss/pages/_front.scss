@@ -721,7 +721,6 @@
   }
 }
 //職位頁面
-.jobPage {
   .jobInfoBox {
     padding: 1.5rem;
     background-color: $light;
@@ -788,7 +787,6 @@
   .page__link {
     text-decoration: underline;
   }
-}
 .companyImgBox {
   padding: 0.75rem;
   img {
@@ -802,37 +800,6 @@
 
 // 公司頁面
 .companyPage {
-  .companyInfoBox {
-    padding: 1.5rem;
-    background-color: $light;
-    border-radius: 0.5rem;
-    .page__title {
-      font-size: 1.5rem;
-      font-weight: $fw--bd;
-      color: $dark;
-      margin-bottom: 0.75rem;
-    }
-    &__logoImgBox {
-      padding: 0.25rem;
-      width: 240px;
-      border-radius: 0.5rem;
-      background-color: $light;
-      border: 1px solid $gray-line;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      .logoImg {
-        width: 100%;
-      }
-      @include md {
-        width: 180px;
-        border-radius: 0.25rem;
-      }
-    }
-    &__txtBox {
-      width: 100%;
-    }
-  }
   .jobContent__imgBox {
     width: auto;
     margin-right: 12px;
@@ -912,6 +879,37 @@
         color: $primary;
       }
     }
+  }
+}
+.companyInfoBox {
+  padding: 1.5rem;
+  background-color: $light;
+  border-radius: 0.5rem;
+  .page__title {
+    font-size: 1.5rem;
+    font-weight: $fw--bd;
+    color: $dark;
+    margin-bottom: 0.75rem;
+  }
+  &__logoImgBox {
+    padding: 0.25rem;
+    width: 240px;
+    border-radius: 0.5rem;
+    background-color: $light;
+    border: 1px solid $gray-line;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .logoImg {
+      width: 100%;
+    }
+    @include md {
+      width: 180px;
+      border-radius: 0.25rem;
+    }
+  }
+  &__txtBox {
+    width: 100%;
   }
 }
 .collectBtn.pageState {

@@ -581,12 +581,10 @@ export default {
         }
       });
       emitter.emit('spinner-open');
-      // console.log(product);
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
         .put(url, product)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.getProductData();
           emitter.emit('spinner-close');
         })
@@ -599,7 +597,9 @@ export default {
   created() {
     this.getProductData();
   },
-  mounted() {},
+  mounted() {
+    emitter.emit('spinner-open-bg', 1000);
+  },
 };
 </script>
 

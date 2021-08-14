@@ -1,5 +1,5 @@
 <template>
-  <header class="header--front">
+  <header class="header header--front">
     <div class="container d-flex justify-content-between">
       <h1>
         <router-link aria-current="page" to="/"
@@ -10,32 +10,32 @@
         /></router-link>
       </h1>
       <ul class="header__nav">
-        <li class="nav-item">
+        <li class="nav-item" :class="{ active: this.navState === '產品管理' }">
           <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
             >產品管理</router-link
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" :class="{ active: this.navState === '應徵管理' }">
           <router-link class="nav-link text-white" to="/admin/dashboard/applies-list"
             >應徵管理</router-link
           >
         </li>
-        <li class="nav-item">
+        <li class="nav-item" :class="{ active: this.navState === '訂單管理' }">
           <router-link class="nav-link text-white" to="/admin/dashboard/orders-list">
             訂單管理
           </router-link>
         </li>
-        <li class="nav-item ">
+        <li class="nav-item">
           <router-link class="nav-link text-white" to="/">登出</router-link>
         </li>
       </ul>
     </div>
   </header>
   <!-- 有點不知道分區要不要寫在外元件 -->
-  <div class="main pb-7 main--bg ">
+  <div class="main main--bg" ref="main">
     <router-view></router-view>
   </div>
-    <footer class="bg-gray-mid pt-8">
+  <footer class="bg-gray-mid">
     <div class="footer--front bg-primary">
       <div class="container">
         <div class="row py-7">
@@ -98,9 +98,21 @@ export default {
     return {
       isLogin: false,
       token: '',
+      navState: '',
     };
   },
   methods: {
+    checkNavState() {
+      if (this.$route.path === '/admin/dashboard/products-list') {
+        this.navState = '產品管理';
+      } else if (this.$route.path === '/admin/dashboard/applies-list') {
+        this.navState = '應徵管理';
+      } else if (this.$route.path === '/admin/dashboard/orders-list') {
+        this.navState = '訂單管理';
+      } else {
+        this.navState = '';
+      }
+    },
     getToken() {
       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
       this.$http.defaults.headers.common.Authorization = this.token;
@@ -119,6 +131,10 @@ export default {
   },
   created() {
     this.checkLogin();
+    this.checkNavState();
+  },
+  updated() {
+    this.checkNavState();
   },
 };
 </script>

@@ -1,18 +1,22 @@
 //後台
 .admin-sideList {
-  border: 0px;
   position: sticky;
-  top: 158px;
-  max-height: calc(80vh - 132px);
+  top: 86px;
+  max-height: calc(80vh - 60px);
   overflow-y: scroll;
-  background-color: #fff;
+  background-color: $light;
   border-radius: 0.5rem;
+  .list-group-item {
+    border: 0;
+  }
   .sideList__item {
     padding: 0.75rem;
     cursor: pointer;
     position: relative;
+    border-bottom: 1px solid $gray-line;
+    transition: all 0.3s;
     &:hover {
-      background-color: $primary-light;
+      background-color: $gray-light;
       .sideList__item__title {
         color: $primary;
       }
@@ -29,13 +33,13 @@
       bottom: 0;
       background-color: $primary;
       border-radius: 0.25rem 0 0 0.25rem;
-      width: 0.25rem;
+      width: 0rem;
       opacity: 0;
-      transition: all 0.3;
+      transition: all 0.3s;
     }
     &.active {
-      border: 1px solid $gray-line;
-      background-color: $white;
+      background-color: $primary-light;
+      transition: all 0.3s;
       .sideList__item__title {
         color: $primary;
       }
@@ -43,16 +47,18 @@
         color: $primary;
       }
       &::after {
+        width: 0.25rem;
         opacity: 1;
+        transition: all 0.3s;
       }
     }
     &__title {
       color: $dark;
-      font-weight: 500;
+      font-weight: $fw--md;
     }
     &__subTxt {
       color: $secondary;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   }
 }
@@ -141,25 +147,28 @@
     margin-right: 12px;
   }
 }
+.adminInfoList {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: -0.75rem;
+}
 .innerList__item {
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid $gray-line;
+  margin-bottom: 0.75rem;
+  width: 50%;
   &:hover {
-    background-color: $gray-light;
+    .innerList__item__txt {
+      color: $primary;
+    }
   }
-  &:first-child {
-    border-radius: 0.5rem 0.5rem 0 0;
-  }
-  &:last-child {
-    border-bottom: 0;
-    border-radius: 0 0 0.5rem 0.5rem;
+  &__subTxt {
+    font-size: 14px;
+    color: $secondary;
+    margin-bottom: 0.25rem;
   }
 }
 .admin__subHeader {
-  background-color: $white;
-  position: sticky;
-  top: 64px;
-  z-index: 1;
+  background-color: $light;
+  top: 60px;
 }
 .admin__subNav {
   min-height: 60px;
@@ -229,12 +238,20 @@
     max-height: 78vh;
   }
 }
+.candidateList__person__listBox{
+  display: flex;
+  width: calc( 100% - 6rem);
+}
 .candidateList {
   &__person {
-    min-height: 80px;
-    background-color: $white;
+    min-height: 5rem;
+    background-color: $light;
     border-radius: 0.5rem;
     padding: 1.5rem;
+    margin-bottom: 0.75rem;
+    &:last-child{
+      margin-bottom: 0;
+    }
     &:hover {
       background-color: $gray-light;
       .person__name {
@@ -248,11 +265,49 @@
       width: 5rem;
     }
     .person__name {
-      font-size: 20px;
+      font-size: 1.25rem;
+      font-weight: $fw--md;
       color: $dark;
+      margin-bottom: 0.75rem;
     }
     .person__txt {
       margin-bottom: 0.25rem;
     }
   }
+}
+.person__infoBox{
+  width: 100%;
+  &__item{
+    display: flex;
+    .person__subTxt{
+      font-size: 14px;
+      color:$secondary;
+      min-width: 4rem;
+      margin-right: 1rem;
+    }
+  }
+}
+.personTagBox{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: -0.5rem;
+  &__item{
+    margin-bottom: 0.5rem;
+  }
+}
+.personTag{
+  border-radius: 1.25rem;
+  padding: 0.25rem 0.75rem;
+  color:$dark;
+  margin-right: 0.5rem;
+  border: 1px solid $secondary;
+  .jobIcon{
+    font-size: 1rem;
+    margin-right: 0.25rem;
+  }
+}
+.personTag--new{
+  border: 1px dashed $secondary;
+  color:$dark;
 }
