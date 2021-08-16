@@ -66,7 +66,7 @@ export default {
     selectListItem(itemId) {
       this.selectItem = {
         state: this.navState,
-        content:{},
+        content: {},
       };
       console.log('點了');
       this.sideList.forEach((item) => {

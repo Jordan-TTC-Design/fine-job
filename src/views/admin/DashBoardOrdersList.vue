@@ -100,7 +100,7 @@
                       class="btn  btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="deleteOrder(selectItem.id)"
+                      @click="openDeleteModal"
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -239,7 +239,7 @@
                       class="btn  btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="deleteOrder(selectItem.id)"
+                      @click="openDeleteModal"
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -425,16 +425,19 @@
     </div>
   </div>
   <NewProductModal ref="newProductModal" @new-item="newItem" />
+  <SecondAskModal @delete-target="deleteOrder" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 // import webData from '@/methods/webData';
 import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
+import SecondAskModal from '@/components/helpers/SecondAskModal.vue';
 
 export default {
   components: {
     NewProductModal,
+    SecondAskModal,
   },
   data() {
     return {
@@ -460,6 +463,9 @@ export default {
     };
   },
   methods: {
+    openDeleteModal() {
+      emitter.emit('open-delete-product-modal', this.selectItem);
+    },
     selectListItem(itemId) {
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
