@@ -88,7 +88,7 @@
     />
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal" />
+  <JobCollect ref="JobCollectModal" @return-job-collection="getJobCollect" />
 </template>
 
 <script>
@@ -173,6 +173,7 @@ export default {
         },
         slidesPerView: this.swiperNum,
       },
+      jobCollectionList: [],
     };
   },
   watch: {
@@ -201,6 +202,28 @@ export default {
     },
   },
   methods: {
+    getJobCollect(collection) {
+      this.jobCollectionList = collection;
+      this.checkJobCollect();
+      console.log(this.jobCollectionList);
+    },
+    checkJobCollect() {
+      if (this.nowPageJobs.length > 0 && this.jobCollectionList.length > 0) {
+        this.nowPageJobs.forEach((temItem, index) => {
+          let check = false;
+          this.jobCollectionList.forEach((folder) => {
+            folder.jobs.forEach((item) => {
+              if (item.id === temItem.id) {
+                check = true;
+              }
+            });
+          });
+          this.nowPageJobs[index].jobCollectCheck = check;
+          // console.log(this.nowPageJobs[index].title, this.nowPageJobs[index].jobCollectCheck);
+        });
+        console.log(this.nowPageJobs);
+      }
+    },
     // 打開篩選彈跳視窗
     openSideFilterBox() {
       if (this.filterBoxState) {
@@ -295,7 +318,8 @@ export default {
         document.documentElement.scrollTop = 0;
         [this.jobItem] = temPageJobs;
       }
-      this.nowPageJobs = temPageJobs;
+      this.nowPageJobs = JSON.parse(JSON.stringify(temPageJobs));
+      this.checkJobCollect();
       setTimeout(() => {
         if (this.nowPageJobs.length > 0) {
           this.selectJobFrist(this.nowPageJobs[0].id);

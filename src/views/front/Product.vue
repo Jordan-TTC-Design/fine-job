@@ -9,6 +9,8 @@
                 class="collectBtn btn btn-outline-gray-line position-absolute pageState"
                 type="button"
                 @click="collectJob(jobItem)"
+                :class="{ collected: jobIsCollect }"
+                ref="jobCollectBtn"
               >
                 <i class="jobIcon bi bi-bookmark-fill"></i>
               </button>
@@ -196,7 +198,7 @@
     <UpTopBtn />
   </div>
   <ImgPopModal />
-  <JobCollect ref="JobCollectModal" />
+  <JobCollect ref="jobCollectModal" @return-job-collection="getJobCollect" />
 </template>
 
 <script>
@@ -229,9 +231,34 @@ export default {
       isExist: null,
       temCompany: {},
       recentJobRead: [],
+      jobCollectionList: [],
+      jobIsCollect: false,
     };
   },
   methods: {
+    getJobCollect(collection) {
+      this.jobCollectionList = collection;
+      this.checkJobCollect();
+    },
+    checkJobCollect() {
+      if (this.jobItem.id) {
+        let check = false;
+        this.jobCollectionList.forEach((folder) => {
+          folder.jobs.forEach((item) => {
+            console.log(check, item.id, this.jobItem.id);
+            if (item.id === this.jobItem.id) {
+              check = true;
+            }
+          });
+        });
+        console.log(check);
+        if (check === true) {
+          this.jobIsCollect = true;
+        } else {
+          this.jobIsCollect = false;
+        }
+      }
+    },
     collectJob(item) {
       emitter.emit('open-collect-modal', item);
     },
@@ -268,6 +295,7 @@ export default {
           this.jobsList = res.data.products;
           this.findCompany();
           emitter.emit('spinner-close');
+          this.checkJobCollect();
         })
         .catch((err) => {
           emitter.emit('spinner-close');

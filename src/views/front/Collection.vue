@@ -180,7 +180,7 @@
   <div class="sideBtnBox">
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal" @return-job-collection="returnJobCollection" />
+  <JobCollect ref="jobCollectModal" @return-job-collection="returnJobCollection" />
   <CompanyCollect @returnCompanyCollection="returnCompanyCollection" />
 </template>
 

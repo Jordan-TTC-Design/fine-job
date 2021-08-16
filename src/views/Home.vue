@@ -300,7 +300,7 @@
                 :key="categoryItem.categoryName"
               >
                 <li
-                  class="list__item"
+                  class="list__item putPointer"
                   v-if="index < 7"
                   :class="{
                     'col-lg-6 col-12': index === 0,
@@ -308,6 +308,7 @@
                     'mb-4': index < 3,
                     'mb-lg-0 mb-4': index >= 3,
                   }"
+                  @click="searchByJobCategory(categoryItem.categoryName)"
                 >
                   <div class="hotCategoryBox p-md-5 p-3 d-flex">
                     <div class="d-flex flex-column justify-content-between">
@@ -315,7 +316,7 @@
                         {{ categoryItem.categoryName }}
                       </p>
                       <p class="subTxt mb-md-6 mb-3">目前共： {{ categoryItem.jobNum }} 職位</p>
-                      <p class="seeMoreBtn" @click="searchByJobCategory(categoryItem.categoryName)">
+                      <p class="seeMoreBtn">
                         查看更多職位 <i class="jobIcon ms-2 bi bi-arrow-right-circle"></i>
                       </p>
                     </div>
@@ -389,7 +390,7 @@
   <div class="sideBtnBox">
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal" />
+  <JobCollect ref="jobCollectModal" />
 </template>
 
 <script>

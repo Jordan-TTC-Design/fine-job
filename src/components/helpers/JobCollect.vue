@@ -216,6 +216,7 @@ export default {
         this.jobCollection = temJobCollectionsArray;
         this.collectFolder = JSON.parse(JSON.stringify(temJobCollectionsArray));
       }
+      this.returnJobCollection();
     },
     // 刪除收藏夾
     deleteFolder(folderId) {
@@ -240,8 +241,9 @@ export default {
       this.getLocalStorage();
     },
     // emit監聽
-    emitReturnJobCollection() {
-      this.$emit('return-job-collection', this.jobCollection);
+    returnJobCollection() {
+      console.log(this.collectFolder);
+      this.$emit('return-job-collection', this.collectFolder);
     },
     emitOpenCollectModal(item) {
       this.justCreateFolder = false;
@@ -260,7 +262,7 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.jobCollectModal);
     this.createJobModal = new Modal(this.$refs.createJobCollectModal);
-    emitter.on('return-local-collection', this.emitReturnJobCollection);
+    // emitter.on('return-local-collection', this.returnJobCollection);
     emitter.on('open-collect-modal', this.emitOpenCollectModal);
     emitter.on('open-creat-collect-modal', this.emitOpenCreatCollectModal);
     emitter.on('close-collect-modal', this.closeModal());
@@ -268,7 +270,7 @@ export default {
   unmounted() {
     this.modal.dispose();
     this.createJobModal.dispose();
-    emitter.off('return-local-collection', this.emitReturnJobCollection);
+    // emitter.off('return-local-collection', this.returnJobCollection);
     emitter.off('open-collect-modal', this.emitOpenCollectModal);
     emitter.off('open-creat-collect-modal', this.emitOpenCreatCollectModal);
     emitter.off('close-collect-modal', this.closeModal());

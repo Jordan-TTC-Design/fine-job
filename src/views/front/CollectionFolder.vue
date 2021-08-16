@@ -48,7 +48,7 @@
     <FilterBtn :tem-filter-data="filterData" @send-filter-data="filter" />
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal" @return-job-collection="returnJobCollection" />
+  <JobCollect ref="jobCollectModal" @return-job-collection="returnJobCollection" />
 </template>
 
 <script>

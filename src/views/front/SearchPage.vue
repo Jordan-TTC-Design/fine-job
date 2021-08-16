@@ -327,7 +327,7 @@
     />
     <UpTopBtn />
   </div>
-  <JobCollect ref="JobCollectModal" />
+  <JobCollect ref="jobCollectModal" @return-job-collection="getJobCollect" />
 </template>
 
 <script>
@@ -389,6 +389,7 @@ export default {
       sortWay: 'time',
       filterQuery: {},
       openMoreFilterState: false,
+      jobCollectionList: [],
     };
   },
   computed: {
@@ -406,6 +407,28 @@ export default {
     },
   },
   methods: {
+    getJobCollect(collection) {
+      this.jobCollectionList = collection;
+      this.checkJobCollect();
+      console.log(this.jobCollectionList);
+    },
+    checkJobCollect() {
+      if (this.nowPageJobs.length > 0 && this.jobCollectionList.length > 0) {
+        this.nowPageJobs.forEach((temItem, index) => {
+          let check = false;
+          this.jobCollectionList.forEach((folder) => {
+            folder.jobs.forEach((item) => {
+              if (item.id === temItem.id) {
+                check = true;
+              }
+            });
+          });
+          this.nowPageJobs[index].jobCollectCheck = check;
+          // console.log(this.nowPageJobs[index].title, this.nowPageJobs[index].jobCollectCheck);
+        });
+        console.log(this.nowPageJobs);
+      }
+    },
     openMoreFilter() {
       if (this.openMoreFilterState === true) {
         this.openMoreFilterState = false;
@@ -433,6 +456,7 @@ export default {
     },
     // 切換頁面
     changePage(nowPageNum) {
+      console.log(nowPageNum);
       this.pageNumber = nowPageNum;
       this.getNowPageJobs();
     },
@@ -501,6 +525,7 @@ export default {
     },
     // 本頁職位
     getNowPageJobs() {
+      this.nowPageJobs = [];
       const temPageJobs = [];
       if (this.jobsList.length !== []) {
         const pageFrist = this.pageNumber * 10 - 10;
@@ -512,7 +537,9 @@ export default {
         document.documentElement.scrollTop = 0;
         [this.jobItem] = temPageJobs;
       }
-      this.nowPageJobs = temPageJobs;
+      this.nowPageJobs = JSON.parse(JSON.stringify(temPageJobs));
+      console.log(this.nowPageJobs);
+      this.checkJobCollect();
       this.mountState = true;
       // 時間差，拜託助教幫忙看這個還有啥解法
       setTimeout(() => {

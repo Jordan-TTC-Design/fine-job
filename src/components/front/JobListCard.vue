@@ -7,6 +7,7 @@
   >
     <button
       class="collectBtn btn btn-outline-gray-line position-absolute"
+      :class="{'collected':jobItem.jobCollectCheck}"
       type="button"
       @click="collectJob(jobItem)"
     >

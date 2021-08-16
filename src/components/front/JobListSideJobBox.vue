@@ -16,6 +16,7 @@
         <button
           class="collectBtn btn btn-outline-gray-line"
           type="button"
+          :class="{'collected':jobItem.jobCollectCheck}"
           @click="collectJob(jobItem)"
         >
           <i class="jobIcon bi bi-bookmark-fill"></i>
