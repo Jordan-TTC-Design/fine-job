@@ -1,6 +1,6 @@
 <template>
   <div class="adminPage--py">
-    <div class="admin__subHeader mb-6 box--shadow">
+    <div ref="adminSubHeader" class="admin__subHeader mb-6 box--shadow">
       <div class="container">
         <div class="admin__subNav">
           <li class="d-flex align-items-center">
@@ -19,8 +19,8 @@
     </div>
     <div class="container position-relative">
       <div class="row">
-        <div class="col-4" v-if="dataOk">
-          <ul class="admin-sideList list-group">
+        <div class="col-lg-4 col-12" v-if="dataOk">
+          <ul ref="adminSideList" class="admin-sideList list-group">
             <li
               class="border-bottom border-gray-line
               list-group-item d-flex justify-content-between align-items-center bg-white p-3"
@@ -44,8 +44,17 @@
             </li>
           </ul>
         </div>
-        <div class="col-8" v-if="dataOk">
-          <ul class="candidateList">
+        <div class="col-lg-8 col-12" v-if="selectItem.id">
+          <button
+            type="button"
+            class="applyBackBtn btn btn-light text-dark mt-6 mb-4 d-lg-none"
+            @click="backToList"
+          >
+            <i class="bi bi-chevron-left me-2"></i>返回<span class="applyBackBtn__title ms-4">{{
+              selectItem.title
+            }}</span>
+          </button>
+          <ul ref="candidateList" class="candidateList">
             <template v-for="item in selectItem.applies" :key="item.id">
               <ApplicantCard :ref="`candidate--${item.id}`" :sent-select-item="item" />
             </template>
@@ -72,6 +81,9 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
+      fullHeight: 0,
+      scrollTop: 0,
       dataOk: false,
       orders: [],
       pagination: {},
@@ -95,10 +107,22 @@ export default {
     };
   },
   methods: {
+    backToList() {
+      this.selectItem = {};
+      this.$refs.candidateList.classList.remove('checked');
+      this.$refs.adminSideList.classList.remove('checked');
+      this.$refs.adminSubHeader.classList.remove('checked');
+    },
     selectListItem(id) {
       this.applyJobs.forEach((item) => {
         if (item.id === id) {
-          this.selectItem = item;
+          this.selectItem = {};
+          this.selectItem = JSON.parse(JSON.stringify(item));
+          setTimeout(() => {
+            this.$refs.candidateList.classList.add('checked');
+            this.$refs.adminSideList.classList.add('checked');
+            this.$refs.adminSubHeader.classList.add('checked');
+          }, 100);
         }
       });
       document.documentElement.scrollTop = 0;
@@ -197,7 +221,9 @@ export default {
           this.applyJobs.push(item);
         }
       });
-      [this.selectItem] = this.applyJobs;
+      if (this.fullWidth > 992) {
+        [this.selectItem] = this.applyJobs;
+      }
       emitter.emit('spinner-close');
     },
     // 退回申請
@@ -230,6 +256,13 @@ export default {
   mounted() {
     this.getOrder();
     emitter.emit('spinner-open-bg', 2000);
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    vm.fullHeight = window.innerHeight;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+      vm.fullHeight = window.innerHeight;
+    };
   },
 };
 </script>

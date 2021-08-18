@@ -1,9 +1,9 @@
 <template>
   <div class="pb-6">
-    <div class="admin__subHeader mb-6 box--shadow">
+    <div ref="adminSubHeader" class="admin__subHeader mb-6 box--shadow">
       <div class="container">
-        <div class="admin__subNav">
-          <li class="d-flex align-items-center">
+        <ul class="admin__subNav">
+          <li class="d-flex align-items-center d-md-flex d-none">
             <h2 class="admin__subNav__title">產品管理</h2>
           </li>
           <li
@@ -22,7 +22,7 @@
             <p class="admin__subNav__txt me-1">職位</p>
             <p class="admin__subNav__txt">{{ jobsList.length }}</p>
           </li>
-        </div>
+        </ul>
       </div>
     </div>
     <div class="container position-relative">
@@ -42,7 +42,7 @@
             </li>
             <li
               :ref="`sideListOrders-${item.id}`"
-              :class="{ active: item.id === selectItem.id }"
+              :class="{ active: item.id === selectItem.id && fullWidth > 992 }"
               class="sideList__item list-group-item list-group-item-action"
               v-for="item in sideListOrders"
               :key="item.id"
@@ -61,6 +61,15 @@
           </ul>
         </div>
         <div class="col-lg-8 col-12" v-if="selectItem.id">
+          <button
+            type="button"
+            class="applyBackBtn btn btn-light text-dark mt-6 mb-4 d-lg-none"
+            @click="backToList"
+          >
+            <i class="bi bi-chevron-left me-2"></i>返回<span class="applyBackBtn__title ms-4">{{
+              selectItem.title
+            }}</span>
+          </button>
           <!-- 企業 -->
           <div
             ref="adminSelectBox"
@@ -69,14 +78,14 @@
           >
             <div class="selectBox__section">
               <div class="row">
-                <div class="col-7">
+                <div class="col-md-7 col-12">
                   <h4 class="pageSubTitle mb-2">
                     {{ selectItem.title }}
                   </h4>
                   <p class="subTxt">更新時間：{{ $filters.date(selectItem.options.create) }}</p>
                 </div>
-                <div class="col-5">
-                  <div class="d-flex justify-content-end">
+                <div class="col-md-5 col-12">
+                  <div class="adminSelectBox__btnList">
                     <select
                       class="form-select w-auto me-2"
                       @change="changeProductState(selectItem.id)"
@@ -175,14 +184,14 @@
           >
             <div class="selectBox__section">
               <div class="row">
-                <div class="col-7">
+                <div class="col-lg-7 col-12">
                   <h4 class="pageSubTitle mb-2">{{ selectItem.title }}</h4>
                   <p class="sideList__item__subTxt">
                     更新時間：{{ $filters.date(selectItem.options.job.create) }}
                   </p>
                 </div>
-                <div class="col-5">
-                  <div class="d-flex justify-content-end">
+                <div class="col-lg-5 col-12">
+                  <div class="adminSelectBox__btnList">
                     <select
                       class="form-select w-auto me-2"
                       @change="changeProductState(selectItem.id)"
@@ -375,6 +384,9 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
+      fullHeight: 0,
+      scrollTop: 0,
       products: [],
       apiToken: '',
       pagination: {},
@@ -421,13 +433,21 @@ export default {
       };
       emitter.emit('open-delete-product-modal', Obj);
     },
+    backToList() {
+      this.selectItem = {};
+      this.$refs.adminSelectBox.classList.remove('checked');
+      this.$refs.adminSideList.classList.remove('checked');
+      this.$refs.adminSubHeader.classList.remove('checked');
+    },
     selectListItem(itemId) {
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
-          this.selectItem = item;
+          this.selectItem = {};
+          this.selectItem = JSON.parse(JSON.stringify(item));
           setTimeout(() => {
             this.$refs.adminSelectBox.classList.add('checked');
             this.$refs.adminSideList.classList.add('checked');
+            this.$refs.adminSubHeader.classList.add('checked');
           }, 100);
         }
       });
@@ -441,7 +461,9 @@ export default {
         this.productCategorySelected = navName;
         this.sideListOrders = this.companiesList;
       }
-      this.selectListItem(this.sideListOrders[0].id);
+      if (this.fullWidth > 992) {
+        this.selectListItem(this.sideListOrders[0].id);
+      }
     },
     updateProduct(temObj) {
       emitter.emit('spinner-open');
@@ -534,6 +556,13 @@ export default {
   },
   mounted() {
     emitter.emit('spinner-open-bg', 1000);
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    vm.fullHeight = window.innerHeight;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+      vm.fullHeight = window.innerHeight;
+    };
   },
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
   <li class="candidateList__person box--shadow" v-if="selectItem.id !== ''">
-    <div class="d-flex justify-content-between align-items-start">
       <div class="d-flex candidateList__person__listBox">
         <img
           class="person__personalImg me-4"
@@ -86,7 +85,6 @@
           <i class="bi bi-trash me-1"></i>退回申請
         </button>
       </div>
-    </div>
   </li>
 </template>
 

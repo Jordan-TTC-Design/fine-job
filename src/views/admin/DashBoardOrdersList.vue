@@ -1,9 +1,9 @@
 <template>
   <div class="pb-6">
-    <div class="admin__subHeader mb-5">
+    <div ref="adminSubHeader" class="admin__subHeader mb-5">
       <div class="container">
         <div class="admin__subNav">
-          <li class="d-flex align-items-center">
+          <li class="d-flex align-items-center d-md-flex d-none">
             <h2 class="admin__subNav__title">訂單管理</h2>
           </li>
           <li
@@ -29,8 +29,8 @@
     <div class="container position-relative">
       <div class="row">
         <!-- 側邊選單列表 -->
-        <div class="col-4" v-if="dataOk">
-          <ul class="admin-sideList list-group">
+        <div class="col-lg-4 col-12" v-if="dataOk">
+          <ul ref="adminSideList" class="admin-sideList list-group">
             <li
               class="border-bottom border-gray-line
               list-group-item d-flex justify-content-between align-items-center bg-white p-3"
@@ -61,7 +61,16 @@
           </ul>
         </div>
         <!-- 主要內容 -->
-        <div class="col-8">
+        <div class="col-lg-8 col-12" v-if="selectItem.id">
+          <button
+            type="button"
+            class="applyBackBtn btn btn-light text-dark mt-6 mb-4 d-lg-none"
+            @click="backToList"
+          >
+            <i class="bi bi-chevron-left me-2"></i>返回訂單列表<span
+              class="applyBackBtn__title ms-4"
+            ></span>
+          </button>
           <!-- 公司訂單資訊 -->
           <div
             ref="adminSelectBox"
@@ -70,14 +79,14 @@
           >
             <div class="selectBox__section">
               <div class="row">
-                <div class="col-7">
+                <div class="col-md-7 col-12">
                   <h4 class="pageSubTitle mb-2">
                     {{ selectItem.user.options.company.companyName }}
                   </h4>
                   <p class="subTxt">訂單建立時間：{{ $filters.date(selectItem.create_at) }}</p>
                 </div>
-                <div class="col-5">
-                  <div class="d-flex justify-content-end">
+                <div class="col-md-5 col-12">
+                  <div class="adminSelectBox__btnList">
                     <button
                       type="button"
                       class="btn btn-outline-gray-line me-2"
@@ -206,14 +215,14 @@
           >
             <div class="selectBox__section">
               <div class="row">
-                <div class="col-7">
+                <div class="col-md-7 col-12">
                   <h4 class="pageSubTitle mb-2">{{ selectItem.user.options.job.jobName }}</h4>
                   <p class="sideList__item__subTxt">
                     更新時間：{{ $filters.date(selectItem.create_at) }}
                   </p>
                 </div>
-                <div class="col-5">
-                  <div class="d-flex justify-content-end">
+                <div class="col-md-5 col-12">
+                  <div class="adminSelectBox__btnList">
                     <button
                       type="button"
                       class="btn btn-outline-gray-line me-2"
@@ -431,6 +440,9 @@ export default {
   },
   data() {
     return {
+      fullWidth: 0,
+      fullHeight: 0,
+      scrollTop: 0,
       dataOk: false,
       orders: [],
       pagination: {},
@@ -462,10 +474,22 @@ export default {
       };
       emitter.emit('open-delete-product-modal', Obj);
     },
+    backToList() {
+      this.selectItem = {};
+      this.$refs.adminSelectBox.classList.remove('checked');
+      this.$refs.adminSideList.classList.remove('checked');
+      this.$refs.adminSubHeader.classList.remove('checked');
+    },
     selectListItem(itemId) {
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
-          this.selectItem = item;
+          this.selectItem = {};
+          this.selectItem = JSON.parse(JSON.stringify(item));
+          setTimeout(() => {
+            this.$refs.adminSelectBox.classList.add('checked');
+            this.$refs.adminSideList.classList.add('checked');
+            this.$refs.adminSubHeader.classList.add('checked');
+          }, 100);
         }
       });
     },
@@ -479,7 +503,9 @@ export default {
         this.orderCategorySelected = navName;
         this.sideListOrders = this.addCompanyOrders;
       }
-      this.selectListItem(this.sideListOrders[0].id);
+      if (this.fullWidth > 992) {
+        this.selectListItem(this.sideListOrders[0].id);
+      }
     },
     // 處理訂單分類
     classifyOrder() {
@@ -602,6 +628,13 @@ export default {
   mounted() {
     this.getOrder();
     emitter.emit('spinner-open-bg', 1000);
+    const vm = this;
+    vm.fullWidth = window.innerWidth;
+    vm.fullHeight = window.innerHeight;
+    window.onresize = () => {
+      vm.fullWidth = window.innerWidth;
+      vm.fullHeight = window.innerHeight;
+    };
   },
 };
 </script>
