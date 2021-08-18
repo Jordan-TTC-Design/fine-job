@@ -1,37 +1,44 @@
 <template>
   <header class="header header--front">
-    <div class="container d-flex justify-content-between">
+    <div class="container d-flex justify-content-between align-items-center">
       <h1>
         <router-link aria-current="page" to="/"
           ><img
             class="header__logo"
             src="../../assets/images/header/fineJobLogo-white.svg"
-            alt="Find Job logo"
+            alt="Fine Job logo"
         /></router-link>
       </h1>
-      <ul class="header__nav">
-        <li class="nav-item" :class="{ active: this.navState === '產品管理' }">
-          <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
-            >產品管理</router-link
-          >
-        </li>
-        <li class="nav-item" :class="{ active: this.navState === '應徵管理' }">
-          <router-link class="nav-link text-white" to="/admin/dashboard/applies-list"
-            >應徵管理</router-link
-          >
-        </li>
-        <li class="nav-item" :class="{ active: this.navState === '訂單管理' }">
-          <router-link class="nav-link text-white" to="/admin/dashboard/orders-list">
-            訂單管理
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link class="nav-link text-white" to="/">登出</router-link>
-        </li>
-      </ul>
+      <div class="header__navBox" ref="headerNavBox">
+        <ul class="header__nav" ref="headerNav">
+          <li class="nav-item" :class="{ active: this.navState === '產品管理' }">
+            <router-link class="nav-link text-white" to="/admin/dashboard/products-list"
+              >產品管理</router-link
+            >
+          </li>
+          <li class="nav-item" :class="{ active: this.navState === '應徵管理' }">
+            <router-link class="nav-link text-white" to="/admin/dashboard/applies-list"
+              >應徵管理</router-link
+            >
+          </li>
+          <li class="nav-item" :class="{ active: this.navState === '訂單管理' }">
+            <router-link class="nav-link text-white" to="/admin/dashboard/orders-list">
+              訂單管理
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link text-white" to="/">登出</router-link>
+          </li>
+        </ul>
+      </div>
+      <div class="bgCover menuCover" ref="menuCover" @click="openRwdMenu"></div>
+      <div class="d-flex d-lg-none">
+        <div class="hamburgerMenu d-flex" @click="openRwdMenu">
+          <i class="jobIcon bi bi-list"></i>
+        </div>
+      </div>
     </div>
   </header>
-  <!-- 有點不知道分區要不要寫在外元件 -->
   <div class="main main--bg" ref="main">
     <router-view></router-view>
   </div>
@@ -113,6 +120,16 @@ export default {
         this.navState = '';
       }
     },
+    openRwdMenu() {
+      this.$refs.headerNavBox.classList.toggle('active');
+      this.$refs.menuCover.classList.toggle('active');
+      this.$refs.main.classList.toggle('openRwdMenu');
+    },
+    closeRwdMenu() {
+      this.$refs.headerNavBox.classList.remove('active');
+      this.$refs.menuCover.classList.remove('active');
+      this.$refs.main.classList.remove('openRwdMenu');
+    },
     getToken() {
       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/, '$1');
       this.$http.defaults.headers.common.Authorization = this.token;
@@ -135,6 +152,7 @@ export default {
   },
   updated() {
     this.checkNavState();
+    this.closeRwdMenu();
   },
 };
 </script>

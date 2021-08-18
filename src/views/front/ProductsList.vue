@@ -205,7 +205,6 @@ export default {
     getJobCollect(collection) {
       this.jobCollectionList = collection;
       this.checkJobCollect();
-      console.log(this.jobCollectionList);
     },
     checkJobCollect() {
       if (this.nowPageJobs.length > 0 && this.jobCollectionList.length > 0) {
@@ -219,9 +218,7 @@ export default {
             });
           });
           this.nowPageJobs[index].jobCollectCheck = check;
-          // console.log(this.nowPageJobs[index].title, this.nowPageJobs[index].jobCollectCheck);
         });
-        console.log(this.nowPageJobs);
       }
     },
     // 打開篩選彈跳視窗

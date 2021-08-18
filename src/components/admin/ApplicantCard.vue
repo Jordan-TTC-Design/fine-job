@@ -62,13 +62,30 @@
           </div>
         </div>
       </div>
-      <a
-        type="button"
-        class="btn btn-outline-primary text-decoration-underline d-block"
-        :href="selectItem.user.options.cvLink"
-        target="_blank"
-        >打開履歷</a
-      >
+      <div class="card__btnBox">
+        <a
+          type="button"
+          class="btn btn-outline-primary text-decoration-underline d-block me-2"
+          :href="selectItem.user.options.cvLink"
+          target="_blank"
+          >打開履歷</a
+        >
+        <button
+          type="button"
+          class="btn btn-gray-light d-flex align-items-center"
+          data-action="deleteItem"
+          :data-id="selectItem.id"
+          @click="
+            openDeleteModal(
+              '退回求職申請',
+              selectItem.id,
+              selectItem.user.name,
+            )
+          "
+        >
+          <i class="bi bi-trash me-1"></i>退回申請
+        </button>
+      </div>
     </div>
   </li>
 </template>
@@ -107,8 +124,15 @@ export default {
     },
   },
   methods: {
+    openDeleteModal(txt, id, name) {
+      const Obj = {
+        action: txt,
+        itemId: id,
+        itemName: name,
+      };
+      emitter.emit('open-delete-product-modal', Obj);
+    },
     newPersonTag() {
-      console.log(this.selectItem);
       emitter.emit('open-new-person-tag-modal', this.selectItem);
     },
     getLocalTag() {
@@ -122,7 +146,6 @@ export default {
         person: this.tagListPerson,
         tagName,
       };
-      console.log(Obj);
       emitter.emit('open-delete-tag-modal', Obj);
     },
   },

@@ -245,13 +245,11 @@ export default {
         let check = false;
         this.jobCollectionList.forEach((folder) => {
           folder.jobs.forEach((item) => {
-            console.log(check, item.id, this.jobItem.id);
             if (item.id === this.jobItem.id) {
               check = true;
             }
           });
         });
-        console.log(check);
         if (check === true) {
           this.jobIsCollect = true;
         } else {

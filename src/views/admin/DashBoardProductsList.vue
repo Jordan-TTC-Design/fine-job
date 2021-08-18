@@ -27,8 +27,8 @@
     </div>
     <div class="container position-relative">
       <div class="row">
-        <div class="col-4">
-          <ul class="admin-sideList list-group">
+        <div class="col-lg-4 col-12">
+          <ul ref="adminSideList" class="admin-sideList list-group">
             <li
               class="border-bottom border-gray-line
               list-group-item d-flex justify-content-between align-items-center bg-white p-3"
@@ -59,54 +59,8 @@
               </p>
             </li>
           </ul>
-          <!-- <ul
-            class="admin-sideList list-group box--shadow"
-            v-if="productCategorySelected === '企業'"
-          >
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center bg-white p-3"
-            >
-              <p class="subTxt">目前共 {{ companiesList.length }} 間公司</p>
-              <button type="button" class="btn"><i class="bi bi-search"></i></button>
-            </li>
-            <li
-              class="sideList__item list-group-item list-group-item-action"
-              :class="{ active: item.id === temItem.id }"
-              v-for="item in companiesList"
-              :key="item.id"
-              @click="selectItem(item.id)"
-            >
-              <p class="sideList__item__title mb-1">{{ item.title }}</p>
-              <p class="sideList__item__subTxt">
-                創建時間：{{ $filters.date(item.options.create) }}
-              </p>
-            </li>
-          </ul>
-          <ul
-            class="admin-sideList list-group box--shadow"
-            v-if="productCategorySelected === '職位'"
-          >
-            <li
-              class="list-group-item d-flex justify-content-between align-items-center bg-white p-3"
-            >
-              <p class="subTxt">目前共 {{ jobsList.length }} 個職位</p>
-              <button type="button" class="btn"><i class="bi bi-search"></i></button>
-            </li>
-            <li
-              class="sideList__item list-group-item list-group-item-action"
-              :class="{ active: item.id === temItem.id }"
-              v-for="item in jobsList"
-              :key="item.id"
-              @click="selectItem(item.id)"
-            >
-              <p class="sideList__item__title mb-1">{{ item.title }}</p>
-              <p class="sideList__item__subTxt">
-                創建時間：{{ $filters.date(item.options.job.create) }}
-              </p>
-            </li>
-          </ul> -->
         </div>
-        <div class="col-8" v-if="selectItem.id">
+        <div class="col-lg-8 col-12" v-if="selectItem.id">
           <!-- 企業 -->
           <div
             ref="adminSelectBox"
@@ -123,25 +77,26 @@
                 </div>
                 <div class="col-5">
                   <div class="d-flex justify-content-end">
-                    <select class="form-select w-auto me-2">
-                      <option selected value="發布中">發布中</option>
-                      <option value="關閉">關閉企業</option>
+                    <select
+                      class="form-select w-auto me-2"
+                      @change="changeProductState(selectItem.id)"
+                      v-model="selectItem.is_enabled"
+                    >
+                      <option :selected="selectItem.is_enabled === 1" value="1">發布中</option>
+                      <option :selected="selectItem.is_enabled === 0" value="0">關閉企業</option>
                     </select>
-                    <button
-                      type="button"
-                      class="btn  btn-gray-light me-2"
-                      data-action="editCompany"
-                      :data-id="selectItem.id"
-                      @click="editItemModal($event)"
+                    <router-link
+                      class="btn btn-gray-light me-2"
+                      :to="`/admin/dashboard/products-list/edit-company/${selectItem.id}`"
                     >
                       <i class="bi bi-pencil-square"></i>
-                    </button>
+                    </router-link>
                     <button
                       type="button"
-                      class="btn  btn-gray-light"
+                      class="btn btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="deleteOrder(selectItem.id)"
+                      @click="openDeleteModal('刪除企業', selectItem.id, selectItem.title)"
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -228,25 +183,26 @@
                 </div>
                 <div class="col-5">
                   <div class="d-flex justify-content-end">
-                    <select class="form-select w-auto me-2">
-                      <option selected value="發布中">發布中</option>
-                      <option value="關閉">關閉職位</option>
+                    <select
+                      class="form-select w-auto me-2"
+                      @change="changeProductState(selectItem.id)"
+                      v-model="selectItem.is_enabled"
+                    >
+                      <option :selected="selectItem.is_enabled === 1" value="1">發布中</option>
+                      <option :selected="selectItem.is_enabled === 0" value="0">關閉職位</option>
                     </select>
-                    <button
-                      type="button"
-                      class="btn  btn-gray-light me-2"
-                      data-action="editJob"
-                      :data-id="selectItem.id"
-                      @click="editItemModal($event)"
+                    <router-link
+                      class="btn btn-gray-light me-2"
+                      :to="`/admin/dashboard/products-list/edit-job/${selectItem.id}`"
                     >
                       <i class="bi bi-pencil-square"></i>
-                    </button>
+                    </router-link>
                     <button
                       type="button"
                       class="btn  btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="deleteOrder(selectItem.id)"
+                      @click="openDeleteModal('刪除職位', selectItem.id, selectItem.title)"
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -406,23 +362,16 @@
       </div>
     </div>
   </div>
-  <DeleteProductModal
-    ref="DeleteProductModal"
-    :tem-product="temProduct"
-    @deltet-product="deleteProduct"
-  />
-  <EditProductModal ref="EditProductModal" @update-product="updateProduct" />
+  <SecondAskModal @delete-target="deleteProduct" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
-import EditProductModal from '@/components/admin/DashBoardEditProductModal.vue';
-import DeleteProductModal from '@/components/admin/DashBoardProductDeleteModal.vue';
+import SecondAskModal from '@/components/helpers/SecondAskModal.vue';
 
 export default {
   components: {
-    EditProductModal,
-    DeleteProductModal,
+    SecondAskModal,
   },
   data() {
     return {
@@ -430,8 +379,8 @@ export default {
       apiToken: '',
       pagination: {},
       jobsList: [],
-      sideListOrders: [],
       companiesList: [],
+      sideListOrders: [],
       systemList: [],
       productCategory: [
         { value: '企業', action: '企業' },
@@ -439,25 +388,8 @@ export default {
         { value: '系統', action: '系統' },
       ],
       productCategorySelected: '企業',
-      editItem: {},
-      editAction: '',
-      temJob: {},
       modalName: '',
       nowAction: '',
-      temProduct: {
-        title: '',
-        imageUrl: null,
-        imagesUrl: [],
-        category: '',
-        content: '',
-        description: '',
-        id: '',
-        is_enabled: null,
-        num: null,
-        origin_price: null,
-        price: null,
-        unit: '',
-      },
       selectItem: {
         title: '',
         imageUrl: null,
@@ -481,11 +413,22 @@ export default {
     };
   },
   methods: {
+    openDeleteModal(txt, id, name) {
+      const Obj = {
+        action: txt,
+        itemId: id,
+        itemName: name,
+      };
+      emitter.emit('open-delete-product-modal', Obj);
+    },
     selectListItem(itemId) {
-      console.log(this.sideListOrders);
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
           this.selectItem = item;
+          setTimeout(() => {
+            this.$refs.adminSelectBox.classList.add('checked');
+            this.$refs.adminSideList.classList.add('checked');
+          }, 100);
         }
       });
     },
@@ -500,36 +443,15 @@ export default {
       }
       this.selectListItem(this.sideListOrders[0].id);
     },
-    editItemModal(e) {
-      const nowId = e.target.dataset.id;
-      const nowAction = e.target.dataset.action;
-      console.log(nowAction, nowId);
-      if (nowAction === 'editCompany') {
-        this.modalName = 'editCompany';
-        this.editItem = this.companiesList.filter((item) => item.id === nowId);
-        console.log(this.editItem);
-        emitter.emit('open-edit-company', [this.editItem, this.modalName]);
-      } else if (nowAction === 'editJob') {
-        this.modalName = 'editJob';
-        this.editItem = this.jobsList.filter((item) => item.id === nowId);
-        console.log(this.editItem);
-        emitter.emit('open-edit-company', [this.editItem, this.modalName]);
-      }
-    },
     updateProduct(temObj) {
-      console.log(temObj);
       emitter.emit('spinner-open');
       const { id } = temObj.data;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
         .put(url, temObj)
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
           emitter.emit('spinner-close');
-          // this.getOrder();
-          if (res.data.success) {
-            // this.deleteOrder();
-          }
+          this.getOgData();
         })
         .catch((err) => {
           emitter.emit('spinner-close');
@@ -569,54 +491,13 @@ export default {
           emitter.emit('alertMessage-open', err);
         });
     },
-    openModal(e, item) {
-      // console.log(item);
-      console.log(e.target.dataset.action);
-      const nowAction = e.target.dataset.action;
-      if (nowAction === 'newProduct') {
-        this.nowAction = e.target.dataset.action;
-        this.temProduct = {
-          imagesUrl: [],
-        };
-        // console.log(this.temProduct)
-        // console.log(this.productModal);
-        emitter.emit('open-product-detail');
-        // console.log(ProductModal);
-        // ProductModal.methods.openModal();
-      } else if (nowAction === 'editProduct') {
-        this.nowAction = e.target.dataset.action;
-        console.log(item);
-        if (!item.imagesUrl) {
-          this.temProduct = { ...item, imagesUrl: [] };
-        } else {
-          this.temProduct = { ...item };
-        }
-        // console.log(this.temProduct)
-        emitter.emit('open-product-detail');
-        // ProductModal.openModal();
-      } else if (nowAction === 'deleteItem') {
-        this.nowAction = e.target.dataset.action;
-        console.log(item);
-        if (!item.imagesUrl) {
-          this.temProduct = { ...item, imagesUrl: [] };
-        } else {
-          this.temProduct = { ...item };
-        }
-        // console.log(this.temProduct.id)
-        emitter.emit('open-product-delete');
-        // this.refs.DeleteProductModal.openModal();
-      }
-    },
-    // 檢查無誤
     deleteProduct() {
       emitter.emit('spinner-open');
-      const { id } = this.temProduct;
-      // const id = '-M_uRTTxSgaZiP7aaArW';
+      const { id } = this.selectItem;
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
         .delete(url)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.getOgData();
           emitter.emit('close-product-delete');
           emitter.emit('spinner-close');
@@ -626,28 +507,21 @@ export default {
           emitter.emit('alertMessage-open', err);
         });
     },
-    // 檢查無誤
     changeProductState(id) {
-      // console.log(id);
-      const product = {};
-      this.products.forEach((item) => {
-        const that = item;
-        if (that.id === id) {
-          if (that.is_enabled > 0) {
-            that.is_enabled = 0;
-          } else {
-            that.is_enabled = 1;
-          }
-          product.data = that;
-        }
-      });
+      this.selectItem.options.create = `${Math.floor(Date.now() / 1000)}`;
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
+      const companyData = {
+        data: this.selectItem,
+      };
       this.$http
-        .put(url, product)
-        .then(() => {
-          this.getOgData();
+        .put(url, companyData)
+        .then((res) => {
           emitter.emit('spinner-close');
+          if (res.data.success) {
+            emitter.emit('alertMessage-open', res.data.message);
+            this.$router.push('/admin/dashboard/products-list');
+          }
         })
         .catch((err) => {
           emitter.emit('spinner-close');
@@ -664,19 +538,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.listBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  padding: 12px;
-  &__logo {
-    width: 160px;
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    margin-right: 12px;
-  }
-}
-</style>
+<style lang="scss"></style>

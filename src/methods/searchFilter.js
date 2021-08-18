@@ -17,12 +17,6 @@ const searchFilter = {
     this.getJobsList(jobsList);
     this.getFilterData(filterData);
     this.startFilter();
-    // const temJobsList = this.jobsList;
-    // const temFilterData = this.filterData;
-    // const temObj = {
-    //   temJobsList,
-    //   temFilterData,
-    // };
     return this.jobsList;
   },
   getJobsList(temArray) {

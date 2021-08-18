@@ -53,22 +53,18 @@ export default {
       handler(newValue) {
         this.sideList = [];
         this.sideList = newValue;
-        console.log(this.sideList);
       },
     },
   },
   methods: {
     getAdminNavState(state) {
       this.navState = state;
-      console.log(state);
-      console.log(this.sideList);
     },
     selectListItem(itemId) {
       this.selectItem = {
         state: this.navState,
         content: {},
       };
-      console.log('點了');
       this.sideList.forEach((item) => {
         if (item.id === itemId) {
           this.selectItem = item;

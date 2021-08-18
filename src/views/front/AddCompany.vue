@@ -625,7 +625,6 @@
       </div>
     </div>
   </div>
-
   <ImageCropper @emit-send-img-data="getImg" />
 </template>
 

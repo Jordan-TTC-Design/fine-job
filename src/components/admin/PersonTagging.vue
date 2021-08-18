@@ -143,7 +143,6 @@ export default {
   methods: {
     openDeleteModal(person) {
       this.tagListPerson = person;
-      console.log(this.tagListPerson);
       this.deletePersonTagModal.show();
     },
     closeDeleteModal() {

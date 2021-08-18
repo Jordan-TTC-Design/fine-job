@@ -82,7 +82,6 @@ export default {
         this.paginationData.current_page = 1;
         this.temList = newValue;
         this.checkPagination();
-        console.log('hi');
       },
     },
   },

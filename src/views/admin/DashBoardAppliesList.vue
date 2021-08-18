@@ -55,17 +55,20 @@
     </div>
   </div>
   <PersonTagging />
+  <SecondAskModal @delete-target="deleteApplication" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
 import ApplicantCard from '@/components/admin/ApplicantCard.vue';
 import PersonTagging from '@/components/admin/PersonTagging.vue';
+import SecondAskModal from '@/components/helpers/SecondAskModal.vue';
 
 export default {
   components: {
     ApplicantCard,
     PersonTagging,
+    SecondAskModal,
   },
   data() {
     return {
@@ -78,7 +81,6 @@ export default {
       appliesList: [],
       jobsList: [],
       applyJobs: [],
-      appliesListAllowList: [],
       selectItem: {
         title: '',
         id: '',
@@ -198,8 +200,28 @@ export default {
       [this.selectItem] = this.applyJobs;
       emitter.emit('spinner-close');
     },
+    // 退回申請
+    deleteApplication(id) {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${id}`;
+      this.$http
+        .delete(url)
+        .then(() => {
+          this.clearList();
+          this.getOrder();
+          emitter.emit('alertMessage-open', '刪除成功！');
+          emitter.emit('spinner-close');
+        })
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
+        });
+    },
     clearList() {
+      this.orders = [];
+      this.jobsList = [];
       this.applyJobs = [];
+      this.appliesList = [];
     },
   },
   created() {

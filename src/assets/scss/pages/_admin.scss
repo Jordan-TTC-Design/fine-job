@@ -6,6 +6,13 @@
   overflow-y: scroll;
   background-color: $light;
   border-radius: 0.5rem;
+  @include md {
+    overflow-y: inherit;
+    max-height: 100%;
+    &.checked {
+      display: none;
+    }
+  }
   .list-group-item {
     border: 0;
   }
@@ -67,6 +74,12 @@
   background-color: #fff;
   border-radius: 0.5rem;
   padding: 1.5rem;
+  @include md {
+    display: none;
+    &.checked {
+      display: block;
+    }
+  }
 }
 .pageSubTitle {
   font-size: 20px;
@@ -170,6 +183,13 @@
   background-color: $light;
   top: 60px;
 }
+.admin__subHeader--edit {
+  position: sticky;
+  top: 65px;
+  right: 0;
+  left: 0;
+  z-index: 99;
+}
 .admin__subNav {
   min-height: 60px;
   display: flex;
@@ -238,9 +258,9 @@
     max-height: 78vh;
   }
 }
-.candidateList__person__listBox{
+.candidateList__person__listBox {
   display: flex;
-  width: calc( 100% - 6rem);
+  width: calc(100% - 6rem);
 }
 .candidateList {
   &__person {
@@ -249,13 +269,19 @@
     border-radius: 0.5rem;
     padding: 1.5rem;
     margin-bottom: 0.75rem;
-    &:last-child{
+    position: relative;
+    &:last-child {
       margin-bottom: 0;
     }
     &:hover {
       background-color: $gray-light;
       .person__name {
         color: $primary;
+      }
+      .card__btnBox {
+        .btn-gray-light {
+          background-color: $light;
+        }
       }
     }
     .person__personalImg {
@@ -273,41 +299,85 @@
     .person__txt {
       margin-bottom: 0.25rem;
     }
+    .card__btnBox {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+    }
   }
 }
-.person__infoBox{
+.person__infoBox {
   width: 100%;
-  &__item{
+  &__item {
     display: flex;
-    .person__subTxt{
+    .person__subTxt {
       font-size: 14px;
-      color:$secondary;
+      color: $secondary;
       min-width: 4rem;
       margin-right: 1rem;
     }
   }
 }
-.personTagBox{
+.personTagBox {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: -0.5rem;
-  &__item{
+  &__item {
     margin-bottom: 0.5rem;
   }
 }
-.personTag{
+.personTag {
   border-radius: 1.25rem;
   padding: 0.25rem 0.75rem;
-  color:$dark;
+  color: $dark;
   margin-right: 0.5rem;
   border: 1px solid $secondary;
-  .jobIcon{
+  .jobIcon {
     font-size: 1rem;
     margin-right: 0.25rem;
   }
 }
-.personTag--new{
+.personTag--new {
   border: 1px dashed $secondary;
-  color:$dark;
+  color: $dark;
+}
+.editCompanyInfoBox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .form__inputBox {
+    margin-bottom: 0;
+  }
+  .inputBox--logo {
+    width: calc(32% - 10px);
+  }
+  .companyInfoBox__txtBox {
+    width: calc(68% - 10px);
+    display: flex;
+    flex-direction: column;
+    .form__inputBox {
+      width: 80%;
+    }
+  }
+  .editCompanyData {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+.btn--preview {
+  background-color: $light;
+  border: 1px solid $gray-line;
+  color: $dark;
+}
+.btn--preview.active {
+  background-color: $primary-light;
+  color: $primary;
+  border: 1px solid $primary-light;
+  .jobIcon--sm {
+    color: $primary;
+  }
 }

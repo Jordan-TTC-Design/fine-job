@@ -79,6 +79,16 @@ const routes = [
         path: 'applies-list',
         component: () => import('../views/admin/DashBoardAppliesList.vue'),
       },
+      {
+        // 新增企業頁面
+        path: 'products-list/edit-job/:id',
+        component: () => import('../views/admin/EditJobPage.vue'),
+      },
+      {
+        // 新增企業頁面
+        path: 'products-list/edit-company/:id',
+        component: () => import('../views/admin/EditCompanyPage.vue'),
+      },
     ],
   },
   // ---------- 其他路由 ----------

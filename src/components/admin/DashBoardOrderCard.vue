@@ -52,8 +52,7 @@ export default {
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
       this.$http
         .delete(url)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.getProductData();
         })
         .catch((err) => {

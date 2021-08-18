@@ -18,7 +18,7 @@
             <router-link class="nav-link text-white" aria-current="page" to="/">首頁</router-link>
           </li>
           <li class="nav-item" :class="{ active: this.navState === '優質工作' }">
-            <router-link class="nav-link text-white " to="/products-list">優質工作</router-link>
+            <router-link class="nav-link text-white" to="/products-list">優質工作</router-link>
           </li>
           <li class="nav-item d-lg-block d-none">
             <button class="nav-link text-white btn" type="button" @click="openSearchModal">
@@ -44,7 +44,6 @@
           </li>
         </ul>
       </div>
-
       <div class="bgCover menuCover" ref="menuCover" @click="openRwdMenu"></div>
       <div class="d-flex d-lg-none">
         <div class="hamburgerMenu d-flex me-2" @click="openSearchModal" ref="headerSearchIcon">

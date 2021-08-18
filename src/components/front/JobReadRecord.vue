@@ -62,7 +62,7 @@ export default {
         company: this.sentCompany.title,
         companyId: this.sentCompany.id,
         id: this.sentJob.id,
-        time: this.sentJob.options.job.create,
+        time: `${Math.floor(Date.now() / 1000)}`,
       };
       this.jobReadList.push(Obj);
       const temData = JSON.stringify(this.jobReadList);

@@ -41,7 +41,6 @@
               <p class="subTxt" v-if="orderCategorySelected === 'add-job'">
                 目前共 {{ sideListOrders.length }} 個職位
               </p>
-              <!-- <button type="button" class="btn"><i class="bi bi-search"></i></button> -->
             </li>
             <li
               :ref="`sideListOrders-${item.id}`"
@@ -82,25 +81,22 @@
                     <button
                       type="button"
                       class="btn btn-outline-gray-line me-2"
-                      @click="newItem(selectItem)"
+                      @click="justNewItem('建立企業', selectItem)"
                     >
-                      <p class="text-dark">審核訂單</p>
+                      <p class="text-dark">審核通過</p>
                     </button>
                     <button
                       type="button"
-                      class="btn  btn-gray-light me-2"
-                      data-action="newCompany"
-                      :data-id="selectItem.id"
-                      @click="newItemModal($event)"
-                    >
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn  btn-gray-light"
+                      class="btn btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="openDeleteModal"
+                      @click="
+                        openDeleteModal(
+                          '刪除企業訂單',
+                          selectItem.id,
+                          selectItem.user.options.company.companyName,
+                        )
+                      "
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -221,25 +217,22 @@
                     <button
                       type="button"
                       class="btn btn-outline-gray-line me-2"
-                      @click="newItem(selectItem)"
+                      @click="justNewItem('建立職位', selectItem)"
                     >
                       <p class="text-dark">審核通過</p>
                     </button>
                     <button
                       type="button"
-                      class="btn  btn-gray-light me-2"
-                      data-action="newJob"
-                      :data-id="selectItem.id"
-                      @click="newItemModal($event)"
-                    >
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn  btn-gray-light"
+                      class="btn btn-gray-light"
                       data-action="deleteItem"
                       :data-id="selectItem.id"
-                      @click="openDeleteModal"
+                      @click="
+                        openDeleteModal(
+                          '刪除職位訂單',
+                          selectItem.id,
+                          selectItem.user.options.job.jobName,
+                        )
+                      "
                     >
                       <i class="bi bi-trash"></i>
                     </button>
@@ -424,19 +417,16 @@
       </div>
     </div>
   </div>
-  <NewProductModal ref="newProductModal" @new-item="newItem" />
   <SecondAskModal @delete-target="deleteOrder" />
 </template>
 
 <script>
 import emitter from '@/methods/emitter';
-// import webData from '@/methods/webData';
-import NewProductModal from '@/components/admin/DashBoardNewProductModal.vue';
 import SecondAskModal from '@/components/helpers/SecondAskModal.vue';
+import adminNewItem from '@/methods/adminNewItem';
 
 export default {
   components: {
-    NewProductModal,
     SecondAskModal,
   },
   data() {
@@ -460,11 +450,17 @@ export default {
       modalName: '',
       tempImgUrl:
         'https://images.unsplash.com/photo-1622495506073-56b1152a010c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=967&q=80Í',
+      adminNewItemMethods: {},
     };
   },
   methods: {
-    openDeleteModal() {
-      emitter.emit('open-delete-product-modal', this.selectItem);
+    openDeleteModal(txt, id, name) {
+      const Obj = {
+        action: txt,
+        itemId: id,
+        itemName: name,
+      };
+      emitter.emit('open-delete-product-modal', Obj);
     },
     selectListItem(itemId) {
       this.sideListOrders.forEach((item) => {
@@ -528,16 +524,13 @@ export default {
     newItemModal(e) {
       const nowId = e.target.dataset.id;
       const nowAction = e.target.dataset.action;
-      console.log(nowAction, nowId);
       if (nowAction === 'newCompany') {
         this.modalName = 'newCompany';
         this.newOrder = this.addCompanyOrders.filter((item) => item.id === nowId);
-        console.log(this.newOrder);
         emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
       } else if (nowAction === 'newJob') {
         this.modalName = 'newJob';
         this.newOrder = this.addJobOrders.filter((item) => item.id === nowId);
-        console.log(this.newOrder);
         emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
       }
     },
@@ -545,17 +538,35 @@ export default {
       this.addCompanyOrders = [];
       this.addJobOrders = [];
     },
+    justNewItem(action, item) {
+      let temObj = {};
+      if (action === '建立企業') {
+        temObj = this.adminNewItemMethods.justNewCompanyData(item);
+      } else if (action === '建立職位') {
+        temObj = this.adminNewItemMethods.justNewJobData(item);
+      }
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
+      this.$http
+        .post(url, temObj)
+        .then((res) => {
+          if (res.data.success) {
+            emitter.emit('alertMessage-open', res.data);
+          }
+          emitter.emit('spinner-close');
+        })
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
+        });
+    },
     // 訂單審核成功建立品項
     newItem(temObj) {
-      console.log(temObj);
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
       this.$http
         .post(url, temObj)
         .then((res) => {
-          console.log(res.data);
           if (res.data.success) {
-            // this.deleteOrder();
             emitter.emit('alertMessage-open', res.data);
           }
           emitter.emit('spinner-close');
@@ -568,7 +579,6 @@ export default {
     // 刪除訂單
     deleteOrder(id) {
       emitter.emit('spinner-open');
-      console.log(id);
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/order/${id}`;
       this.$http
         .delete(url)
@@ -587,6 +597,7 @@ export default {
   created() {
     this.addCompanyOrders = [];
     this.addJobOrders = [];
+    this.adminNewItemMethods = adminNewItem;
   },
   mounted() {
     this.getOrder();

@@ -76,11 +76,11 @@
                 />
               </div>
             </div>
-            <div class="companyInfoBox  box--shadow mb-3">
+            <div class="companyInfoBox box--shadow mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>公司簡介</h3>
               <div class="page__txt" v-html="companyItem.content"></div>
             </div>
-            <div class="companyInfoBox  box--shadow mb-lg-0 mb-3">
+            <div class="companyInfoBox box--shadow mb-lg-0 mb-3">
               <h3 class="section__title--sub"><span class="title__icon"></span>公司職位</h3>
               <ul class="companyJobList d-flex flex-wrap justify-content-between">
                 <li

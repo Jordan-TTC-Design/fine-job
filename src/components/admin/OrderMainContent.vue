@@ -290,7 +290,6 @@ export default {
     getOrderItem(selectItem) {
       this.selectItem = {};
       this.selectItem = selectItem;
-      console.log(this.selectItem);
     },
   },
   mounted() {

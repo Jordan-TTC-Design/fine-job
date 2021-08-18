@@ -410,7 +410,6 @@ export default {
     getJobCollect(collection) {
       this.jobCollectionList = collection;
       this.checkJobCollect();
-      console.log(this.jobCollectionList);
     },
     checkJobCollect() {
       if (this.nowPageJobs.length > 0 && this.jobCollectionList.length > 0) {
@@ -424,9 +423,7 @@ export default {
             });
           });
           this.nowPageJobs[index].jobCollectCheck = check;
-          // console.log(this.nowPageJobs[index].title, this.nowPageJobs[index].jobCollectCheck);
         });
-        console.log(this.nowPageJobs);
       }
     },
     openMoreFilter() {
@@ -456,7 +453,6 @@ export default {
     },
     // 切換頁面
     changePage(nowPageNum) {
-      console.log(nowPageNum);
       this.pageNumber = nowPageNum;
       this.getNowPageJobs();
     },
@@ -538,7 +534,6 @@ export default {
         [this.jobItem] = temPageJobs;
       }
       this.nowPageJobs = JSON.parse(JSON.stringify(temPageJobs));
-      console.log(this.nowPageJobs);
       this.checkJobCollect();
       this.mountState = true;
       // 時間差，拜託助教幫忙看這個還有啥解法

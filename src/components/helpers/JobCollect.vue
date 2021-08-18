@@ -242,7 +242,6 @@ export default {
     },
     // emit監聽
     returnJobCollection() {
-      console.log(this.collectFolder);
       this.$emit('return-job-collection', this.collectFolder);
     },
     emitOpenCollectModal(item) {
