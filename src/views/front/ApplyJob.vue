@@ -600,13 +600,13 @@ export default {
       tempArticle: {
         tag: [''],
       },
-      // 圖片套件
-      cropper: {},
+      cropper: {}, // 圖片套件
       uploadImgState: 'upLoadSingleImg',
-      applyJobContentStage: '',
+      applyJobContentStage: '', // 左側職位資訊欄區塊
     };
   },
   methods: {
+    // 用來打開左側職位資訊欄的區塊
     openApplySideSection(sectionName) {
       if (this.applyJobContentStage !== sectionName) {
         this.applyJobContentStage = sectionName;

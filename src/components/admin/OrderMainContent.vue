@@ -14,7 +14,7 @@
             </button>
             <button
               type="button"
-              class="btn  btn-gray-light me-2"
+              class="btn btn-gray-light me-2"
               data-action="newCompany"
               :data-id="selectItem.id"
               @click="newItemModal($event)"
@@ -23,7 +23,7 @@
             </button>
             <button
               type="button"
-              class="btn  btn-gray-light"
+              class="btn btn-gray-light"
               data-action="deleteItem"
               :data-id="selectItem.id"
               @click="deleteOrder(selectItem.id)"
@@ -57,7 +57,7 @@
         </li>
       </ul>
     </div>
-    <div class="selectBox__section  position-relative">
+    <div class="selectBox__section position-relative">
       <button
         class="collectBtn btn btn-outline-gray-line position-absolute pageState"
         type="button"
@@ -130,7 +130,7 @@
             </button>
             <button
               type="button"
-              class="btn  btn-gray-light me-2"
+              class="btn btn-gray-light me-2"
               data-action="newJob"
               :data-id="selectItem.id"
               @click="newItemModal($event)"
@@ -139,7 +139,7 @@
             </button>
             <button
               type="button"
-              class="btn  btn-gray-light"
+              class="btn btn-gray-light"
               data-action="deleteItem"
               :data-id="selectItem.id"
               @click="deleteOrder(selectItem.id)"
@@ -241,7 +241,7 @@
         </div>
       </div>
     </div>
-    <div class="selectBox__section   mb-3">
+    <div class="selectBox__section mb-3">
       <h3 class="page__title--sub"><span class="title__icon"></span>職位內容</h3>
       <p class="page__txt mb-2">工作性質：{{ selectItem.user.options.job.workType }}</p>
       <p class="page__txt mb-2">工作時間：{{ selectItem.user.options.job.workTime }}</p>
@@ -250,7 +250,7 @@
       <p class="page__txt mb-2">工作內容：</p>
       <div class="page__txt" v-html="selectItem.user.options.job.jobContent"></div>
     </div>
-    <div class="selectBox__section  mb-3">
+    <div class="selectBox__section mb-3">
       <h3 class="page__title--sub"><span class="title__icon"> </span>應徵條件</h3>
       <p class="page__txt mb-2">學歷要求：{{ selectItem.user.options.job.education }}</p>
       <p class="page__txt mb-2">工作經驗：{{ selectItem.user.options.job.workExp }}</p>

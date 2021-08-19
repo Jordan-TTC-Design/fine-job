@@ -44,7 +44,7 @@
               >{{ jobItem.title }}</router-link
             >
             <router-link
-              class="page__txt page__link subTxt  mb-4 d-block"
+              class="page__txt page__link subTxt mb-4 d-block"
               type="button"
               :to="`/products-list/company/${jobItem.options.company.companyLink}`"
               >{{ jobItem.options.company.companyName }}</router-link

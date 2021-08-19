@@ -200,6 +200,33 @@ export default {
         localStorage.setItem('fineJob-jobCollection', temData);
         this.getLocalStorage();
         this.closeModal();
+      } else {
+        this.jobCollection[folderNum].jobs.forEach((item, index) => {
+          if (item.id === this.sentJob.id) {
+            this.jobCollection[folderNum].jobs.splice(index, 1);
+          }
+        });
+        const temData = JSON.stringify(this.jobCollection);
+        localStorage.setItem('fineJob-jobCollection', temData);
+        this.getLocalStorage();
+        this.closeModal();
+      }
+    },
+    deleteFromNowFolder(folderId, folderNum, jobId) {
+      if (this.collectFolder[folderNum].jobCheck === false) {
+        this.jobCollection.forEach((item, index) => {
+          if (item.id === folderId) {
+            this.jobCollection[index].jobs.forEach((job, num) => {
+              if (job.id === jobId) {
+                this.jobCollection[index].jobs.splice(num, 1);
+              }
+            });
+          }
+        });
+        const temData = JSON.stringify(this.jobCollection);
+        localStorage.setItem('fineJob-jobCollection', temData);
+        this.getLocalStorage();
+        this.closeModal();
       }
     },
     checkCollection(id) {
@@ -228,17 +255,7 @@ export default {
       const temData = JSON.stringify(this.collectFolder);
       localStorage.setItem('fineJob-jobCollection', temData);
       this.getLocalStorage();
-    },
-    // 刪除職位
-    deleteFolderJob(JobId) {
-      this.collectFolderDetail.forEach((item, index) => {
-        if (item.id === JobId) {
-          this.collectFolder.splice(index, 1);
-        }
-      });
-      const temData = JSON.stringify(this.collectFolder);
-      localStorage.setItem('fineJob-jobCollection', temData);
-      this.getLocalStorage();
+      this.$router.push('/collection');
     },
     // emit監聽
     returnJobCollection() {
@@ -261,18 +278,18 @@ export default {
   mounted() {
     this.modal = new Modal(this.$refs.jobCollectModal);
     this.createJobModal = new Modal(this.$refs.createJobCollectModal);
-    // emitter.on('return-local-collection', this.returnJobCollection);
     emitter.on('open-collect-modal', this.emitOpenCollectModal);
     emitter.on('open-creat-collect-modal', this.emitOpenCreatCollectModal);
-    emitter.on('close-collect-modal', this.closeModal());
+    emitter.on('close-collect-modal', this.closeModal);
+    emitter.on('delete-collect-folder-modal', this.deleteFolder);
   },
   unmounted() {
     this.modal.dispose();
     this.createJobModal.dispose();
-    // emitter.off('return-local-collection', this.returnJobCollection);
     emitter.off('open-collect-modal', this.emitOpenCollectModal);
     emitter.off('open-creat-collect-modal', this.emitOpenCreatCollectModal);
-    emitter.off('close-collect-modal', this.closeModal());
+    emitter.off('close-collect-modal', this.closeModal);
+    emitter.off('delete-collect-folder-modal', this.deleteFolder);
   },
 };
 </script>

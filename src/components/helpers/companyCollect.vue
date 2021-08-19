@@ -17,7 +17,7 @@
             <button type="button" class="btn-close" @click="closeModal"></button>
           </div>
           <p class="text-center mb-4">請問您確定要取消收藏?</p>
-          <p class="text-center mb-6 text-primary ">{{ sentCompany.title }}</p>
+          <p class="text-center mb-6 text-primary">{{ sentCompany.title }}</p>
           <div class="d-flex">
             <button type="button" class="btn btn-gray-light me-2 flex-grow-1" @click="closeModal">
               返回

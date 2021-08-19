@@ -91,6 +91,7 @@
                 >
                   <button
                     class="collectBtn btn position-absolute"
+                    :class="{ collected: item.jobCollectCheck }"
                     type="button"
                     @click="collectJob(item)"
                   >
@@ -119,7 +120,7 @@
                           :to="`/products-list/product/${item.id}`"
                           >{{ item.title }}</router-link
                         >
-                        <p class="page__txt  subTxt mb-2 me-7">
+                        <p class="page__txt subTxt mb-2 me-7">
                           {{ item.options.company.companyName }}
                         </p>
                       </div>
@@ -154,7 +155,7 @@
     <UpTopBtn />
   </div>
   <ImgPopModal />
-  <JobCollect ref="jobCollectModal" />
+  <JobCollect ref="JobCollectModal" @return-job-collection="getJobCollect" />
   <CompanyCollect @returnCompanyCollection="checkCompanyCollect" />
 </template>
 
@@ -167,6 +168,7 @@ import JobCollect from '@/components/helpers/JobCollect.vue';
 import CompanyCollect from '@/components/helpers/CompanyCollect.vue';
 
 export default {
+  inject: ['reload'],
   components: {
     UpTopBtn,
     ImgPopModal,
@@ -189,9 +191,36 @@ export default {
       isExist: null,
       companyIsCollect: false,
       companyCollectionList: {},
+      jobCollectionList: [],
     };
   },
+  watch: {
+    $route(to, from) {
+      if (to !== from) {
+        this.reload();
+      }
+    },
+  },
   methods: {
+    getJobCollect(collection) {
+      this.jobCollectionList = collection;
+      this.checkJobCollect();
+    },
+    checkJobCollect() {
+      if (this.companyJobs.length > 0 && this.jobCollectionList.length > 0) {
+        this.companyJobs.forEach((temItem, index) => {
+          let check = false;
+          this.jobCollectionList.forEach((folder) => {
+            folder.jobs.forEach((item) => {
+              if (item.id === temItem.id) {
+                check = true;
+              }
+            });
+          });
+          this.companyJobs[index].jobCollectCheck = check;
+        });
+      }
+    },
     collectCompany(item) {
       const temJobList = [];
       this.companyJobs.forEach((companyJob) => {
@@ -223,6 +252,37 @@ export default {
       const city = '不限';
       this.$router.push(`/search/?keyword=${keyword}&city=${city}&jobCategory=${jobCategory}`);
     },
+    getAllJobs() {
+      emitter.emit('spinner-open');
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
+      this.$http
+        .get(url)
+        .then((res) => {
+          this.jobsList = [];
+          this.jobsList = res.data.products;
+          this.classifyCompanyJobs();// 分類哪些職位是該公司之職位
+          emitter.emit('spinner-close');
+        })
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
+        });
+    },
+    // 判斷公司職位
+    classifyCompanyJobs() {
+      emitter.emit('spinner-open');
+      this.jobsList.forEach((item) => {
+        if (item.description === '職位') {
+          if (item.options.company.companyName === this.companyItem.title) {
+            this.companyJobs.push(item);
+          }
+        }
+      });
+      emitter.emit('check-job-read-local');
+      this.checkJobCollect();
+      emitter.emit('spinner-close');
+    },
+    // 取得最初資料
     getCompanyData() {
       emitter.emit('spinner-open');
       const { id } = this.$route.params;
@@ -237,41 +297,13 @@ export default {
           } else {
             this.isExist = false;
           }
-          this.getJobs();
+          this.getAllJobs(); // 取得好公司資料後，取全部職位資料
           emitter.emit('spinner-close');
         })
         .catch((err) => {
           emitter.emit('spinner-close');
           emitter.emit('alertMessage-open', err);
         });
-    },
-    getJobs() {
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/products/all`;
-      this.$http
-        .get(url)
-        .then((res) => {
-          this.jobsList = [];
-          this.jobsList = res.data.products;
-          this.findCompanyJobs();
-          emitter.emit('spinner-close');
-        })
-        .catch((err) => {
-          emitter.emit('spinner-close');
-          emitter.emit('alertMessage-open', err);
-        });
-    },
-    findCompanyJobs() {
-      emitter.emit('spinner-open');
-      this.jobsList.forEach((item) => {
-        if (item.description === '職位') {
-          if (item.options.company.companyName === this.companyItem.title) {
-            this.companyJobs.push(item);
-          }
-        }
-      });
-      emitter.emit('check-job-read-local');
-      emitter.emit('spinner-close');
     },
   },
   created() {

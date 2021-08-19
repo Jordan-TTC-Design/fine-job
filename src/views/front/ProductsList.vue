@@ -203,7 +203,7 @@ export default {
   },
   methods: {
     getJobCollect(collection) {
-      this.jobCollectionList = collection;
+      this.jobCollectionList = JSON.parse(JSON.stringify(collection));
       this.checkJobCollect();
     },
     checkJobCollect() {
@@ -344,7 +344,7 @@ export default {
       this.changePage(1);
       this.products.forEach((item) => {
         if (item.description === '職位') {
-          const Obj = item;
+          const Obj = JSON.parse(JSON.stringify(item)); // 深拷貝
           this.sortCompany.forEach((temCompany) => {
             if (Obj.options.company.companyName === temCompany.title) {
               Obj.options.company.companyLink = temCompany.id;

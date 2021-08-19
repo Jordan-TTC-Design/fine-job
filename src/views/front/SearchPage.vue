@@ -1,6 +1,6 @@
 <template>
   <div class="page--py">
-    <div class="container  d-md-block d-none">
+    <div class="container d-md-block d-none">
       <div class="row">
         <div class="col-12">
           <div class="filterBox bg-white mb-6 rounded p-6">
@@ -63,11 +63,11 @@
                     >
                       更多條件
                       <i
-                        v-if="openMoreFilterState === false"
+                        v-if="openMoreFilterState === true"
                         class="jobIcon--sm ms-1 text-dark bi bi-chevron-up"
                       ></i>
                       <i
-                        v-if="openMoreFilterState === true"
+                        v-if="openMoreFilterState === false"
                         class="jobIcon--sm ms-1 text-dark bi bi-chevron-down"
                       ></i>
                     </button>
@@ -360,7 +360,6 @@ export default {
       searchByJobCategoryState: false,
       products: [],
       jobsList: [],
-      mountState: false,
       jobItem: {
         options: {
           company: {
@@ -404,6 +403,13 @@ export default {
         });
       }
       return temCompanyArray;
+    },
+  },
+  watch: {
+    $route(to, from) {
+      if (to !== from) {
+        this.reload();
+      }
     },
   },
   methods: {
@@ -535,8 +541,6 @@ export default {
       }
       this.nowPageJobs = JSON.parse(JSON.stringify(temPageJobs));
       this.checkJobCollect();
-      this.mountState = true;
-      // 時間差，拜託助教幫忙看這個還有啥解法
       setTimeout(() => {
         if (this.nowPageJobs.length > 0) {
           this.selectJobFrist(this.nowPageJobs[0].id);
@@ -577,9 +581,7 @@ export default {
     },
     // 抓取動態路由參數
     getSearchFilterData() {
-      const { keyword } = this.filterQuery;
-      const { city } = this.filterQuery;
-      const { jobCategory } = this.filterQuery;
+      const { keyword, city, jobCategory } = this.filterQuery;
       if (keyword !== '不限') {
         this.filterData.keyword = keyword;
       }

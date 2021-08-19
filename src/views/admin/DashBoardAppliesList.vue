@@ -267,19 +267,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.listBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  padding: 12px;
-  &__logo {
-    width: 160px;
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    margin-right: 12px;
-  }
-}
-</style>
+<style lang="scss"></style>

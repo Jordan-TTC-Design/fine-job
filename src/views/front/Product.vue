@@ -235,6 +235,13 @@ export default {
       jobIsCollect: false,
     };
   },
+  watch: {
+    $route(to, from) {
+      if (to !== from) {
+        this.reload();
+      }
+    },
+  },
   methods: {
     getJobCollect(collection) {
       this.jobCollectionList = collection;

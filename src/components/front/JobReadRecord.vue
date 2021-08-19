@@ -2,7 +2,7 @@
   <div class="jobSubBox box--shadow mb-3">
     <h5 class="jobSubBox__title">瀏覽紀錄</h5>
     <ul>
-      <template v-for="(jobRead, index) in jobReadList" :key="jobRead.id">
+      <template v-for="(jobRead, index) in jobReadListReverse" :key="jobRead.id">
         <li class="list__item" v-if="index < 6">
           <p class="list__item__link mb-2 putPointer" @click="goToJobRead(jobRead.id)">
             {{ jobRead.title }}
@@ -11,13 +11,14 @@
             class="list__item__link--sub putPointer"
             aria-current="page"
             @click="goToCompanyRead(jobRead.companyId)"
-            >{{ jobRead.company }}</p
           >
+            {{ jobRead.company }}
+          </p>
           <p class="list__item__time">{{ $filters.date(jobRead.time) }}</p>
         </li>
       </template>
-      <li class="list__item" v-if="jobReadList.length === 0">
-          <p>尚無瀏覽紀錄</p>
+      <li class="list__item" v-if="jobReadListReverse.length === 0">
+        <p>尚無瀏覽紀錄</p>
       </li>
     </ul>
   </div>
@@ -33,7 +34,20 @@ export default {
       jobReadList: [],
       sentJob: {},
       sentCompany: {},
+      jobReadListReverse: [],
     };
+  },
+  watch: {
+    jobReadList(newValue) {
+      if (this.jobReadList.length > 6) {
+        this.jobReadList.splice(0, 1);
+        const temData = JSON.stringify(this.jobReadList);
+        localStorage.setItem('jobReadList', temData);
+      }
+      this.jobReadListReverse = [];
+      const temArray = newValue.reverse();
+      this.jobReadListReverse = [...temArray];
+    },
   },
   methods: {
     // 瀏覽紀錄相關方法
@@ -68,27 +82,13 @@ export default {
       const temData = JSON.stringify(this.jobReadList);
       localStorage.setItem('jobReadList', temData);
     },
-    // 跳轉紀錄的職位
     goToJobRead(id) {
-      if (this.$route.path.match('/products-list/product/')) {
-        this.$router.push(`/products-list/product/${id}`);
-        this.reload();
-      } else {
-        this.$router.push(`/products-list/product/${id}`);
-      }
+      this.$router.push(`/products-list/product/${id}`);
     },
-    // reload的時候怪怪的，還無法正確跳頁，要多跳一次
     goToCompanyRead(id) {
-      if (this.$route.path.match('/products-list/company/')) {
-        this.$router.push(`/products-list/company/${id}`);
-        this.reload();
-      } else {
-        this.$router.push(`/products-list/company/${id}`);
-      }
+      this.$router.push(`/products-list/company/${id}`);
     },
-  },
-  created() {
-    emitter.on('check-job-read-local', (sendObj) => {
+    emitCheckJobReadLocal(sendObj) {
       if (sendObj) {
         this.sentJob = sendObj.job;
         this.sentCompany = sendObj.company;
@@ -96,7 +96,13 @@ export default {
       } else {
         this.getLocalStorage();
       }
-    });
+    },
+  },
+  mounted() {
+    emitter.on('check-job-read-local', this.emitCheckJobReadLocal);
+  },
+  unmounted() {
+    emitter.off('check-job-read-local', this.emitCheckJobReadLocal);
   },
 };
 </script>

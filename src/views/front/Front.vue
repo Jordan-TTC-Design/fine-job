@@ -8,7 +8,7 @@
         <router-link aria-current="page" to="/"
           ><img
             class="header__logo"
-            src="../../assets/images/header/fineJobLogo-white.svg"
+            src="@/assets/images/header/fineJobLogo-white.svg"
             alt="Fine Job logo"
         /></router-link>
       </h1>
@@ -159,10 +159,8 @@ export default {
       this.$refs.Search.classList.remove('active');
     },
   },
-  create() {
-    this.checkNavState();
-  },
   mounted() {
+    this.checkNavState();
     this.closeSearchModal();
     this.closeRwdMenu();
   },

@@ -72,7 +72,7 @@
                           </div>
                         </button>
                         <div class="cropImgBox__cover" v-if="companyLogo.src"></div>
-                        <p class="subTxt" v-if="companyLogo.src == ''">(上限 5 mb )</p>
+                        <p class="subTxt" v-if="companyLogo.src == ''">(上限 5 mb)</p>
                         <img
                           v-if="companyLogo.src !== ''"
                           class="cropImg h-100"
@@ -656,10 +656,11 @@ export default {
       },
       // 套件切圖工具
       cropper: {},
-      pagePreview: false,
+      pagePreview: false, // 模式判斷
     };
   },
   methods: {
+    // 切換預覽模式還是編輯模式
     lookPagePreview() {
       if (this.pagePreview) {
         this.pagePreview = false;
@@ -684,6 +685,7 @@ export default {
         this.companyItem.is_enabled = 1;
       }
     },
+    // 刪除圖片
     deleteImgInput(index) {
       if (index || index === 0) {
         this.temImageInputs[index].src = '';

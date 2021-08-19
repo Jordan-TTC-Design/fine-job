@@ -132,11 +132,15 @@
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">聯絡電話</p>
-                  <p class="innerList__item__txt">{{ selectItem.user.tel }}</p>
+                  <a class="innerList__item__txt" :href="`tel:${selectItem.user.tel}`">
+                    {{ selectItem.user.tel }}
+                  </a>
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">聯絡Email</p>
-                  <p class="innerList__item__txt">{{ selectItem.user.email }}</p>
+                  <a class="innerList__item__txt" :href="`mailto:${selectItem.user.email}`">{{
+                    selectItem.user.email
+                  }}</a>
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">企業剩餘額度</p>
@@ -270,15 +274,15 @@
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">聯絡電話</p>
-                  <p class="innerList__item__txt">
+                  <a class="innerList__item__txt"  :href="`tel:${selectItem.user.tel}`">
                     {{ selectItem.user.tel }}
-                  </p>
+                  </a>
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">聯絡Email</p>
-                  <p class="innerList__item__txt">
+                  <a class="innerList__item__txt" :href="`mailto:${selectItem.user.email}`">
                     {{ selectItem.user.email }}
-                  </p>
+                  </a>
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">剩餘額度</p>
@@ -484,7 +488,7 @@ export default {
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
           this.selectItem = {};
-          this.selectItem = JSON.parse(JSON.stringify(item));
+          this.selectItem = item;
           setTimeout(() => {
             this.$refs.adminSelectBox.classList.add('checked');
             this.$refs.adminSideList.classList.add('checked');
@@ -547,19 +551,6 @@ export default {
           emitter.emit('alertMessage-open', err);
         });
     },
-    newItemModal(e) {
-      const nowId = e.target.dataset.id;
-      const nowAction = e.target.dataset.action;
-      if (nowAction === 'newCompany') {
-        this.modalName = 'newCompany';
-        this.newOrder = this.addCompanyOrders.filter((item) => item.id === nowId);
-        emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
-      } else if (nowAction === 'newJob') {
-        this.modalName = 'newJob';
-        this.newOrder = this.addJobOrders.filter((item) => item.id === nowId);
-        emitter.emit('open-new-modal', [this.newOrder, this.modalName]);
-      }
-    },
     clearList() {
       this.addCompanyOrders = [];
       this.addJobOrders = [];
@@ -576,24 +567,7 @@ export default {
         .post(url, temObj)
         .then((res) => {
           if (res.data.success) {
-            emitter.emit('alertMessage-open', res.data);
-          }
-          emitter.emit('spinner-close');
-        })
-        .catch((err) => {
-          emitter.emit('spinner-close');
-          emitter.emit('alertMessage-open', err);
-        });
-    },
-    // 訂單審核成功建立品項
-    newItem(temObj) {
-      emitter.emit('spinner-open');
-      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product`;
-      this.$http
-        .post(url, temObj)
-        .then((res) => {
-          if (res.data.success) {
-            emitter.emit('alertMessage-open', res.data);
+            emitter.emit('alertMessage-open', res.data.message);
           }
           emitter.emit('spinner-close');
         })
@@ -639,19 +613,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.listBox {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #e2e2e2;
-  border-radius: 8px;
-  padding: 12px;
-  &__logo {
-    width: 160px;
-    border: 1px solid #e2e2e2;
-    border-radius: 4px;
-    margin-right: 12px;
-  }
-}
-</style>
+<style lang="scss"></style>

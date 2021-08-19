@@ -425,6 +425,7 @@ export default {
     };
   },
   methods: {
+    // 刪除提示
     openDeleteModal(txt, id, name) {
       const Obj = {
         action: txt,
@@ -433,6 +434,7 @@ export default {
       };
       emitter.emit('open-delete-product-modal', Obj);
     },
+    // rwd 用
     backToList() {
       this.selectItem = {};
       this.$refs.adminSelectBox.classList.remove('checked');
@@ -443,7 +445,7 @@ export default {
       this.sideListOrders.forEach((item) => {
         if (item.id === itemId) {
           this.selectItem = {};
-          this.selectItem = JSON.parse(JSON.stringify(item));
+          this.selectItem = item;
           setTimeout(() => {
             this.$refs.adminSelectBox.classList.add('checked');
             this.$refs.adminSideList.classList.add('checked');
@@ -452,19 +454,21 @@ export default {
         }
       });
     },
+    // 切換分類
     changeSideHeader(navName) {
       this.sideListOrders = [];
       if (navName === '職位') {
         this.productCategorySelected = navName;
-        this.sideListOrders = this.jobsList;
+        this.sideListOrders = JSON.parse(JSON.stringify(this.jobsList));
       } else if (navName === '企業') {
         this.productCategorySelected = navName;
-        this.sideListOrders = this.companiesList;
+        this.sideListOrders = JSON.parse(JSON.stringify(this.companiesList));
       }
       if (this.fullWidth > 992) {
-        this.selectListItem(this.sideListOrders[0].id);
+        this.selectListItem(this.sideListOrders[0].id);// ipad以下手動
       }
     },
+    // 更新產品資料
     updateProduct(temObj) {
       emitter.emit('spinner-open');
       const { id } = temObj.data;
@@ -486,11 +490,11 @@ export default {
       this.jobsList = [];
       this.products.forEach((item) => {
         if (item.description === '企業') {
-          this.companiesList.push(item);
+          this.companiesList.push(JSON.parse(JSON.stringify(item)));
         } else if (item.description === '職位') {
-          this.jobsList.push(item);
+          this.jobsList.push(JSON.parse(JSON.stringify(item)));
         } else if (item.description === '系統') {
-          this.systemList.push(item);
+          this.systemList.push(JSON.parse(JSON.stringify(item)));
         }
       });
       this.changeSideHeader('企業');

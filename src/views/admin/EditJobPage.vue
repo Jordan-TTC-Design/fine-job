@@ -28,7 +28,8 @@
                 >
                   返回
                 </button>
-                <button type="submit" class="btn btn-primary">
+                <!-- 這個submit，有時候靈有時候有些職位不靈，我先加上@click -->
+                <button type="submit" class="btn btn-primary" @click="updateJobData">
                   保存資料
                 </button>
               </div>
@@ -950,10 +951,11 @@ export default {
       },
       // 套件切圖工具
       cropper: {},
-      pagePreview: false,
+      pagePreview: false, // 預覽編輯
     };
   },
   methods: {
+    // 切換預覽狀態或是編輯狀態
     lookPagePreview() {
       if (this.pagePreview) {
         this.pagePreview = false;
@@ -969,8 +971,9 @@ export default {
         this.jobItem.is_enabled = 1;
       }
     },
+    // 清除圖片
     deleteImgInput() {
-      this.jobItem.imagesUrl = '';
+      this.jobItem.imageUrl = '';
       this.jobImage.src = '';
       this.jobImage.isUpDated = false;
     },
@@ -983,6 +986,7 @@ export default {
     getImg(data) {
       this.jobImage.src = data;
     },
+    // 搭配自製按鈕點擊預設上傳按鈕
     clickInput(e) {
       if (e.target.dataset.input === 'upLoadSingleImg') {
         this.deleteImgInput();
@@ -1014,7 +1018,7 @@ export default {
           if (this.uploadImgState === 'upLoadSingleImg') {
             this.jobImage.isUpDated = true;
             this.jobImage.src = res.data.data.link;
-            this.jobItem.imagesUrl = res.data.data.link;
+            this.jobItem.imageUrl = res.data.data.link;
           }
           emitter.emit('spinner-close');
         })

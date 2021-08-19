@@ -26,7 +26,7 @@
                   alt="Fine Job logo"
                 />
                 <div
-                  class="d-flex justify-content-between align-items-md-end  align-items-stretch
+                  class="d-flex justify-content-between align-items-md-end align-items-stretch
             flex-grow-1 flex-md-row flex-column"
                 >
                   <div class="inputGroup--item flex-grow-1 me-md-4">
@@ -91,6 +91,7 @@
                 <div class="card__btnBox">
                   <button
                     class="btn--circle btn btn-outline-light"
+                    :class="{ collected: sortHotJobs[0].jobCollectCheck }"
                     type="button"
                     @click="collectJob(sortHotJobs[0])"
                   >
@@ -133,6 +134,7 @@
                       <div class="card__btnBox">
                         <button
                           class="btn--circle btn btn-outline-light"
+                          :class="{ collected: sortHotJobs[index].jobCollectCheck }"
                           type="button"
                           @click="collectJob(item)"
                         >
@@ -148,8 +150,8 @@
                         <router-link
                           class="card__txt d-block putPointer"
                           :to="
-                            `/products-list/company/${sortHotJobs[index].options.
-                            company.companyLink}`
+                            `/products-list/company/${sortHotJobs[index]
+                            .options.company.companyLink}`
                           "
                           >{{ sortHotJobs[index].options.company.companyName }}</router-link
                         >
@@ -234,8 +236,7 @@
                       {{ weeklyCompany.category }}
                     </p>
                     <router-link
-                      class="btn--goToCompany btn btn-outline-gray-line text-dark
-                    align-self-md-end align-self-center"
+                      class="btn--goToCompany btn btn-outline-gray-line"
                       :to="`/products-list/company/${weeklyCompany.id}`"
                       >查看完整企業資料</router-link
                     >
@@ -390,7 +391,7 @@
   <div class="sideBtnBox">
     <UpTopBtn />
   </div>
-  <JobCollect ref="jobCollectModal" />
+  <JobCollect ref="JobCollectModal" @return-job-collection="getJobCollect" />
 </template>
 
 <script>
@@ -462,6 +463,7 @@ export default {
           clickable: true,
         },
       },
+      jobCollectionList: [],
     };
   },
   watch: {
@@ -542,6 +544,27 @@ export default {
     },
   },
   methods: {
+    // 職位收藏功能
+    getJobCollect(collection) {
+      this.jobCollectionList = JSON.parse(JSON.stringify(collection));
+      this.checkJobCollect();
+    },
+    // 判斷職位是否收藏
+    checkJobCollect() {
+      if (this.jobsList.length > 0 && this.jobCollectionList.length > 0) {
+        this.jobsList.forEach((temItem, index) => {
+          let check = false;
+          this.jobCollectionList.forEach((folder) => {
+            folder.jobs.forEach((item) => {
+              if (item.id === temItem.id) {
+                check = true;
+              }
+            });
+          });
+          this.jobsList[index].jobCollectCheck = check;
+        });
+      }
+    },
     collectJob(item) {
       emitter.emit('open-collect-modal', item);
     },
@@ -581,6 +604,7 @@ export default {
         }
       });
       this.changeJobSort();
+      this.checkJobCollect();
       this.dataOk = true;
     },
     // 抓全部資料

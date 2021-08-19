@@ -233,12 +233,25 @@
     top: 1rem;
     right: 1rem;
     .btn--circle {
+      width: 44px;
       .jobIcon {
         color: $light;
       }
       &:hover {
         .jobIcon {
           color: $gray-dark;
+        }
+      }
+      &.collected {
+        background-color: $primary-light;
+        border: 1px solid $primary-light;
+        .jobIcon {
+          color: $primary;
+        }
+        &:hover {
+          .jobIcon {
+            color: $light;
+          }
         }
       }
     }
@@ -263,6 +276,8 @@
   }
   .btn--goToCompany {
     width: 100%;
+    color: $dark;
+    align-self: center;
     @include md {
       position: absolute;
       bottom: 3rem;
@@ -477,6 +492,19 @@
   margin-bottom: -1.5rem;
   @include sm {
     margin-bottom: -0.75rem;
+  }
+}
+.goodJobCard {
+  @include shadow-normal;
+  border: none;
+  .card__link {
+    color: $light;
+    &:hover {
+      color: darken($light, 16%);
+    }
+  }
+  &:hover {
+    @include shadow-md;
   }
 }
 // 搜尋列表＆全部職位列表
@@ -721,72 +749,72 @@
   }
 }
 //職位頁面
-  .jobInfoBox {
-    padding: 1.5rem;
-    background-color: $light;
-    border-radius: 0.5rem;
-    .page__title {
-      font-size: 1.5rem;
-      font-weight: $fw--bd;
-      color: $dark;
-      margin-bottom: 0.75rem;
+.jobInfoBox {
+  padding: 1.5rem;
+  background-color: $light;
+  border-radius: 0.5rem;
+  .page__title {
+    font-size: 1.5rem;
+    font-weight: $fw--bd;
+    color: $dark;
+    margin-bottom: 0.75rem;
+  }
+  &__imgBox {
+    width: 48%;
+    position: relative;
+    margin-right: 3rem;
+    .jobImg {
+      max-width: 100%;
+      border-radius: 0.5rem;
     }
-    &__imgBox {
-      width: 48%;
-      position: relative;
-      margin-right: 3rem;
+    @include md {
+      top: 0;
+      width: 100%;
+      left: 0;
+      height: 7.5rem;
       .jobImg {
-        max-width: 100%;
-        border-radius: 0.5rem;
-      }
-      @include md {
+        position: absolute;
         top: 0;
         width: 100%;
-        left: 0;
-        height: 7.5rem;
-        .jobImg {
-          position: absolute;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
+        height: 100%;
+        object-fit: cover;
       }
-    }
-    &__logoImgBox {
-      position: absolute;
-      max-width: 7.5rem;
-      top: -0.25rem;
-      right: -2.25rem;
-      padding: 6px;
-      background-color: $light;
-      border-radius: 0 0 0 0.25rem;
-      .logoImg {
-        width: 100%;
-        border: 1px solid $gray-line;
-        border-radius: 2px;
-      }
-      @include md {
-        max-width: 4.5rem;
-        padding: 4px;
-        top: 50%;
-        left: 50%;
-        border-radius: 0.25rem;
-        transform: translate3d(-50%, -50%, 0);
-      }
-    }
-    &__txtBox {
-      width: 100%;
     }
   }
-  .jobContentSection {
-    padding: 1.5rem;
+  &__logoImgBox {
+    position: absolute;
+    max-width: 7.5rem;
+    top: -0.25rem;
+    right: -2.25rem;
+    padding: 6px;
     background-color: $light;
-    border-radius: 0.5rem;
+    border-radius: 0 0 0 0.25rem;
+    .logoImg {
+      width: 100%;
+      border: 1px solid $gray-line;
+      border-radius: 2px;
+    }
+    @include md {
+      max-width: 4.5rem;
+      padding: 4px;
+      top: 50%;
+      left: 50%;
+      border-radius: 0.25rem;
+      transform: translate3d(-50%, -50%, 0);
+    }
   }
-  .page__link {
-    text-decoration: underline;
+  &__txtBox {
+    width: 100%;
   }
+}
+.jobContentSection {
+  padding: 1.5rem;
+  background-color: $light;
+  border-radius: 0.5rem;
+}
+.page__link {
+  text-decoration: underline;
+}
 .companyImgBox {
   padding: 0.75rem;
   img {

@@ -1,5 +1,5 @@
 <template>
-  <div class="card goodJobCard">
+  <router-link class="card goodJobCard" :to="`/products-list/product/${jobItem.id}`">
     <div class="goodJobCard__imgBox">
       <img
         class="goodJobCard__img card-img-top"
@@ -16,12 +16,12 @@
           />
           <div>
             <router-link
-              class="mb-2 text-white d-block pe-auto"
+              class="card__link mb-2 d-block pe-auto"
               :to="`/products-list/product/${jobItem.id}`"
               >{{ jobItem.title }}</router-link
             >
             <router-link
-              class="subTxt text-white d-block pe-auto"
+              class="card__link subTxt d-block pe-auto"
               :to="`/products-list/company/${jobItem.options.company.companyLink}`"
               >{{ jobItem.options.company.companyName }}</router-link
             >
@@ -39,7 +39,7 @@
         <p class="subTxt">{{ jobItem.options.company.companyAddressCity }}</p>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <script>

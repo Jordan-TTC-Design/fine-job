@@ -1,7 +1,12 @@
 <template>
   <div class="page--py">
     <div ref="jobsListContainer" class="jobsListContainer container">
-      <h3 class="section__title ps-3">職位收藏夾 - {{ jobFolder.title }}</h3>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="section__title ps-3 mb-0">職位收藏夾 - {{ jobFolder.title }}</h3>
+        <button type="button" class="btn btn-outline-secondary" @click="deleteFolder">
+          刪除收藏夾
+        </button>
+      </div>
       <div class="row" v-if="nowPageJobs.length">
         <div class="col-lg-6 col-12">
           <div class="jobListBox">
@@ -41,6 +46,9 @@
           <JobListSideJobBox ref="jobSelectBox" :select-job-item="jobItem" />
         </div>
       </div>
+      <p class="text-center text-secondary mt-md-6 mt-2" v-if="nowPageJobs.length === 0">
+        尚未收藏任何職位
+      </p>
     </div>
     <PagenationModal :jobs-list="jobFolderDetail" @change-page="changePage" />
   </div>
@@ -157,6 +165,28 @@ export default {
     },
   },
   methods: {
+    deleteFolder() {
+      emitter.emit('delete-collect-folder-modal', this.jobFolder.id);
+    },
+    getJobCollect(collection) {
+      this.jobCollectionList = collection;
+      this.checkJobCollect();
+    },
+    checkJobCollect() {
+      if (this.nowPageJobs.length > 0 && this.jobCollectionList.length > 0) {
+        this.nowPageJobs.forEach((temItem, index) => {
+          let check = false;
+          this.jobCollectionList.forEach((folder) => {
+            folder.jobs.forEach((item) => {
+              if (item.id === temItem.id) {
+                check = true;
+              }
+            });
+          });
+          this.nowPageJobs[index].jobCollectCheck = check;
+        });
+      }
+    },
     // 打開篩選彈跳視窗
     openSideFilterBox() {
       if (this.filterBoxState) {
@@ -227,15 +257,17 @@ export default {
     },
     selectJobFrist(id) {
       if (this.fullWidth > 991) {
-        this.nowPageJobs.forEach((item) => {
-          if (item.id === id) {
-            this.jobItem = item;
-            this.$refs[`jobList__item--${item.id}`].openSelectEffect();
-          } else if (item.id !== id) {
-            this.$refs[`jobList__item--${item.id}`].closeSelectEffect();
-          }
-        });
-        this.$refs.jobSelectBox.toTop();
+        if (this.nowPageJobs.length > 0) {
+          this.nowPageJobs.forEach((item) => {
+            if (item.id === id) {
+              this.jobItem = item;
+              this.$refs[`jobList__item--${item.id}`].openSelectEffect();
+            } else if (item.id !== id) {
+              this.$refs[`jobList__item--${item.id}`].closeSelectEffect();
+            }
+          });
+          this.$refs.jobSelectBox.toTop();
+        }
       }
     },
     // 本頁職位
@@ -252,6 +284,7 @@ export default {
         [this.jobItem] = temPageJobs;
       }
       this.nowPageJobs = temPageJobs;
+      this.checkJobCollect();
       setTimeout(() => {
         if (this.nowPageJobs.length > 0) {
           this.selectJobFrist(this.nowPageJobs[0].id);
@@ -275,7 +308,7 @@ export default {
       this.jobsList = [];
       this.products.forEach((item) => {
         if (item.description === '職位') {
-          const Obj = item;
+          const Obj = JSON.parse(JSON.stringify(item));
           this.sortCompany.forEach((temCompany) => {
             if (Obj.options.company.companyName === temCompany.title) {
               Obj.options.company.companyLink = temCompany.id;
@@ -308,7 +341,7 @@ export default {
       const { id } = this.$route.params;
       this.jobCollectionList.forEach((item) => {
         if (item.id === id) {
-          this.jobFolder = { ...item };
+          this.jobFolder = JSON.parse(JSON.stringify(item));
         }
       });
       this.getOgData();
