@@ -1,41 +1,38 @@
 <template>
   <li class="candidateList__person box--shadow" v-if="selectItem.id !== ''">
-      <div class="d-flex candidateList__person__listBox">
-        <img
-          class="person__personalImg me-4"
-          :src="selectItem.user.options.personalImg"
-          :alt="`${selectItem.user.name}個人求職照片`"
-        />
-        <div>
-          <p class="person__name">{{ selectItem.user.name }}</p>
-          <ul class="person__infoBox mb-4">
-            <li class="person__infoBox__item">
-              <p class="person__subTxt">目前職位</p>
-              <p class="person__txt">{{ selectItem.user.options.nowJobName }}</p>
-            </li>
-            <li class="person__infoBox__item">
-              <p class="person__subTxt">最高學歷</p>
-              <p class="person__txt">{{ selectItem.user.options.education || '大學' }}</p>
-            </li>
-            <li class="person__infoBox__item">
-              <p class="person__subTxt">工作經驗</p>
-              <p class="person__txt">
-                {{ selectItem.user.options.workExp || '無工作經驗' }}
-              </p>
-            </li>
-            <li class="person__infoBox__item">
-              <p class="person__subTxt">聯絡電話</p>
-              <p class="person__txt">{{ selectItem.user.tel }}</p>
-            </li>
-            <li class="person__infoBox__item">
-              <p class="person__subTxt">聯絡Email</p>
-              <p class="person__txt">{{ selectItem.user.email }}</p>
-            </li>
-          </ul>
-          <div class="d-flex align-items-center">
-            <div class="person__infoBox__item">
-              <p class="person__subTxt">備註標籤</p>
-            </div>
+    <div class="d-flex candidateList__person__listBox">
+      <img
+        class="person__personalImg me-4"
+        :src="selectItem.user.options.personalImg"
+        :alt="`${selectItem.user.name}個人求職照片`"
+      />
+      <div class="person__infoBox">
+        <p class="person__name">{{ selectItem.user.name }}</p>
+        <ul class="person__infoBox mb-4">
+          <li class="person__infoBox__item">
+            <p class="person__subTxt">目前職位</p>
+            <p class="person__txt">{{ selectItem.user.options.nowJobName }}</p>
+          </li>
+          <li class="person__infoBox__item">
+            <p class="person__subTxt">最高學歷</p>
+            <p class="person__txt">{{ selectItem.user.options.education || '大學' }}</p>
+          </li>
+          <li class="person__infoBox__item">
+            <p class="person__subTxt">工作經驗</p>
+            <p class="person__txt">
+              {{ selectItem.user.options.workExp || '無工作經驗' }}
+            </p>
+          </li>
+          <li class="person__infoBox__item">
+            <p class="person__subTxt">聯絡電話</p>
+            <p class="person__txt">{{ selectItem.user.tel }}</p>
+          </li>
+          <li class="person__infoBox__item">
+            <p class="person__subTxt">聯絡Email</p>
+            <p class="person__txt">{{ selectItem.user.email }}</p>
+          </li>
+          <li class="person__infoBox__item mt-lg-2">
+            <p class="person__subTxt mb-lg-0 mb-2">備註標籤</p>
             <ul class="personTagBox">
               <li class="personTagBox__item">
                 <button
@@ -58,33 +55,28 @@
                 </li>
               </template>
             </ul>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
-      <div class="card__btnBox">
-        <a
-          type="button"
-          class="btn btn-outline-primary text-decoration-underline d-block me-2"
-          :href="selectItem.user.options.cvLink"
-          target="_blank"
-          >打開履歷</a
-        >
-        <button
-          type="button"
-          class="btn btn-gray-light d-flex align-items-center"
-          data-action="deleteItem"
-          :data-id="selectItem.id"
-          @click="
-            openDeleteModal(
-              '退回求職申請',
-              selectItem.id,
-              selectItem.user.name,
-            )
-          "
-        >
-          <i class="bi bi-trash me-1"></i>退回申請
-        </button>
-      </div>
+    </div>
+    <div class="card__btnBox">
+      <a
+        type="button"
+        class="btn btn-outline-primary text-decoration-underline d-block me-2"
+        :href="selectItem.user.options.cvLink"
+        target="_blank"
+        >打開履歷</a
+      >
+      <button
+        type="button"
+        class="btn btn-gray-light d-flex align-items-center"
+        data-action="deleteItem"
+        :data-id="selectItem.id"
+        @click="openDeleteModal('退回求職申請', selectItem.id, selectItem.user.name)"
+      >
+        <i class="bi bi-trash me-1"></i>退回申請
+      </button>
+    </div>
   </li>
 </template>
 

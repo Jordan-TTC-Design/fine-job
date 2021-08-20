@@ -274,7 +274,7 @@
                 </li>
                 <li class="innerList__item">
                   <p class="innerList__item__subTxt">聯絡電話</p>
-                  <a class="innerList__item__txt"  :href="`tel:${selectItem.user.tel}`">
+                  <a class="innerList__item__txt" :href="`tel:${selectItem.user.tel}`">
                     {{ selectItem.user.tel }}
                   </a>
                 </li>
@@ -292,19 +292,11 @@
                 </li>
                 <li class="innerList__item" v-if="selectItem.user.options.company.costToken === 0">
                   <p class="innerList__item__subTxt">職位等級</p>
-                  <p class="innerList__item__txt">
-                    免費方案<button type="button" class="btn btn-primary ms-3">
-                      立即付費推播，提高曝光度！
-                    </button>
-                  </p>
+                  <p class="innerList__item__txt">免費方案</p>
                 </li>
                 <li class="innerList__item" v-if="selectItem.user.options.company.costToken === 1">
                   <p class="innerList__item__subTxt">職位等級</p>
-                  <p class="innerList__item__txt">
-                    付費方案<button type="button" class="btn btn-gray-light ms-3">
-                      立即付費推播，提高曝光度！
-                    </button>
-                  </p>
+                  <p class="innerList__item__txt">付費方案</p>
                 </li>
               </ul>
             </div>
@@ -464,8 +456,6 @@ export default {
       newOrder: {},
       temJob: {},
       modalName: '',
-      tempImgUrl:
-        'https://images.unsplash.com/photo-1622495506073-56b1152a010c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=967&q=80Í',
       adminNewItemMethods: {},
     };
   },
@@ -494,6 +484,7 @@ export default {
             this.$refs.adminSideList.classList.add('checked');
             this.$refs.adminSubHeader.classList.add('checked');
           }, 100);
+          document.documentElement.scrollTop = 0;
         }
       });
     },

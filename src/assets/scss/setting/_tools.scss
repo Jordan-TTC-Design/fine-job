@@ -44,12 +44,12 @@
       color: $gray-dark;
     }
   }
-  &.collected{
-   border: 1px solid $light;
-   background-color: $primary-light;
-   .jobIcon {
-    color: $primary;
-  }
+  &.collected {
+    border: 1px solid $light;
+    background-color: $primary-light;
+    .jobIcon {
+      color: $primary;
+    }
   }
 }
 .btn--circle {

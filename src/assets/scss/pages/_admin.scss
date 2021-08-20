@@ -154,7 +154,7 @@
   .companyPage__companyImage {
     border-radius: 8px;
     max-width: calc(33.333% - 12px);
-    @include sm{
+    @include sm {
       max-width: 100%;
     }
   }
@@ -181,27 +181,33 @@
   display: flex;
   flex-wrap: wrap;
   margin-bottom: -0.75rem;
-}
-.innerList__item {
-  margin-bottom: 0.75rem;
-  width: 50%;
-  &:hover {
-    .innerList__item__txt {
-      color: $primary;
+  .innerList__item {
+    margin-bottom: 0.75rem;
+    width: 50%;
+    @include sm {
+      width: 100%;
+      .btn {
+        width: 100%;
+      }
     }
-  }
-  &__subTxt {
-    font-size: 14px;
-    color: $secondary;
-    margin-bottom: 0.25rem;
+    &:hover {
+      .innerList__item__txt {
+        color: $primary;
+      }
+    }
+    &__subTxt {
+      font-size: 14px;
+      color: $secondary;
+      margin-bottom: 0.25rem;
+    }
   }
 }
 .admin__subHeader {
   background-color: $light;
   top: 60px;
-  @include md{
+  @include md {
     display: flex;
-    &.checked{
+    &.checked {
       display: none;
     }
   }
@@ -281,14 +287,6 @@
     max-height: 78vh;
   }
 }
-.candidateList__person__listBox {
-  display: flex;
-  width: calc(100% - 6rem);
-  @include md{
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-}
 .candidateList {
   @include md {
     display: none;
@@ -304,8 +302,18 @@
     margin-bottom: 0.75rem;
     position: relative;
     display: flex;
-    @include md{
+    @include md {
       flex-direction: column;
+    }
+    &__listBox {
+      display: flex;
+      width: calc(100% - 6rem);
+      @include md {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
     }
     &:last-child {
       margin-bottom: 0;
@@ -326,6 +334,18 @@
       border-radius: 50%;
       height: 5rem;
       width: 5rem;
+      @include md {
+        margin-bottom: 1rem;
+      }
+    }
+    .person__infoBox {
+      width: 100%;
+      &__item {
+        display: flex;
+        @include md {
+          flex-direction: column;
+        }
+      }
     }
     .person__name {
       font-size: 1.25rem;
@@ -341,7 +361,7 @@
       top: 1rem;
       right: 1rem;
       display: flex;
-      @include md{
+      @include md {
         position: relative;
         justify-content: flex-end;
         right: 0;

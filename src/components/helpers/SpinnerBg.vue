@@ -46,7 +46,7 @@
       <h1>
         <img
           class="header__logo"
-          src="../../assets/images/header/fineJobLogo-white.svg"
+          src="@/assets/images/header/fineJobLogo-white.svg"
           alt="Fine Job logo"
         />
       </h1>

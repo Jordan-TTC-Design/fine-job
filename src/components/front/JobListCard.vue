@@ -9,7 +9,7 @@
       class="collectBtn btn btn-outline-gray-line position-absolute"
       :class="{'collected':jobItem.jobCollectCheck}"
       type="button"
-      @click="collectJob(jobItem)"
+      @click.stop="collectJob(jobItem)"
     >
       <i class="jobIcon bi bi-bookmark-fill"></i>
     </button>

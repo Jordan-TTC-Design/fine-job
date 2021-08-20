@@ -7,7 +7,7 @@
           <div class="mainBanner__innerBox">
             <img
               class="mainBanner__img--bg"
-              src="https://i.imgur.com/PRGknSk.png"
+              src="https://storage.googleapis.com/vue-course-api.appspot.com/jordanttcdesign/1629384864182.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=lrxb6YYCe3pDqItObF%2Ff3RqYkJBSvdUSOxx4SLF9J7%2Fne0iFfars3%2BRNM%2F7pr2Os5hbzVcydgkAc61AMAseT6CuBGVSwutfBq9ZCOzip1j7WNRzmut9ZwQ5BFlW%2FjecR5Ihb2tbanUWeBzglRVR3FcHvGXmNDxGy9T3Cue0mvp4ZkY4EDJVD5c3a%2BwlReVbsKw%2BXvMYGv3WvAT%2FBPP3LDppdcH6ManHUFyaM%2B8LywWkddodlAmSTSnWW692CdLm%2FnVEbN53%2B43I3sMJf3no8gwhuDQEUfJUCQpOmqI41LiGqaDn2uoYz0yU1yK5dL2U7jtAAH3kLUhSaGN%2FU3TA4eA%3D%3D"
               alt="找工作在這裡"
             />
             <div class="mainBanner__txtBox">
@@ -83,17 +83,18 @@
           </div>
           <div class="row flex-wrap">
             <div class="col-lg-6 col-12 mb-lg-0 mb-4">
-              <div
-                class="card--hotJob card--lg"
+              <router-link
+                class="card--hotJob card--lg putPointer"
                 v-if="this.sortHotJobs[0]"
                 :style="{ 'background-image': `url(${sortHotJobs[0]['imageUrl']} )` }"
+                :to="`/products-list/product/${sortHotJobs[0].id}`"
               >
                 <div class="card__btnBox">
                   <button
                     class="btn--circle btn btn-outline-light"
                     :class="{ collected: sortHotJobs[0].jobCollectCheck }"
                     type="button"
-                    @click="collectJob(sortHotJobs[0])"
+                    @click.prevent="collectJob(sortHotJobs[0])"
                   >
                     <i class="jobIcon bi bi-bookmark-fill"></i>
                   </button>
@@ -116,7 +117,7 @@
                     薪資面議
                   </p>
                 </div>
-              </div>
+              </router-link>
             </div>
             <div class="col-lg-6 col-12">
               <div class="row">
@@ -126,17 +127,18 @@
                     :class="{ 'mb-lg-0': index > 2 }"
                     v-if="index >= 1 && index <= 4"
                   >
-                    <div
+                    <router-link
                       class="card--hotJob card--sm"
                       v-if="sortHotJobs[index]"
                       :style="{ 'background-image': `url(${sortHotJobs[index]['imageUrl']} )` }"
+                      :to="`/products-list/product/${sortHotJobs[index].id}`"
                     >
                       <div class="card__btnBox">
                         <button
                           class="btn--circle btn btn-outline-light"
                           :class="{ collected: sortHotJobs[index].jobCollectCheck }"
                           type="button"
-                          @click="collectJob(item)"
+                          @click.prevent="collectJob(item)"
                         >
                           <i class="jobIcon bi bi-bookmark-fill"></i>
                         </button>
@@ -150,8 +152,8 @@
                         <router-link
                           class="card__txt d-block putPointer"
                           :to="
-                            `/products-list/company/${sortHotJobs[index]
-                            .options.company.companyLink}`
+                            `/products-list/company/
+                            ${sortHotJobs[index].options.company.companyLink}`
                           "
                           >{{ sortHotJobs[index].options.company.companyName }}</router-link
                         >
@@ -162,7 +164,7 @@
                           薪資面議
                         </p>
                       </div>
-                    </div>
+                    </router-link>
                   </div>
                 </template>
               </div>
@@ -323,7 +325,7 @@
                     </div>
                     <img
                       :class="{ 'd-none': index > 0 }"
-                      src="https://i.imgur.com/fJ55SNe.png"
+                      src="https://storage.googleapis.com/vue-course-api.appspot.com/jordanttcdesign/1629385120434.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=c%2BJjXYSstri27f1pLSo%2F7FIdCUatiOT64v9CwBWVyU5QlZao84N9H7BqaSSndTcZQGfiOuqXF9oCQPQhEsGzYCium4PqHPN%2BMU4mAluTcDrpmutUsnwHtg4b%2ByyhltEQsNHmoLAQqjP84IJ%2FNi66BuqmjJ%2BPm8kpng%2B8U60gXQRcW6RVxNqXi4m%2FJBsbAO5wQRaIx1Ndb%2Bh2C2IPAgcwmsPftOqR8%2BKCKAHBwmzQbUXRKe4gmX1kinU1VoqSW0hj1Ae2NRPz1j2PllGf%2B3YZ4dgG62QlSGLSXcU%2BMJSeMfOJSP7M2UxMAdoHHT6Ux6FEK5MfdOEr2G%2F8vrilTG39wg%3D%3D"
                       alt="圖片-根據職位類別搜尋"
                     />
                   </div>
@@ -343,17 +345,30 @@
                 <h3 class="text-white mb-5">立即註冊加入，讓我們幫您找人才！</h3>
               </div>
               <div>
-                <button type="button" class="btn btn-light me-2">聯絡我們</button>
+                <a
+                  type="button"
+                  class="btn btn-light me-2"
+                  href="mailto:jordan.ttc.design@gmail.com"
+                  >聯絡我們</a
+                >
                 <router-link class="btn btn-primary" to="/add-company"
                   >即刻前往註冊服務</router-link
                 >
               </div>
             </div>
-            <img class="img-cover-top" src="https://i.imgur.com/GLgg4Fw.png" alt="圖片" />
-            <img class="img-cover-bottom" src="https://i.imgur.com/hIzL1Kk.png" alt="圖片" />
+            <img
+              class="img-cover-top"
+              src="https://storage.googleapis.com/vue-course-api.appspot.com/jordanttcdesign/1629426520813.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=VGyunGgfbYxREzdBzfxtOlZ%2FGgwJW52WvZjGX6AxS1fgszO%2Biu4GCXtEocLXwNwDRptFvTCF7jPKrjLJIKYIUPlS3YjQOd27p4UvD%2Fv1G5kXbgGAa2sviTYopohcbg%2BLKMejem6tkmyyXSIUUyshO%2BkTACpah1T%2FgY6Rt%2BJCQcrboNryurw0gl9K90w%2FCCSiA6rNWTRIVseOdhHq6tRjnOQ6B%2FjOwFymWjcB%2BbkeX9sdG718m38eV3pcvlqQfkVDqngKfih82%2Bu%2FkEmtAGemaIIUos%2Bq0bx18gJW8x0nIeML7aP7zxbKygtDEzmtaXFTXVgwNyyIhA29Qm8fREUwZg%3D%3D"
+              alt="圖片"
+            />
+            <img
+              class="img-cover-bottom"
+              src="https://storage.googleapis.com/vue-course-api.appspot.com/jordanttcdesign/1629426544792.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=Wj3w4mc3AR0HrgsNubg6w9VRcOhym0LnsgoziOEX7cTy1Jvi8%2BcuQPSl%2FrdtPAayj24tIjXi4z2uZu%2BmkXJhh6WNBITFB6tPbeRb3qh24oaOCWlQaQgdhL8t5I6iFQGl%2BacQyrftOWC2EU20RjU%2B4jBf3Q0JwXYPiWPsmDnrx96inIAOSLy1hZx8shyK7yNUa7wI66i536jmQNXWr50zG13nVslgdynNASlyZ3nBEOFTa7I7o2poe%2BaQNEvjcTyaGJf322mft8svQ%2FWPYJsn%2BHzQwp4jwfKncjG7syPPQzxg502MEj%2Bokyb%2BhMtmUVpFwQmaMQ3T8omcacMfb7XVrg%3D%3D"
+              alt="圖片"
+            />
             <img
               class="addCompanyBanner__mainImg"
-              src="https://i.imgur.com/iZmelSd.png"
+              src="https://storage.googleapis.com/vue-course-api.appspot.com/jordanttcdesign/1629385051631.png?GoogleAccessId=firebase-adminsdk-zzty7%40vue-course-api.iam.gserviceaccount.com&Expires=1742169600&Signature=K0SDCsiCjMFqT%2BPW9u3jr7%2Fw92EQwMiBRO0n367Nd1v0HyECSutEygHbeomPPGV8nXCyDaP3qgVh3XA4eXi3NJaeon%2F8CkSW1V9ZRLympGTWzRGrh%2BiKiZfjjsrMgFo3Jtf4ynW4raT%2BY3pMdWAOCYsLUNZ00VsCbQJojpZYezGipDztgPOO4SrSqFcZ%2F51eTQwgZWhnaN9FYq9ikzzWgxxGczKiiEizu7bMSw%2Bf28lHMCCVjtZo%2FB78D2Of%2FXIKf%2BzoQ5AZa3g%2B9fFhOaj2ARc64aOCa0ssNqwOaXV2ihMMRn2CXppFCMAp4O7Kr4p4frXSALmKhTUxKyxaes2RUQ%3D%3D"
               alt="圖片"
             />
           </div>
@@ -544,6 +559,9 @@ export default {
     },
   },
   methods: {
+    goToPage(pageUrl) {
+      this.$router.push(pageUrl);
+    },
     // 職位收藏功能
     getJobCollect(collection) {
       this.jobCollectionList = JSON.parse(JSON.stringify(collection));

@@ -5,7 +5,7 @@
         <router-link aria-current="page" to="/"
           ><img
             class="header__logo"
-            src="../../assets/images/header/fineJobLogo-white.svg"
+            src="@/assets/images/header/fineJobLogo-white.svg"
             alt="Fine Job logo"
         /></router-link>
       </h1>
@@ -45,22 +45,24 @@
   <footer class="bg-gray-mid">
     <div class="footer--front bg-primary">
       <div class="container">
-        <div class="row py-7">
+        <div class="row py-7 justify-content-lg-between justify-content-start">
           <div class="col-lg-4 col-12">
             <div class="d-flex flex-md-row flex-column align-items-center mb-lg-0 mb-md-6 mb-4">
               <img
                 class="bg-white rounded me-md-4 mb-md-0 mb-4"
-                src="../../assets/images/header/fineJobMark.svg"
+                src="@/assets/images/header/fineJobMark.svg"
                 alt="Find Job Mark"
               />
               <div class="d-flex flex-column align-items-md-stretch align-items-center">
                 <h4 class="text-white mb-md-0 mb-2">Fine Job</h4>
-                <p class="text-white">Jordan.ttc.design@gmail.com</p>
+                <a class="text-white" href="mailto:jordan.ttc.design@gmail.com"
+                  >jordan.ttc.design@gmail.com</a
+                >
               </div>
             </div>
           </div>
-          <div class="col-lg-8 col-12">
-            <ul class="footer__nav justify-content-md-end flex-md-row flex-column">
+          <div class="col-xl-6 col-lg-7 col-12">
+            <ul class="footer__nav justify-content-lg-end flex-md-row flex-column">
               <li class="nav-item">
                 <router-link class="nav-link text-white me-lg-0 me-2" to="/products-list"
                   >優質工作

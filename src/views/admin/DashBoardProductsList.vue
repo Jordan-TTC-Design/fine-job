@@ -232,7 +232,11 @@
                 >
                   <p class="innerList__item__subTxt">職位等級</p>
                   <p class="innerList__item__txt">
-                    免費方案<button type="button" class="btn btn-primary ms-3">
+                    免費方案<button
+                      type="button"
+                      class="btn btn-primary ms-md-3 mt-md-0 mt-2"
+                      @click="upGradeJob(selectItem.id, '升級')"
+                    >
                       立即付費推播，提高曝光度！
                     </button>
                   </p>
@@ -240,8 +244,13 @@
                 <li class="innerList__item" v-if="selectItem.options.job.promote === 1">
                   <p class="innerList__item__subTxt">職位等級</p>
                   <p class="innerList__item__txt">
-                    付費方案<button type="button" class="btn btn-gray-light ms-3">
-                      立即付費推播，提高曝光度！
+                    付費方案
+                    <button
+                      type="button"
+                      class="btn btn-gray-light text-dark ms-md-3 mt-md-0 mt-2"
+                      @click="upGradeJob(selectItem.id, '降級')"
+                    >
+                      切回免費方案
                     </button>
                   </p>
                 </li>
@@ -425,6 +434,31 @@ export default {
     };
   },
   methods: {
+    upGradeJob(jobId, action) {
+      emitter.emit('spinner-open');
+      if (action === '升級') {
+        this.selectItem.options.job.promote = 1;
+      } else if (action === '降級') {
+        this.selectItem.options.job.promote = 0;
+      }
+      this.selectItem.options.create = `${Math.floor(Date.now() / 1000)}`;
+      const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${jobId}`;
+      const temData = {
+        data: this.selectItem,
+      };
+      this.$http
+        .put(url, temData)
+        .then((res) => {
+          emitter.emit('spinner-close');
+          if (res.data.success) {
+            emitter.emit('alertMessage-open', res.data.message);
+          }
+        })
+        .catch((err) => {
+          emitter.emit('spinner-close');
+          emitter.emit('alertMessage-open', err);
+        });
+    },
     // 刪除提示
     openDeleteModal(txt, id, name) {
       const Obj = {
@@ -450,7 +484,8 @@ export default {
             this.$refs.adminSelectBox.classList.add('checked');
             this.$refs.adminSideList.classList.add('checked');
             this.$refs.adminSubHeader.classList.add('checked');
-          }, 100);
+          }, 400);
+          document.documentElement.scrollTop = 0;
         }
       });
     },
@@ -465,7 +500,7 @@ export default {
         this.sideListOrders = JSON.parse(JSON.stringify(this.companiesList));
       }
       if (this.fullWidth > 992) {
-        this.selectListItem(this.sideListOrders[0].id);// ipad以下手動
+        this.selectListItem(this.sideListOrders[0].id); // ipad以下手動
       }
     },
     // 更新產品資料
@@ -537,16 +572,15 @@ export default {
       this.selectItem.options.create = `${Math.floor(Date.now() / 1000)}`;
       emitter.emit('spinner-open');
       const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_PATH}/admin/product/${id}`;
-      const companyData = {
+      const temData = {
         data: this.selectItem,
       };
       this.$http
-        .put(url, companyData)
+        .put(url, temData)
         .then((res) => {
           emitter.emit('spinner-close');
           if (res.data.success) {
             emitter.emit('alertMessage-open', res.data.message);
-            this.$router.push('/admin/dashboard/products-list');
           }
         })
         .catch((err) => {

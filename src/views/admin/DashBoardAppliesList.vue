@@ -3,7 +3,7 @@
     <div ref="adminSubHeader" class="admin__subHeader mb-6 box--shadow">
       <div class="container">
         <div class="admin__subNav">
-          <li class="d-flex align-items-center">
+          <li class="d-flex align-items-center d-md-flex d-none">
             <h2 class="admin__subNav__title">應徵管理</h2>
           </li>
           <li
@@ -102,8 +102,6 @@ export default {
       newOrder: {},
       modalName: '',
       pageNumber: 1,
-      tempImgUrl:
-        'https://images.unsplash.com/photo-1622495506073-56b1152a010c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=967&q=80Í',
     };
   },
   methods: {
@@ -123,6 +121,7 @@ export default {
             this.$refs.adminSideList.classList.add('checked');
             this.$refs.adminSubHeader.classList.add('checked');
           }, 100);
+          document.documentElement.scrollTop = 0;
         }
       });
       document.documentElement.scrollTop = 0;

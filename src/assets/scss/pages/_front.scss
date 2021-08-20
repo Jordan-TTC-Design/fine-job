@@ -181,7 +181,7 @@
   width: 100%;
   border-radius: 0.5rem;
   transition: all 0.3s;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.3);
   background-blend-mode: multiply;
   background-size: cover;
   background-position: center center;
@@ -189,6 +189,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  z-index: 1;
+  .btn--circle {
+    z-index: 10;
+  }
   .card__title {
     color: $light;
     transition: all 0.3s;
@@ -1508,8 +1512,9 @@
   position: relative;
   height: 100%;
   .nav-item {
-    width: 100%;
+    max-width: 100%;
     @include sm {
+      width: 100%;
       border-bottom: 1px solid $white;
       &:first-child {
         border-radius: 0.5rem 0.5rem 0 0;
@@ -1517,13 +1522,17 @@
       &:last-child {
         border: 0;
         border-radius: 0 0 0.5rem 0.5rem;
+        margin-right: 0;
       }
       &:hover {
         background-color: rgba(255, 255, 255, 0.3);
       }
     }
     .nav-link {
-      width: 100%;
+      max-width: 100%;
+      @include sm {
+        width: 100%;
+      }
     }
   }
 }

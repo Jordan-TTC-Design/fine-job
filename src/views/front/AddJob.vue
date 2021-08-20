@@ -3,7 +3,7 @@
     <div class="container">
       <div class="addProcess mb-6" v-if="formStep >= 1">
         <h2 class="pageTitle text-primary text-center mb-4">新建職位</h2>
-        <div class="row  justify-content-center d-md-flex d-none">
+        <div class="row justify-content-center d-md-flex d-none">
           <div class="col-lg-2 col-md-3">
             <div
               class="addProcessBox py-2"
