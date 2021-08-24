@@ -29,7 +29,7 @@
                   返回
                 </button>
                 <!-- 這個submit，有時候靈有時候有些職位不靈，我先加上@click -->
-                <button type="submit" class="btn btn-primary" @click="updateJobData">
+                <button type="submit" class="btn btn-primary">
                   保存資料
                 </button>
               </div>
