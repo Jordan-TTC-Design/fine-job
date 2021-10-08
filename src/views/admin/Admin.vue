@@ -26,6 +26,11 @@
               訂單管理
             </router-link>
           </li>
+          <li class="nav-item" :class="{ active: this.navState === '聊天室' }">
+            <router-link class="nav-link text-white" to="/admin/dashboard/chatroom">
+              聊天室
+            </router-link>
+          </li>
           <li class="nav-item">
             <router-link class="nav-link text-white" to="/">登出</router-link>
           </li>
@@ -118,6 +123,8 @@ export default {
         this.navState = '應徵管理';
       } else if (this.$route.path === '/admin/dashboard/orders-list') {
         this.navState = '訂單管理';
+      } else if (this.$route.path === '/admin/dashboard/chatroom') {
+        this.navState = '聊天室';
       } else {
         this.navState = '';
       }

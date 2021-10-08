@@ -181,3 +181,127 @@ p {
     }
   }
 }
+.infoList__item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid $gray-line;
+  &.list--last {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  &:hover {
+    .infoList__item__title,
+    .infoList__item__jobTitle {
+      color: $primary;
+    }
+  }
+  &__title {
+    font-size: 14px;
+    color: $secondary;
+    margin-bottom: 0.25rem;
+  }
+  &__socialMediaBox {
+    background-color: $gray-light;
+    border-radius: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    &:hover {
+      .socialMediaBox__title {
+        color: $primary;
+      }
+    }
+    .socialMediaBox__link {
+      text-decoration: underline;
+      color: $secondary;
+    }
+  }
+  &__jobTitle {
+    color: $dark;
+  }
+  &__subTitle {
+    font-size: 14px;
+    color: $secondary;
+  }
+  &__contentBox {
+    padding: 0.75rem;
+    background-color: $gray-light;
+    border-radius: 0.5rem;
+    .contentBox__title {
+      font-size: 14px;
+      color: $secondary;
+    }
+  }
+  &.show--compressed {
+    .btn--edit {
+      min-width: 78px;
+    }
+    .infoList__item__skillList {
+      display: flex;
+      flex-wrap: wrap;
+      &__skill {
+        position: relative;
+        margin-right: 0.5rem;
+        padding-right: 0.5rem;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          border-right: 1px solid $gray-line;
+        }
+        &:last-child {
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            border-right: 0;
+          }
+        }
+      }
+    }
+  }
+  &.show--normal {
+    border-bottom: 0px;
+    .infoList__item__titleBox {
+      border-radius: 0.5rem;
+      background-color: $gray-light;
+      padding: 0.25rem 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      p {
+        color: $dark;
+        font-weight: $fw--md;
+      }
+    }
+    .infoList__item__skillList {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      &__skill {
+        position: relative;
+        width: calc(50% - 10px);
+        padding: 0.75rem 0;
+        border-bottom: 1px solid $gray-line;
+      }
+    }
+  }
+}
+.searchInput {
+  position: relative;
+  .jobIcon {
+    position: absolute;
+    top: 50%;
+    left: 0.75rem;
+    transform: translateY(-50%);
+  }
+  input {
+    height: 100%;
+    padding-left: 2.5rem;
+    border: 1px solid $light;
+  }
+}

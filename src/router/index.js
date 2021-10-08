@@ -89,6 +89,11 @@ const routes = [
         path: 'products-list/edit-company/:id',
         component: () => import('../views/admin/EditCompanyPage.vue'),
       },
+      {
+        // 聊天室
+        path: 'chatroom',
+        component: () => import('../views/admin/ChatRoom.vue'),
+      },
     ],
   },
   // ---------- 其他路由 ----------

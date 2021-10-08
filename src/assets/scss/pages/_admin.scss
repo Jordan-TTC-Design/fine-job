@@ -444,3 +444,245 @@
     color: $primary;
   }
 }
+.chatRoom {
+  height: calc(100vh - 64px);
+  width: 100%;
+  display: flex;
+  position: fixed;
+  z-index: 99;
+  top: 64px;
+}
+.chatRoom__leftContainer {
+  width: 24%;
+  height: 100%;
+  overflow-y: scroll;
+  .chatRoom__filterBox {
+    padding: 0.75rem;
+    border-bottom: 1px solid $gray-line;
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    .searchInput {
+      height: 44px;
+      border: 1px solid $gray-line;
+      border-radius: 0.5rem;
+    }
+  }
+}
+.chatRoom__card {
+  cursor: pointer;
+  background-color: $light;
+  border-bottom: 1px solid $gray-line;
+  padding: 0.75rem;
+  position: relative;
+  .card__img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: contain;
+    border: 1px solid $gray-line;
+    background-color: $light;
+  }
+  .card__title {
+    font-weight: $fw--md;
+    color: $dark;
+  }
+  &:hover {
+    background-color: rgba($color: $gray-light, $alpha: 0.5);
+    .card__title {
+      color: $primary;
+    }
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0.5rem;
+    background-color: $primary;
+    border-radius: 0 0.5rem 0.5rem 0;
+    display: none;
+  }
+  &.active {
+    background-color: rgba($color: $primary-light, $alpha: 0.5);
+    &::before {
+      display: block;
+      .card__title {
+        color: $primary;
+      }
+    }
+  }
+}
+.chatRoom__chatArea {
+  width: 38%;
+  height: 100%;
+  position: relative;
+}
+.chatArea__userBox {
+  height: 50px;
+  padding: 0 0.75rem;
+  background-color: $light;
+  border-bottom: 1px solid $gray-line;
+  border-right: 1px solid $gray-line;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .companyLogo {
+    height: 28px;
+    border: 1px solid $gray-line;
+    border-radius: 0.25rem;
+  }
+}
+.chatArea__chatTxtContainer {
+  width: 100%;
+  height: calc(100% - 190px);
+  background-color: $gray-light;
+  overflow-y: scroll;
+  &.active {
+    height: calc(100% - 382px);
+  }
+}
+.chatArea__inputContainer {
+  background-color: $gray-line;
+  // height: 120px;
+  padding: 0.75rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .chatArea__txtInput {
+    border: 0;
+    resize: none;
+  }
+  .btn--openTextArea {
+    position: relative;
+    width: 3rem;
+    .jobIcon {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.75rem;
+    }
+  }
+}
+.boxSubNav {
+  display: flex;
+  border-top: 1px solid $gray-line;
+  border-bottom: 1px solid $gray-line;
+  &__item {
+    padding: 0.75rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: $light;
+    &::after {
+      content: '';
+      width: 1px;
+      height: 1.5rem;
+      background-color: $gray-line;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      position: absolute;
+    }
+    &::before {
+      content: '';
+      width: 4rem;
+      height: 0.25rem;
+      border-radius: 0.25rem 0.25rem 0 0;
+      background-color: $primary;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+    }
+    &.active {
+      &::before {
+        display: block;
+      }
+      p {
+        color: $primary;
+      }
+    }
+    &:hover {
+      p {
+        color: $primary;
+      }
+    }
+  }
+  &__item:last-child {
+    &::after {
+      display: none;
+    }
+  }
+  &--50 {
+    width: 50%;
+  }
+}
+.chatRoom__infoArea {
+  background-color: $light;
+  width: 38%;
+  height: 100%;
+  overflow-y: scroll;
+  .boxSubNav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+  }
+  .boxSubNav__item.active {
+    background-color: $primary-light;
+  }
+  .companyImageContainer {
+    height: 10rem;
+    width: 100%;
+    position: relative;
+    &__img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+    .imgCover {
+      position: absolute;
+      background-color: rgba($color: $dark, $alpha: 0.5);
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+    &__txt {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+    }
+  }
+}
+.chatBox {
+  padding: 0.75rem;
+  display: flex;
+  &__img {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: $light;
+    border: 1px solid $gray-line;
+    margin-right: 0.5rem;
+  }
+  &__txtBox {
+    padding: 0.5rem;
+    background-color: $light;
+    border-radius: 0.5rem;
+    max-width: 360px;
+    @include shadow-normal;
+  }
+  &.checkBox--right {
+    flex-direction: row-reverse;
+    .chatBox__img {
+      margin-right: 0;
+      margin-left: 0.5rem;
+    }
+  }
+}
